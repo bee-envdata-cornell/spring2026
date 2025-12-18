@@ -1,27 +1,58 @@
 ---
-title: "{{< var course.number >}}: {{< var course.title >}}"
+title: "{{< var course.title >}}"
+details: |
+    This course focuses on probabilistic modeling of environmental data-generating processes, including simulation methods and model evaluation and selection.
+subtitle: "BEE 4850/5850<br>Spring 2026<br>Cornell University"  
+page-layout: full
+course-logo: _assets/logos/envdata_logo.png
+format:
+    html:
+        template-partials: 
+            - _assets/partials/title-block.html
 ---
 
-This is the course website for the {{< var course.semester >}} edition of {{< var course.number >}}, {{< var course.title >}}, taught at [{{< var university.name >}}]({{< var university.url >}}) by [{{< var instructor.name_no_title >}}]({{< var instructor.url >}}).
+::: {.home}
 
-## Course Description
+:::: {.grid .course-details}
 
-This class teaches data analysis with an emphasis on conceptual models for scientific insights. In particular, we will:
+::: {.g-col-12 .g-col-sm-6 .g-col-md-3}
+### Instructor
 
-* learn how to construct generative probability models for common environmental datasets;
-* develop a toolkit for model calibration, uncertainty quantification, and simulation;
-* use cross-validation and predictive information criteria to evaluate over-fitting and test hypotheses;
-* identify potential confounds and explore implications for data gathering and experimental design.
+- {{< fa sharp user title="Name" >}} [[{{< var instructor.name_no_title >}}]({{< var instructor.url >}})]{.ms-1}
+- {{< fa sharp envelope title="Email" >}} [[{{< var instructor.email >}}](mailto:{{< var instructor.email >}})]{.ms-1}
+- {{< fa sharp building title="Office" >}} [{{< var instructor.office >}}]{.ms-2}
+:::
 
-## Course Information
+::: {.g-col-12 .g-col-sm-6 .g-col-md-3}
+### TA
 
--   Details on the class and course policies are provided in the [syllabus](syllabus.html).
--   Topics and weekly materials can be found in the [schedule](schedule.html).
 
-## Regular Weekly Schedule
+- {{< fa sharp user title="Name" >}} [TBD]{.ms-1}
+- {{< fa sharp envelope title="Email" >}} [TBD]{.ms-1}
+- {{< fa sharp building title="TA Office" >}} [TBD]{.ms-2}
+:::
 
-|                  |                                                                              |
-|------:|:-----------------------------------|
-|     **Lectures** | {{< var course.days >}} {{< var course.time >}}, {{< var course.location >}} |
-| **Office Hours** | Instructor: {{< var course.office_hours >}}, {{< var instructor.office >}}, TA: {{< var course.ta_office_hours >}}, {{< var TA.office >}}               |
-|  **Assignments** | Due Fridays at 9pm on Gradescope.                                            |
+::: {.g-col-12 .g-col-sm-6 .g-col-md-3}
+### Course details
+
+- {{< fa sharp calendar title="Class Days" >}} {{< var course.days >}}
+- {{< fa sharp clock title="Class Time" >}} {{< var course.time >}}
+- {{< fa sharp university title="Class Location" >}} {{< var course.location >}}
+:::
+
+::: {.g-col-12 .g-col-sm-6 .g-col-md-3 .contact-policy}
+### Contacting staff
+
+- {{< fa sharp door-open title="Office Hours" >}}[(Instructor) M 1-2, T 4-5]{.ms-1}
+- {{< fa sharp door-open title="TA Office Hours" >}}[(TA) MW 4:15-5:15]{.ms-1}
+- [{{< fa sharp comments title="Ed Discussion" >}}[Ed Discussion]{.ms-1}](https://edstem.org)
+
+:::
+
+::::
+
+
+## Software Tools
+
+- I will teach this course using the [Julia](https://julialang.org) programming language. Julia is a modern, free, open source language which is designed for scientific computing. No prior knowledge of Julia is required. My recommendation is to use [Visual Studio Code](https://code.visualstudio.com/) with the [official Julia extension](https://code.visualstudio.com/docs/languages/julia) for coding. However, you can use any programming language you would like to complete the assignments and the final project.
+- Assignments will be distributed using [GitHub Classroom](https://github.com). You should create a GitHub account, but we will walk through how to use it. 

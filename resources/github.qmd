@@ -1,15 +1,6 @@
 ---
-title: "git and GitHub"
+title: "GitHub Resources"
 ---
-
-You'll need to create a [https://github.com](GitHub) account for this course, if you don't already have one. While the use of GitHub is not *required* (you can work on the homework assignments without touching the GitHub Classroom links), knowing the version control workflow is a useful skill to have, and we'll ask for a link to a GitHub repository over sharing files directly if you have a question about code on *e.g.* a homework assignment.
-
-The following basic commands are all the git you will need:
-* `git clone <github-repository-url>`: This is needed to “clone” your assignment repository (initialize your local repository).
-* `git commit -m <message>`: This is used to “lock in” changes that you’ve made to your files. You should make commits frequently as you make changes so you can revert to prior versions if something goes wrong (and make your messages meaningful so you know what changes you’ve made!)
-* `git push`: This syncs any committed changes to the remote GitHub repository. You must do this prior to using your repository to ask for help.
-
-For some additional resources about git and GitHub:
 
 * [Git Basics](https://www.theodinproject.com/lessons/foundations-git-basics) from The Odin Project.
 * [Learn Git Branching](https://learngitbranching.js.org/): An interactive, visual tutorial to how git works.

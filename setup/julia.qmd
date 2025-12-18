@@ -1,0 +1,36 @@
+---
+title: Julia
+---
+
+## Install Julia {#sec-install-julia}
+
+I recommend installing Julia using the `juliaup` tool, which will let you easily manage versions in the future and works seamlessly with VS Code. The instructions can be found at the [JuliaUp GitHub repository](https://github.com/JuliaLang/juliaup), but we will summarize them here.
+
+### Installing Juliaup on Windows
+
+If your computer uses Windows, you can install Juliaup [from the Windows Store](https://www.microsoft.com/store/apps/9NJNWW8PVKMN).
+
+### Installing Juliaup on MacOS
+
+If you have a Mac, open a terminal (such as the Terminal app) and enter:
+```shell
+curl -fsSL https://install.julialang.org | sh
+```
+
+### Installing Julia 1.11.5
+
+Once you install Juliaup, install Julia version 1.11.5 by opening a terminal (in MacOS or Linux) or the command line (in Windows) and entering:
+```shell
+juliaup add 1.11.5
+juliaup default 1.11.5
+```
+
+This will install Julia 1.11.5 and make it the default version, which should maximize package compatibility throughout this course. Going forward, if you want to add new versions or change the default, you can [follow the Juliaup instructions](https://github.com/JuliaLang/juliaup#using-juliaup). If your code returns an error when you try to load packages, it's possible you have a different version of Julia: in this case, delete `Manifest.toml`^[**Not** `Project.toml`!] and re-run a code block that contains
+
+```julia
+import Pkg
+Pkg.activate(@__DIR__)
+Pkg.instantiate()
+```
+
+The line `Pkg.instantiate()` will install the right package versions for your installation and create a new `Manifest.toml` file.

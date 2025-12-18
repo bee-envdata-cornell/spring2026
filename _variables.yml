@@ -3,31 +3,30 @@ author: Vivek Srikrishnan
 instructor:
   name: Professor Vivek Srikrishnan
   name_no_title: Vivek Srikrishnan
-  email: viveks@cornell.edu
+  email: vs498@cornell.edu
   url: "https://viveks.me"
   github: vsrikrish
   office: "318 Riley-Robb Hall"
   contact_policy: >-
     Use the class's Ed Discussion board for any class-related queries.
-  appointment_url: https://book.vimcal.com/p/viveks/30-minutes
 
 TA:
-  name: Gabriela Ackermann Logan
-  email: ga345@cornell.edu
-  office: "319 Riley-Robb Hall"
+  name: "TBD"
+  email: "TBD"
+  office: "TBD"
 
 course:
   number: "BEE 4850/5850"
   title: "Environmental Data Analysis and Simulation"
-  semester: "Spring 2025"
-  days: "MW"
-  time: "11:40-12:55pm"
-  location: "160 Riley-Robb Hall"
-  github: "https://github.com/bee-envdata-cornell/spring2025"
-  url: "https://envdata.viveks.me/spring2025"
+  semester: "Spring 2026"
+  days: "MWF"
+  time: "11:15-12:05"
+  location: "401 Riley-Robb Hall"
+  github: "https://github.com/bee-envdata-cornell/spring2026"
+  url: "https://envdata.viveks.me/spring2026"
   copyright_year: "2025"
-  office_hours: "MW 1:00-2:00pm"
-  ta_office_hours: "MTh 10:30-11:30"
+  office_hours: "TBD"
+  ta_office_hours: "TBD"
 
 university:
   name: Cornell University
@@ -38,4 +37,4 @@ department:
   url: "https://bee.cals.cornell.edu"
 
 github_org:
-  repo: "https://github.com/bee-envdata-cornell/spring2025"
+  repo: "https://github.com/bee-envdata-cornell/spring2026"

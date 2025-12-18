@@ -1,255 +1,267 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://envdata.viveks.me/spring2025/schedule.html</loc>
-    <lastmod>2025-06-05T00:32:43.347Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/schedule.html</loc>
+    <lastmod>2025-12-18T15:34:40.693Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/lit_critique.html</loc>
-    <lastmod>2025-06-05T00:32:43.345Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/syllabus.html</loc>
+    <lastmod>2025-12-13T20:29:46.624Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/tutorials/julia-plots.html</loc>
-    <lastmod>2025-06-11T20:23:29.909Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/tutorials/turing-mcmc.html</loc>
+    <lastmod>2025-10-25T18:16:37.036Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/tutorials/julia-basics.html</loc>
-    <lastmod>2025-06-11T20:23:36.253Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/tutorials/julia-basics.html</loc>
+    <lastmod>2025-10-25T18:16:37.036Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/project/proposal.html</loc>
-    <lastmod>2025-06-05T00:32:43.345Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/project/report.html</loc>
+    <lastmod>2025-10-25T18:16:36.906Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/project/presentation.html</loc>
-    <lastmod>2025-06-05T00:32:43.345Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/project/presentation.html</loc>
+    <lastmod>2025-10-25T18:16:36.906Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture13-1-missing-example.html</loc>
-    <lastmod>2025-06-05T00:32:43.444Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture13-1-missing-example.html</loc>
+    <lastmod>2025-10-25T18:16:36.979Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/notebooks/ebm.html</loc>
-    <lastmod>2025-06-05T00:32:43.504Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/notebooks/ebm.html</loc>
+    <lastmod>2025-10-25T18:16:37.006Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/notebooks/lynxhare.html</loc>
-    <lastmod>2025-06-05T00:32:43.516Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/notebooks/lynxhare.html</loc>
+    <lastmod>2025-10-25T18:16:37.012Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture04-1-diffeqmodels.html</loc>
-    <lastmod>2025-06-05T00:32:43.442Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture04-1-diffeqmodels.html</loc>
+    <lastmod>2025-10-25T18:16:36.977Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture09-1-mcmc.html</loc>
-    <lastmod>2025-06-05T00:32:43.443Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture09-1-mcmc.html</loc>
+    <lastmod>2025-10-25T18:16:36.978Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture05-1-bayes.html</loc>
-    <lastmod>2025-06-05T00:32:43.442Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture05-1-bayes.html</loc>
+    <lastmod>2025-10-25T18:16:36.977Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture06-2-random-simulation.html</loc>
-    <lastmod>2025-06-05T00:32:43.442Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture06-2-random-simulation.html</loc>
+    <lastmod>2025-10-25T18:16:36.977Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture07-1-monte-carlo.html</loc>
-    <lastmod>2025-06-05T00:32:43.442Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture07-2-bootstrap.html</loc>
+    <lastmod>2025-10-25T18:16:36.978Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture01-1-intro.html</loc>
-    <lastmod>2025-06-05T00:32:43.441Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture02-2-probreview.html</loc>
+    <lastmod>2025-10-25T18:16:36.976Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture09-2-model-skill.html</loc>
-    <lastmod>2025-06-05T00:32:43.443Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture02-1-nhst.html</loc>
+    <lastmod>2025-10-25T18:16:36.976Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture03-1-probmodels.html</loc>
-    <lastmod>2025-06-05T00:32:43.441Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture06-1-bayes-workflow.html</loc>
+    <lastmod>2025-10-25T18:16:36.977Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture12-2-missing-data.html</loc>
-    <lastmod>2025-06-05T00:32:43.444Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture08-2-bayesian-computation.html</loc>
+    <lastmod>2025-10-25T18:16:36.978Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture03-2-timeseries.html</loc>
-    <lastmod>2025-06-05T00:32:43.441Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture10-1-cross-validation.html</loc>
+    <lastmod>2025-10-25T18:16:36.978Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture11-2-modeling-extremes.html</loc>
-    <lastmod>2025-06-05T00:32:43.443Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture04-2-correlatedresiduals.html</loc>
+    <lastmod>2025-10-25T18:16:36.977Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/resources/data.html</loc>
-    <lastmod>2025-06-05T00:32:43.346Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/policies/rubric.html</loc>
+    <lastmod>2025-10-25T18:16:36.906Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/resources/homework.html</loc>
-    <lastmod>2025-06-05T00:32:43.346Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/policies/groups.html</loc>
+    <lastmod>2025-12-13T20:25:49.509Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/homework.html</loc>
-    <lastmod>2025-06-05T00:32:43.344Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/policies/index.html</loc>
+    <lastmod>2025-12-13T20:25:49.510Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/hw/hw05/hw05.html</loc>
-    <lastmod>2025-06-11T19:06:33.699Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/policies/grading.html</loc>
+    <lastmod>2025-12-13T20:28:14.653Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/hw/hw03/hw03.html</loc>
-    <lastmod>2025-06-11T19:07:40.247Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/setup/julia.html</loc>
+    <lastmod>2025-12-13T20:24:55.856Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/hw/hw01/hw01.html</loc>
-    <lastmod>2025-06-11T19:22:52.776Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/setup/index.html</loc>
+    <lastmod>2025-12-13T20:24:55.856Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/weeks/week03.html</loc>
-    <lastmod>2025-06-05T00:32:43.546Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/setup/vscode.html</loc>
+    <lastmod>2025-12-13T20:24:55.857Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/weeks/week10.html</loc>
-    <lastmod>2025-06-05T00:32:43.547Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/resources/dataviz.html</loc>
+    <lastmod>2025-12-18T17:32:17.029Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/weeks/week05.html</loc>
-    <lastmod>2025-06-05T00:32:43.546Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/resources/julia.html</loc>
+    <lastmod>2025-12-13T20:25:13.954Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/weeks/week07.html</loc>
-    <lastmod>2025-06-05T00:32:43.547Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/resources/homework.html</loc>
+    <lastmod>2025-10-25T18:16:36.906Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/weeks/week12.html</loc>
-    <lastmod>2025-06-05T00:32:43.547Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/resources/github.html</loc>
+    <lastmod>2025-12-13T20:25:13.954Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/weeks/week08.html</loc>
-    <lastmod>2025-06-05T00:32:43.547Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/hw/hw01/hw01.html</loc>
+    <lastmod>2025-12-13T20:11:13.684Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/weeks/week09.html</loc>
-    <lastmod>2025-06-05T00:32:43.547Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/labs/index.html</loc>
+    <lastmod>2025-12-15T14:30:34.068Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/weeks/week06.html</loc>
-    <lastmod>2025-06-05T00:32:43.547Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/labs/lab01/lab01.html</loc>
+    <lastmod>2025-12-15T14:22:52.643Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/weeks/week13.html</loc>
-    <lastmod>2025-06-05T00:32:43.547Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/hw/index.html</loc>
+    <lastmod>2025-12-15T14:29:31.947Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/weeks/week11.html</loc>
-    <lastmod>2025-06-05T00:32:43.547Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/faq/index.html</loc>
+    <lastmod>2025-12-15T14:40:21.182Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/weeks/week04.html</loc>
-    <lastmod>2025-06-05T00:32:43.546Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/resources/markdown.html</loc>
+    <lastmod>2025-12-13T20:25:13.954Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/weeks/week01.html</loc>
-    <lastmod>2025-06-05T00:32:43.546Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/resources/general.html</loc>
+    <lastmod>2025-12-13T20:25:13.953Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/weeks/week02.html</loc>
-    <lastmod>2025-06-05T00:32:43.546Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/resources/ai.html</loc>
+    <lastmod>2025-12-13T20:25:13.952Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/hw/hw04/hw04.html</loc>
-    <lastmod>2025-06-11T19:07:27.185Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/resources/data.html</loc>
+    <lastmod>2025-10-25T18:16:36.906Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/hw/hw02/hw02.html</loc>
-    <lastmod>2025-06-11T19:07:47.535Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/setup/homework.html</loc>
+    <lastmod>2025-12-13T20:24:55.855Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/resources/github.html</loc>
-    <lastmod>2025-06-05T00:32:43.346Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/setup/git.html</loc>
+    <lastmod>2025-12-13T20:24:55.854Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/resources/ai.html</loc>
-    <lastmod>2025-06-05T00:32:43.346Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/index.html</loc>
+    <lastmod>2025-12-18T17:32:09.367Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/index.html</loc>
-    <lastmod>2025-06-05T00:32:43.345Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/policies/homework.html</loc>
+    <lastmod>2025-12-13T20:27:30.185Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture04-2-correlatedresiduals.html</loc>
-    <lastmod>2025-06-05T00:32:43.442Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/policies/exam.html</loc>
+    <lastmod>2025-12-13T20:31:04.036Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture10-1-cross-validation.html</loc>
-    <lastmod>2025-06-05T00:32:43.443Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/policies/integrity.html</loc>
+    <lastmod>2025-12-13T20:25:49.511Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture08-2-bayesian-computation.html</loc>
-    <lastmod>2025-06-05T00:32:43.443Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture11-2-modeling-extremes.html</loc>
+    <lastmod>2025-10-25T18:16:36.979Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture06-1-bayes-workflow.html</loc>
-    <lastmod>2025-06-05T00:32:43.442Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture03-2-timeseries.html</loc>
+    <lastmod>2025-10-25T18:16:36.976Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture02-1-nhst.html</loc>
-    <lastmod>2025-06-05T00:32:43.441Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture12-2-missing-data.html</loc>
+    <lastmod>2025-10-25T18:16:36.979Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture02-2-probreview.html</loc>
-    <lastmod>2025-06-05T00:32:43.441Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture03-1-probmodels.html</loc>
+    <lastmod>2025-10-25T18:16:36.976Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture07-2-bootstrap.html</loc>
-    <lastmod>2025-06-05T00:32:43.443Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture09-2-model-skill.html</loc>
+    <lastmod>2025-10-25T18:16:36.978Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture10-2-information-models.html</loc>
-    <lastmod>2025-06-05T00:32:43.443Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture01-1-intro.html</loc>
+    <lastmod>2025-12-12T01:07:05.173Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture12-1-peaks-thresholds.html</loc>
-    <lastmod>2025-06-05T00:32:43.444Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture07-1-monte-carlo.html</loc>
+    <lastmod>2025-10-25T18:16:36.977Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture08-1-parametric-bootstrap.html</loc>
-    <lastmod>2025-06-05T00:32:43.443Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture01-2-why-analyze.html</loc>
+    <lastmod>2025-12-12T01:16:07.946Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/lecture11-1-information-criteria.html</loc>
-    <lastmod>2025-06-05T00:32:43.443Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture10-2-information-models.html</loc>
+    <lastmod>2025-10-25T18:16:36.979Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/notebooks/grinsted.html</loc>
-    <lastmod>2025-06-05T00:32:43.513Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture12-1-peaks-thresholds.html</loc>
+    <lastmod>2025-10-25T18:16:36.979Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/slides/notebooks/rahmstorf.html</loc>
-    <lastmod>2025-06-05T00:32:43.518Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture08-1-parametric-bootstrap.html</loc>
+    <lastmod>2025-10-25T18:16:36.978Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/about.html</loc>
-    <lastmod>2025-06-11T19:20:58.039Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/lecture11-1-information-criteria.html</loc>
+    <lastmod>2025-10-25T18:16:36.979Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/project/report.html</loc>
-    <lastmod>2025-06-05T00:32:43.345Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/notebooks/grinsted.html</loc>
+    <lastmod>2025-10-25T18:16:37.011Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/rubrics/standard.html</loc>
-    <lastmod>2025-06-05T00:32:43.346Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/slides/notebooks/rahmstorf.html</loc>
+    <lastmod>2025-10-25T18:16:37.013Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/tutorials/turing-mcmc.html</loc>
-    <lastmod>2025-06-11T20:23:22.881Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/about.html</loc>
+    <lastmod>2025-10-25T18:16:36.905Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/syllabus.html</loc>
-    <lastmod>2025-06-11T20:40:52.469Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/project/index.html</loc>
+    <lastmod>2025-12-13T20:56:02.881Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2025/project.html</loc>
-    <lastmod>2025-06-05T00:32:43.345Z</lastmod>
+    <loc>https://envsys.viveks.me/fall2025/project/proposal.html</loc>
+    <lastmod>2025-10-25T18:16:36.906Z</lastmod>
+  </url>
+  <url>
+    <loc>https://envsys.viveks.me/fall2025/tutorials/index.html</loc>
+    <lastmod>2025-12-14T02:06:18.886Z</lastmod>
+  </url>
+  <url>
+    <loc>https://envsys.viveks.me/fall2025/tutorials/julia-plots.html</loc>
+    <lastmod>2025-10-25T18:16:37.036Z</lastmod>
+  </url>
+  <url>
+    <loc>https://envsys.viveks.me/fall2025/lit_critique.html</loc>
+    <lastmod>2025-10-25T18:16:36.905Z</lastmod>
   </url>
 </urlset>

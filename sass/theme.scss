@@ -4,17 +4,31 @@
 
 @import 'https://kit.fontawesome.com/d16123e5b5.css';
 
+// Colors
+$darkgray: #222222; 
+$cornellred: #b31b1b;
+$lightred: #DF1E12;
+$lightgray: #f7f7f7;
+$seagray: #9fad9f;
+$blue: #006699;
+$orange: #D47500;
+$warmgray: #A2998B;
+
 $font-family-sans-serif: "IBM Plex Sans", sans-serif;
 $font-family-monospace: "Source Code Pro", "IBM Plex Mono", monospace;
 $font-family-serif: "Source Serif Pro", "IBM Plex Serif", serif;
 
 $headings-font-family: $font-family-serif;
 
+$toc-font-size: 0.95rem;
+$sidebar-font-size: 0.95rem;
+$sidebar-font-size-section: 0.95rem;
+$footer-font-size: 0.95rem;
 
 // Bootstrap inputs
 
-$code-block-bg: #e7e7e7;
-$code-bg: #e7e7e7;
+$code-block-bg: #f7f7f7;
+$code-bg: #f7f7f7;
 
 /*-- scss:rules --*/
 
@@ -32,17 +46,87 @@ $code-bg: #e7e7e7;
     padding-top: 0.5em;
     margin-left: auto;
     margin-right:auto;
-    width: 50%;
+ 
   }
   
 .sidebar {
  padding-right: 1.5em;
 }
 
-tr td {
-  padding: 0.5rem !important;
+figcaption {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-table .table >*>* {
-  padding: 0.5rem !important;
+// Home page stuff
+.title-block {
+  margin: 0em 0;
+  border-bottom: 3px solid $gray-200;
+  padding-bottom: 1em;
+}
+
+.course-details {
+  margin: 0 0 1em;
+  padding-bottom: 1em;
+  padding-top: 1em;
+}
+
+.course-details h3 {
+  margin-top: 0;
+}
+
+.course-title {
+  font-size: 3.0rem;
+  margin-top: 0;
+}
+
+.course-subtitle {
+  font-size: 1.5rem;
+}
+
+.course-meta {
+  font-size: 1.2rem;
+  color: $gray-600;
+}
+
+// I copied this from Font Awesome's .fa-ul since there's no way to add a class
+// to a pandoc list
+.course-details ul {
+  list-style-type: none;
+  margin-left: var(--fa-li-margin, 1.5em);  // Was originally 2.5
+  padding-left: 0;
+}
+.course-details ul > li {
+  position: relative;
+}
+
+.navbar-dark .navbar-nav .show>.nav-link,
+.navbar-dark .navbar-nav .active>.nav-link,
+.navbar-dark .navbar-nav .nav-link.active,
+div.sidebar-item-container .active,
+div.sidebar-item-container .show>.nav-link,
+div.sidebar-item-container .sidebar-link>code{
+  color: $lightred;
+}
+
+.sidebar-item-text.sidebar-link.text-start {
+    font-weight: bold;
+}
+
+li .sidebar-item-section {
+  font-size: 1.1rem;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-brand:hover {
+  color: $orange;
+}
+
+.sidebar nav[role="doc-toc"] > ul li a {
+
+  &.active {
+    border-left: 1px solid $lightred;
+    color: $lightred !important;
+  }
 }

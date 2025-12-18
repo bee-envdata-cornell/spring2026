@@ -23,7 +23,7 @@ format:
     subtitle: "{{< var course.semester >}}"
 engine: julia
 julia:
-    exeflags: ["+1.10.4"]
+    exeflags: ["+1.11.5"]
 ---
 
 ## Course Overview
@@ -62,7 +62,9 @@ This is a 3 credit course offered as an elective.
 
 ### Course Description
 
-Simulations from numerical and statistical models are a key tool used to quantify and represent our understanding of many different environmental systems, including but not limited to the climate, sea levels, air pollution, and the electric power system. Data analysis of environmental observations and model simulations is an integral part of developing and evaluating models used to 1) test our assumptions about environmental system dynamics; 2) develop new insights into environmental processes; and 3) project future environmental conditions and outcomes. This course will provide an overview of the use of generative probability models to understand data and examine hypotheses about data-generating processes. The goal is to provide students with a framework and an initial toolkit of methods for data analysis and simulation. Students will actively analyze and use real data from a variety of environmental systems. In particular, over the course of the semester, we will:
+Understanding data is an increasingly integral part of working with environmental systems. Data analysis is a critical part of understanding system dynamics and projecting future conditions and outcomes. This course will provide an overview of a generative approach to environmental data analysis, which uses simulation and assessments of predictive performance to provide insight into the structure of data and its data-generating process. We will discuss exploratory analysis and visualization, model development and fitting, uncertainty quantification, and model assessment. The goal is to provide students with a framework and an initial toolkit of methods that they can use to formulate and update hypotheses about data and models. Students will actively analyze and use real data from a variety of environmental systems.
+
+In particular, over the course of the semester, we will:
 
 * conduct exploratory analyses of environmental datasets;
 * discuss best practices for and complexities of data visualization;
@@ -74,13 +76,11 @@ Simulations from numerical and statistical models are a key tool used to quantif
 
 After completing this class, students will be able to:
 
-* create, interpret, and critique data visualizations;
-* calibrate environmental models to observations, possibly including censored and missing data;
-* simulate alternative datasets from models using statistical methods such as the bootstrap and Monte Carlo;
+* conduct exploratory analyses of data, including creating, interpreting, and critiquing data visualizations;
+* calibrate environmental models to observations, including missing data;
+* quantify and propagate uncertainty using simulation methods such as the bootstrap and Monte Carlo;
 * assess model adequacy and performance using predictive simulations;
-* apply and contextualize model selection criteria;
-* evaluate evidence for and against hypotheses about environmental systems using model simulations;
-* emulate computationally-complex models with simpler representations. 
+* evaluate evidence for and against hypotheses about environmental systems using model simulations.
 
 ## Prerequisites & Preparation
 
@@ -100,18 +100,17 @@ If your programming or statistics skills are a little rusty, don't worry! We wil
 ## Typical Topics
 
 - Introduction to exploratory data analysis;
-- Review of probability and statistics;
-- Bayesian decision theory;
 - Principles of data visualization;
-- Model residuals and discrepancies;
-- Censored, truncated, and missing data;
-- Statistical methods for calibration;
-- Predictive model assessment;
-- Emulation with surrogate models
+- Probability models for data;
+- Extreme values;
+- Missing data;
+- Model fitting;
+- Uncertainty quantification with the bootstrap and Monte Carlo;
+- Model assessment and comparison.
 
 ## Course Meetings
 
-This course meets MW from 11:40--12:55 in 160 Riley-Robb Hall. In addition to the course meetings (a total of 42 lectures, 50 minutes each), the final project will be due during the university finals period. Students can expect to devote, on average, 6 hours of effort during the exam period.
+This course meets MWF from 11:15-12:05 in 401 Riley-Robb. In addition to the course meetings (a total of 42 lectures, 50 minutes each), the final project will be due during the university finals period. Students can expect to devote, on average, 6 hours of effort during the exam period.
 
 ## Course Philosophy and Expectations
 
@@ -136,7 +135,7 @@ Students can optimize their performance in the course by:
 
 ## Textbooks and Course Materials
 
-There is no required text for this class, and all course materials will be made available on the [course website](https://bee4850.viveks.me) or through the Cornell library. However, the following books might be useful as a supplement to/expansion on the topics covered in class:
+There is no required text for this class, and all course materials will be made available on the [course website](https://envdata.viveks.me/spring2026/) or through the Cornell library. However, the following books might be useful as a supplement to/expansion on the topics covered in class:
 
 - Gelman, A., Carlin, J. B., Stern, H. S., Dunson, D. B., Vehtari, A., & Rubin, D. B. (2013). *Bayesian Data Analysis* (3rd ed.). <http://www.stat.columbia.edu/~gelman/book/BDA3.pdf>
 - McElreath, R. (2020). *Statistical Rethinking: A Bayesian Course with Examples in R and Stan* (2nd ed.). <https://xcelab.net/rm/>
@@ -148,7 +147,7 @@ There is no required text for this class, and all course materials will be made 
 
 ### Diversity and Inclusion
 
-Our goal in this class is to foster an inclusive learning environment and make everyone feel comfortable in the classroom, regardless of social identity, background, and specific learning needs. As engineers, our work touches on many critical aspects of society, and questions of inclusion and social justice cannot be separated from considerations of how data are generated, collected, and analyzed.
+Our goal in this class is to foster an inclusive learning environment and make everyone feel comfortable in the classroom, regardless of social identity, background, and specific learning needs. As engineers, our work touches on many critical aspects of society, and questions of inclusion and social justice cannot be separated from considerations of systems analysis, objective selection, risk analysis, and trade-offs. 
 
 In all communications and interactions with each other, members of this class community (students and instructors) are expected to be respectful and inclusive. In this spirit, we ask all participants to:
 
@@ -157,6 +156,11 @@ In all communications and interactions with each other, members of this class co
 * value each other's opinions and communicate in a respectful manner.
 
 Please let me know if you feel any aspect(s) of class could be made more inclusive. Please also share any preferred name(s) and/or your pronouns with me if you wish: I use he/him/his, and you can refer to me either as Vivek or Prof. Srikrishnan.
+
+Please be professional and courteous on all course interactions and platforms, and (except in designated off-topic boards or forums) please keep all online discussion relevant to the course. We do not anticipate this as a problem given our experience; almost all students in almost all classes meet these expectations. However, even a single incident can do serious damage to the learning environment and the well-being of your fellow students.
+
+Sexually explicit, harassing, threatening, bullying, trolling, racist, sexist, homophobic, transphobic, or otherwise grossly unprofessional content will be removed. Anyone behaving in these fashions or posting such content will be blocked/banned from the appropriate platform and may be given an F if they are consistently disruptive. 
+
 
 ::: {.callout-important}
 ## Please, Be Excellent To Teach Other
@@ -169,21 +173,20 @@ We all make mistakes in our communications with one another, both when speaking 
 
 Let me know if you have any access barriers in this course, whether they relate to course materials, assignments, or communications. If any special accomodations would help you navigate any barriers and improve your chances of success, please exercise your right to those accomodations and reach out to me as early as possible with your [Student Disability Services](https://sds.cornell.edu/) (SDS) accomodation letter. This will ensure that we have enough time to make appropriate arrangements.
 
-::: {.callout-important}
 If you need more immediate accomodations, but do not yet have a letter, please let me know and then follow up with SDS.
-:::
 
 ### Course Communications
 
 Most course communications will occur via [Ed Discussion](https://edstem.org). Public Ed posts are generally preferred to private posts or emails, as other students can benefit from the discussions. If you would like to discuss something privately, please do reach out through email or a private Ed post (which will only be viewable by you and the course staff).
 
-Announcements will be made on the course website and in Ed.
+Announcements will be made on the course website and in Ed. Emergency announcements will also be made on Canvas.
 
 ::: {.callout-important}
 ## Ed Tips
 
+- **Do not take screenshots of code**. I will not respond. Screenshots can be difficult to read and limit accessibility. Put your code on GitHub, share the link, and point to specific line numbers if relevant, or provide a *simple*, self-contained example of the problem you're running into.
 - If you wait until the day an assignment is due (or even late the previous night) to ask a question on Ed, there is a strong chance that I will not see your post prior to the deadline. 
-- But if you see unanswered questions and you have some insight, please answer! This class will work best when we all work together as a community.
+- If you see unanswered questions and you have some insight, please answer! This class will work best when we all work together as a community.
 :::
 
 ### Mental Health Resources
@@ -199,9 +202,13 @@ I am not a trained counselor, but I am here to support you in whatever capacity 
 
 ## Course Policies
 
+Many policies below (including grading policies) are broken out and discussed further on the course website. Lack of familiarity with any of these policies is not an excuse for violating any of them.
+
+
 ### Attendance
 
 Attendance is not *required*, but in general, students who attend class regularly will do better and get more out of the class than students who do not. Your class participation grade will reflect both the quantity and quality of your participation, only some of which can occur asynchronously. I will put as many course materials, such as lecture notes and announcements, as possible online, but viewing materials online is not the same as active participation and engagement. Life happens, of course, and this may lead you to miss class. Let me know if you need any appropriate arrangements ahead of time. 
+
 
 ::: {.callout-important}
 ## What If I'm Sick?
@@ -209,14 +216,6 @@ Attendance is not *required*, but in general, students who attend class regularl
 Please stay home if you're feeling sick! This is beneficial for both for your own recovery and the health and safety of your classmates. We will also make any necessary arrangements for you to stay on top of the class material and if whatever is going on will negatively impact your grade, for example by causing you to be unable to submit an assignment on time.
 
 :::
-
-### Office Hours
-
-Office hours will be held in 318 Riley-Robb after class (1-2pm) on MW. If these times do not work for you, or you need some additional time outside of office hours, please reach out to Prof. Srikrishnan about scheduling a meeting. Depending on schedules, these requests may not be accepted on short notice (*e.g.* homework is due on Friday and you reach out late on Thursday), but with several days notice we should be able to find a time that will work.
-
-Office hours are intended to help all students who attend. This time is limited, and is best spent on issues that are relevant to as many students as possible. While we will do our best to answer individual questions, students asking us to verify or debug homework solutions will have the lowest priority (but please do ask about how to verify or debug your own solutions!). However, we are happy to discuss conceptual approaches to solving homework problems, which may help to reveal bugs.
-
-Space at office hours can be limited (we may shift to the conference room in 316 Riley-Robb if offices are full and it is available). If the room is crowded and you can find an alternative source of assistance, or if your question is low priority (*e.g.* debugging) please be kind and make room for others.
 
 ### Mask Policies
 
@@ -234,21 +233,22 @@ This class is designed to encourage collaboration, and students are encouraged t
 
 The collaborative environment in this class **should not be viewed as an invitation for plagiarism**. Plagiarism occurs when a writer intentionally misrepresents another's words or ideas (including code!) as their own without acknowledging the source.  **All** external resources which are consulted while working on an assignment should be referenced, including other students and faculty with whom the assignment is discussed. You will never be penalized for consulting an external source for help and referencing it, but plagiarism will result in a zero for that assignment as well as the potential for your case to be passed on for additional disciplinary action.
 
-### Generative AI/ML Policy
+### AI/ML Resource Policy
 
-As noted, all work submitted for a grade in this course must reflect your own understanding. The goal of this course is to build critical data-analytic and statistical skills, including evaluations of the output of statistical models. While generative AI/ML models, such as ChatGPT, NotebookLM, or similar, can be used to summarize text and enhance coding efficiency, appropriate usage of these tools requires similar levels of scrutiny, which cannot be obtained without a general understanding of the underlying material. Relying on these tools as a primary means of engaging with the course content and material without independent effort is therefore discouraged. Further, blind reliance on generative AI can result in the submission of so-called "hallucinations" due to the predictive nature of the AI output.
+Large language models (LLMs), such as GPT, and other generative AI models are powerful tools for predicting text and code patterns. However, while they can save time (though you'd be surprised at how little time their careful use saves), they often make mistakes that can be hard to detect or fail to communicate key ideas or insights at the expense of more general and banal text. As you are likely to encounter an ever-widening use of these tools when you leave Cornell, it is critical that you learn how to use these tools responsibly and effectively.
 
-However, the appropriate and thoughtful use of these tools is a legitimate professional skill and reflects an understanding of the content in this course. As a result, the use and consulation of AI/ML tools, such as ChatGPT or similar, is not prohibited, but must be clearly referenced. In addition to citing the use of the tool, you must:
+However, this class will not focus on teaching you how to use LLMs responsibly; we assume that if you are using these tools, you are doing so in a way which benefits your learning and helps you communicate your already-existing understanding, rather than substituting for it. You are **generally** permitted to use these tools, but you are ultimately responsible for guaranteeing, understanding, and interpreting your results. If you submit work that was LLM generated, and this work receives a poor grade due to the LLM's inability to demonstrate understanding, your grade will reflect that substantive assessment.
 
-- reference the URL of the service you are using, including the specific date you accessed it;
-- provide the exact prompt(s) used to interact with the tool; and
-- describe how you (directly or indirectly) integrated the response into your submission.
+General guidelines for AI/ML use:
 
-**Failure to fully reference the interaction, as described above, will be treated as plagiarism and referred to the University accordingly.**
+* **AI tools for code**: You may use LLM tools for code development and debugging, particularly for translating between other languages that you already have a better knowledge of (*e.g.* Python) and Julia. However, LLMs often make bad decisions about how to structure code, can introduce bugs (including suggesting packages that do not exist or outdated syntax), and can mislead you about what your code is doing. You are responsible for understanding and debugging any code involved in solving computational exercises. Notably, if you ask for help debugging LLM-generated code, this will not be possible unless you have already developed your own understanding of what each piece of the code does (or should do) and which parts work and don't work.
+* **AI tools for writing**: LLMs **should not be used to generate text that you submit as your own work**. The point of written assessments (including model derivations and interpretations) is to stimulate your own critical thinking and mathematical skills, and you short-cut this process by substituting LLM use for your own process of formulating and articulating ideas. Even using LLMs to do the initial writing and editing that output will result in shallower thinking. As we are not teaching you in this class to critically engage with LLMs, However, you *may* use LLMs or similar tools (*e.g.* Grammarly) to help you edit your writing. As mentioned before, you are ultimately responsible for the content of any work you turn in: if a tool used to edit grammar changed the substance of your writing, you will be responsible for the submission.
+
+To distinguish between these permissible and impermissible uses, you are required to cite your use of the tool (as with any other external reference). In particular, you must disclose how you use the LLM and how you incorporated any output into your final submission. **Failure to fully reference the interaction, as described above, will be treated as plagiarism and referred to the University accordingly.** If you have any questions about whether your planned use of an AI/ML tool complies with the academic integrity policy, please consult a member of the course staff ahead of its use.
 
 ### Late Work Policy
 
-In general, late work can be submitted up to 24 hours after the due date at a 50% penalty. However, sometimes things come up in life. Please reach out *ahead of time* if you have extenuating circumstances (including University-approved absences or illnesses) which would make it difficult for you to submit your work on time. Note that *e.g.* job interviews or a busy schedule outside of this course are not valid reasons for extensions. If an extension is granted, any late penalties will be waived up to the extension date. In extreme circumstances, assignments can be forgiven, and your grade will be computed as though those did not occur, giving your other assignments more weight.
+In general, late work can be submitted up to 24 hours late at a 50% penalty, and will not be accepted after that point. This policy may seem strict, but allows for prompt release of solutions and discussion of assignments. Please reach out *as soon as possible* (ideally before the due date) if legitimate circumstances emerge which prevent you from submitting work within 24 hours of the due date; we will make accomodations for approved reasons, which might included a limited extension or dropping the assignment.
 
 ### Regrade Requests
 
@@ -266,25 +266,39 @@ All regrade requests must include a **brief** justification for the request or t
 ::: {.callout-important}
 ## We Can Only Grade What You Submitted
 
-All regrades will be assessed based only on the submitted work. You cannot get a higher grade by explanation what you meant (either in person or online) or by adding information or reasoning to what is submitted after the fact. The goal of the regrade is to draw attention to a potential grading problem, not to supplement the submission. 
+All regrades will be assessed based only on the submitted work. You cannot get a higher grade by explanating what you meant (either in person or online) or by adding information or reasoning to what is submitted after the fact. The goal of the regrade is to draw attention to a potential grading problem, not to supplement the submission. 
 :::
 
-Once Prof. Srikrishnan issues a final response to a regrade request, further requests for that submission will be ignored.
+The first regrade request for any submission will be handled by the person who graded that homework problem. The first regrade request for any exam submission will be handled by whoever graded that exam problem. If the submission was graded by the TA, additional regrade requests for the same submission will be handled directly by the instructor. Once Prof. Srikrishnan issues a final response to a regrade request, further requests for that submission will be ignored.
 
 
 ::: {.callout-warning}
 ## Regrade Requests Can Be A Gamble! 
 
-While you should submit regrade requests for legitimate errors, using them for fishing expeditions can also result in lost points if Prof. Srikrishnan decide that your initial grade was too lenient or if additional errors are identified.
+While you should submit regrade requests for legitimate errors, using them for fishing expeditions can also result in lost points if the TA or Prof. Srikrishnan decide that your initial grade was too lenient or if additional errors are identified.
 :::
 
 ::: {.callout-tip}
 ## What If I Find A Different Type of Mistake?
 
-- If you submit a regrade request *correctly* reporting that a problem was graded too leniently --- that is, that your score was higher than it should be based on the rubric --- your score will be increased by the difference. For example, if your original score on a problem was 8/10 and you successfully argue that your score should have been 3/10, your new score will be 13/10.
+- If you submit a regrade request *correctly* reporting that a problem was graded too leniently --- that is, that your score was higher than it should be based on the rubric --- your score will be increased by the difference. For example, if your original score on a problem was 8/10 and you successfully argue that your score should have been 3/10, your new score will be 13/10. However, don't fish --- your grade might be lowered if the TA finds an independent mistake while regrading.
 - If a significant error is discovered in a posted homework solution or in the exam solutions, everyone will in the class will receive *full* credit for the (sub)problem. Prof. Srikrishnan will decide what is "significant".
 :::
 
+### Office Hours
+
+Office hours with both Prof. Srikrishnan and the TA will be available each week at times specified at the top of this syllabus. Changes to the office hour schedule (cancellations/rescheduling) will be announced in class and on Ed Discussion. 
+
+Office hours are intended to help all students who attend. This time is limited, and is best spent on issues that are relevant to as many students as possible. While we will do our best to answer individual questions, students asking us to verify or debug homework solutions or help with syntax will have the lowest priority (**but please do ask about how to verify or debug your own solutions!**). However, we are happy to discuss conceptual approaches to solving homework problems, which may help to reveal bugs.
+
+Space at office hours can be limited (we may shift to the conference room in 316 Riley-Robb if offices are full and it is available). If the room is crowded and you can find an alternative source of assistance, or if your question is low priority (*e.g.* debugging) please be kind and make room for others.
+
+
+::: {.callout-tip}
+## What If I Can't Make Office Hours?
+
+While we will try to select office hours that work for as much of the class as possible, both the course staff and students have busy schedules and no time will work for everyone. **If you need help outside of office hours (*e.g.* office hours do not fit your schedule), please send an email to the TA or Prof. Srikrishnan as soon as possible**. These requests may not be accepted on short notice (*e.g.* if you have a question about a homework due on Thursday and send a request on the immediately prior Wednesday; schedules for course staff may already be full). We recommend starting your homework promptly so you can take advantage of office hours or make an appointment over a longer period.
+:::
 ## Assessments
 
 ### Technologies
@@ -301,12 +315,12 @@ Final grades will be computed based on the following assessment weights:
 
 | Assessment | Weight |
 |:-----------|-----------:|
-| Participation | 5% |
-| Readings | 10% |
+| Labs | 10% |
 | Quizzes | 10% |
-| Literature Critique | 15% |
-| Homework Assignments | 30% |
-| Term Project | 30% |
+| Participation (4850)/Literature Critique (5850) | 10% |
+| Homework Assignments | 15% |
+| Prelims | 30% |
+| Term Project | 25% |
 
 The following grading scale will be used to convert the numerical weighted average to letter grades:
 
@@ -328,39 +342,59 @@ The following grading scale will be used to convert the numerical weighted avera
 
 ### Participation
 
-Students will be assessed based on their participation across class activities, including lectures and discussions (in-person and online). Routine lack of attendance or engagement will result in the loss of participation points.
+Participating fully in the class allows you to gain more from the class and contribute more to the learning of your classmates. Some ways to participate include:
 
-### Readings
+* Asking questions in class or on Ed;
+* Answering questions in class or on Ed;
+* Actively engaging in in-class activities;
+* Coming to office hours.
 
-Readings will be assigned for discussion throughout the semester. We will discuss the readings in class the subsequent week after they are assigned. One student will be asked to briefly summarize the reading before the broader discussion. Collaborative annotation assignments will be set up in Canvas to facilitate reading ahead of the discussion. Students in BEE 5850 should also submit a (maximum) one-page summary of the reading, highlighting its key point(s) and their assessment of the effectiveness of the argument, to Gradescope before the Monday after the reading is assigned. Students will be evaluated on both the extent to which their annotations and summaries reflect engagement with the reading and their participation in the class discussion.
+Note that just passively attending class will not yield full participation points. Participation points are not free: you are likely to lose points if you consistently skip class or do not ask or answer questions online or in person. At the end of the term, you will be asked to evaluate your own participation over the course of the semester, in addition to my documentation of your participation. Participation is a component of the grade for students enrolled in BEE 4850.
+
 
 ### Quizzes
 
 Quizzes will be assigned in Gradescope most weeks based on recently discussed content. These will be relatively short and are intended to consolidate material recently discussed in class. The quizzes will be released after Wednesday's class and will be due prior to next Monday's. Quizzes can be retaken as many times as are desired prior to the submission deadline. They may consist of multiple choice questions or questions involving small mathematical, computational, or open-ended problems.
 
+### Labs
+
+Several class periods (typically on Fridays) will be dedicated to in-class labs. Students will be given worksheets and Jupyter notebooks aimed at getting hands-on practice with the prior lecture topic(s). Lab writeups will be due before the class meeting the following Monday after the lab period.
+
 ### Literature Critique
 
-Students will select a peer-reviewed journal article related to an application of data analysis and will write a short discussion paper (2-3 pages) analyzing the hypotheses and statistical choices. Students should feel free to select their own paper or can work with Prof. Srikrishnan to identify one of interest, but in all cases should discuss with Prof. Srikrishnan to ensure that the article is appropriate. The discussion paper will be due towards at the end of the semester.
+Students in BEE 5850 will select a peer-reviewed journal article related to an application of data analysis and will write a short discussion paper (2-3 pages) analyzing the hypotheses and statistical choices. Students should feel free to select their own paper or can work with Prof. Srikrishnan to identify one of interest, but in all cases should discuss with Prof. Srikrishnan to ensure that the article is appropriate. The discussion paper will be due towards at the end of the semester.
 
 ### Homework Assignments
 
-Approximately 6 homework assignments will be assigned throughout the semester (roughly one per course module). Homework problems will generally involve more substantial mathematical or computational work than the quiz problems. You will typically have 2 weeks to work on each assignment, though this depends on the module length. Students are encouraged to collaborate and learn from each other on homework assignments, but each student must submit their own solutions reflecting their understanding of the material. Consulting and referencing external resources and your peers is encouraged (engineering is a collaborative discipline!), but  plagiarism is a violation of academic integrity.
+There will be approximately 4 homework assignments assigned. Homework assignments are intended to be more in-depth applications of course material to data analysis problems. 
+
+You will generally have two class weeks to work on an assignment. This is intended to provide you enough time to work on the problem and debug and evaluate your code (including troubleshooting any technical problems); these are not reasons for late submission. Each homework assignment will build on material from the prior classes and possibly from the day the homework is assigned.
+
+Students are encouraged to collaborate and learn from each other on homework assignments, but students must submit their own assignments which represent their own understanding of the material.
+
+Consulting and referencing external resources and your peers is encouraged (engineering is a collaborative discipline!), but plagiarism is a violation of academic integrity. 
 
 Some notes on assignment and grading logistics:
 
-  * Homeworks are due by 9:00pm Eastern Time on the designed due date. Your assignment notebook (which include your writeup and codes) should be submitted to Gradescope as a PDF with the answers to each question tagged (a failure to do this will result in deductions). 
-  * A standard rubric is available.
-  * Students in 5850 will be asked to complete additional homework problems which go more deeply into the underlying concepts or apply more advanced techniques.
-  * Regrade requests for specific problems must be made within a week of the grading of that assignment. 
+  * Homework assignments will be distributed using GitHub Classroom. While GitHub use is not required for the class aside from accepting and cloning assignments, students are encouraged to update their GitHub repositories as they work on the assignments; this helps with answering questions, keeping solutions synced across groups, and gives you a backstop in case something goes wrong and you can't submit your assignment on time. 
+  * Homeworks are due by 9:00pm Eastern Time on the designed due date (usually a Thursday). Your assignment writeup should be submitted to Gradescope as a PDF with the answers to each question tagged (a failure to do this will result in a non-negotiable 10% point deduction). 
+  * A meta-rubric is provided on the website, under the Homework page. These are not customized for each assignment but the principles will apply generally.
+  * No homework assignments will be dropped, but you can turn in assignments within 24 hours of the due date with a 50% penalty. If you need a further accomodation for a particular assignment, talk to Prof. Srikrishnan ***before the due date.*** Requests for extensions made after the due date will only be considered under extraordinary and unexpected circumstances. Technical challenges submitting assignments are not acceptable reasons for extensions to be granted, and late penalties will apply.
+  * **Your submitted homework must stand on its own***! We cannot grade you on the basis of information which was not included in the submitted assignment. While regrade requests should include a justification for why your grade is incorrect, we will not consider explanations or additional reasoning outside of the submission.
+
+
+### Prelims
+
+One in-class prelim will be given. The exam is closed-book and closed-note. As a result, the exam will emphasize conceptual material such as model derivations and interpretation of results; any calculations can be done with a pen(cil) and paper. Conflict and extended-time exams will be handled through SDS. Exams will be scanned into Gradescope for grading and feedback.
 
 
 ### Term Project
 
 Throughout the semester, students will apply the concepts and methods from class to a data set of their choosing. If a student does not have a data set in mind, we will find one which aligns with their interests.
 
-The term project can be completed individually or in groups of 2. The deliverables are:
+The term project can be completed individually or in groups of 2. There will be 
 
-  * A proposal describing the research question and hypotheses, the data set, and the numerical or statistical models the student would like to use to test the hypotheses;
+  * Several updates aligning with course models. Students will provide short summaries of their proposed topic and exploratory analysis, proposed probability model(s), simulation studies, and hypothesis tests/model assessments. Each of these should be no more than 2 pages (11 point font, 1 inch margins), not including of figures or references.
   * A final presentation and report. The report should be no more than 5 pages (11 point font, 1 inch margins), not including references and figures. The presentation should be no more than 10 minutes and will be delivered in-class; presentations may be spread across multiple class periods if the number of projects requires it. More details and rubrics will be provided later in the semester.
 
 
@@ -379,11 +413,11 @@ using Dates
 using DataFrames
 using PrettyTables
 
-start_date = Date(2025, 1, 22)
-end_date = Date(2025, 5, 6)
+start_date = Date(2026, 1, 20)
+end_date = Date(2026, 5, 5)
 
 # set vector of class dates (including holidays)
-cdates = filter(d -> Dates.dayname(d) ∈ ["Monday", "Wednesday"], Date(start_date):Day(1):Date(end_date));
+cdates = filter(d -> Dates.dayname(d) ∈ ["Monday", "Wednesday", "Friday"], Date(start_date):Day(1):Date(end_date));
 # find weeks from first week of classes
 cweeks = week.(cdates) .- (week(Date(start_date)) - 1);
 # get days of the week
@@ -391,38 +425,68 @@ cdays = dayabbr.(cdates)
 
 # set vector of class topics
 topics = [ 
+  # Week 1 Jan 20-Jan 23
   "Course Overview and Introduction",
-  "Hypothesis Testing and Data Analysis",
-  "Generative Probability Models",
-  "Probability Fundamentals",
-  "Fitting Models to Data",
-  "Bayesian Statistics",
+  "Motivation and Hypothesis Testing",
+  # Week 2 Jan 26-30
+  "Exploratory Data Analysis",
+  "Data Visualization",
+  "Lab: Data Visualization",
+  # Week 3 Feb 2-Feb 6
+  "Probability Review",
+  "Probability Models and Linear Regression",
+  "Maximum Likelihood Estimation and Fisher Information",
+  # Week 4 Feb 9-Feb 13
+  "Hypothesis Testing and p-Values",
+  "Generalized Linear Models", 
   "Autocorrelation and Time Series",
-  "Monte Carlo Simulation",
-  "Monte Carlo Simulation II",
-  "The Bootstrap",
-  "The Bootstrap II",
-  "Markov Chain Monte Carlo",
-  "Calibration and Sharpness",
-  "Overfitting and Cross-Validation",
-  "Information Criteria and Model Comparison",
-  "Information Criteria II",
-  "Extreme Value Theory and Models",
-  "Extreme Value Models II",
-  "Non-Stationary Extreme Values",
-  "Missing and Censored Data",
-  "Mixture Models and Clustering",
-  "Gaussian Processes",
-  "Gaussian Processes II", 
-  "Causal Modeling",
+  # Week 5 Feb 18-20
+  "Selecting a Probability Model",
+  "Lab: Probability Models",
+  # Week 6 Feb 23-27
+  "Modeling Extremes: Block Maxima",
+  "Modeling Extremes: Peak Over Thresholds",
+  "Lab: Extreme Value Models",
+  # Week 7 Mar 2-6
+  "Random Variate Simulation",
+  "Random Number Generation",
+  "Prelim",
+  # Week 8 Mar 9-13
+  "Monte Carlo: Theory",
+  "Monte Carlo: Examples",
+  "Lab: Monte Carlo",
+  # Week 9 Mar 16-20
+  "Uncertainty Quantification and the Bootstrap",
+  "Bootstraps for Structured Data",
+  "Lab: The Bootstrap",
+  # Week 10 Mar 23-27
+  "Missing and Censored Data", 
+  "Multiple Imputation",
+  "Lab: Missing Data",
+  # Week 12: Apr 6-10
+  "Overfitting and Bias-Variance Tradeoff",
+  "Scoring Rules and Graphical Checks",
+  "Cross-Validation",
+  # Week 13: Apr 13-17
+  "Model Comparison as Hypothesis Testing",
+  "Entropy and Information",
+  "Information Criteria",
+  # Week 14: Apr 20-24
+  "Direct Acyclic Graphs and Probability Models",
   "Confounds",
-  "Controls and Designing Experiments", 
-  "Project Presentations"
+  "Lab: DAGs",
+  # Week 15 Apr 27-May 1,
+  "Value of Information",
+  "Design of Experiments",
+  "Prelim 2",
+  # Week 16 May 5
+  "Class Wrap-Up"
 ]
 
-holiday_dates = ["2025-02-17", "2025-03-31", "2025-04-02"];
+
+holiday_dates = ["2025-02-16", "2025-03-30", "2025-04-01", "2025-04-03"];
 holidays = DataFrame(Date=Dates.format.(Date.(holiday_dates), "mm-dd"), 
-                    Holiday=["February Break", "Spring Break", "Spring Break"]);
+                    Holiday=["February Break", "Spring Break", "Spring Break", "Spring Break"]);
 
 # add in holidays
 ctopics = Vector{String}(undef, length(cdates)); # initialize array
@@ -435,25 +499,58 @@ cschedule[ismissing.(cschedule.Topic), :Topic] = topics;
 # number class meetings
 class_nums = missings(Int, length(cdates))
 class_nums[cschedule.Date .∉ [holidays.Date]] = collect(range(1, length=length(cdates) - nrow(holidays)))
+class_nums = coalesce.(class_nums, "")
 
-# set headers
-headers_idx = [1, 5, 11, 17, 22, 33, 36]
-headers = DataFrame([
-  "" "" "Introduction";
-  "" "" "Probability Fundamentals";
-  "" "" "Simulation Methods";
-  "" "" "Model Evaluation and Selection";
-  "" "" "Useful Models";
-  "" "" "Experimental Design";
-  "" "" "Presentations";
-], ["Date", "Day", "Topic"])
+# add in homework assignments
+# release and due dates
+hw_dates = [
+  ["HW1", "01-21", "02-06"], # intro, exploratory analysis
+  ["HW2", "02-09", "02-27"], # probability models, MLE
+  ["HW3", "03-09", "03-20"], # Monte Carlo
+  ["HW4", "03-23", "04-17"], # Bootstrap, Missing Data
+  ["HW5", "04-20", "05-01"] # Model Scoring, Hypothesis Testing
+]  
 
-for i = 1:length(headers_idx)
-  insert!(cschedule, headers_idx[i], headers[i, :]; promote=true)
-  insert!(class_nums, headers_idx[i], missing)
+hw = let v = repeat([""], nrow(cschedule))
+  for (i, r) in pairs(hw_dates)
+    idx_rel = findfirst(cschedule.Date .== r[2]) 
+    idx_due = findfirst(cschedule.Date .== r[3])
+    hw_num = r[1]
+    v[idx_rel] = "$hw_num Released"
+    v[idx_due] = "$hw_num Due"
+  end
+  v
 end
 
-class_nums = coalesce.(class_nums, "")
+cschedule.HW = hw
+
+# project dates
+proj_dates = [
+  ["Exploratory Analysis", "02-13"],
+  ["Candidate Model(s)", "03-13"],
+  ["Simulation Study", "04-10"],
+  ]
+
+proj  = let v = repeat([""], nrow(cschedule))
+  for (i, r) in pairs(proj_dates)
+    idx_due = findfirst(cschedule.Date .== r[2]) 
+    v[idx_due] = r[1]
+  end
+  v
+end
+
+cschedule.Project = proj
+
+
+# set headers
+row_gp_labels = [
+  1 => "Introduction",
+  3 => "Exploratory Analysis",
+  6 => "Probability Models",
+  18 => "Simulation Methods",
+  33 => "Hypothesis Testing and Model Assessment",
+  39 => "Causal Reasoning and Value of Information"
+]
 
 
 ```
@@ -467,14 +564,23 @@ class_nums = coalesce.(class_nums, "")
 
 # highlight holidays
 hl_smallfont = LatexHighlighter((data,i,j)->true, ["small"])
-hl_hol = LatexHighlighter((data, i, j) -> data[i, :Date] ∈ holidays[:, :Date], ["emph", "small"])
-hl_header = LatexHighlighter((data, i, j) -> i ∈ headers_idx, ["emph", "textbf", "small"])
+hl_hol = LatexHighlighter((data, i, j) -> data[i, 2] == "", ["emph", "small"])
 
-pretty_table(cschedule, highlighters=(hl_header, hl_hol, hl_smallfont), 
-  body_hlines = headers_idx[2:end] .- 1,
-  backend=Val(:latex), tf=tf_latex_modern, formatters=ft_nomissing, show_row_number=false, show_subheader=false,
-  row_labels=class_nums, row_label_alignment=:r, row_label_column_title = "\\#", wrap_table=true, wrap_table_environment="center", table_type=:longtable,
-  alignment = [:c, :c, :l])
+fmt = LatexTableFormat(
+  horizontal_line_at_beginning = true,
+  horizontal_line_at_merged_column_labels = true
+)
+sty = LatexTableStyle(
+  row_group_label = ["emph", "textbf"]
+)
+
+pretty_table(Matrix(cschedule), highlighters=[hl_hol, hl_smallfont], 
+  backend=:latex, style=sty,
+  stubhead_label="#", column_labels=["Date", "Day", "Topic", "HW", "Project"],
+  row_labels=class_nums, row_label_column_alignment=:r,
+  row_group_labels=row_gp_labels, row_group_label_alignment=:l,
+  alignment = [:c, :c, :l, :l, :l])
+
 ```
 :::
 
@@ -486,8 +592,6 @@ pretty_table(cschedule, highlighters=(hl_header, hl_hol, hl_smallfont),
 
 using Latexify
 
-bold_headers(x) = x in headers.Topic ? "***$x***" : x  
-cschedule = bold_headers.(cschedule)
 italicize_holidays(x) = x in unique(holidays.Holiday) ? "*$x*" : x
 cschedule = italicize_holidays.(cschedule)
 print(latexify(cschedule; env=:mdtable, latex=:false, adjustment=:l))

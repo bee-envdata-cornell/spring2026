@@ -1,0 +1,33 @@
+---
+title: Term Project
+tbl-colwidths: [20, 5, 10]
+---
+
+## Overview
+
+The term project gives you an opportunity to use and extend the methods we have learned in class to an environmental data set and/or model of your choosing. More details will be provided over the semester. We will discuss each component in class as well as providing relevant information on this page.
+
+## Instructions
+
+- Students can work individually or in groups of 2.
+- If the project is being done in a group, the proposal should also include a plan for the allocation of duties to each group member (not included in the 2 page limit).
+- The final project report should be no more than 5 pages (1-inch margins, 11 point Calibri font or equivalent), not including figures and references, but can include an appendix with additional details on methods.
+
+## Schedule
+
+| Milestone |  Due Date |
+|:---------:|:-----------|
+| Proposal and Exploratory Analysis | Fri, Feb 11  |
+| Candidate Models | Fri, Mar 13 |
+| Simulation Study | Fri, Apr 10 |
+| Final Report |  Fri, May 15 | 
+
+## Milestones
+
+Each of the intermediate reports should be no more than 3 pages long, not including figures or references. 
+
+* The proposal should state the core science question at the center of the project and any relevant hypotheses that will be tested and discuss why the data set is relevant for addressing that question. It should also include visual and quantitative exploratory analyses to identify key features of the data.
+* The candidate models report should finalize the scientific hypotheses for the question and translate them into statistical models which will be used for the analysis. It should include any diagnostics used to specify the probability model(s), the results of fitting the model(s), and any associated analyses to assess the appropriateness of the model specification(s).
+* The simulation study should include the results of any Monte Carlo and/or bootstrap analyses as relevant for the models and science question.
+
+The final report should synthesize all of these findings and include any relevant model comparisons or hypothesis tests as well as any further analyses conducted in support of addressing the research question.

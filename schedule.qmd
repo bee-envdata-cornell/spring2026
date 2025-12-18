@@ -1,6 +1,6 @@
 ---
 title: "Class Schedule"
-tbl-colwidths: [5, 10, 25, 5, 15, 5, 5, 5]
+tbl-colwidths: [5, 10, 25, 5, 15, 5, 5, 5, 5]
 suppress-bibliography: true
 ---
 
@@ -11,35 +11,10 @@ Instructions to save the slides as PDFs can be found [here](https://quarto.org/d
 
 Readings can be accessed using the link (when needed, through the Cornell library with a Cornell login) or on Canvas. 
 
-| Week | Date | Topic | Slides | Reading | Homework | 
+| Week | Date | Topic | Slides | Reading | Homework | Lab | Resources |
 :-----:|:---------|:---------|:---------:|:------:|:--:|:---:|
-| [1](weeks/week01.qmd) | 1/22 | Class Introduction | [{{< fa sharp presentation-screen >}}](slides/lecture01-1-intro.qmd) | | [{{< fa sharp pen-field >}}](hw/hw01/hw01.qmd) |
-| [2](weeks/week02.qmd) | 1/27 | Null Hypothesis Testing and Statistical Significance | [{{< fa sharp presentation-screen >}}](slides/lecture02-1-nhst.qmd) | Lloyd & Oreskes ([2018](https://agupubs-onlinelibrary-wiley-com.proxy.library.cornell.edu/doi/10.1002/2017EF000665)) | |
-|   | 1/29 | Probability Fundamentals  | [{{< fa sharp presentation-screen >}}](slides/lecture02-2-probreview.qmd) | | |
-| [3](weeks/week03.qmd) | 2/3  | Probability Models for Data | [{{< fa sharp presentation-screen >}}](slides/lecture03-1-probmodels.qmd) | Shmueli ([2010](https://projecteuclid-org.proxy.library.cornell.edu/journals/statistical-science/volume-25/issue-3/To-Explain-or-to-Predict/10.1214/10-STS330.full)) | | 
-|   | 2/5  | Time Series | [{{< fa sharp presentation-screen >}}](slides/lecture03-2-timeseries.qmd) | | |
-| [4](weeks/week04.qmd) | 2/10 | Calibrating Simulation Models | [{{< fa sharp presentation-screen >}}](slides/lecture04-1-diffeqmodels.qmd) | | [{{< fa sharp pen-field >}}](hw/hw02/hw02.qmd) |
-|   | 2/12 | Calibrated Residuals | [{{< fa sharp presentation-screen >}}](slides/lecture04-2-correlatedresiduals.qmd) | | |
-| [5](weeks/week05.qmd) | 2/17 | ***February Break*** | | | |
-|   | 2/19 | Bayesian Statistics |  [{{< fa sharp presentation-screen >}}](slides/lecture05-1-bayes.qmd) | | Gelman & Shalizi ([2013](https://bpspsychub-onlinelibrary-wiley-com.proxy.library.cornell.edu/doi/10.1111/j.2044-8317.2011.02037.x))|
-| [6](weeks/week06.qmd) | 2/24 | Bayesian Workflow | [{{< fa sharp presentation-screen >}}](slides/lecture06-1-bayes-workflow.qmd) | | |
-|   | 2/26 | Random Variate Simulation | [{{< fa sharp presentation-screen >}}](slides/lecture06-2-random-simulation.qmd) | | |
-| [7](weeks/week07.qmd) | 3/3  | Monte Carlo Simulation | [{{< fa sharp presentation-screen >}}](slides/lecture07-1-monte-carlo.qmd) | Bankes ([1993](https://pubsonline-informs-org.proxy.library.cornell.edu/doi/10.1287/opre.41.3.435)) | [{{< fa sharp pen-field >}}](hw/hw03/hw03.qmd) |
-|   | 3/5  | The Bootstrap  | [{{< fa sharp presentation-screen >}}](slides/lecture07-2-bootstrap.qmd) | | |
-| [8](weeks/week08.qmd) | 3/10 | The Parametric Bootstrap | [{{< fa sharp presentation-screen >}}](slides/lecture08-1-parametric-bootstrap.qmd) | Ruckert et al ([2017](https://link.springer.com/article/10.1007/s10584-016-1858-z)) | |
-|   | 3/12 | Bayesian Computing and Markov Chains | [{{< fa sharp presentation-screen >}}](slides/lecture08-2-bayesian-computation.qmd) | | |
-| [9](weeks/week09.qmd) | 3/17 | Markov Chain Monte Carlo | [{{< fa sharp presentation-screen >}}](slides/lecture09-1-mcmc.qmd) | Clark et al ([2021](https://agupubs-onlinelibrary-wiley-com.proxy.library.cornell.edu/doi/10.1029/2020WR029001)) | |
-|   | 3/19 | Predictive Model Assessments | [{{< fa sharp presentation-screen >}}](slides/lecture09-2-model-skill.qmd)  |  | |
-| [10](weeks/week10.qmd) | 3/24 | Scoring and Cross-Validation | [{{< fa sharp presentation-screen >}}](slides/lecture10-1-cross-validation.qmd) | | | [{{< fa sharp pen-field >}}](hw/hw04/hw04.qmd) |
-|    | 3/26 | Information and Entropy |  [{{< fa sharp presentation-screen >}}](slides/lecture10-2-information-models.qmd) | | | 
-|    | 3/31 | ***Spring Break*** | 
-|    | 4/2  | ***Spring Break*** |
-| [11](weeks/week11.qmd) | 4/7  | Information Criteria  | [{{< fa sharp presentation-screen >}}](slides/lecture11-1-information-criteria.qmd)| | |
-|    | 4/9 | Modeling Extreme Values | [{{< fa sharp presentation-screen >}}](slides/lecture11-2-modeling-extremes.qmd) | | |
-| [12](weeks/week12.qmd) | 4/14 | Peaks Over Thresholds | [{{< fa sharp presentation-screen >}}](slides/lecture12-1-peaks-thresholds.qmd) | | [{{< fa sharp pen-field >}}](hw/hw05/hw05.qmd) |
-|    | 4/16 | Missing Data | [{{< fa sharp presentation-screen >}}](slides/lecture12-2-missing-data.qmd) | | |
-| [13](weeks/week13.qmd) | 4/21 | Multiple Imputation and Class Review | [{{< fa sharp presentation-screen >}}](slides/lecture13-1-missing-example.qmd)  | | |
-|    | 4/23 | **No Class** | | | |
-| 14 | 4/28 | **Project Presentations** | | | |
-|    | 4/30 | **Project Presentations** | | | |
-| 15 | 5/5  | **Project Presentations** | | | |
+| 1 | 1/21 | Class Introduction | [{{< fa sharp presentation-screen >}}](slides/lecture01-1-intro.qmd) | | [{{< fa sharp pen-field >}}](hw/hw01/hw01.qmd) | | |
+|  | 1/23 | Analyzing Data With Models? |  |  | | | |
+| 2 | 1/26 | Exploratory Data Analysis | |  | | | |
+|   | 1/28 | Data Visualization | | | | | [Data Viz](resources/dataviz.qmd) |
+|   | 1/30 | Lab: Data Visualization | | | | [{{< fa sharp laptop >}}](labs/lab01/lab01.qmd)  | |

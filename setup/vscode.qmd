@@ -1,0 +1,39 @@
+---
+title: VS Code
+---
+
+## Install and Set Up VS Code {#sec-install-code}
+
+You can skip this section if you already have a coding environment you like; just set it up to work with Julia^[I assume that if this is the case, you know/can figure out how to configure your editor. If you aren't sure, post on Ed and we can find the instructions.]. Otherwise, VS Code is as close to an officially supported editor for Julia as you can get. We will follow [this guide for setting up VS Code with Julia](https://www.julia-vscode.org/docs/dev/gettingstarted/).
+
+### Installing VS Code
+
+You can download VS Code [here](https://code.visualstudio.com/download); open the downloaded file to install.
+
+### Install the Julia Extension
+
+1. Open VS Code. 
+2. Select View and click Extensions to open the Extension View. This view can also be found on the sidebar with the following logo: 
+    ![VS Code Extensions View Logo](../slides/images/vs-code-extensions.png)
+3. Search for `julia` in the search box. Click the green install button.
+4. Restart VS Code once the installation is complete. It should automatically find your Julia installation; talk to Vivek if not.
+
+The Julia VS Code extension offers you some nice features. You can start a REPL (an interactive Julia coding environment) by opening the "Command Palette" (View -> Command Palette, or CTRL/CMD+SHIFT+P) and typing "REPL" to bring up "Julia: Start REPL". You can also create `*.jl` files to write Julia code and execute line by line. However, we will primarily use Jupyter notebooks in this class, but this might be useful for testing code or for your project.
+
+### Install the Jupyter Notebook Extension
+
+The Jupyter Notebook extension allows you to export a Jupyter notebook to PDF or to HTML and then to PDF.
+
+::: {.callout-tip}
+## PDF Export for Gradescope
+
+You will need to export every notebook to a PDF for submission to Gradescope. Direct export to PDF requires a LaTeX installation. If you would like to go this route, please look at [the LaTeX installation instructions for your operating system](https://www.latex-project.org/get/).
+
+Otherwise, [exporting to HTML and then using your browser to save the resulting page to a PDF](homework.qmd) is a perfect solution.
+:::
+
+Follow the same instructions as above, but search for `jupyter` and install the Jupyter extension. Restart VS Code.
+
+## Using GitHub with VS Code
+
+[This Youtube video](https://youtu.be/z5jZ9lrSpqk?t=115&si=PcpNxjmF1ByTUdJq) provides an overview of how to use GitHub within VS Code (with chapters for specific steps) and may be worth watching.

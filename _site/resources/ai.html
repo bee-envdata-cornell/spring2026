@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Generative AI and LLMs – BEE 4850 - Spring 2025</title>
+<title>Generative AI and LLMs – Environmental Systems Analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -44,14 +44,12 @@ div.csl-indent {
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../resources/github.html" rel="next">
-<link href="../resources/data.html" rel="prev">
+<link href="../_assets/logos/favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -61,15 +59,15 @@ div.csl-indent {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1d1e7f53b840ad8d06c4ae6c57b8588.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-39de1d7bf725568e078fa3bb4646169a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-ba9c0723bac509a7d8c9561700ea21a1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
-  "location": "sidebar",
+  "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "start",
-  "type": "textbox",
+  "panel-placement": "end",
+  "type": "overlay",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -91,301 +89,147 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<!-- MathJax 3 -->
+<script>
+window.MathJax = {
+    tex: {
+      tags: 'ams'
+    }
+  };
+</script>
 
 
-<meta property="og:title" content="Generative AI and LLMs – BEE 4850 - Spring 2025">
-<meta property="og:description" content="Homepage for BEE 4850/5850, Environmental Data Analysis and Simulation, at Cornell University, Spring 2025.">
-<meta property="og:site_name" content="BEE 4850 - Spring 2025">
+<meta property="og:title" content="Generative AI and LLMs – Environmental Systems Analysis">
+<meta property="og:description" content="Homepage for the Fall 2025 version of BEE 4750/5750, Environmental Systems Analysis, at Cornell University.">
+<meta property="og:site_name" content="Environmental Systems Analysis">
 </head>
 
-<body class="nav-sidebar docked slimcontent quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../resources/homework.html">Resources</a></li><li class="breadcrumb-item"><a href="../resources/ai.html">Generative AI and LLMs</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
-    </div>
-  </nav>
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">BEE 4850/5850</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-info" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Info</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-info">    
+        <li>
+    <a class="dropdown-item" href="../syllabus.html">
+ <span class="dropdown-text">Syllabus</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../policies/index.html">
+ <span class="dropdown-text">Course Policies</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../faq/index.html">
+ <span class="dropdown-text">FAQ</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../setup/index.html">
+ <span class="dropdown-text">Setup</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../schedule.html"> 
+<span class="menu-text">Class Schedule</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-coursework" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Coursework</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-coursework">    
+        <li>
+    <a class="dropdown-item" href="../labs/index.html">
+ <span class="dropdown-text">Labs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../hw/index.html">
+ <span class="dropdown-text">Homework Assignments</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../project/index.html">
+ <span class="dropdown-text">Term Project</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-resources" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Resources</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-resources">    
+        <li>
+    <a class="dropdown-item" href="../tutorials/index.html">
+ <span class="dropdown-text">Tutorials</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../resources/general.html">
+ <span class="dropdown-text">General Resources</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../resources/julia.html">
+ <span class="dropdown-text">Julia Resources</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../resources/ai.html">
+ <span class="dropdown-text">Generative AI and LLMs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../resources/github.html">
+ <span class="dropdown-text">GitHub Resources</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../resources/markdown.html">
+ <span class="dropdown-text">Markdown Resources</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../resources/dataviz.html">
+ <span class="dropdown-text">Data Visualization</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/bee-envsys-cornell/fall2025"> 
+<span class="menu-text"><i class="fa-brands fa-github" aria-label="github"></i> GitHub</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://canvas.cornell.edu"> 
+<span class="menu-text"><i class="fa-regular fa-notebook" aria-label="notebook"></i> Canvas</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://edstem.org"> 
+<span class="menu-text"><i class="fa-regular fa-comments" aria-label="comments"></i> Ed</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://gradescope.com"> 
+<span class="menu-text"><i class="fa-regular fa-chart-simple" aria-label="chart-simple"></i> Gradescope</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-center sidebar-header sidebar-header-stacked">
-      <a href="../index.html" class="sidebar-logo-link">
-      <img src="../_assets/logos/cornell_logo_simple_b31b1b.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
-      </a>
-    <div class="sidebar-title mb-0 py-0">
-      <a href="../">Environmental Data Analysis and Simulation</a> 
-        <div class="sidebar-tools-main tools-wide">
-    <a href="https://github.com/bee-envdata-cornell/spring2025" title="Github Repository" class="quarto-navigation-tool px-1" aria-label="Github Repository"><i class="bi bi-github"></i></a>
-    <a href="https://canvas.cornell.edu" title="Canvas" class="quarto-navigation-tool px-1" aria-label="Canvas"><i class="bi bi-journal-check"></i></a>
-    <a href="https://edstem.org" title="Ed Discussion" class="quarto-navigation-tool px-1" aria-label="Ed Discussion"><i class="bi bi-chat-fill"></i></a>
-    <a href="https://gradescope.com" title="Gradescope" class="quarto-navigation-tool px-1" aria-label="Gradescope"><i class="bi bi-bar-chart-fill"></i></a>
-</div>
-    </div>
-      </div>
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
-        </div>
-        </div>
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
- <span class="menu-text">Course Information</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Overview</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../syllabus.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Syllabus</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../schedule.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class Schedule</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
- <span class="menu-text">Weeks</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../weeks/week01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 1</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../weeks/week02.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 2</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../weeks/week03.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 3</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../weeks/week04.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 4</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../weeks/week05.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 5</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../weeks/week06.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 6</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../weeks/week07.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 7</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../weeks/week08.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 8</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../weeks/week09.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 9</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../weeks/week10.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 10</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../weeks/week11.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 11</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../weeks/week12.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 12</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../weeks/week13.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 13</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a href="../homework.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Homework</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../rubrics/standard.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Standard Rubric</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../hw/hw01/hw01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Homework 01</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../hw/hw02/hw02.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Homework 02</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../hw/hw03/hw03.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Homework 03</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../hw/hw04/hw04.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Homework 04</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../hw/hw05/hw05.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Homework 05</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../project.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Term Project</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../lit_critique.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Literature Critique Instructions</span></a>
-  </div>
-</li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
- <span class="menu-text">Julia Tutorials</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../tutorials/julia-basics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Julia Basics</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../tutorials/julia-plots.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Making Plots</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../tutorials/turing-mcmc.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">MCMC with Turing</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Resources</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../resources/homework.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Homework Policies</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../resources/data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Data Sources</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../resources/ai.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Generative AI and LLMs</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../resources/github.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">git and GitHub</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -396,12 +240,12 @@ div.csl-indent {
   <li><a href="#writing-and-reading" id="toc-writing-and-reading" class="nav-link" data-scroll-target="#writing-and-reading">Writing And Reading</a></li>
   <li><a href="#coding" id="toc-coding" class="nav-link" data-scroll-target="#coding">Coding</a></li>
   </ul>
-</nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/bee-envsys-cornell/fall2025/edit/main/resources/ai.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bee-envsys-cornell/fall2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../resources/homework.html">Resources</a></li><li class="breadcrumb-item"><a href="../resources/ai.html">Generative AI and LLMs</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Generative AI and LLMs</h1>
 </div>
@@ -421,8 +265,8 @@ div.csl-indent {
 
 
 <p><strong>TL; DR</strong>: My recommendation is that you do not use ChatGPT, NotebookLLM, or similar large language model (LLM) tools in this class for substantive tasks (annotating/summarizing readings, writing solutions), though they can be useful for programming tasks. If you do use these tools, please do so after independent effort, and clearly document how you’ve used them.</p>
-<p>I am not opposed to the <em>thoughtful</em> use of LLMs. Contrary to the endless hype and marketing served by their creators and the media, these tools have strong limitations and over-reliance on them can greatly impede the discovery and learning processes. However, once you understand these limitations and have enough domain knowledge to look for red flags, they can be useful for certain (albeit limited) tasks, and learning how to engage with them responsibly is a legitimate professional skill.</p>
-<p>The framing and policies on this page are heavily influenced by <a href="https://datavizf24.classes.andrewheiss.com/resource/ai-bs.html">Andrew Heiss</a>.</p>
+<p>I am not opposed to the <em>thoughtful</em> use of LLMs. Contrary to the endless hype and marketing served by their creators and the media, these tools have strong limitations and over-reliance on them can greatly impede the discovery and learning processes<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. However, once you understand these limitations and have enough domain knowledge to look for red flags, they can be useful for certain (albeit limited) tasks, and learning how to engage with them responsibly is a legitimate professional skill. But you should be careful — many of these tools <a href="https://www.wheresyoured.at/subprimeai/">are provided at a loss to their companies</a> and there may come a point in the near-to-medium future where they are not available to you without a massive cost.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;Plus, the scalable models are provided <a href="https://www.wheresyoured.at/anthropic-and-openai-have-begun-the-subprime-ai-crisis/">at a great monetary loss</a> <a href="https://www.wheresyoured.at/anthropic-is-bleeding-out/">to their companies</a>, which means they might be <em>far</em> more expensive (or even not available) in the future — do you want to be dependent on them if that occurs?</p></div></div><p>The framing and policies on this page are heavily influenced by <a href="https://datavizf24.classes.andrewheiss.com/resource/ai-bs.html">Andrew Heiss</a> and <a href="https://www.wheresyoured.at/">Ed Zitron</a>.</p>
 <section id="bullshit" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="bullshit">Bullshit</h2>
 <p>The fundamental problem with LLMs is that they are <strong>bullshit generators</strong> <span class="citation" data-cites="Hicks2024-tp Hannigan2024-cv">(<a href="#ref-Hannigan2024-cv" role="doc-biblioref">Hannigan et al., 2024</a>; <a href="#ref-Hicks2024-tp" role="doc-biblioref">Hicks et al., 2024</a>)</span>. Bullshit, in the philosophical sense, is text produced without care for the truth <span class="citation" data-cites="frankfurt_bullshit_2005">(<a href="#ref-frankfurt_bullshit_2005" role="doc-biblioref">Frankfurt, 2005</a>)</span>. It is not a <em>lie</em>, which specifically exists in opposition of truth, or a <em>mistake</em>, which is subject to correction when exposed to divergence from the truth, but it is agnostic to the truth; it simply exists to make the author sound like an authority. Truth simply does not matter to a bullshitter.</p>
@@ -432,33 +276,33 @@ Hannigan, T. R., McCarthy, I. P., &amp; Spicer, A. (2024). <span class="nocase">
 Hicks, M. T., Humphries, J., &amp; Slater, J. (2024). <span class="nocase">ChatGPT is bullshit</span>. <em>Ethics Inf. Technol.</em>, <em>26</em>, 1–10. <a href="https://doi.org/10.1007/s10676-024-09775-5">https://doi.org/10.1007/s10676-024-09775-5</a>
 </div><div id="ref-frankfurt_bullshit_2005" class="csl-entry" role="listitem">
 Frankfurt, H. G. (2005). <em>On bullshit</em>. Princeton, NJ: Princeton University Press.
-</div></div><p>LLMs literally exist only to produce bullshit. They use a predictive statistical model to guess what next word is likely; there is no reference to whether the underlying idea produced by this sequence of words is truthful or even coherent. This means that, once an LLM goes off track, they are subject to wild hallucinations where they may invent concepts or artifacts (books, articles, etc) that do not exist, merely because they <em>seem plausible as a string of text</em>. Given that LLMs are trained on publicly available text, an increasing amount of which is now generated by LLMs (so-called <strong>“AI slop”</strong>), the uncritical use of these results can just perpetuate the bullshit cycle.</p>
+</div><div id="fn2"><p><sup>2</sup>&nbsp;To paraphrase <a href="http://bactra.org/weblog/feral-library-card-catalogs.html">Cosma Shalizi</a>, the appearance that LLMs “reason” or have insights is an <a href="http://arxiv.org/abs/2309.13638">ember of autoregression</a> sprinkled with <a href="https://arxiv.org/abs/2104.12871">wishful mnemonics</a></p></div><div id="fn3"><p><sup>3</sup>&nbsp;Even worse, <a href="https://www.anthropic.com/research/tracing-thoughts-language-model">there is evidence that LLMs will just give a plausible-seeming argument instead of following logical steps or transparently communicating their reasoning, even when they are instructed to make their reasoning transparent</a>.</p></div><div id="fn4"><p><sup>4</sup>&nbsp;As put by <a href="https://buttondown.com/maiht3k/archive/information-literacy-and-chatbots-as-search/">computational linguist Emily Bender</a>, “If someone uses an LLM as a replacement for search, and the output they get is correct, this is just by chance. Furthermore, a system that is right 95% of the time is arguably more dangerous tthan [<em>sic</em>] one that is right 50% of the time. People will be more likely to trust the output, and likely less able to fact check the 5%.” It’s worth reading the whole post about how using LLM summaries as a substitute for search harms information literacy and disrupts sense-making processes.</p></div></div><p>LLMs literally exist only to produce bullshit. They use a predictive statistical model to guess what next word (or sequence of words) is likely; there is no reference to whether the underlying idea produced by this sequence of words is truthful or even coherent<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. This means that, once an LLM goes off track, they are subject to wild hallucinations where they may invent concepts or artifacts (books, articles, etc) that do not exist, merely because they <em>seem plausible as a string of text</em><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. This fundamentally affects the reliability of LLM results for information retrieval<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. Additionally, given that LLMs are trained on publicly available text, an increasing amount of which is now generated by LLMs (so-called <strong>“AI slop”</strong>), the uncritical use of these results can just perpetuate the bullshit cycle.</p>
 <p>As we are environmental scientists and engineers, there’s another problem, which is <a href="https://hbr.org/2024/07/the-uneven-distribution-of-ais-environmental-impacts">the impact on the environment of the computers needed to train and run LLMs</a>. The more judicious we can be with these tools, the better we can manage their energy and water needs for when they’re actually useful.</p>
 </section>
 <section id="writing-and-reading" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="writing-and-reading">Writing And Reading</h2>
 <p>Since LLMs only produce bullshit, they cannot help you with the process of writing or engaging with readings. Writing, whether prose or technical solutions, forces you to clarify your ideas and confront where they are vague or half-baked. This is a critical part of the educational experience! Producing plausible-looking but substantively-empty text cannot achieve this goal.</p>
-<p>If you have written your own initial text but would like to clean it up (grammar, concision, etc), LLMs may be helpful since the substance is already present in your text. Just make sure to carefully edit it to ensure that your ideas are still present and clear. This type of engagement with LLM output can be useful and reflects a similar need to engage with the statistical models and methods we are working with in class.</p>
-<p>If you do use an LLM at some part in your writing process, you should cite it and make clear how you engaged with the output. This includes:</p>
+<p>If you have written your own initial text but would like to clean it up (grammar, concision, etc), LLMs may be helpful since the substance is already present in your text<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. This type of engagement with LLM output can be useful.</p>
+<div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;Just make sure to carefully edit it to ensure that your ideas are still present and clear and weren’t changed!</p></div></div><p>If you do use an LLM at some part in your writing process, you should cite it and make clear how you engaged with the output. This includes:</p>
 <ol type="1">
 <li>What prompt(s) did you use?</li>
 <li>How did the LLM output influence your writing or framing?</li>
 </ol>
-<p>This not only makes it clear to me whether you used the LLM responsibly (otherwise, this borders on plagiarism), but it actually helps you in case there is some bullshit that made it into your answer that is not actually a reflection of your understanding. I will not bother trying to guess if your writing is AI-generated<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Your work will be graded on its own merits, and since we’re looking for thoughtfulness and engagement in your written work, LLM-generated materials are likely to be penalized<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;While there are tools that purport to do this, <a href="https://www.usfca.edu/sites/default/files/2024-05/ai_detection_case_study.pdf">they do not reliably work</a>.</p></div><div id="fn2"><p><sup>2</sup>&nbsp;And if you did not disclose the role of LLMs in generating the work, this will not be a convincing reason for why you should not lose points.</p></div></div></section>
+<p>This not only makes it clear to me whether you used the LLM responsibly (otherwise, this <a href="https://nickfthilton.medium.com/llms-are-definitionally-plagiaristic-fc8c00299ae3">borders on plagiarism</a>), but it actually helps you in case there is some bullshit that made it into your answer that is not actually a reflection of your understanding. I will not bother trying to guess if your writing is AI-generated<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>. Your work will be graded on its own merits, and since we’re looking for thoughtfulness and engagement in your written work, LLM-generated materials are likely to be penalized<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> However, if your submission contains evidence of plagiarism or hallucinations (including references), at a minimum you will get a zero and, if the evidence is clear enough, this may be reasonably conclusive that you violated the academic integrity policy by using an LLM without referencing it.</p>
+<div class="no-row-height column-margin column-container"><div id="fn6"><p><sup>6</sup>&nbsp;While there are tools that purport to do this, <a href="https://www.usfca.edu/sites/default/files/2024-05/ai_detection_case_study.pdf">they do not reliably work</a>.</p></div><div id="fn7"><p><sup>7</sup>&nbsp;And if you did not disclose the role of LLMs in generating the work, this will not be a convincing reason for why you should not lose points.</p></div></div></section>
 <section id="coding" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="coding">Coding</h2>
-<p>Using LLMs for programming is a little different. There are many programming tasks (autocompletion of syntax, interpreting error messages) that are greatly facilitated by the use of LLM tools such as ChatGPT or GitHub CoPilot. Even people who already know what they’re doing tend to solve syntax and debugging problems by Googling or going to forums like Stack Overflow. LLMs are a shorcut for this approach.</p>
-<p>However, if you’re trying to learn how to program (or program in a new language or using a new toolkit), <strong>the use of LLMs, even for debugging, can be greatly detrimental to this process</strong>. As they training data for LLMs are often didactic examples, the output code is often wildly inefficient<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. There are also likely to be errors due to the generation mechanism: all the LLM can do is guess what the next line of code is, not reason about whether the overall logic of the code makes sense or if it will run. It’s hard to track down these errors if you played no role in the development of the code. This is particularly true if you’re dependent on an LLM to think through debugging, since you won’t know how to find where the LLM.</p>
-<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;This is not going to be a problem in our class, but might be in your future.</p></div></div><p>My suggestion for how to use LLMs for coding are:</p>
+<p>Using LLMs for programming is a little different. There are many programming tasks (autocompletion of syntax, interpreting error messages) that are greatly facilitated by the use of LLM tools such as ChatGPT or GitHub CoPilot. Even people who already know what they’re doing tend to solve syntax and debugging problems by Googling or going to forums like Stack Overflow. LLMs are a shorcut for this approach<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>.</p>
+<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;Though you should still be careful, <a href="https://www.kaspersky.com/blog/ai-slopsquatting-supply-chain-risk/53327/">LLM code hallucinations can result in security risks</a>. Caveat emptor.</p></div><div id="fn9"><p><sup>9</sup>&nbsp;This is not going to be a problem in our class, but might be in your future.</p></div></div><p>If you’re trying to learn how to program (or program in a new language or using a new toolkit), <strong>the use of LLMs, even for debugging, can be greatly detrimental to this process</strong>. As they training data for LLMs are often didactic examples, the output code is often wildly inefficient<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>. There are also likely to be errors due to the generation mechanism: all the LLM can do is guess what the next line of code is, not reason about whether the overall logic of the code makes sense or if it will run. It’s hard to track down these errors if you played no role in the development of the code. This is particularly true if you’re dependent on an LLM to think through debugging, since you won’t know how to find where the LLM.</p>
+<p>My suggestion for how to use LLMs for coding are:</p>
 <ol type="1">
 <li>Try to write your own code first. At the very least, think through the logic of what a solution would look like and write down any relevant equations. Then try to write down a version of that in code form. It’s okay to use syntax-checking and autocomplete tools here, but try to think about what the command is and look at some documentation (or ask on Ed Discussion) if it’s not clear to you.</li>
 <li>If you run into errors, first see if they’re obvious. In Julia, for example, many errors are the result of not using broadcasting. Being able to spot these common error messages is useful and fast.</li>
-<li>If you run into further errors, or cannot tell why a particular piece of code is not working, then feel free to use an LLM<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. Just make sure you don’t just copy and paste output, but, if the code works, try to understand how it differed from your own so you can not make the same mistakes next time.</li>
+<li>If you run into further errors, or cannot tell why a particular piece of code is not working, then feel free to use an LLM<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>. Just make sure you don’t just copy and paste output, but, if the code works, try to understand how it differed from your own so you can not make the same mistakes next time.</li>
 </ol>
 
 
-<div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;Appropriately documented, of course.</p></div></div>
+<div class="no-row-height column-margin column-container"><div id="fn10"><p><sup>10</sup>&nbsp;Appropriately documented, of course.</p></div></div>
 </section>
 
 
@@ -535,7 +379,7 @@ Frankfurt, H. G. (2005). <em>On bullshit</em>. Princeton, NJ: Princeton Universi
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/envdata\.viveks\.me\/spring2025");
+        var filterRegex = new RegExp("https:\/\/envsys\.viveks\.me\/fall2025");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -575,22 +419,6 @@ Frankfurt, H. G. (2005). <em>On bullshit</em>. Princeton, NJ: Princeton Universi
         config.onUntrigger = onUntriggerFn;
       }
       window.tippy(el, config); 
-    }
-    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-    for (var i=0; i<noterefs.length; i++) {
-      const ref = noterefs[i];
-      tippyHover(ref, function() {
-        // use id or data attribute instead here
-        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-        try { href = new URL(href).hash; } catch {}
-        const id = href.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note) {
-          return note.innerHTML;
-        } else {
-          return "";
-        }
-      });
     }
     const xrefs = window.document.querySelectorAll('a.quarto-xref');
     const processXRef = (id, note) => {
@@ -903,18 +731,6 @@ Frankfurt, H. G. (2005). <em>On bullshit</em>. Princeton, NJ: Princeton Universi
     }
   });
   </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="../resources/data.html" class="pagination-link" aria-label="Data Sources">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Data Sources</span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../resources/github.html" class="pagination-link" aria-label="git and GitHub">
-        <span class="nav-page-text">git and GitHub</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -927,9 +743,9 @@ Frankfurt, H. G. (2005). <em>On bullshit</em>. Princeton, NJ: Princeton Universi
  <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en">LICENSE: CC-BY-SA  <i class="fab fa-creative-commons"></i><i class="fab fa-creative-commons-by"></i><i class="fab fa-creative-commons-sa"></i></a>
   </li>  
 </ul>
-    </div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/bee-envsys-cornell/fall2025/edit/main/resources/ai.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bee-envsys-cornell/fall2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
-<p>Made with <a href="https://julialang.org">Julia</a> and <a href="https://quarto.org/">Quarto</a><br> <a href="https://github.com/bee-envdata-cornell/spring2025">View the source at <i class="fa-brands fa-github" aria-label="github"></i> GitHub</a></p>
+<p>Made with <a href="https://julialang.org">Julia</a> and <a href="https://quarto.org/">Quarto</a><br> <a href="https://github.com/bee-envdata-cornell/spring2026">View the source at <i class="fa-brands fa-github" aria-label="github"></i> GitHub</a></p>
 </div>
   </div>
 </footer>

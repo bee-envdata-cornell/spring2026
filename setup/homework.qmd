@@ -1,0 +1,70 @@
+---
+title: Assignment Workflow
+---
+
+Your assignments (labs and homeworks) will be distributed as Jupyter Notebooks (`.ipynb` files) using GitHub Classroom, and will be submitted to Gradescope as PDF files. This means that the following steps are required for each assignment^[Note that you do not actually have to solve your assignments using the provided notebook: we aren't going to grade your code, so if you want to solve the problems separately and write up your solutions in something like Microsoft Word (with figures), that's fine. But, in this case, I would make sure your code is synced with GitHub in case there are any questions about how you got your solutions].
+
+If you are totally new to `git`, you can go through the [Software Carpentry "Version Control with Git" course](https://swcarpentry.github.io/git-novice/), which includes links to [several `git` cheatsheets](https://swcarpentry.github.io/git-novice/reference.html).
+
+## Accepting Assignments
+
+When an assignment is released, I will post a link to GitHub on Ed Discussion. Clicking on this link will cause you to "accept" the assignment from GitHub Classroom. This means that GitHub will create a repository under your account which duplicates the repository I've released. 
+
+The first time you accept an assignment (probably Lab 1), you will need to link your GitHub account to the course roster before you can accept the assignment. If you find that either your spot in the course roster has already been assigned to a different GitHub account or that you are not on the roster, please reach out ASAP.
+
+Because GitHub Classroom creates a new repository for you, **you should not use the "template" repository**, as you will be unable to push any changes back to GitHub. In other words, do not clone a repository with the name `bee-envsys-cornell/hwx.git` or `bee-envsys-cornell/labx.git`, but look for a repository named like `bee-envsys-cornell-FA25/<your-username>-hwx.git`. If you accidentally clone the template repository, do not worry: you can re-clone your repository and move any files you edited to the new location.
+
+## Syncing Changes To GitHub
+
+You are not required to engaged with GitHub beyond accepting and cloning assignment repositories to your local computer. However, to 
+
+* learn how to work more fluently with version control^[A hireable skill that you should put on your resume!];
+* prepare to work with a group on your project; or
+* ask for help^[It's much easier for us (or your classmates) to look at a file on GitHub, especially if you can provide line numbers of the code section(s) that you are unsure about];
+
+it is useful to **commit** and **push** your files to GitHub so they are synced with the remote repository hosted by GitHub. We will walk through each of these steps, as well as **pulling** changes back from the remote repository to your local machine^[Which you should always do before making any changes locally to avoid so-called [fast-forward errors](https://docs.github.com/en/get-started/using-git/dealing-with-non-fast-forward-errors).].
+
+
+`git` works by saving "snapshots" of sequences of changes to the files tracked in a repository. Once one of these "snapshots" is saved, `git` automatically tracks the changes to the files that were changed between earlier saved "snapshots" and the current one; this means that visually, the repository directory just looks like the set of files without any redundancies for previous versions^[Contrast this with a form of version control which you may have used before, where you save many different versions of files reflecting different changes, such as `assignment_v1.ipynb`, `assignment_v2.ipynb`, ..., `assignment_v10.ipynb`, etc.]. 
+
+Changes to files are recorded through **commits**, which keep track of the states of a set of files and tags them with a message which reflects the changes which were made^[A good commit message should *succintly* reflect the purpose of those changes: write "Solve problem 2" instead of listing all of the changes to files.]. The commit-based approach is useful because it lets you see exactly what was changed for a given commit (using `git diff <filename>`) and to roll back changes associated with a particular commit if you decide that the changes were bad, and by looking at the commit messages you can see a history of the purpose of changes to the code.
+
+How do you commit changes? Let's suppose that you're working on Homework 1, with a file called `hw01.ipynb`. You have tried solving problems 1 and 2 and would like to save those changes to GitHub instead of just locally^[In an ideal world, you'd have committed the changes after you solve problem 1, but let's say you skipped that step].
+
+1. You need to **add** the file(s) which had changes you want to record (you don't have to do this for all files which have changes, just the ones you want to associate with this commit). From a terminal:
+   ```bash
+   git add hw01.ipynb <optionally add other files in a list> 
+   ```
+
+   You can also use a GitHub GUI^[I don't have any experience with this, but there should be instructions] or the VS Code git interface (which we will discuss in class).
+2. Then commit the changes:
+   ```bash
+   git commit -m "Solved problems 1 and 2"
+   ```
+3. Finally, push the changes to the remote repository:
+   ```bash
+   git push
+   ```
+
+Once you start working with GitHub, you'll want to ensure that your repositories are synced before you make any local changes, as many GitHub errors are caused by commit sequences which are out of sync^[For example, you make changes on your computer at home, commit and push them, and then use your laptop to make changes but not starting from the same point that you left off.]. To do this, you should reflexively use `git pull` before making any changes; this will sync your local repository with the last committed state of the remote repository.
+
+## Exporting To PDF
+
+Eventually, you will need to convert your solution to a PDF. This can be a little tricky with Jupyter Notebooks. Before you do anything, **make sure you run all of your notebook cells *in order***.
+
+The most direct option uses a Python package called `nbconvert`, which requires both [Python](https://www.python.org/downloads/) and [`nbconvert` to be installed](https://nbconvert.readthedocs.io/en/latest/install.html#installing-nbconvert). Using this route, you can convert to an HTML website and then save that website to a PDF, or (if you have LaTeX installed; I wouldn't encourage this if you don't have any other need for it) you can convert directly to a PDF.
+
+Some other options include:
+
+* [nbviewer](https://nbviewer.org/): share the GitHub URL of your notebook and it will render it. There are sometimes weird issues with images.
+* [binder](https://mybinder.org/)
+* [fastpages](https://fastpages.fast.ai/): this will use some code to automatically render your might require a little bit of setup with your GitHub repository, but I'm happy to help if you decide to go this route.
+
+In the absolute worst case, if you are unable to get any of these solutions to work, send us (on Ed) a link to your GitHub repository. We will take the last commited version of your notebook which was before the due date and can render it as a PDF for you.
+
+## Submitting to Gradescope
+
+Submitting solution PDFs to Gradescope should be straightforward. The most important things are:
+
+* Make sure to tag pages associated with a given problem! Not doing this creates a lot of extra work for the TA and will result in a 10% penalty. If you make a mistake tagging and this results in a loss of points, you can file a regrade request.
+* Gradescope will automatically flag an assignment as late if it is received after the due date/time (typically 9:00pm on the due date). You will not be able to submit after the late deadline (typically 24 hours after the original due date/time). If you need an extension to either the regular or late due dates, please reach out to the course staff ahead of the due date; our options to facilitate extensions afterwards are limited as we will upload solutions after the late deadline.

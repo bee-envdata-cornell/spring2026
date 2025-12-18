@@ -1,0 +1,18 @@
+---
+title: "Setup"
+---
+
+## Setting Up Computing Environment
+
+Getting set up for this course requires the following steps, if you haven't done them for a previous course, club, or project:
+
+1. [Install `git`](git.qmd) on your machine if necessary. 
+2. [Install Julia](julia.qmd) using the `juliaup` tool.
+3. [Install and set up VS Code](vscode.qmd) if you don't already have an editor you'd like to use. VS Code is an editor of choice for Julia, as it as a rich and well-supported Julia extension. If you have a different coding environment, please find instructions for how to set it up to edit Julia.
+
+
+::: {.callout-warning}
+## Mac Versions
+
+If you have a Mac, be aware if you have an Apple Silicon (M1 or M2) Mac or an Intel Mac. Many of the installations you will go through in this exercise have different versions for each processor type, and the program may not work properly if you still the wrong version. There's nothing that can't be undone, but it's easier to be install the correct version first!
+:::

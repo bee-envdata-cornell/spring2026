@@ -1,20 +1,7 @@
 [submodule "hw/hw01"]
 	path = hw/hw01
 	url = https://github.com/BEE4850/hw01
-	branch = Spring25
-[submodule "hw/hw02"]
-	path = hw/hw02
-	url = https://github.com/BEE4850/hw02
-	branch = Spring25
-[submodule "hw/hw03"]
-	path = hw/hw03
-	url = https://github.com/BEE4850/hw03
-	branch = Spring25
-[submodule "hw/hw04"]
-	path = hw/hw04
-	url = https://github.com/BEE4850/hw04
-	branch = Spring25
-[submodule "hw/hw05"]
-	path = hw/hw05
-	url = https://github.com/BEE4850/hw05
-	branch = Spring25
+	branch = Spring26
+[submodule "labs/lab01"]
+	path = labs/lab01
+	url = https://github.com/bee-envdata-cornell/lab01.git

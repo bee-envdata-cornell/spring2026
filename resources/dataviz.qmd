@@ -1,0 +1,10 @@
+---
+title: "Data Visualization"
+
+---
+
+Here are some resources on types of data visualizations and best practices:
+
+* [Visualization Theory](https://www.youtube.com/playlist?list=PLe9dkYfBBHFnT2jzy1tsd0Wn8AFENSxfj) YouTube series by Dr. Lace Padilla
+* [Data Viz Catalogue](https://datavizcatalogue.com/)
+* [Data Visualization: A Practical Introduction](https://socviz.co/) by Dr. Kieran Healy

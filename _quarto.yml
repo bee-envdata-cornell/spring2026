@@ -5,13 +5,15 @@ project:
 
 website:
   page-navigation: true
-  title: "BEE 4850 - Spring 2025"
-  description: "Homepage for BEE 4850/5850, Environmental Data Analysis and Simulation, at Cornell University, Spring 2025."
-  site-url: "https://envdata.viveks.me/spring2025"
-
-  repo-url: https://github.com/bee-envdata-cornell/spring2025
+  title: "Environmental Systems Analysis"
+  description: "Homepage for the Fall 2025 version of BEE 4750/5750, Environmental Systems Analysis, at Cornell University."
+  site-url: "https://envsys.viveks.me/fall2025"
+  repo-url: https://github.com/bee-envsys-cornell/fall2025
+  repo-actions: [edit, issue]
+  favicon: _assets/logos/favicon.png
 
   open-graph: true
+
 
   page-footer:
     left: |
@@ -23,104 +25,123 @@ website:
       Made with [Julia](https://julialang.org) and [Quarto](https://quarto.org/)<br>
       [View the source at {{< fa brands github >}} GitHub]({{< var course.github >}})
 
+  navbar:
+    pinned: true
+    background: "#f7f7f7"
+    title: "{{< var course.number >}}"
+    search: true
+    left:
+      - text: "Info"
+        menu:
+          - syllabus.qmd
+          - policies/index.qmd
+          - faq/index.qmd
+          - setup/index.qmd
+      - schedule.qmd
+      - text: "Coursework"
+        menu:
+          - labs/index.qmd
+          - hw/index.qmd
+          - project/index.qmd
+      - text: "Resources"
+        menu:
+          - tutorials/index.qmd
+          - resources/general.qmd
+          - resources/julia.qmd
+          - resources/ai.qmd
+          - resources/github.qmd
+          - resources/markdown.qmd
+          - resources/dataviz.qmd
+    right:
+      - href: https://github.com/bee-envsys-cornell/fall2025
+        text: "{{< fa brands github >}} GitHub"
+        aria-label: "GitHub"
+      - href: https://canvas.cornell.edu
+        text: "{{< fa regular notebook >}} Canvas"
+        aria-label: "Canvas"
+      - text: "{{< fa regular comments >}} Ed"
+        aria-label: "Ed Discussion"
+        url: https://edstem.org
+      - text: "{{< fa regular chart-simple >}} Gradescope"
+        url: https://gradescope.com
+        aria-label: "Gradescope"
 
   sidebar:
-    style: docked
-    align: center
-    border: true
-    logo: _assets/logos/cornell_logo_simple_b31b1b.svg
-    title: "{{< var course.title >}}"
-    search: true
-    tools: 
-      - icon: github
-        href: https://github.com/bee-envdata-cornell/spring2025
-        text: "Github Repository"
-      - icon: journal-check
-        href: https://canvas.cornell.edu
-        text: "Canvas"
-      - icon: chat-fill
-        text: "Ed Discussion"
-        url: https://edstem.org
-      - icon: bar-chart-fill
-        text: "Gradescope"
-        url: https://gradescope.com
-    collapse-level: 1
-    contents:
-      - section: "Course Information"
-        contents:
-          - href: index.qmd
-            text: Overview
-          - href: syllabus.qmd
-            text: Syllabus
-          - href: schedule.qmd
-            text: Class Schedule
-      - section: "Weeks"
-        contents:
-          - href: weeks/week01.qmd
-            text: "Week 1"
-          - href: weeks/week02.qmd
-            text: "Week 2"
-          - href: weeks/week03.qmd
-            text: "Week 3"
-          - href: weeks/week04.qmd
-            text: "Week 4"
-          - href: weeks/week05.qmd
-            text: "Week 5"
-          - href: weeks/week06.qmd
-            text: "Week 6"
-          - href: weeks/week07.qmd
-            text: "Week 7"
-          - href: weeks/week08.qmd
-            text: "Week 8"
-          - href: weeks/week09.qmd
-            text: "Week 9"
-          - href: weeks/week10.qmd
-            text: "Week 10"
-          - href: weeks/week11.qmd
-            text: "Week 11"
-          - href: weeks/week12.qmd
-            text: "Week 12"
-          - href: weeks/week13.qmd
-            text: "Week 13"
-      - section: homework.qmd
-        text: "Homework"
-        contents:
-          - href: rubrics/standard.qmd
-            text: "Standard Rubric"
-          - href: hw/hw01/hw01.qmd
-            text: "Homework 01"
-          - href: hw/hw02/hw02.qmd
-            text: "Homework 02"
-          - href: hw/hw03/hw03.qmd
-            text: "Homework 03"
-          - href: hw/hw04/hw04.qmd
-            text: "Homework 04"
-          - href: hw/hw05/hw05.qmd
-            text: "Homework 05"
-      - project.qmd
-      - lit_critique.qmd
-      - section: "Julia Tutorials"
-        contents:
-          - href: tutorials/julia-basics.qmd
-            text: Julia Basics
-          - href: tutorials/julia-plots.qmd
-            text: Making Plots
-          - href: tutorials/turing-mcmc.qmd
-            text: MCMC with Turing
-      - section: "Resources"
-        contents:
-          - href: resources/homework.qmd
-            text: Homework Policies
-          - href: resources/data.qmd
-            text: Data Sources
-          - href: resources/ai.qmd
-            text: Generative AI and LLMs
-          - href: resources/github.qmd
-            text: git and GitHub
+    - title: "Course Policies"
+      style: docked
+      search: false
+      background: "#f7f7f7"
+      contents:
+        - section: "Policies"
+          href: policies/index.qmd
+        - section: "Expectations"
+          contents:
+          - policies/integrity.qmd
+          - policies/groups.qmd
+        - section: "Grading"
+          contents:
+          - policies/grading.qmd
+          - policies/rubric.qmd
+          - policies/homework.qmd
+          - policies/exam.qmd
+    - title: "Setup and Workflow"
+      contents:
+        - section: "Tools Setup"
+          href: setup/index.qmd
+        - section: "Software"
+          contents: 
+          - setup/julia.qmd
+          - setup/git.qmd
+          - setup/vscode.qmd
+        - section: "Workflow"
+          contents:
+            - setup: setup/homework.qmd
+    - title: "Labs"
+      style: docked
+      search: false
+      background: "#f7f7f7"
+      contents:
+        - href: labs/index.qmd
+          text: "Lab Overview"
+        - href: labs/lab01/lab01.qmd
+          text: "Lab 1: Data Visualization"  
+    - title: "Homework"
+      style: docked
+      search: false
+      background: "#f7f7f7"
+      contents:
+        - href: hw/index.qmd
+          text: "Homework Overview"
+        - href: hw/hw01/hw01.qmd
+          text: "Homework 1: Intro and EDA"
+    - title: "Project"
+      style: docked
+      search: false
+      background: "#f7f7f7"
+      contents:
+        - href: project/index.qmd
+          text: "Project Overview"
+        - href: project/proposal.qmd
+          text: "Proposal"
+        - href: project/presentation.qmd
+          text: "Presentation"
+        - href: project/peer-review.qmd
+          text: "Peer Review"
+        - href: project/report.qmd
+          text: "Report"
+        - href: project/evaluations.qmd
+          text: "Team Evaluations"
+    - title: "Tutorials"
+      style: docked
+      search: false
+      background: "#f7f7f7"
+      contents:
+        - tutorials/index.qmd
+        - tutorials/julia-basics.qmd
+        - tutorials/latex-notebook.qmd
+        - tutorials/julia-plots.qmd
 format:
   html:
-    grid:
-      gutter-width: 1em
     theme: 
       [simplex, sass/theme.scss]
     mainfont: "Atkinson Hyperlegible"
@@ -132,8 +153,15 @@ format:
     reference-location: margin
     citation-location: margin
     code-annotations: select
+    html-math-method: mathjax
+    include-in-header: mathjax-config.html
+    footnotes-hover: false
 
 bibliography: references.bib
 csl: _assets/references/american-geophysical-union.csl
-execute:
-  freeze: auto
+
+engine: julia
+julia:
+  exeflags: ["+1.11.5"]
+execute: 
+  freeze: auto  

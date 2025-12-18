@@ -10,17 +10,37 @@ $font-family-serif: "Source Serif Pro", "IBM Plex Serif", serif;
 
 $headings-font-family: $font-family-serif;
 
+$body-bg: black;
+$body-color: #f7f7f7;
+$link-color: lightskyblue;
+
+// Navigation element colors
+$footer-bg: #A2998B;
+$footer-fg: #f7f7f7;
+$navbar-bg: #222222;
+$navbar-fg: #f7f7f7;
+$sidebar-bg: #A2998B;
+$sidebar-fg: #f7f7f7;
+
+// Bootstrap popovers
+$popover-bg: #222222;
+$pop-over-fg: #222222;
 
 $code-block-bg: #222222;
 $code-bg: #222222;
 
 // Bootstrap inputs
+$input-bg: #222222;
 
 
 /*-- scss:rules --*/
 
 .cell-output pre {
   background: #444444;
+}
+
+.layout-example {
+  background: $gray-700;
 }
 
 

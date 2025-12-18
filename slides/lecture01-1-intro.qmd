@@ -4,7 +4,7 @@ subtitle: "Lecture 01"
 author: "Vivek Srikrishnan"
 course: "BEE 4850"
 institution: "Cornell University"
-date: "January 22, 2025"
+date: "January 21, 2026"
 format:
     revealjs:
         slide-number: c/t
@@ -33,9 +33,11 @@ format:
         mermaid: 
             theme: dark
 engine: julia
+julia:
+  exeflags: ["+1.11.5"]
 ---
 
-# Course Overview
+# Course Introduction
 
 ## About Me
 
@@ -52,147 +54,13 @@ engine: julia
 ![My Supervisors](figures/cats.png){width=30%}
 :::
 
+## TA
+
 ## What Do You Hope To Get Out Of This Course?
 
 Take a moment, write it down, and we'll share!
 
-# Course Motivation
-
-## Why Does Data Analysis Matter?
-
-- Scientific insight;
-- Decision-making;
-- Understanding uncertainty
-
-## The Ideal
-
-:::: {.columns}
-::: {.column width=50%}
-**Goal**: Obtain data that is so self-evident that you don't need to do statistics!
-:::
-::: {.column width=50%}
-![XKCD 2400](https://imgs.xkcd.com/comics/statistics.png){width=60%}
-
-::: {.caption}
-Source: [XKCD 2400](https://xkcd.com/2400/)
-:::
-:::
-::::
-
-## But in Actuality
-
-- Except in the most controlled experiments, **data are noisy**;
-- The **causes** of the data cannot be extracted from the data alone;
-- The **reasons** for statistical analyses are not found in the data themselves.
-
-## Unique/Challenging Features Of Data
-
-There are many features of environmental (and biological!) data which make data analysis interesting and hard.
-
-## Extreme Events
-
-::: {.center}
-![Extreme Events](figures/dossgollin-keller-2023_extreme.jpeg)
-:::
-::: {.caption}
-Source: @Doss-Gollin2023-kl
-:::
-
-## Extreme Events
-
-::: {.center}
-![XKCD 2107](https://imgs.xkcd.com/comics/launch_risk.png){width=25%}
-:::
-::: {.caption}
-Source: [XKCD 2107](https://xkcd.com/2107/)
-:::
-
-## Correlated Uncertainties
-
-::: {.center}
-::: {.layout-ncol=2}
-![Correlations](figures/errickson-2021_correlations.png){width=30%}
-![Projections](figures/errickson-2021_projections.png){width=60%}
-:::
-::: {.caption}
-Source: @Errickson2021-kr
-:::
-:::
-
-## Non-Stationarity
-
-::: {.center}
-![Non-Stationary Trends](figures/fagnant-etal-2020_prcip.png){width=90%}
-:::
-::: {.caption}
-Source: @Fagnant2020-xu
-:::
-
-## Forcing & Model Uncertainty
-
-::: {.center}
-![Different Uncertainties for SLR](figures/dossgollin-keller-2023_slr.jpeg)
-:::
-::: {.caption}
-Source: @Doss-Gollin2023-kl
-:::
-
-## Deep Uncertainty
-
-::: {.center}
-![Deep Uncertainty for Future Climate Projections](figures/srikrishnan-etal-2022_co2.png)
-:::
-::: {.caption}
-Source: @Srikrishnan2022-yq
-:::
-
-## Causation Is Not Association
-
-:::: {.columns}
-::: {.column width=50%}
-- We've all heard "correlation (**association**) does not imply causation"
-- But confounds/noise can mean **causation does not imply association**
-:::
-::: {.column width=50%}
-
-::: {.center}
-![Correlation not Causation Meme](memes/causation_not_correlation.jpg){width=60%}
-:::
-::: {.caption}
-Source: Richard McElreath
-:::
-
-:::
-::::
-
-## Description and Inference are Connected
-:::: {.columns}
-::: {.column width=50%}
-Except for superficial tasks: 
-
-- Knowing what is important to describe requires a model;
-- Understanding how the data might differ from the population requires a model.
-
-:::
-
-::: {.column width=50%}
-::: {.center}
-![Spidermen Meme](memes/spidermen-description-inference.jpg){width=100%}
-:::
-:::
-::::
-
-## Some Problems With The "Standard" Data Analysis Toolkit
-
-::: {.incremental}
-- Statistical assumptions may not be valid;
-- "Null" vs "Alternative" hypotheses and tests may be chosen for computational convenience, not scientific relevance.
-- Many different **substantive** models can imply the same **statistical** model.
-:::
-
-::: {.fragment .fade-in}
-**Important**: "Big" data doesn't solve the problem!
-:::
+# What We Are Doing This Semester?
 
 ## My Philosophical Position
 
@@ -235,23 +103,25 @@ Models are how we assess evidence for theories.
 
 ```{mermaid}
 timeline
-      Introduction (Weeks 1-2): Overview
-                  : Hypothesis Testing and Scientific Inference
-      Probability Fundamentals (Weeks 2-5): Prob/Stats "Review"
+      Introduction and Exploratory Analysis (Weeks 1-2): Overview
+                  : Why Analyze Data?
+                  : Exploratory Analysis
+                  : Data Visualization
+      Probability Fundamentals (Weeks 3-6): Prob/Stats "Review"
                                           : Modeling Data-Generating Processes
-                                          : Bayesian Statistics
+                                          : Maximum Likelihood
                                           : Time Series
-                                          : Model Fitting
-      Simulation Methods (Weeks 6-7): Monte Carlo
-                                    : Bootstrap
-      Model Evaluation (Weeks 8-9): Cross-Validation
-                      : Model Selection
-      Useful Models (Weeks 10-13): Extreme Values
-                                 : Missing Data
-                                 : Mixture Models
-                                 : Gaussian Processes
-      Experimental Design (Weeks 14): Confounds
-                                       : Controls and Designing Experiments
+                                          : Extreme Values
+      Simulation Methods (Weeks 7-10): Random Simulation
+                                    : Monte Carlo
+                                    : The Bootstrap
+                                    : Missing Data and Imputation
+      Model Evaluation (Weeks 12-13): Bias and Variance
+                      : Cross-Validation
+                      : Hypothesis Testing
+                      : Information Criteria
+      Experimental Design (Weeks 14-15): Causal Models and Confounds
+                                 : Value of Information
 
 ```
 
@@ -277,12 +147,12 @@ timeline
 
 | Assessment | Weight |
 |:-----------|-----------:|
-| Participation | 5% |
+| Literature Critique/Participation | 5% |
+| Labs | 10% |
 | Readings | 10% |
-| Quizzes | 10% |
-| Literature Critique | 15% |
-| Homework Assignments | 30% |
-| Term Project | 30% |
+| Homework Assignments | 20% |
+| Prelims | 30% |
+| Term Project | 25% |
 
 
 ## Overall Guidelines
@@ -295,6 +165,7 @@ timeline
 
 ## Literature Critique
 
+- For 5850 students
 - Select a paper which involves some type of statistical or data analysis
 - Critique choices: do they support the scientific conclusions?
 - Submit a 2-3 page writeup at the end of the semester
@@ -304,38 +175,46 @@ timeline
 
 - Several readings assigned for discussion throughout the semester.
 - Annotation assignments on Canvas: by end of the week.
-- Will discuss paper at start of class next Monday.
-- **5850 students**: Write a one-page summary.
+- Submit 1 page summary by next Monday, including description of key points and how they related to the course.
+- The more personal the reflections, the better.
 
-## Quizzes
+## Labs
 
-- Assigned on Gradescope (almost) weekly.
-- Short (2-3 problems), focused on material from that week.
-- Due before class next Monday.
+- In-class worksheets
+- Intended to get hands on or conceptual practice
+- Group collaboration encouraged, can submit jointly.
+- Should be able to do most of the work in class, due the next week.
 
 ## Homework Assignments
 
-- More in-depth problems
+- More in-depth problems, mostly computational
 - Roughly 2 weeks to complete
 - Regrade requests must be made within one week
-- **5850 Students**: Some extra problems
+
+## Prelims
+
+- Two in-class (non-cumulative) prelims.
+- Will focus on conceptual/interpretative problems.
 
 ## Term Project
 
-- Analyze a data set of interest using model(s) of your choice
+- Analyze a question of interest using a data set of your choosing
 - Can work individually or groups of 2
 - Several deliverables throughout the semester
-- Final in-class presentation and report
+
+## Term Project Structure
+
+- Updates due as we progress through material.
+- Final report due during finals week.
 
 ## Attendance
 
 Not required, but students tend to do better when they're actively engaged in class.
 
-
 ## Office Hours
 
-- **Instructor**: MW 1-2 PM, 318 Riley-Robb
-- **TA**: MTh 10:30-11:30 AM, 319 Riley-Robb
+- **Instructor**: MWTh 10-11 AM, 318 Riley-Robb
+- **TA**: TBD
 - Almost impossible to find a time that works for all (or even most); please feel free to make appointments as/if needed.
 
 ## Accomodations
@@ -394,7 +273,7 @@ Better: Use Ed Discussion and reserve email for matters that are particular urge
 
 ## Course Website
 
-<https://viveks.me/simulation-data-analysis>
+<https://envdata.viveks.me/spring-2026/>
 
 - Central hub for information, schedule, and policies
 - Will add link and some information to Canvas (assignment due dates, etc)
@@ -414,12 +293,11 @@ Better: Use Ed Discussion and reserve email for matters that are particular urge
 
 ## Next Classes
 
-- Hypothesis testing and decision-making
-- Generative models
+- Why Analyze Data?
 
 ## Assessments
 
-**Homework 1** available; due *next* Friday (2/7).
+**Homework 1** available; due Friday (2/9).
 
 # References
 
