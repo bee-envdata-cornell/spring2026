@@ -8,7 +8,5 @@
 /.condaenv/
 *_cache/
 /env/
-/site_libs/
-
 
 /.luarc.json
