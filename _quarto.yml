@@ -5,10 +5,10 @@ project:
 
 website:
   page-navigation: true
-  title: "Environmental Systems Analysis"
-  description: "Homepage for the Fall 2025 version of BEE 4750/5750, Environmental Systems Analysis, at Cornell University."
-  site-url: "https://envsys.viveks.me/fall2025"
-  repo-url: https://github.com/bee-envsys-cornell/fall2025
+  title: "Environmental Data Analysis & Simulation"
+  description: "Homepage for the Spring 2026 version of BEE 4850/5850, Environmental Data Analysis & Simulation, at Cornell University."
+  site-url: "https://envdata.viveks.me/spring2026/"
+  repo-url: https://github.com/bee-envdata-cornell/spring2026/
   repo-actions: [edit, issue]
   favicon: _assets/logos/favicon.png
 
@@ -53,7 +53,7 @@ website:
           - resources/markdown.qmd
           - resources/dataviz.qmd
     right:
-      - href: https://github.com/bee-envsys-cornell/fall2025
+      - href: https://github.com/bee-envdata-cornell/spring2026/
         text: "{{< fa brands github >}} GitHub"
         aria-label: "GitHub"
       - href: https://canvas.cornell.edu

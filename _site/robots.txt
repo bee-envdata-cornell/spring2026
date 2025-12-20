@@ -1,1 +1,1 @@
-Sitemap: https://envsys.viveks.me/fall2025/sitemap.xml
+Sitemap: https://envdata.viveks.me/spring2026/sitemap.xml
