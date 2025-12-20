@@ -7,8 +7,8 @@ website:
   page-navigation: true
   title: "Environmental Data Analysis & Simulation"
   description: "Homepage for the Spring 2026 version of BEE 4850/5850, Environmental Data Analysis & Simulation, at Cornell University."
-  site-url: "https://envdata.viveks.me/spring2026/"
-  repo-url: https://github.com/bee-envdata-cornell/spring2026/
+  site-url: "https://envdata.viveks.me/spring2026"
+  repo-url: https://github.com/bee-envdata-cornell/spring2026
   repo-actions: [edit, issue]
   favicon: _assets/logos/favicon.png
 
@@ -121,16 +121,8 @@ website:
       contents:
         - href: project/index.qmd
           text: "Project Overview"
-        - href: project/proposal.qmd
-          text: "Proposal"
-        - href: project/presentation.qmd
-          text: "Presentation"
-        - href: project/peer-review.qmd
-          text: "Peer Review"
         - href: project/report.qmd
           text: "Report"
-        - href: project/evaluations.qmd
-          text: "Team Evaluations"
     - title: "Tutorials"
       style: docked
       search: false

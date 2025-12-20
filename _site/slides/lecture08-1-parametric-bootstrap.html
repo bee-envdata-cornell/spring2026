@@ -3588,7 +3588,7 @@ Efron, B. (1979). <span class="nocase">Bootstrap methods: Another look at the ja
         }
           var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
           var mailtoRegex = new RegExp(/^mailto:/);
-            var filterRegex = new RegExp("https:\/\/envdata\.viveks\.me\/spring2026\/");
+            var filterRegex = new RegExp("https:\/\/envdata\.viveks\.me\/spring2026");
           var isInternal = (href) => {
               return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
           }

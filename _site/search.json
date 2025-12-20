@@ -259,53 +259,53 @@
     ]
   },
   {
-    "objectID": "project/report.html",
-    "href": "project/report.html",
-    "title": "Project Report Instructions",
+    "objectID": "project/index.html",
+    "href": "project/index.html",
+    "title": "Term Project",
     "section": "",
-    "text": "These are the instructions for your final project report. The report should be submitted on Gradescope during finals week, but no later than May 17, 2024.",
+    "text": "The term project gives you an opportunity to use and extend the methods we have learned in class to an environmental data set and/or model of your choosing. More details will be provided over the semester. We will discuss each component in class as well as providing relevant information on this page.",
     "crumbs": [
-      "Report"
+      "Project Overview"
     ]
   },
   {
-    "objectID": "project/report.html#report-guidelines",
-    "href": "project/report.html#report-guidelines",
-    "title": "Project Report Instructions",
-    "section": "Report Guidelines",
-    "text": "Report Guidelines\nThe proposal should have the following components with 1 inch margins (on all sides) and at least 11 point font. Some of this may be repeated from your proposal and/or simulation study; this is fine.\n\nBackground: Provide background on your project topic and the relevant environmental system. Why is this topic interesting or valuable to understand? What are you trying to understand or what do you hyptohesize?\nData and Models: What data are you using? Provide exploratory plots. What model(s) are you using to explore the data and your hypotheses? Include details about the probability or statistical assumptions your model is making and how well-founded you think these are in light of the system and the data.\nResults: What have you learned from your analysis? Were your hypotheses well founded? What visual or quantative evidence are you using to support these conclusions?\nDiscussion: Reflect on the data and models that you used. How well suited were they for the analysis? In retrospect, what might have been better? How might they have biased or influenced your results?\nReferences: Make sure to include any external sources referenced during the course of completing your project.\n\nYou do not need to include any code in your reports, but if you do, please reserve this for an appendix at the end of the report, not mixed in with the above sections. If you generated a figure or fit a model using the code, include the figure along with the relevant text but do not include code. There is no page minimum or maximum on the report, but it should include, clearly, all of the above content.",
-    "crumbs": [
-      "Report"
-    ]
-  },
-  {
-    "objectID": "project/presentation.html",
-    "href": "project/presentation.html",
-    "title": "Project Presentation Instructions",
+    "objectID": "project/index.html#overview",
+    "href": "project/index.html#overview",
+    "title": "Term Project",
     "section": "",
-    "text": "m These are the instructions for your final project presentation, which will be given in class on May 6, 2024.",
+    "text": "The term project gives you an opportunity to use and extend the methods we have learned in class to an environmental data set and/or model of your choosing. More details will be provided over the semester. We will discuss each component in class as well as providing relevant information on this page.",
     "crumbs": [
-      "Presentation"
+      "Project Overview"
     ]
   },
   {
-    "objectID": "project/presentation.html#presentation-submission",
-    "href": "project/presentation.html#presentation-submission",
-    "title": "Project Presentation Instructions",
-    "section": "Presentation Submission",
-    "text": "Presentation Submission\nPlease submit your slides in PDF format by email to Prof. Srikrishnan no later than Friday, May 3, 2024.",
+    "objectID": "project/index.html#instructions",
+    "href": "project/index.html#instructions",
+    "title": "Term Project",
+    "section": "Instructions",
+    "text": "Instructions\n\nStudents can work individually or in groups of 2.\nIf the project is being done in a group, the proposal should also include a plan for the allocation of duties to each group member (not included in the 2 page limit).\nThe final project report should be no more than 5 pages (1-inch margins, 11 point Calibri font or equivalent), not including figures and references, but can include an appendix with additional details on methods.",
     "crumbs": [
-      "Presentation"
+      "Project Overview"
     ]
   },
   {
-    "objectID": "project/presentation.html#presentation-guidelines",
-    "href": "project/presentation.html#presentation-guidelines",
-    "title": "Project Presentation Instructions",
-    "section": "Presentation Guidelines",
-    "text": "Presentation Guidelines\nYour presentation should be short (10 minutes, which will be timed and strictly enforced in the interest of time). Your presentation should concisely describe your key question, your scientific hypothesis, and your results and conclusions. Note that a 10 minute presentation means that you should aim for no more than 5-6 slides (not including titles, transitions, or wrap-ups/references).",
+    "objectID": "project/index.html#schedule",
+    "href": "project/index.html#schedule",
+    "title": "Term Project",
+    "section": "Schedule",
+    "text": "Schedule\n\n\n\n\n\n\n\nMilestone\nDue Date\n\n\n\n\nProposal and Exploratory Analysis\nFri, Feb 11\n\n\nCandidate Models\nFri, Mar 13\n\n\nSimulation Study\nFri, Apr 10\n\n\nFinal Report\nFri, May 15",
     "crumbs": [
-      "Presentation"
+      "Project Overview"
+    ]
+  },
+  {
+    "objectID": "project/index.html#milestones",
+    "href": "project/index.html#milestones",
+    "title": "Term Project",
+    "section": "Milestones",
+    "text": "Milestones\nEach of the intermediate reports should be no more than 3 pages long, not including figures or references.\n\nThe proposal should state the core science question at the center of the project and any relevant hypotheses that will be tested and discuss why the data set is relevant for addressing that question. It should also include visual and quantitative exploratory analyses to identify key features of the data.\nThe candidate models report should finalize the scientific hypotheses for the question and translate them into statistical models which will be used for the analysis. It should include any diagnostics used to specify the probability model(s), the results of fitting the model(s), and any associated analyses to assess the appropriateness of the model specification(s).\nThe simulation study should include the results of any Monte Carlo and/or bootstrap analyses as relevant for the models and science question.\n\nThe final report should synthesize all of these findings and include any relevant model comparisons or hypothesis tests as well as any further analyses conducted in support of addressing the research question.",
+    "crumbs": [
+      "Project Overview"
     ]
   },
   {
@@ -6416,73 +6416,23 @@
     "text": "Tools and Generation Workflow\nThis website was built with Quarto, which allows me to integrate Julia code and output with the web content, pdfs, and slides in an amazingly clean fashion, while simplifying the process of generation. All materials can be generated through a simple workflow from the [GitHub Repository]."
   },
   {
-    "objectID": "project/index.html",
-    "href": "project/index.html",
-    "title": "Term Project",
+    "objectID": "project/report.html",
+    "href": "project/report.html",
+    "title": "Project Report Instructions",
     "section": "",
-    "text": "The term project gives you an opportunity to use and extend the methods we have learned in class to an environmental data set and/or model of your choosing. More details will be provided over the semester. We will discuss each component in class as well as providing relevant information on this page.",
+    "text": "These are the instructions for your final project report. The report should be submitted on Gradescope during finals week, but no later than May 17, 2024.",
     "crumbs": [
-      "Project Overview"
+      "Report"
     ]
   },
   {
-    "objectID": "project/index.html#overview",
-    "href": "project/index.html#overview",
-    "title": "Term Project",
-    "section": "",
-    "text": "The term project gives you an opportunity to use and extend the methods we have learned in class to an environmental data set and/or model of your choosing. More details will be provided over the semester. We will discuss each component in class as well as providing relevant information on this page.",
+    "objectID": "project/report.html#report-guidelines",
+    "href": "project/report.html#report-guidelines",
+    "title": "Project Report Instructions",
+    "section": "Report Guidelines",
+    "text": "Report Guidelines\nThe proposal should have the following components with 1 inch margins (on all sides) and at least 11 point font. Some of this may be repeated from your proposal and/or simulation study; this is fine.\n\nBackground: Provide background on your project topic and the relevant environmental system. Why is this topic interesting or valuable to understand? What are you trying to understand or what do you hyptohesize?\nData and Models: What data are you using? Provide exploratory plots. What model(s) are you using to explore the data and your hypotheses? Include details about the probability or statistical assumptions your model is making and how well-founded you think these are in light of the system and the data.\nResults: What have you learned from your analysis? Were your hypotheses well founded? What visual or quantative evidence are you using to support these conclusions?\nDiscussion: Reflect on the data and models that you used. How well suited were they for the analysis? In retrospect, what might have been better? How might they have biased or influenced your results?\nReferences: Make sure to include any external sources referenced during the course of completing your project.\n\nYou do not need to include any code in your reports, but if you do, please reserve this for an appendix at the end of the report, not mixed in with the above sections. If you generated a figure or fit a model using the code, include the figure along with the relevant text but do not include code. There is no page minimum or maximum on the report, but it should include, clearly, all of the above content.",
     "crumbs": [
-      "Project Overview"
-    ]
-  },
-  {
-    "objectID": "project/index.html#instructions",
-    "href": "project/index.html#instructions",
-    "title": "Term Project",
-    "section": "Instructions",
-    "text": "Instructions\n\nStudents can work individually or in groups of 2.\nIf the project is being done in a group, the proposal should also include a plan for the allocation of duties to each group member (not included in the 2 page limit).\nThe final project report should be no more than 5 pages (1-inch margins, 11 point Calibri font or equivalent), not including figures and references, but can include an appendix with additional details on methods.",
-    "crumbs": [
-      "Project Overview"
-    ]
-  },
-  {
-    "objectID": "project/index.html#schedule",
-    "href": "project/index.html#schedule",
-    "title": "Term Project",
-    "section": "Schedule",
-    "text": "Schedule\n\n\n\n\n\n\n\nMilestone\nDue Date\n\n\n\n\nProposal and Exploratory Analysis\nFri, Feb 11\n\n\nCandidate Models\nFri, Mar 13\n\n\nSimulation Study\nFri, Apr 10\n\n\nFinal Report\nFri, May 15",
-    "crumbs": [
-      "Project Overview"
-    ]
-  },
-  {
-    "objectID": "project/index.html#milestones",
-    "href": "project/index.html#milestones",
-    "title": "Term Project",
-    "section": "Milestones",
-    "text": "Milestones\nEach of the intermediate reports should be no more than 3 pages long, not including figures or references.\n\nThe proposal should state the core science question at the center of the project and any relevant hypotheses that will be tested and discuss why the data set is relevant for addressing that question. It should also include visual and quantitative exploratory analyses to identify key features of the data.\nThe candidate models report should finalize the scientific hypotheses for the question and translate them into statistical models which will be used for the analysis. It should include any diagnostics used to specify the probability model(s), the results of fitting the model(s), and any associated analyses to assess the appropriateness of the model specification(s).\nThe simulation study should include the results of any Monte Carlo and/or bootstrap analyses as relevant for the models and science question.\n\nThe final report should synthesize all of these findings and include any relevant model comparisons or hypothesis tests as well as any further analyses conducted in support of addressing the research question.",
-    "crumbs": [
-      "Project Overview"
-    ]
-  },
-  {
-    "objectID": "project/proposal.html",
-    "href": "project/proposal.html",
-    "title": "Project Proposal Instructions",
-    "section": "",
-    "text": "Your project should involve analyzing a data set of interest using probabilistic model-based simulation. The proposal is an opportunity to think through and articulate the core science question, hypotheses, data and modeling approaches, and get feedback about the plan.",
-    "crumbs": [
-      "Proposal"
-    ]
-  },
-  {
-    "objectID": "project/proposal.html#proposal-guidelines",
-    "href": "project/proposal.html#proposal-guidelines",
-    "title": "Project Proposal Instructions",
-    "section": "Proposal Guidelines",
-    "text": "Proposal Guidelines\nThe proposal should have the following components, and be no more than 3 pages (not including references and plots) with 1 inch margins (on all sides) and at least 11 point font.\n\nBackground: What is the scientific context of your project? What question are you trying to address and why does it matter? What are the hypotheses you are focusing on?\nData Overview: Where was the data obtained from? In what context was it collected (e.g. is it observational data, collected in a lab, or reconstructed) and what implications that might have for its use in testing your hypotheses? Include some exploratory analysis and plots. Are there errors included in the data? Will you need any auxiliary data?\nModel Specification: What model(s) are you proposing to use to study the data in the context of your hypotheses? If you’re using a numerical simulation model, what parameters will you treat as uncertain and what is the probability model for the residuals? If you’re using a statistical model, what choices are you making about distributions?\nReferences: Make sure to include any references cited in your proposal.",
-    "crumbs": [
-      "Proposal"
+      "Report"
     ]
   },
   {
