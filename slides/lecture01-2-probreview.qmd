@@ -1,0 +1,653 @@
+---
+title: "Probability Review"
+subtitle: "Lecture 02"
+author: "Vivek Srikrishnan"
+course: "BEE 4850"
+institution: "Cornell University"
+date: "January 23, 2026"
+format:
+    revealjs:
+        slide-number: c/t
+        show-slide-number: all
+        center-title-slide: true
+        width: 1280
+        height: 720
+        transition: none
+        toc: true
+        toc-depth: 1
+        toc-title: "Overview"
+        history: false
+        link-external-newwindow: true
+        theme: ../sass/slides.scss
+        template-partials:
+            - title-slide.html
+        menu:
+            numbers: true
+        html-math-method: mathjax
+        include-in-header: mathjax-config.html
+        date-format: long
+        email-obfuscation: javascript
+        chalkboard:
+            theme: whiteboard
+            buttons: true
+        mermaid: 
+            theme: dark
+engine: julia
+julia:
+    exeflags: ["+1.11.5"]
+filters:
+  - code-fullscreen
+---
+
+```{julia}
+#| output: false
+
+import Pkg
+Pkg.activate(@__DIR__)
+Pkg.instantiate()
+```
+
+```{julia}
+#| output: false
+
+using Random
+using DataFrames
+using DataFramesMeta
+using CSV
+using Dates
+using Distributions
+using ColorSchemes
+using Plots
+using StatsPlots
+using StatsBase
+using GLM
+using Optim
+using LaTeXStrings
+using Measures
+
+Random.seed!(1)
+
+plot_font = "Computer Modern"
+default(
+    fontfamily=plot_font,
+    linewidth=3, 
+    framestyle=:box, 
+    label=nothing, 
+    grid=false,
+    guidefontsize=18,
+    legendfontsize=16,
+    tickfontsize=16,
+    titlefontsize=20,
+    bottom_margin=10mm,
+    left_margin=5mm
+)
+```
+
+# Review
+
+## Last Class
+
+- Class Motivation
+- Policies (see [syllabus](../syllabus.qmd) if class missed)
+
+# Probability "Review"
+
+## What is Uncertainty?
+
+::: {.fragment .fade-in}
+::: {.quote}
+> ...A  departure  from  the  (unachievable)  ideal  of  complete  determinism...
+
+::: {.cite}
+--- @Walker2003-zi
+:::
+:::
+:::
+
+## Types of Uncertainty
+
+::: {.fragment .fade-in}
+:::: {.columns}
+::: {.column width=60%}
+
+| Uncertainty Type | Source | Example(s) |
+|:----------------:|:-------|:-----------|
+| ***Aleatory uncertainty*** | Randomness | Dice rolls, Instrument imprecision |
+| ***Epistemic uncertainty*** | Lack of knowledge | Climate sensitivity, Premier League champion|
+
+:::
+::: {.column width=40%}
+
+![Which Uncertainty Type Meme](memes/uncertainty_types.png){width=75%}
+
+:::
+::::
+:::
+
+::: {.notes}
+Note that the distinction between aleatory and epistemic uncertainty is somewhat arbitrary (aside from maybe some quantum effects). For example, we often think of coin tosses as aleatory, but if we had perfect information about the toss, we might be able to predict the outcome with less uncertainty. There's a famous paper by Persi Diaconis where he collaborated with engineers to build a device which could arbitrary bias a "fair" coin toss.
+
+But in practice, this doesn't really matter: the key thing is whether for a given model we're treating the uncertainty as entirely random (e.g. white noise) versus being interested in the impacts of that uncertainty on the outcome of interest. And there's a representation theorem by the Bayesian actuary Bruno de Finetti which shows that, under a condition called *exchangeability*, we can think of any random sequence as arising from an independent and identically distributed process, so the practical difference can collapse further.
+:::
+
+## Sources of Uncertainty
+
+::: {.fragment .fade-in}
+- Model structures
+- Parameters
+- **Data collection** (measurement/observation errors)
+:::
+
+## Probability
+
+Probability is a language for expressing uncertainty.
+
+The **axioms of probability** are straightforward:
+
+1. $\mathcal{P}(E) \geq 0$;
+2. $\mathcal{P}(\Omega) = 1$;
+3. $\mathcal{P}(\cup_{i=1}^\infty E_i) = \sum_{i=1}^\infty \mathcal{P}(E_i)$ for disjoint $E_i$.
+
+::: {.notes}
+The third is a generalization of the definition of independent events to sets of outcomes.
+:::
+
+## Frequentist vs Bayesian Probability
+
+:::: {.columns}
+::: {.column width=50%}
+**Frequentist**:
+
+- Probability as frequency over repeated observations.
+- Data are random, but parameters are not.
+- How consistent are estimates for different data?
+:::
+
+::: {.column width=50%}
+::: {.fragment .fade-in}
+**Bayesian**:
+
+- Probability as degree of belief/betting odds.
+- Data and parameters are random variables;
+- Emphasis on **conditional probability**.
+
+:::
+:::
+::::
+
+
+## But What, Like, **Is** Probability?
+
+:::: {.columns}
+::: {.column width=50%}
+Frequentist vs. Bayesian: different interpretations with some different methods and formalisms.
+
+We will freely borrow from each school depending on the purpose and goal of an analysis.
+:::
+
+::: {.column width=50%}
+![Definitions of Probability Meme](memes/probability_definitions.png)
+
+:::
+::::
+
+## Probability Distributions
+
+Distributions are mathematical representations of probabilities over a range of possible outcomes.
+
+$$x \to \mathbb{P}_{\color{green}\mathcal{D}}[x] = p_{\color{green}\mathcal{D}}\left(x | {\color{purple}\theta}\right)$$
+
+- ${\color{green}\mathcal{D}}$: probability distribution (often implicit);
+- ${\color{purple}\theta}$: distribution parameters
+
+## Sampling Notation
+
+To write $x$ is sampled from $\mathcal{D}(\theta)$:
+$$x \sim \mathcal{D}(\theta)$$
+
+For example, for a normal distribution:
+$$x \overset{\text{i.i.d.}}{\sim} \mathcal{N}(\mu, \sigma)$$
+
+::: {.notes}
+"i.i.d." means "identically and independently distributed.""
+:::
+
+## Probability Density Function
+
+A continuous distribution $\mathcal{D}$ has a probability density function (PDF) $f_\mathcal{D}(x) = p(x | \theta)$.
+
+The probability of $x$ occurring in an interval $(a, b)$ is
+$$\mathbb{P}[a \leq x \leq b] = \int_a^b f_\mathcal{D}(x)dx.$$
+
+**Important**: $\mathbb{P}(x = x^*)$ is zero!
+
+## Probability Mass Functions
+
+Discrete distributions have *probability mass functions* (PMFs) which are defined at point values, e.g. $p(x = x^*) \neq 0$.
+
+::: {.notes}
+Unlike continuous distributions, we can talk about the probability of individual values for discrete distributions, which a PMF provides versus a PDF. But in general these are the same things.
+:::
+
+
+## Cumulative Density Functions
+
+:::: {.columns}
+::: {.column width=50%}
+If $\mathcal{D}$ is a distribution with PDF $f_\mathcal{D}(x)$, the **cumulative density function** (CDF) of $\mathcal{D}$ is $F_\mathcal{D}(x)$:
+
+$$F_\mathcal{D}(x) = \int_{-\infty}^x f_\mathcal{D}(u)du.$$
+
+:::
+::: {.column width=50%}
+```{julia}
+#| label: fig-cdf-pdf
+#| fig-cap: Relationship of CDF and PDF
+#| layout-nrow: 2
+dist = TDist(4)
+x = -5:0.01:5
+q = 0.25
+p1 = plot(x, x -> cdf(dist, x), ylabel="Cumulative Density", xlabel=L"$x$", linewidth=3, label=false)
+plot!([-5, quantile(dist, q)], [q, q], color=:gray, linestyle=:dash, linewidth=2, label=false)
+plot!([quantile(dist, q), quantile(dist, q)], [0, q], color=:gray, linestyle=:dash, linewidth=2, label=false, size=(500, 300))
+
+p2 = plot(x, x -> pdf(dist, x), linewidth=3, ylabel="Density", xlabel=L"$x$", label=false)
+xpdf = -5:0.01:quantile(dist, q)
+plot!(xpdf, zeros(length(xpdf)), fillrange=pdf.(dist, xpdf), fillalpha=0.5, color=:gray, label=false, size=(500, 300))
+
+display(p1)
+display(p2)
+```
+:::
+::::
+
+## Relationship Between PDFs and CDFs
+
+Since $$F_\mathcal{D}(x) = \int_{-\infty}^x f_\mathcal{D}(u)du,$$
+
+if $f_\mathcal{D}$ is continuous at $x$, the Fundamental Theorem of Calculus gives:
+$$f_\mathcal{D}(x) = \frac{d}{dx}F_\mathcal{D}(x).$$
+
+::: {.notes}
+The value of the CDF is the amount of probability "below" the value. So e.g. for a one-sided statistical test, the p-value is the complement of the CDF at the value of the test statistic.
+:::
+
+## Quantiles
+
+:::: {.columns}
+::: {.column width=50%}
+The quantile function is the **inverse of the CDF**:
+
+$$q(\alpha) = F^{-1}_\mathcal{D}(\alpha)$$
+
+So $$x_0 = q(\alpha) \iff \mathbb{P}_\mathcal{D}(X < x_0) = \alpha.$$
+
+:::
+::: {.column width=50%}
+```{julia}
+#| label: fig-cdf-pdf-2
+#| fig-cap: Relationship of CDF and PDF
+#| layout-nrow: 2
+dist = TDist(4)
+x = -5:0.01:5
+q = 0.25
+p1 = plot(x, x -> cdf(dist, x), ylabel="Cumulative Density", xlabel=L"$x$", linewidth=3, label=false)
+plot!([-5, quantile(dist, q)], [q, q], color=:gray, linestyle=:dash, linewidth=2, label=false)
+plot!([quantile(dist, q), quantile(dist, q)], [0, q], color=:gray, linestyle=:dash, linewidth=2, label=false, size=(500, 300))
+
+p2 = plot(x, x -> pdf(dist, x), linewidth=3, ylabel="Density", xlabel=L"$x$", label=false)
+xpdf = -5:0.01:quantile(dist, q)
+plot!(xpdf, zeros(length(xpdf)), fillrange=pdf.(dist, xpdf), fillalpha=0.5, color=:gray, label=false, size=(500, 300))
+
+display(p1)
+display(p2)
+```
+:::
+::::
+
+## Measures of Central Tendency
+
+Common measures of "typical" values of a function $f$ of a random variable $Y \sim p_{\mathcal{D}}(y)$:
+
+1. **Mean** (or expected value): $$\mathbb{E}[f(Y)] = \int_Y f(y) p(y) dy$$
+2. **Median**: $q(0.50)$
+3. **Mode**: $\max_{Y} p(f(Y))$
+
+# More On Distributions
+
+## Distributions Are Assumptions
+
+**Specifying a distribution is making an assumption about observations and any applicable constraints.**
+
+Examples: If your observations are...
+
+- Continuous and fat-tailed? **Cauchy distribution**
+- Continuous and bounded? **Beta distribution**
+- Sums of positive random variables? **Gamma or Normal distribution**.
+
+
+## Statistics of Random Variables are Random Variables
+
+**The sum or mean of a random sample is itself a random variable**:
+
+$$\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i \sim \mathcal{D}_n$$
+
+::: {.fragment .fade-in}
+$\mathcal{D}_n$: The ***sampling distribution*** of the mean (or sum, or other estimate of interest).
+:::
+
+## Sampling Distributions
+
+![Illustration of the Sampling Distribution](figures/true-sampling.png)
+
+## Central Limit Theorem 
+
+If 
+
+- $\mathbb{E}[X_i] = \mu$ 
+- and $\text{Var}(X_i) = \sigma^2 < \infty$, 
+
+$$\begin{align*}
+&\bbox[yellow, 10px, border:5px solid red]
+{\lim_{n \to \infty} \sqrt{n}(\bar{X}_n - \mu ) = \mathcal{N}(0, \sigma^2)} \\
+\Rightarrow &\bbox[yellow, 10px, border:5px solid red] {\bar{X}_n \overset{\text{approx}}{\sim} \mathcal{N}(\mu, \sigma^2/n)}
+\end{align*}$$
+
+## Central Limit Theorem (More Intuitive)
+
+:::: {.columns}
+::: {.column width=50%}
+For **a large enough set of samples**, the sampling distribution of a sum or mean of random variables is approximately a normal distribution, even if the random variables themselves are not.
+:::
+::: {.column width=50%}
+![Small n Meme](memes/sampling_distribution_small_n.jpg)
+
+::: {.caption}
+Source: Unknown
+:::
+:::
+::::
+
+
+# Likelihood
+
+## Likelihood
+
+How do we "fit" distributions to a dataset?
+
+**Likelihood** of data to have come from distribution $\mathcal{D}$ with pdf $f(\mathbf{x} | \theta)$:
+
+$$\mathcal{L}(\theta | \mathbf{x}) = \underbrace{f(\mathbf{x} | \theta)}_{\text{PDF}}$$
+
+In other words: **likelihood** evaluates parameters conditional on data, **PDF** evaluates data conditional on parameters.
+
+::: {.notes}
+The likelihood gives us a measure of how probable a dataset is from a given distribution. It's the PDF of the distribution at the data.
+
+But the perspective is flipped: instead of fixing a distribution and calculating the probability of some data, we fix the data and look at how the probability of observing that data changes as the distribution changes. 
+:::
+
+
+## Normal Distribution PDF
+
+$$f_\mathcal{D}(x) = p(x | \mu, \sigma) = \frac{1}{\sigma\sqrt{2\pi}} \exp\left(-\frac{1}{2}\left(\frac{x - \mu}{\sigma}^2\right)\right)$$
+
+::: {.center}
+```{julia}
+#| label: fig-normal
+#| fig-align: center
+
+plot(Normal(0, sqrt(3)), linewidth=3, color=:blue, label=L"$\mu=0$, $\sigma=\sqrt{3}$", guidefontsize=20, legendfontsize=20, tickfontsize=14)
+plot!(Normal(2, 1), linewidth=3, color=:orange, label=L"$\mu=2$, $\sigma=1$")
+plot!(Normal(0, 1), linewidth=3, color=:red, label=L"$\mu=0$, $\sigma=1$")
+plot!(size=(1200, 400), left_margin=10mm, bottom_margin=10mm)
+vline!([0.5], color=:black, linestyle=:dash)
+xlabel!(L"$x$")
+ylabel!("Likelihood")
+xlims!((-5, 5))
+```
+:::
+
+## Likelihood of Multiple Samples
+
+For multiple (independent) samples $\mathbf{x} = \{x_1, \ldots, x_n\}$:
+
+$$\mathcal{L}(\theta | \mathbf{x}) = \prod_{i=1}^n \mathcal{L}(\theta | x_i).$$
+
+## Likelihood Example
+
+:::: {.columns}
+::: {.column width=50%}
+```{julia}
+
+dist = Normal(-0.5, 2)
+x = rand(dist, 10)
+plot(Normal(0, 1), linewidth=3, ylabel="Density", xlabel=L"$x$", legend=false, color=:blue, size=(600, 400))
+vline!(x, color=:red)
+xlims!((-9, 6))
+```
+:::
+::: {.column width=50%}
+| Distribution | Likelihood |
+|:------------:|:-----------|
+| $N(0, 1)$ | `{julia} round(prod(pdf.(Normal(0, 1), x)); sigdigits=2)` |
+:::
+::::
+
+## Likelihood Example
+
+:::: {.columns}
+::: {.column width=50%}
+```{julia}
+
+plot(Normal(0, 1), linewidth=3, ylabel="Density", xlabel=L"$x$", alpha=0.2, legend=false, color=:blue, size=(600, 400))
+plot!(Normal(-1, 2), linewidth=3, color=:blue)
+vline!(x, color=:red)
+xlims!((-9, 6))
+```
+:::
+::: {.column width=50%}
+| Distribution | Likelihood |
+|:------------:|:-----------|
+| $N(0, 1)$ | `{julia} round(prod(pdf.(Normal(0, 1), x)); sigdigits=2)` |
+| $N(-1, 2)$ | `{julia} round(prod(pdf.(Normal(-1, 2), x)); sigdigits=2)` |
+:::
+::::
+
+## Likelihood Example
+
+:::: {.columns}
+::: {.column width=50%}
+```{julia}
+
+plot(Normal(0, 1), linewidth=3, ylabel="Density", xlabel=L"$x$", alpha=0.2, legend=false, color=:blue, size=(600, 400))
+plot!(Normal(-1, 2), linewidth=3, color=:blue, alpha=0.2)
+plot!(Normal(-1, 1), linewidth=3, color=:blue)
+vline!(x, color=:red)
+xlims!((-9, 6))
+```
+:::
+::: {.column width=50%}
+| Distribution | Likelihood |
+|:------------:|:-----------|
+| $N(0, 1)$ | `{julia} round(prod(pdf.(Normal(0, 1), x)); sigdigits=2)` |
+| $N(-1, 2)$ | `{julia} round(prod(pdf.(Normal(-1, 2), x)); sigdigits=2)` |
+| $N(-1, 1)$ | `{julia} round(prod(pdf.(Normal(-1, 1), x)); sigdigits=2)` |
+:::
+::::
+
+## Log-Likelihood
+
+:::: {.columns}
+::: {.column width=50%}
+
+Likelihoods get very small very fast due to multiplying small numbers.
+
+This is a computational problem due to **underflow**.
+
+We use logarithms to avoid these issues: compute $\log \mathcal{L}(\theta | x)$.
+:::
+::: {.column width=50%}
+![Logarithms for probability calculations](memes/floating_point_logs.png){width=90%}
+
+:::
+::::
+
+# Describing Uncertainty
+
+## Confidence Intervals
+
+:::: {.columns}
+::: {.column width=50%}
+Frequentist estimates have **confidence intervals**, which will contain the "true" parameter value for $\alpha$% of data samples.
+
+No guarantee that an individual CI contains the true value (with any "probability")!
+:::
+
+::: {.column width=50%}
+
+![Horseshoe Illustration](https://www.wikihow.com/images/thumb/2/20/Throw-a-Horseshoe-Step-4-Version-4.jpg/aid448076-v4-728px-Throw-a-Horseshoe-Step-4-Version-4.jpg){width=90%}
+
+::: {.caption}
+Source: <https://www.wikihow.com/Throw-a-Horseshoe>
+:::
+
+:::
+::::
+
+::: {.notes}
+Confidence intervals only capture uncertainty in **parameter inferences** due to data uncertainty, though this language sometimes gets misused to also refer to data/estimand uncertainty. 
+
+:::
+
+
+## Example: 95% CIs for N(0.4, 2)
+
+```{julia}
+#| label: fig-cis
+#| code-fold: true
+#| code-overflow: wrap
+#| echo: true
+#| layout-ncol: 2
+#| fig-cap: "Display of 95% confidence intervals"
+#| fig-subcap: 
+#|  - "Sample Size 100"
+#|  - "Sample Size 1,000"
+
+# set up distribution
+mean_true = 0.4
+n_cis = 100 # number of CIs to compute
+dist = Normal(mean_true, 2)
+
+# use sample size of 100
+samples = rand(dist, (100, n_cis))
+# mapslices broadcasts over a matrix dimension, could also use a loop
+sample_means = mapslices(mean, samples; dims=1)
+sample_sd = mapslices(std, samples; dims=1) 
+mc_sd = 1.96 * sample_sd / sqrt(100)
+mc_ci = zeros(n_cis, 2) # preallocate
+for i = 1:n_cis
+    mc_ci[i, 1] = sample_means[i] - mc_sd[i]
+    mc_ci[i, 2] = sample_means[i] + mc_sd[i]
+end
+# find which CIs contain the true value
+ci_true = (mc_ci[:, 1] .< mean_true) .&& (mc_ci[:, 2] .> mean_true)
+# compute percentage of CIs which contain the true value
+ci_frac1 = 100 * sum(ci_true) ./ n_cis
+
+# plot CIs
+p1 = plot([mc_ci[1, :]], [1, 1], linewidth=3, color=:deepskyblue, label="95% Confidence Interval", title="Sample Size 100", yticks=:false, legend=:false)
+for i = 2:n_cis
+    if ci_true[i]
+        plot!(p1, [mc_ci[i, :]], [i, i], linewidth=2, color=:deepskyblue, label=:false)
+    else
+        plot!(p1, [mc_ci[i, :]], [i, i], linewidth=2, color=:red, label=:false)
+    end
+end
+vline!(p1, [mean_true], color=:black, linewidth=2, linestyle=:dash, label="True Value") # plot true value as a vertical line
+xaxis!(p1, "Estimate")
+plot!(p1, size=(500, 350)) # resize to fit slide
+
+# use sample size of 1000
+samples = rand(dist, (1000, n_cis))
+# mapslices broadcasts over a matrix dimension, could also use a loop
+sample_means = mapslices(mean, samples; dims=1)
+sample_sd = mapslices(std, samples; dims=1) 
+mc_sd = 1.96 * sample_sd / sqrt(1000)
+mc_ci = zeros(n_cis, 2) # preallocate
+for i = 1:n_cis
+    mc_ci[i, 1] = sample_means[i] - mc_sd[i]
+    mc_ci[i, 2] = sample_means[i] + mc_sd[i]
+end
+# find which CIs contain the true value
+ci_true = (mc_ci[:, 1] .< mean_true) .&& (mc_ci[:, 2] .> mean_true)
+# compute percentage of CIs which contain the true value
+ci_frac2 = 100 * sum(ci_true) ./ n_cis
+
+# plot CIs
+p2 = plot([mc_ci[1, :]], [1, 1], linewidth=3, color=:deepskyblue, label="95% Confidence Interval", title="Sample Size 1,000", yticks=:false, legend=:false)
+for i = 2:n_cis
+    if ci_true[i]
+        plot!(p2, [mc_ci[i, :]], [i, i], linewidth=2, color=:deepskyblue, label=:false)
+    else
+        plot!(p2, [mc_ci[i, :]], [i, i], linewidth=2, color=:red, label=:false)
+    end
+end
+vline!(p2, [mean_true], color=:black, linewidth=2, linestyle=:dash, label="True Value") # plot true value as a vertical line
+xaxis!(p2, "Estimate")
+plot!(p2, size=(500, 350)) # resize to fit slide
+
+display(p1)
+display(p2)
+```
+
+`{julia} Int64(round(ci_frac1))`% of the CIs contain the true value (left) vs. `{julia} Int64(round(ci_frac2))`% (right)
+
+## Predictive Intervals
+
+:::: {.columns}
+::: {.column width=50%}
+**Predictive intervals** capture uncertainty in an estimand.
+
+**With what probability would I see a particular outcome in the future?**
+
+Often need to construct these using **simulation**.
+:::
+::: {.column width=50%}
+```{julia}
+#| label: fig-credible-interval
+#| fig-cap: Two different 95% credible intervals.
+
+plot(Gamma(7.5), linewidth=3, xlabel="Data/Parameter", label=:false, legend=:outerbottom)
+q1 = quantile(Gamma(7.5), [0.05, 0.95])
+q2 = quantile(Gamma(7.5), [0.01, 0.91])
+q3 = quantile(Gamma(7.5), [0.09, 0.99])
+gamma_pdf(x) = pdf(Gamma(7.5), x)
+plot!(q1[1]:0.01:q1[2], gamma_pdf(q1[1]:0.01:q1[2]), fillrange=zero(q1[1]:0.01:q1[2]), alpha=0.2, label="90% Interval 1")
+plot!(q2[1]:0.01:q2[2], gamma_pdf(q2[1]:0.01:q2[2]), fillrange=zero(q2[1]:0.01:q2[2]), alpha=0.2, label="90% Interval 2")
+plot!(q3[1]:0.01:q3[2], gamma_pdf(q3[1]:0.01:q3[2]), fillrange=zero(q3[1]:0.01:q3[2]), alpha=0.2, label="90% Interval 3")
+plot!(size=(600, 650))
+```
+:::
+::::
+
+::: {.notes}
+Due to this non-uniqueness, the typical convention is to use the "equal tailed" interval based on quantiles.
+:::
+
+
+# Upcoming Schedule
+
+## Next Classes
+
+**Next Week**: Exploratory Data Analysis
+
+## Assessments
+
+**Homework 1** due next Friday (2/6).
+
+**Reading**: 
+
+# References
+
+## References (Scroll for Full List)

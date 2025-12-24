@@ -62,6 +62,94 @@ Take a moment, write it down, and we'll share!
 
 # What We Are Doing This Semester?
 
+## Why Does Data Analysis Matter?
+
+- Scientific insight;
+- Decision-making;
+- Understanding uncertainty
+
+## Examples of Data-Related Questions
+
+- How often will a particular (usually extreme) outcome occur?
+- What causes differences between environmental conditions at different times/locations?
+- What might the impacts be of environmental change?
+- Does a new (treatment/management) method have a reliable impact?
+
+## The Ideal
+
+:::: {.columns}
+::: {.column width=50%}
+**Goal**: Obtain data that is so self-evident that you don't need to do statistics!
+:::
+::: {.column width=50%}
+![XKCD 2400](https://imgs.xkcd.com/comics/statistics.png){width=60%}
+
+::: {.caption}
+Source: [XKCD 2400](https://xkcd.com/2400/)
+:::
+:::
+::::
+
+## But in Actuality
+
+- Except in the most controlled experiments, **data are noisy**;
+- The **causes** of the data cannot be extracted from the data alone;
+- The **reasons** for statistical analyses are not found in the data themselves.
+
+## Description and Inference are Connected
+:::: {.columns}
+::: {.column width=50%}
+Except for superficial tasks: 
+
+- Knowing what is important to describe requires a model;
+- Understanding how the data might differ from the population requires a model.
+
+:::
+
+::: {.column width=50%}
+::: {.center}
+![Spidermen Meme](memes/spidermen-description-inference.jpg){width=100%}
+:::
+:::
+::::
+
+## Some Problems With The "Standard" Data Analysis Toolkit
+
+::: {.incremental}
+- Statistical assumptions may not be valid;
+- "Null" vs "Alternative" hypotheses and tests may be chosen for computational convenience, not scientific relevance.
+- Many different **substantive** models can imply the same **statistical** model.
+:::
+
+::: {.fragment .fade-in}
+**Important**: "Big" data doesn't solve the problem!
+:::
+
+
+## Model-Based Data Analysis
+
+:::: {.columns}
+::: {.column width=50%}
+Models are how we assess evidence for theories.
+
+Models are encodings of hypothesized **data-generating processes**.
+:::
+
+::: {.column width=50%}
+::: {.center}
+![Rock Paper Scissors meme](memes/rock-paper-theory-model.jpg){width=100%}
+:::
+:::
+::::
+
+## What Can We Do With Models?
+
+- **Inference**: what are parameter values which explain data?
+- **Simulation**: what are alternative counterfactual observations?
+- **Projection**: what future data might be observed assuming this data-generating process?
+- **Testing**: which data-generating processes are most consistent with the data?
+
+
 ## My Philosophical Position
 
 :::: {.columns}
@@ -104,11 +192,10 @@ Models are how we assess evidence for theories.
 ```{mermaid}
 timeline
       Introduction and Exploratory Analysis (Weeks 1-2): Overview
-                  : Why Analyze Data?
+                  : Prob/Stats "Review"
                   : Exploratory Analysis
                   : Data Visualization
-      Probability Fundamentals (Weeks 3-6): Prob/Stats "Review"
-                                          : Modeling Data-Generating Processes
+      Probability Fundamentals (Weeks 3-6): Modeling Data-Generating Processes
                                           : Maximum Likelihood
                                           : Time Series
                                           : Extreme Values
@@ -120,8 +207,8 @@ timeline
                       : Cross-Validation
                       : Hypothesis Testing
                       : Information Criteria
-      Experimental Design (Weeks 14-15): Causal Models and Confounds
-                                 : Value of Information
+      Experimental Design (Weeks 14-15): Value of Information
+                                 : Design of Experiments
 
 ```
 
@@ -293,11 +380,11 @@ Better: Use Ed Discussion and reserve email for matters that are particular urge
 
 ## Next Classes
 
-- Why Analyze Data?
+- Probability Review
 
 ## Assessments
 
-**Homework 1** available; due Friday (2/9).
+**Homework 1** available; due Friday, 2/6.
 
 # References
 

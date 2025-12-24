@@ -219,6 +219,105 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <h1>What We Are Doing This Semester?</h1>
 
 </section>
+<section id="why-does-data-analysis-matter" class="slide level2">
+<h2>Why Does Data Analysis Matter?</h2>
+<ul>
+<li>Scientific insight;</li>
+<li>Decision-making;</li>
+<li>Understanding uncertainty</li>
+</ul>
+</section>
+<section id="examples-of-data-related-questions" class="slide level2">
+<h2>Examples of Data-Related Questions</h2>
+<ul>
+<li>How often will a particular (usually extreme) outcome occur?</li>
+<li>What causes differences between environmental conditions at different times/locations?</li>
+<li>What might the impacts be of environmental change?</li>
+<li>Does a new (treatment/management) method have a reliable impact?</li>
+</ul>
+</section>
+<section id="the-ideal" class="slide level2">
+<h2>The Ideal</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Goal</strong>: Obtain data that is so self-evident that you don’t need to do statistics!</p>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="https://imgs.xkcd.com/comics/statistics.png" style="width:60.0%"></p>
+<figcaption>XKCD 2400</figcaption>
+</figure>
+</div>
+<div class="caption">
+<p>Source: <a href="https://xkcd.com/2400/">XKCD 2400</a></p>
+</div>
+</div></div>
+</section>
+<section id="but-in-actuality" class="slide level2">
+<h2>But in Actuality</h2>
+<ul>
+<li>Except in the most controlled experiments, <strong>data are noisy</strong>;</li>
+<li>The <strong>causes</strong> of the data cannot be extracted from the data alone;</li>
+<li>The <strong>reasons</strong> for statistical analyses are not found in the data themselves.</li>
+</ul>
+</section>
+<section id="description-and-inference-are-connected" class="slide level2">
+<h2>Description and Inference are Connected</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Except for superficial tasks:</p>
+<ul>
+<li>Knowing what is important to describe requires a model;</li>
+<li>Understanding how the data might differ from the population requires a model.</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div class="center">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="memes/spidermen-description-inference.jpg" style="width:100.0%"></p>
+<figcaption>Spidermen Meme</figcaption>
+</figure>
+</div>
+</div>
+</div></div>
+</section>
+<section id="some-problems-with-the-standard-data-analysis-toolkit" class="slide level2">
+<h2>Some Problems With The “Standard” Data Analysis Toolkit</h2>
+<ul>
+<li class="fragment">Statistical assumptions may not be valid;</li>
+<li class="fragment">“Null” vs “Alternative” hypotheses and tests may be chosen for computational convenience, not scientific relevance.</li>
+<li class="fragment">Many different <strong>substantive</strong> models can imply the same <strong>statistical</strong> model.</li>
+</ul>
+<div class="fragment fade-in">
+<p><strong>Important</strong>: “Big” data doesn’t solve the problem!</p>
+</div>
+</section>
+<section id="model-based-data-analysis" class="slide level2">
+<h2>Model-Based Data Analysis</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Models are how we assess evidence for theories.</p>
+<p>Models are encodings of hypothesized <strong>data-generating processes</strong>.</p>
+</div><div class="column" style="width:50%;">
+<div class="center">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="memes/rock-paper-theory-model.jpg" style="width:100.0%"></p>
+<figcaption>Rock Paper Scissors meme</figcaption>
+</figure>
+</div>
+</div>
+</div></div>
+</section>
+<section id="what-can-we-do-with-models" class="slide level2">
+<h2>What Can We Do With Models?</h2>
+<ul>
+<li><strong>Inference</strong>: what are parameter values which explain data?</li>
+<li><strong>Simulation</strong>: what are alternative counterfactual observations?</li>
+<li><strong>Projection</strong>: what future data might be observed assuming this data-generating process?</li>
+<li><strong>Testing</strong>: which data-generating processes are most consistent with the data?</li>
+</ul>
+</section>
 <section id="my-philosophical-position" class="slide level2">
 <h2>My Philosophical Position</h2>
 <div class="columns">
@@ -238,7 +337,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 </div>
 </div></div>
 </section>
-<section id="model-based-data-analysis" class="slide level2">
+<section id="model-based-data-analysis-1" class="slide level2">
 <h2>Model-Based Data Analysis</h2>
 <p>We can (<strong>transparently</strong>):</p>
 <ul>
@@ -247,7 +346,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <li>Identify opportunities to design future experiments or observations to distinguish between competing hypotheses.</li>
 </ul>
 </section>
-<section id="model-based-data-analysis-1" class="slide level2">
+<section id="model-based-data-analysis-2" class="slide level2">
 <h2>Model-Based Data Analysis</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -272,11 +371,10 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <div>
 <pre class="mermaid mermaid-js">timeline
       Introduction and Exploratory Analysis (Weeks 1-2): Overview
-                  : Why Analyze Data?
+                  : Prob/Stats "Review"
                   : Exploratory Analysis
                   : Data Visualization
-      Probability Fundamentals (Weeks 3-6): Prob/Stats "Review"
-                                          : Modeling Data-Generating Processes
+      Probability Fundamentals (Weeks 3-6): Modeling Data-Generating Processes
                                           : Maximum Likelihood
                                           : Time Series
                                           : Extreme Values
@@ -288,8 +386,8 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
                       : Cross-Validation
                       : Hypothesis Testing
                       : Information Criteria
-      Experimental Design (Weeks 14-15): Causal Models and Confounds
-                                 : Value of Information
+      Experimental Design (Weeks 14-15): Value of Information
+                                 : Design of Experiments
 
 </pre>
 </div>
@@ -533,12 +631,12 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <section id="next-classes" class="slide level2">
 <h2>Next Classes</h2>
 <ul>
-<li>Why Analyze Data?</li>
+<li>Probability Review</li>
 </ul>
 </section>
 <section id="assessments" class="slide level2">
 <h2>Assessments</h2>
-<p><strong>Homework 1</strong> available; due Friday (2/9).</p>
+<p><strong>Homework 1</strong> available; due Friday, 2/6.</p>
 </section></section>
 <section>
 <section id="references" class="title-slide slide level1 center">

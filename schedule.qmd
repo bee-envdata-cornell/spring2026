@@ -14,7 +14,7 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 | Week | Date | Topic | Slides | Reading | Homework | Lab | Resources |
 :-----:|:---------|:---------|:---------:|:------:|:--:|:---:|
 | 1 | 1/21 | Class Introduction | [{{< fa sharp presentation-screen >}}](slides/lecture01-1-intro.qmd) | | [{{< fa sharp pen-field >}}](hw/hw01/hw01.qmd) | | |
-|  | 1/23 | Analyzing Data With Models? |  |  | | | |
-| 2 | 1/26 | Exploratory Data Analysis | |  | | | |
-|   | 1/28 | Data Visualization | | | | | [Data Viz](resources/dataviz.qmd) |
+|  | 1/23 | Probability Review | [{{< fa sharp presentation-screen >}}](slides/lecture01-2-probreview.qmd)  |  | | | |
+| 2 | 1/26 | Data Visualization and Exploratory Analysis | |  | | [Data Viz](resources/dataviz.qmd) | |
+|   | 1/28 | Probability Models and Linear Regression | | | | |  |
 |   | 1/30 | Lab: Data Visualization | | | | [{{< fa sharp laptop >}}](labs/lab01/lab01.qmd)  | |

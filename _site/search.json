@@ -4,7 +4,7 @@
     "href": "schedule.html",
     "title": "Class Schedule",
     "section": "",
-    "text": "This page contains a schedule of the topics, content, and assignments for the semester. Note that this schedule will be updated as necessary the semester progresses, with all changes documented here.\nInstructions to save the slides as PDFs can be found here. The key is to hit E when the slides are open in your browser (ideally Chrome, but it may work in others) to toggle into PDF print mode.\nReadings can be accessed using the link (when needed, through the Cornell library with a Cornell login) or on Canvas.\n\n\n\n\n\n\n\n\n\n\n\n\nWeek\nDate\nTopic\nSlides\nReading\nHomework\nLab\n\n\n\n\n1\n1/21\nClass Introduction\n\n\n\n\n\n\n\n1/23\nAnalyzing Data With Models?\n\n\n\n\n\n\n2\n1/26\nExploratory Data Analysis\n\n\n\n\n\n\n\n1/28\nData Visualization\n\n\n\n\n\n\n\n1/30\nLab: Data Visualization"
+    "text": "This page contains a schedule of the topics, content, and assignments for the semester. Note that this schedule will be updated as necessary the semester progresses, with all changes documented here.\nInstructions to save the slides as PDFs can be found here. The key is to hit E when the slides are open in your browser (ideally Chrome, but it may work in others) to toggle into PDF print mode.\nReadings can be accessed using the link (when needed, through the Cornell library with a Cornell login) or on Canvas.\n\n\n\n\n\n\n\n\n\n\n\n\nWeek\nDate\nTopic\nSlides\nReading\nHomework\nLab\n\n\n\n\n1\n1/21\nClass Introduction\n\n\n\n\n\n\n\n1/23\nProbability Review\n\n\n\n\n\n\n2\n1/26\nData Visualization and Exploratory Analysis\n\n\n\nData Viz\n\n\n\n1/28\nProbability Models and Linear Regression\n\n\n\n\n\n\n\n1/30\nLab: Data Visualization"
   },
   {
     "objectID": "syllabus.html",
@@ -1233,228 +1233,186 @@
     "text": "References (Scroll for Full List)\n\n\n\n\nBayes, T. (1763). An Essay towards Solving a Problem in the Doctrine of Chance. Philosophical Transactions of the Royal Society of London, 53, 370–418.\n\n\nGelman, A., & Shalizi, C. R. (2013). Philosophy and the practice of Bayesian statistics. Br. J. Math. Stat. Psychol., 66, 8–38. https://doi.org/10.1111/j.2044-8317.2011.02037.x\n\n\nGelman, A., Simpson, D., & Betancourt, M. (2017). The prior can often only be understood in the context of the likelihood. Entropy, 19, 555. https://doi.org/10.3390/e19100555\n\n\nJaynes, E. T. (2003). Probability theory: the Logic of Science. (G. L. Bretthorst, Ed.). Cambridge, UK ; New York, NY: Cambridge University Press. Retrieved from https://market.android.com/details?id=book-tTN4HuUNXjgC\n\n\nLaplace, P. S. (1774). Mémoire sur la Probabilité des Causes par les évènemens. In Mémoires de Mathematique et de Physique, Presentés à l’Académie Royale des Sciences, Par Divers Savans & Lus Dans ses Assemblées (pp. 621–656)."
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#bayesian-statistics",
-    "href": "slides/lecture06-2-random-simulation.html#bayesian-statistics",
-    "title": "Simulating Random Variables",
-    "section": "Bayesian Statistics",
-    "text": "Bayesian Statistics\n\nFocused on conditional probability (conditioned on the data)\nBayes’ Theorem to update priors using likelihood.\nPriors can be finicky: use predictive simulations.\nOutstanding question: how do we sample from the posterior (versus just taking the MAP?)"
+    "objectID": "slides/lecture10-2-information-models.html#what-makes-a-good-prediction",
+    "href": "slides/lecture10-2-information-models.html#what-makes-a-good-prediction",
+    "title": "Information and Entropy",
+    "section": "What Makes A Good Prediction?",
+    "text": "What Makes A Good Prediction?\nWhat do we want to see in a probabilistic projection \\(F\\)?\n\n\nCalibration: Does the predicted CDF \\(F(y)\\) align with the “true” distribution of observations \\(y\\)? \\[\\mathbb{P}(y \\leq F^{-1}(\\tau)) = \\tau \\qquad \\forall \\tau \\in [0, 1]\\]\nDispersion: Is the concentration (variance) of \\(F\\) aligned with the concentration of observations?\nSharpness: How concentrated are the forecasts \\(F\\)?"
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#why-simulate",
-    "href": "slides/lecture06-2-random-simulation.html#why-simulate",
-    "title": "Simulating Random Variables",
-    "section": "Why Simulate?",
-    "text": "Why Simulate?\n\nWe want to see implications of a probability model.\nWe want to test statistical procedures (synthetic data simulation).\nEasier than computing integrals (Monte Carlo).\nComputational efficiency (e.g. stochastic gradient descent).\n\nGenerally: Turns calculus/analytical problems into data summary problems."
+    "objectID": "slides/lecture10-2-information-models.html#probability-integral-transform-pit",
+    "href": "slides/lecture10-2-information-models.html#probability-integral-transform-pit",
+    "title": "Information and Entropy",
+    "section": "Probability Integral Transform (PIT)",
+    "text": "Probability Integral Transform (PIT)\nCommon to use the PIT to make these more concrete: \\(Z_F = F(y)\\).\nThe forecast is probabilistically calibrated if \\(Z_F \\sim Uniform(0, 1)\\).\nThe forecast is properly dispersed if \\(\\text{Var}(Z_F) = 1/12\\).\nSharpness can be measured by the width of a particular prediction interval. A good forecast is a sharp as possible subject to calibration (Gneiting et al., 2007)."
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#example-posterior-sampling",
-    "href": "slides/lecture06-2-random-simulation.html#example-posterior-sampling",
-    "title": "Simulating Random Variables",
-    "section": "Example: Posterior Sampling",
-    "text": "Example: Posterior Sampling\n\n\n\\(p(\\theta)\\) and \\(p(y | \\theta)\\) are often “nice” distributions, but nothing says \\[p(\\theta | y) \\propto p(\\theta) \\times p(y | \\theta)\\]\nhas to be!\n\n\n\nCode\nnormal_samples = rand(Normal(2, 0.5), 10)\n\nlik(σ) = prod(pdf(Normal.(2, σ), normal_samples))\nprior(σ) = pdf(LogNormal(log(0.25), 0.25), σ)\nposterior(σ) = lik(σ) * prior(σ)\n\nσ_range = 0.1:0.01:1\nplot(σ_range, posterior.(σ_range) / maximum(posterior.(σ_range)), color=:black, label=\"Posterior\", linewidth=3)\nplot!(σ_range, lik.(σ_range) / maximum(lik.(σ_range)), color=:blue, label=\"Likelihood\", linewidth=3, linestyle=:dash)\nplot!(σ_range, prior.(σ_range) / maximum(prior.(σ_range)), color=:orange, label=\"Prior\", linewidth=3, linestyle=:dot)\nxlabel!(L\"$\\sigma$\")\nylabel!(\"Scaled Log-Density\")\nplot!(size=(550, 500))\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 1: Comparison of prior, posterior, and likelihood."
+    "objectID": "slides/lecture10-2-information-models.html#scoring-rules",
+    "href": "slides/lecture10-2-information-models.html#scoring-rules",
+    "title": "Information and Entropy",
+    "section": "Scoring Rules",
+    "text": "Scoring Rules\nA scoring rule \\(S(F, y)\\) measures the “loss” of a predicted probability distribution \\(F\\) once an observation \\(y\\) is obtained.\nProper scoring rules are minimized when the forecasted distribution matches the observed distribution:\n\\[\\mathbb{E}_Y(S(G, G)) \\leq \\mathbb{E}_Y(S(F, G)) \\qquad \\forall F.\\]"
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#built-in-sampling-functions",
-    "href": "slides/lecture06-2-random-simulation.html#built-in-sampling-functions",
-    "title": "Simulating Random Variables",
-    "section": "Built-In Sampling Functions",
-    "text": "Built-In Sampling Functions\nR: sample, rnorm, rbinom, etc.\nJulia: rand, Distributions.rand\nPython: numpy.random.rand, scipy.stats.xx.rand"
+    "objectID": "slides/lecture10-2-information-models.html#k-fold-cross-validation",
+    "href": "slides/lecture10-2-information-models.html#k-fold-cross-validation",
+    "title": "Information and Entropy",
+    "section": "\\(k\\)-Fold Cross-Validation",
+    "text": "\\(k\\)-Fold Cross-Validation\nWhat if we repeated this procedure for multiple held-out sets?\n\nRandomly split data into \\(k = n / m\\) equally-sized subsets.\nFor each \\(i = 1, \\ldots, k\\), fit model to \\(y_{-i}\\) and test on \\(y_i\\).\n\nIf data are large, this is a good approximation."
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#what-are-these-functions-doing",
-    "href": "slides/lecture06-2-random-simulation.html#what-are-these-functions-doing",
-    "title": "Simulating Random Variables",
-    "section": "What Are These Functions Doing?",
-    "text": "What Are These Functions Doing?\nThink of a biased coin with probability of heads \\(\\theta\\).\nWant to obtain a Bernoulli random variable.\nWhat can we do without using a built-in Bernoulli function?"
+    "objectID": "slides/lecture10-2-information-models.html#loo-cv-algorithm",
+    "href": "slides/lecture10-2-information-models.html#loo-cv-algorithm",
+    "title": "Information and Entropy",
+    "section": "LOO-CV Algorithm",
+    "text": "LOO-CV Algorithm\n\nDrop one value \\(y_i\\).\nRefit model on rest of data \\(y_{-i}\\).\nPredict dropped point \\(p(\\hat{y}_i | y_{-i})\\).\nEvaluate score on dropped point (\\(\\log p(y_i | y_{-i})\\)).\nRepeat on rest of data set."
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#coin-flip-simulation",
-    "href": "slides/lecture06-2-random-simulation.html#coin-flip-simulation",
-    "title": "Simulating Random Variables",
-    "section": "Coin Flip Simulation",
-    "text": "Coin Flip Simulation\nGiven heads probability \\(\\theta\\):\n\nDraw \\(u \\sim Uniform(0, 1)\\).\nIf \\(u &lt; \\theta\\), return H.\nElse return T."
+    "objectID": "slides/lecture10-2-information-models.html#interpreting-scores",
+    "href": "slides/lecture10-2-information-models.html#interpreting-scores",
+    "title": "Information and Entropy",
+    "section": "Interpreting Scores",
+    "text": "Interpreting Scores\nWhen directly comparing models, this can be straightforward: lower (usually) score =&gt; better.\nBut this doesn’t tell us anything about whether a particular score is good or even acceptable: How do we quantify the “distance” from “perfect” prediction?"
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#what-about-discrete-variables",
-    "href": "slides/lecture06-2-random-simulation.html#what-about-discrete-variables",
-    "title": "Simulating Random Variables",
-    "section": "What About Discrete Variables?",
-    "text": "What About Discrete Variables?\nHow can we generalize this strategy for discrete distributions with category probabilities \\(\\theta_1, \\theta_2, \\ldots, \\theta_n\\)?"
+    "objectID": "slides/lecture10-2-information-models.html#uncertainty-and-information",
+    "href": "slides/lecture10-2-information-models.html#uncertainty-and-information",
+    "title": "Information and Entropy",
+    "section": "Uncertainty and Information",
+    "text": "Uncertainty and Information\nMore uncertainty ⇒ predictions are more difficult.\nOne approach: quantify information as the reduction in uncertainty conditional on a prediction or projection.\nExample: Perfect prediction ⇒ complete reduction in uncertainty (observation will always match prediction)."
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#discrete-variable-simulation",
-    "href": "slides/lecture06-2-random-simulation.html#discrete-variable-simulation",
-    "title": "Simulating Random Variables",
-    "section": "Discrete Variable Simulation",
-    "text": "Discrete Variable Simulation\nGiven category probabilities \\(\\theta_1, \\theta_2, \\ldots, \\theta_n\\):\n\nDraw \\(u \\sim Uniform(0, 1)\\).\nIf \\(u &lt; \\theta_1\\), return 1.\nIf \\(u &lt; \\theta_1 + \\theta_2\\), return 2,\n\\(\\vdots\\)\nElse return \\(n\\)."
+    "objectID": "slides/lecture10-2-information-models.html#quantifying-uncertainty",
+    "href": "slides/lecture10-2-information-models.html#quantifying-uncertainty",
+    "title": "Information and Entropy",
+    "section": "Quantifying Uncertainty",
+    "text": "Quantifying Uncertainty\nWhat properties should a measure of uncertainty possess?\n\nShould be continuous wrt probabilities;\nShould increase with number of possible events;\nShould be additive."
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#generalization-quantile-transform-method",
-    "href": "slides/lecture06-2-random-simulation.html#generalization-quantile-transform-method",
-    "title": "Simulating Random Variables",
-    "section": "Generalization: Quantile Transform Method",
-    "text": "Generalization: Quantile Transform Method\nGiven \\(U \\sim Uniform(0, 1)\\), target CDF \\(F\\), \\(X = F^{-1}(U)\\) has CDF \\(F\\).\nWhy?\n\\[\\mathbb{P}(X \\leq a) = \\mathbb{P}(F^{-1}(U) \\leq a) = \\mathbb{P}(U \\leq F(a)) = F(a)\\]\n\nIn other words, if we can generate uniform variables and calculate quantiles, can generate non-uniform variables."
+    "objectID": "slides/lecture10-2-information-models.html#entropy",
+    "href": "slides/lecture10-2-information-models.html#entropy",
+    "title": "Information and Entropy",
+    "section": "Entropy",
+    "text": "Entropy\nIt turns out there is only one function which satisfies these conditions: Information Entropy (Shannon, 1948)\n\\[H(p) = -\\mathbb{E}(\\log(p_i)) = - \\sum_{i=1}^n p_i \\log p_i\\]\nThe entropy (or uncertainty) of a probability distribution is the average log-probability of an event."
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#problem-solvedright",
-    "href": "slides/lecture06-2-random-simulation.html#problem-solvedright",
-    "title": "Simulating Random Variables",
-    "section": "Problem Solved…Right?",
-    "text": "Problem Solved…Right?\n\nOften don’t have quantile functions in closed form.\nThey also often don’t have nice numerical solutions."
+    "objectID": "slides/lecture10-2-information-models.html#entropy-example",
+    "href": "slides/lecture10-2-information-models.html#entropy-example",
+    "title": "Information and Entropy",
+    "section": "Entropy Example",
+    "text": "Entropy Example\nSuppose in Ithaca we have “true” probabilities of rain, sunshine, and fog which are 0.55, 0.2, and 0.25.\n\\[H(p) = -(0.55 \\log(0.55) + 0.2 \\log(0.2) + 0.25\\log(0.25) \\approx 1.0\\]"
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#using-the-pdf",
-    "href": "slides/lecture06-2-random-simulation.html#using-the-pdf",
-    "title": "Simulating Random Variables",
-    "section": "Using the PDF",
-    "text": "Using the PDF\n\n\nSuppose the PDF \\(f\\) has support on \\([a, b]\\) and \\(f(x) \\leq M\\).\nWhat could we do to sample \\(X \\sim f(\\cdot)\\)?\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 2: Beta Distribution"
+    "objectID": "slides/lecture10-2-information-models.html#entropy-example-1",
+    "href": "slides/lecture10-2-information-models.html#entropy-example-1",
+    "title": "Information and Entropy",
+    "section": "Entropy Example",
+    "text": "Entropy Example\nNow suppose in Dubai these probabilities are 0.01, 0.95, and 0.04, respectively.\n\\[H(p) = -(0.01 \\log(0.01) + 0.95 \\log(0.95) + 0.04\\log(0.04) \\approx 0.22\\]\n\\(H\\) is lower in Dubai than in Ithaca because there is less uncertainty about the outcome on a given day."
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#rejection-sampling-algorithm",
-    "href": "slides/lecture06-2-random-simulation.html#rejection-sampling-algorithm",
-    "title": "Simulating Random Variables",
-    "section": "Rejection Sampling Algorithm",
-    "text": "Rejection Sampling Algorithm\nGiven pdf \\(f\\) for \\(X\\), upper bound \\(M\\) on \\(f\\) in \\([a, b]\\):\n\nSimulate uniformly: \\(y \\sim [a, b]\\), \\(u \\sim [0, 1]\\).\nIf \\(Mu &lt; f(y)\\), keep \\(y\\) as a sample of \\(X\\).\nOtherwise reject."
+    "objectID": "slides/lecture10-2-information-models.html#maximum-entropy",
+    "href": "slides/lecture10-2-information-models.html#maximum-entropy",
+    "title": "Information and Entropy",
+    "section": "Maximum Entropy",
+    "text": "Maximum Entropy\nAs an aside, what distribution maximizes entropy (has the most uncertainty subject to its constraints)?\nThis is equivalent to a distribution being the “least informative” given a set of constraints.\nCan think of this as being the distribution which can emerge through the greatest combination of data-generating events."
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#rejection-sampling-visualization",
-    "href": "slides/lecture06-2-random-simulation.html#rejection-sampling-visualization",
-    "title": "Simulating Random Variables",
-    "section": "Rejection Sampling Visualization",
-    "text": "Rejection Sampling Visualization\n\n\nFigure 3: Example of rejection sampling for a Beta distribution"
+    "objectID": "slides/lecture10-2-information-models.html#maximum-entropy-examples",
+    "href": "slides/lecture10-2-information-models.html#maximum-entropy-examples",
+    "title": "Information and Entropy",
+    "section": "Maximum Entropy Examples",
+    "text": "Maximum Entropy Examples\n\nFrom the Central Limit Theorem, Gaussians emerge as the limit of sums of arbitrary random variables with finite mean and variance.\nThis is equivalent to Gaussians as the entropy-maximizing distribution for a given (finite) mean and variance.\nBinomial distributions maximize entropy under the assumptions of two outcomes with constant probabilities.\n\nThis is where generalized linear models come from!"
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#rejection-sampling-efficiency",
-    "href": "slides/lecture06-2-random-simulation.html#rejection-sampling-efficiency",
-    "title": "Simulating Random Variables",
-    "section": "Rejection Sampling Efficiency",
-    "text": "Rejection Sampling Efficiency\nImportant: Only kept 27% of proposals.\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Results from uniform rejection sampling\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b)\n\n\n\n\n\n\n\nFigure 4"
+    "objectID": "slides/lecture10-2-information-models.html#from-entropy-to-accuracy",
+    "href": "slides/lecture10-2-information-models.html#from-entropy-to-accuracy",
+    "title": "Information and Entropy",
+    "section": "From Entropy to Accuracy",
+    "text": "From Entropy to Accuracy\nEntropy: Measure of uncertainty across a distribution \\(p\\).\nDivergence: Uncertainty induced by using probabilities from one distribution \\(q\\) to describe outcomes from another “true” distribution \\(p\\).\nThe lower the divergence between a predictive distribution \\(q\\) and a “true” distribution \\(p\\), the more “skill” \\(q\\) has."
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#more-general-rejection-sampling",
-    "href": "slides/lecture06-2-random-simulation.html#more-general-rejection-sampling",
-    "title": "Simulating Random Variables",
-    "section": "More General Rejection Sampling",
-    "text": "More General Rejection Sampling\n\n\nUse a proposal density \\(g(\\cdot)\\) which “covers” target \\(f(\\cdot)\\) and is easy to sample from.\nSample from \\(g\\), reject based on \\(f\\).\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 5: Using a t distribution as proposal density for normal."
+    "objectID": "slides/lecture10-2-information-models.html#kullback-leibler-divergence",
+    "href": "slides/lecture10-2-information-models.html#kullback-leibler-divergence",
+    "title": "Information and Entropy",
+    "section": "Kullback-Leibler Divergence",
+    "text": "Kullback-Leibler Divergence\nOne way to formalize divergence: how much additional entropy (uncertainty) is introduced by using a model \\(q\\) instead of the true target \\(p\\)?\n\\[D_{KL}(p, q) = \\sum_i p_i (\\log(p_i) - \\log(q_i)) = \\sum_i p_i \\log\\left(\\frac{p_i}{q_i}\\right)\\]\nThus the “divergence” (intuitively: distance) between two distributions is the average difference in log-probabilities between the target \\(p\\) and the model \\(q\\)."
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#general-rejection-sampling-algorithm",
-    "href": "slides/lecture06-2-random-simulation.html#general-rejection-sampling-algorithm",
-    "title": "Simulating Random Variables",
-    "section": "General Rejection Sampling Algorithm",
-    "text": "General Rejection Sampling Algorithm\nSuppose \\(f(x) \\leq M g(x)\\) for some \\(1 &lt; M &lt; \\infty\\).\n\nSimulate a proposal \\(y \\sim g(x)\\) (e.g. by quantile method).\nSimulate \\(u \\sim \\text{Unif}(0, 1)\\)\nIf \\[u &lt; \\frac{f(y)}{M g(y)},\\] accept \\(y\\); otherwise reject."
+    "objectID": "slides/lecture10-2-information-models.html#k-l-divergence-example",
+    "href": "slides/lecture10-2-information-models.html#k-l-divergence-example",
+    "title": "Information and Entropy",
+    "section": "K-L Divergence Example",
+    "text": "K-L Divergence Example\n\n\nSuppose the “true” probability of rain is \\(p(\\text{Rain}) = 0.65\\) and the “true” probability of \\(p(\\text{Sunshine})=0.35\\).\nWhat happens as we change \\(q(\\text{Rain})\\)?\n\n\n\nCode\np_true = [0.65, 0.35]\nq_rain = 0.01:0.01:0.99\n\nfunction kl_divergence_2outcome(p, q)\n    div_diff = log.(p) .- log.(q)\n    return sum(p .* div_diff)\nend\n\nkl_out(q) = kl_divergence_2outcome(p_true, [q, 1 - q])\nplot(q_rain, kl_out.(q_rain), lw=3, label=false, ylabel=\"Kullback-Leibler Divergence\", xlabel=L\"$q(\\textrm{Rain})$\")\nvline!([p_true[1]], lw=3, color=:red, linestyle=:dash, label=\"True Probability\")\nplot!(size=(600, 550))\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 1: Example of K-L Divergence"
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#rejection-sampling-example",
-    "href": "slides/lecture06-2-random-simulation.html#rejection-sampling-example",
-    "title": "Simulating Random Variables",
-    "section": "Rejection Sampling Example",
-    "text": "Rejection Sampling Example\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 6: Example of rejection sampling for a Normal distribution\n\n\n\n\n\nThis time we kept 35% of the proposals."
+    "objectID": "slides/lecture10-2-information-models.html#k-l-divergence-is-not-symmetric",
+    "href": "slides/lecture10-2-information-models.html#k-l-divergence-is-not-symmetric",
+    "title": "Information and Entropy",
+    "section": "K-L Divergence Is Not Symmetric",
+    "text": "K-L Divergence Is Not Symmetric\n\n\n\n\nCode\np = MixtureModel(Normal, [(-1, 0.25), (1, 0.25)], [0.5, 0.5])\npsamp = rand(p, 100_000)\nq = Normal(0, 1)\nqsamp = rand(q, 100_000)\n\n# Monte Carlo estimation of K-L Divergence\nkl_pq = mean(logpdf.(p, psamp) .- logpdf.(q, psamp))\nkl_qp = mean(logpdf.(q, qsamp) .- logpdf.(p, qsamp))\np1 = density(psamp, lw=3, label=L\"$p$\", color=:blue, xlabel=L\"$x$\", ylabel=\"Density\")\ndensity!(p1, qsamp, lw=3, label=L\"$q$\", color=:black, linestyle=:dash)\nplot!(p1, size=(500, 300))\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 2: Lack of symmetry of the K-L Divergence\n\n\n\n\n\\(D_{KL}(p, q) =\\) 0.72\n\\(D_{KL}(q, p) =\\) 2.02\n\n\n\nCode\np = MixtureModel(Normal, [(-1, 0.25), (1, 0.25)], [0.5, 0.5])\npsamp = rand(p, 100_000)\nq = Normal(-1, 0.25)\nqsamp = rand(q, 100_000)\n\n# Monte Carlo estimation of K-L Divergence\nkl_pq = mean(logpdf.(p, psamp) .- logpdf.(q, psamp))\nkl_qp = mean(logpdf.(q, qsamp) .- logpdf.(p, qsamp))\np2 = density(psamp, lw=3, label=L\"$p$\", color=:blue, xlabel=L\"$x$\", ylabel=\"Density\")\ndensity!(p2, qsamp, lw=3, label=L\"$q$\", color=:black, linestyle=:dash)\nplot!(p2, size=(500, 300))\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 3: Lack of symmetry of the K-L Divergence\n\n\n\n\n\\(D_{KL}(p, q) =\\) 15.26\n\\(D_{KL}(q, p) =\\) 0.69"
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#rejection-sampling-efficiency-1",
-    "href": "slides/lecture06-2-random-simulation.html#rejection-sampling-efficiency-1",
-    "title": "Simulating Random Variables",
-    "section": "Rejection Sampling Efficiency",
-    "text": "Rejection Sampling Efficiency\n\nProbability of accepting a sample is \\(1/M\\), so the “tighter” the proposal distribution coverage the more efficient the sampler.\nNeed to be able to compute \\(M\\) and sample from the proposal.\n\nFinding a good proposal and computing \\(M\\) may not be easy (or possible) for complex distributions!"
+    "objectID": "slides/lecture10-2-information-models.html#divergence-for-model-comparison",
+    "href": "slides/lecture10-2-information-models.html#divergence-for-model-comparison",
+    "title": "Information and Entropy",
+    "section": "Divergence for Model Comparison",
+    "text": "Divergence for Model Comparison\nSo Far: Divergence as measure of lack of accuracy.\nBut we never know the “true” distribution of outcomes.\nIt turns out we rarely need to do this: no model will be “right,” so we’re often interested in comparing two candidate models \\(q\\) and \\(r\\)."
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#bimodal-rejection-sampling-example",
-    "href": "slides/lecture06-2-random-simulation.html#bimodal-rejection-sampling-example",
-    "title": "Simulating Random Variables",
-    "section": "Bimodal Rejection Sampling Example",
-    "text": "Bimodal Rejection Sampling Example\n\nCode\n# specify target distribution\nmixmod = MixtureModel(Normal, [(-1, 0.75), (1, 0.4)], [0.5, 0.5])\nx = -5:0.01:5\np1 = plot(x, pdf.(mixmod, x), lw=3, color=:red, xlabel=L\"$x$\", ylabel=\"Density\", label=\"Target\")\nplot!(p1, x, 2.5 * pdf.(Normal(0, 1.5), x), lw=3, color=:blue, label=\"Proposal (M=2.5)\")\nplot!(p1, size=(550, 500))\n\nnsamp = 10_000\nM = 2.5\nu = rand(Uniform(0, 1), nsamp)\ny = rand(Normal(0, 1.5), nsamp)\ng = pdf.(Normal(0, 1.5), y)\nf = pdf.(mixmod, y)\nkeep_samp = u .&lt; f ./ (M * g)\np2 = histogram(y[keep_samp], normalize=:pdf, xlabel=L\"$x$\", ylabel=\"Density\", label=\"Kept Samples\", legend=:topleft)\nplot!(p2, x, pdf.(mixmod, x), linewidth=3, color=:black, label=\"True Target\")\ndensity!(y[keep_samp], label=\"Sampled Density\", color=:red)\nplot!(p2, size=(550, 500))\n\ndisplay(p1)\ndisplay(p2)\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(a) rejection sampling for a mixture model\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b)\n\n\n\n\n\n\n\nFigure 7"
+    "objectID": "slides/lecture10-2-information-models.html#divergence-for-model-comparison-1",
+    "href": "slides/lecture10-2-information-models.html#divergence-for-model-comparison-1",
+    "title": "Information and Entropy",
+    "section": "Divergence for Model Comparison",
+    "text": "Divergence for Model Comparison\nWhat is the difference between \\(D_{KL}(p, q)\\) and \\(D_{KL}(p, r)\\)?\n\\[\nD_{KL}(p, q) - D_{KL}(p, r) = \\sum_i p_i (\\log(r_i) - \\log(q_i))\n\\]\nWe don’t know \\(p_i\\), but comparing the logarithmic scores \\(S(r) = \\sum_i \\log(r_i)\\) and \\(S(q) = \\sum_i \\log(q_i)\\) gives us an approximation."
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#where-do-random-samples-come-from",
-    "href": "slides/lecture06-2-random-simulation.html#where-do-random-samples-come-from",
-    "title": "Simulating Random Variables",
-    "section": "Where Do “Random” Samples Come From?",
-    "text": "Where Do “Random” Samples Come From?\n\n\nThere’s no such thing as a truly random number generator!\nNeed to generate samples in a deterministic way that have random-like properties.\n\n\n\n\nXKCD Cartoon 221\n\n\n\nSource: XKCD 221"
+    "objectID": "slides/lecture10-2-information-models.html#deviance-scale",
+    "href": "slides/lecture10-2-information-models.html#deviance-scale",
+    "title": "Information and Entropy",
+    "section": "Deviance Scale",
+    "text": "Deviance Scale\nThis log-predictive-density score is better when larger.\nCommon to see this converted to deviance, which is \\(-2\\text{lppd}\\):\n\n\\(-1\\) reorients so smaller is better;\nMultiplied by \\(2\\) for historical reasons (cancels out the -1/2 in the Gaussian likelihood)."
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#pseudorandom-number-generators",
-    "href": "slides/lecture06-2-random-simulation.html#pseudorandom-number-generators",
-    "title": "Simulating Random Variables",
-    "section": "Pseudorandom Number Generators",
-    "text": "Pseudorandom Number Generators\nWe want:\n\nNumber of \\(U_i \\in [a, b] \\subset [0, 1]\\) is \\(\\propto b-a\\)\nNo correlation between successive \\(U_i\\).\nNo detectable dependencies in longer series.\n\nThere are several of these implemented in modern programming languages: typical default is the Mersenne Twister."
+    "objectID": "slides/lecture10-2-information-models.html#importance-of-holding-out-data",
+    "href": "slides/lecture10-2-information-models.html#importance-of-holding-out-data",
+    "title": "Information and Entropy",
+    "section": "Importance of Holding Out Data",
+    "text": "Importance of Holding Out Data\n\nTraining data contains information about those predictions (reducing cross-entropy).\nTesting model on training data therefore isn’t a test of “pure” prediction."
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#example-rotations",
-    "href": "slides/lecture06-2-random-simulation.html#example-rotations",
-    "title": "Simulating Random Variables",
-    "section": "Example: Rotations",
-    "text": "Example: Rotations\n\\[U_{t+1} = U_t + \\alpha \\mod 1\\]\n\nIf \\(\\alpha \\neq k/n\\) is irrational, this never repeats (no \\(m\\) such that \\(m\\alpha = 1\\).)\nIf \\(\\alpha = k/n\\) is rational, this repeats, but with a long period for large \\(n\\)."
+    "objectID": "slides/lecture10-2-information-models.html#deviance-and-degrees-of-freedom",
+    "href": "slides/lecture10-2-information-models.html#deviance-and-degrees-of-freedom",
+    "title": "Information and Entropy",
+    "section": "Deviance and Degrees of Freedom",
+    "text": "Deviance and Degrees of Freedom\n\nCode\nfunction calculate_deviance(y_gen, x_gen, y_oos, x_oos; degree=2, reg=Inf)\n    # fit model\n    lb = [-5 .+ zeros(degree); 0.01]\n    ub = [5 .+ zeros(degree); 10.0]\n    p0 = [zeros(degree); 5.0]\n\n    function model_loglik(p, y, x, reg)\n        if mean(p[1:end-1]) &lt;= reg\n            ll = 0\n            for i = 1:length(y)\n                μ = sum(x[i, 1:degree] .* p[1:end-1])\n                ll += logpdf(Normal(μ, p[end]), y[i])\n            end\n        else\n            ll = -Inf\n        end\n        return ll\n    end\n\n    result = optimize(p -&gt; -model_loglik(p, y_gen, x_gen, reg), lb, ub, p0)\n    θ = result.minimizer\n\n    function deviance(p, y_pred, x_pred)\n        dev = 0\n        for i = 1:length(y_pred)\n            μ = sum(x_pred[i, 1:degree] .* p[1:end-1])\n            dev += -2 * logpdf(Normal(μ, p[end]), y_pred[i])\n        end\n        return dev\n    end\n\n    dev_is = deviance(θ, y_gen, x_gen)\n    dev_oos = deviance(θ, y_oos, x_oos)\n    return (dev_is, dev_oos)\nend\n\n\nN_sim = 10_000\n\nfunction simulate_deviance(N_sim, N_data; reg=Inf)\n    d_is = zeros(5, 4)\n    for d = 1:5\n        dev_out = zeros(N_sim, 2)\n        for n = 1:N_sim\n            x_gen = rand(Uniform(-2, 2), (N_data, 5))\n            μ_gen = [0.1 * x_gen[i, 1] - 0.3 * x_gen[i, 2] for i in 1:N_data]\n            y_gen = rand.(Normal.(μ_gen, 1))\n\n            x_oos = rand(Uniform(-2, 2), (N_data, 5))\n            μ_oos = [0.1 * x_oos[i, 1] - 0.3 * x_oos[i, 2] for i in 1:N_data]\n            y_oos = rand.(Normal.(μ_oos, 1))\n\n            dev_out[n, :] .= calculate_deviance(y_gen, x_gen, y_oos, x_oos, degree=d, reg=reg)\n        end\n        d_is[d, 1] = mean(dev_out[:, 1])\n        d_is[d, 2] = std(dev_out[:, 1])\n        d_is[d, 3] = mean(dev_out[:, 2])\n        d_is[d, 4] = std(dev_out[:, 2])\n    end\n    return d_is\nend\n\nd_20 = simulate_deviance(N_sim, 20)\np1 = scatter(collect(1:5) .- 0.1, d_20[:, 1], yerr=d_20[:, 2], color=:blue, linecolor=:blue, lw=2, markersize=5, label=\"In Sample\", xlabel=\"Number of Predictors\", ylabel=\"Deviance\", title=L\"$N = 20$\")\nscatter!(p1, collect(1:5) .+ 0.1, d_20[:, 3], yerr=d_20[:, 4], lw=2, markersize=5, color=:black, linecolor=:black, label=\"Out of Sample\")\nplot!(p1, size=(600, 550))\n\nd_100 = simulate_deviance(N_sim, 100)\np2 = scatter(collect(1:5) .- 0.1, d_100[:, 1], yerr=d_100[:, 2], color=:blue, linecolor=:blue, lw=2, markersize=5, label=\"In Sample\", xlabel=\"Number of Predictors\", ylabel=\"Deviance\", title=L\"$N = 100$\")\nscatter!(p2, collect(1:5) .+ 0.1, d_100[:, 3], yerr=d_100[:, 4], lw=2, markersize=5, color=:black, linecolor=:black, label=\"Out of Sample\")\nplot!(p2, size=(600, 550))\n\ndisplay(p1)\ndisplay(p2)\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Simulation of in vs. out of sample deviance calculations with increasing number of simulations\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b)\n\n\n\n\n\n\n\nFigure 4"
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#prngs-and-chaos",
-    "href": "slides/lecture06-2-random-simulation.html#prngs-and-chaos",
-    "title": "Simulating Random Variables",
-    "section": "(P)RNGs and Chaos",
-    "text": "(P)RNGs and Chaos\nWe can get similar dynamics from area-preserving chaotic dynamical systems:\n\nLong periods with dense orbits (well-mixing);\nArea-perserving (uniformly distributed);\nRapid divergence of nearby points (sensitivity to initial conditions);"
+    "objectID": "slides/lecture10-2-information-models.html#key-points",
+    "href": "slides/lecture10-2-information-models.html#key-points",
+    "title": "Information and Entropy",
+    "section": "Key Points",
+    "text": "Key Points\n\nInformation entropy as measure of uncertainty.\nKullback-Leiber Divergence: measure of “distance” between two distributions.\nDifference between K-L divergences lets us compare predictive skill of two models even without knowing “true” probabilities of events.\nDeviance: Multiply log-predictive score by -2."
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#example-arnold-cat-map",
-    "href": "slides/lecture06-2-random-simulation.html#example-arnold-cat-map",
-    "title": "Simulating Random Variables",
-    "section": "Example: Arnold Cat Map",
-    "text": "Example: Arnold Cat Map\n\n\n\\[\n\\begin{align*}\n\\phi_{t+1} &= 2U_t + \\phi_t \\mod  1 \\\\\nU_{t+1} &= \\phi_t + U_t \\mod  1\n\\end{align*}\n\\]\nReport only \\((U_t)\\): get hard to predict uniformly distributed data.\n\n\n\n\nArnold Cat Map\n\n\n\nSource: Wikipedia"
-  },
-  {
-    "objectID": "slides/lecture06-2-random-simulation.html#cat-map-vs-mersenne-twister",
-    "href": "slides/lecture06-2-random-simulation.html#cat-map-vs-mersenne-twister",
-    "title": "Simulating Random Variables",
-    "section": "Cat Map vs Mersenne Twister",
-    "text": "Cat Map vs Mersenne Twister\n\nCode\nfunction cat_map(N)\n    U = zeros(N)\n    ϕ = zeros(N)\n    U[1], ϕ[1] = rand(Uniform(0, 1), 2)\n    for i = 2:N\n        ϕ[i] = rem(U[i-1] + 2 * ϕ[i-1], 1.0)\n        U[i] = rem(U[i-1] + ϕ[i-1], 1.0)\n    end\n    return U\nend\n\nN = 1_000\nZ = cat_map(N)\nU = rand(MersenneTwister(1), N) # Mersenne Twister is not the default in Julia, but is in other languages, so using it here by explicitly setting it as the generator\n\np1 = scatter(Z[1:end-1], Z[2:end], xlabel=L\"$U_t$\", ylabel=L\"$U_{t+1}$\", title=\"Cat Map\", label=false, size=(500, 500))\np2 = scatter(U[1:end-1], U[2:end], xlabel=L\"$U_t$\", ylabel=L\"$U_{t+1}$\", title=\"Mersenne Twister\", label=false, size=(500, 500))\n\ndisplay(p1)\ndisplay(p2)\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Comparison of the Arnold cat map and output from the Mersenne Twister\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b)\n\n\n\n\n\n\n\nFigure 8"
-  },
-  {
-    "objectID": "slides/lecture06-2-random-simulation.html#random-seeds",
-    "href": "slides/lecture06-2-random-simulation.html#random-seeds",
-    "title": "Simulating Random Variables",
-    "section": "Random Seeds",
-    "text": "Random Seeds\nPseudo-random numbers are deterministic, so can be repeated. The sequence depends on a seed.\n\nIf you don’t set a seed explicitly, the computer will choose one (usually based on the date/time stamp when you execute the script or program).\nSetting a seed resets the sequence.\n\nSet seeds to ensure reproducibility."
-  },
-  {
-    "objectID": "slides/lecture06-2-random-simulation.html#butbe-careful-with-seeds",
-    "href": "slides/lecture06-2-random-simulation.html#butbe-careful-with-seeds",
-    "title": "Simulating Random Variables",
-    "section": "But…Be Careful With Seeds",
-    "text": "But…Be Careful With Seeds\n\nPossible for a statistical procedure to appear to work with just one seed; test across several.\nSeeds may match, but RNG algorithm may be different across different languages/versions."
-  },
-  {
-    "objectID": "slides/lecture06-2-random-simulation.html#key-points-bayesian-statistics",
-    "href": "slides/lecture06-2-random-simulation.html#key-points-bayesian-statistics",
-    "title": "Simulating Random Variables",
-    "section": "Key Points: Bayesian Statistics",
-    "text": "Key Points: Bayesian Statistics\n\nUse prior predictive simulations to refine priors.\nPriors matter less when likelihood is highly informative."
-  },
-  {
-    "objectID": "slides/lecture06-2-random-simulation.html#key-points-random-numbers",
-    "href": "slides/lecture06-2-random-simulation.html#key-points-random-numbers",
-    "title": "Simulating Random Variables",
-    "section": "Key Points: Random Numbers",
-    "text": "Key Points: Random Numbers\n\nCan generate uniform distributions using pseudorandom number generators (unstable dynamical systems).\nTransform into other distributions using:\n\nQuantile method;\nRejection method.\n\nDefault functions work well; only really have to worry about any of this when sampling from “non-nice” distributions"
-  },
-  {
-    "objectID": "slides/lecture06-2-random-simulation.html#next-classes",
-    "href": "slides/lecture06-2-random-simulation.html#next-classes",
-    "title": "Simulating Random Variables",
+    "objectID": "slides/lecture10-2-information-models.html#next-classes",
+    "href": "slides/lecture10-2-information-models.html#next-classes",
+    "title": "Information and Entropy",
     "section": "Next Classes",
-    "text": "Next Classes\nNext Week: Monte Carlo Simulation and the Bootstrap"
+    "text": "Next Classes\nNext Week: Spring Break\nWeek After: Information Criteria for Model Comparison\nRest of Semester: Specific topics useful for environmental data analysis (extremes, missing data, etc)."
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#term-project",
-    "href": "slides/lecture06-2-random-simulation.html#term-project",
-    "title": "Simulating Random Variables",
-    "section": "Term Project",
-    "text": "Term Project\n\nCan work in groups of 1-2\nProposal due 3/21.\nMax three pages, should include background and problem statement, data overview, proposed probability models, and research plan.\nDeliverables include presentations (in class, last 2-3 sessions) and written report (during finals week)."
+    "objectID": "slides/lecture10-2-information-models.html#assessments",
+    "href": "slides/lecture10-2-information-models.html#assessments",
+    "title": "Information and Entropy",
+    "section": "Assessments",
+    "text": "Assessments\nHW4: Due on 4/11 at 9pm."
   },
   {
-    "objectID": "slides/lecture06-2-random-simulation.html#references-scroll-for-full-list",
-    "href": "slides/lecture06-2-random-simulation.html#references-scroll-for-full-list",
-    "title": "Simulating Random Variables",
+    "objectID": "slides/lecture10-2-information-models.html#references-scroll-for-full-list",
+    "href": "slides/lecture10-2-information-models.html#references-scroll-for-full-list",
+    "title": "Information and Entropy",
     "section": "References (Scroll for Full List)",
-    "text": "References (Scroll for Full List)"
+    "text": "References (Scroll for Full List)\n\n\n\n\nGneiting, T., Fadoua Balabdaoui, & Raftery, A. E. (2007). Probabilistic Forecasts, Calibration and Sharpness. J. R. Stat. Soc. Series B Stat. Methodol., 69, 243–268. Retrieved from http://www.jstor.org/stable/4623266\n\n\nShannon, C. E. (1948). A mathematical theory of communication. Bell Syst. Tech. J., 27, 379–423. Retrieved from https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf"
   },
   {
     "objectID": "slides/lecture07-2-bootstrap.html#monte-carlo-simulation",
@@ -4827,6 +4785,62 @@
     "text": "What Do You Hope To Get Out Of This Course?\nTake a moment, write it down, and we’ll share!"
   },
   {
+    "objectID": "slides/lecture01-1-intro.html#why-does-data-analysis-matter",
+    "href": "slides/lecture01-1-intro.html#why-does-data-analysis-matter",
+    "title": "Welcome to BEE 4850/5850!",
+    "section": "Why Does Data Analysis Matter?",
+    "text": "Why Does Data Analysis Matter?\n\nScientific insight;\nDecision-making;\nUnderstanding uncertainty"
+  },
+  {
+    "objectID": "slides/lecture01-1-intro.html#examples-of-data-related-questions",
+    "href": "slides/lecture01-1-intro.html#examples-of-data-related-questions",
+    "title": "Welcome to BEE 4850/5850!",
+    "section": "Examples of Data-Related Questions",
+    "text": "Examples of Data-Related Questions\n\nHow often will a particular (usually extreme) outcome occur?\nWhat causes differences between environmental conditions at different times/locations?\nWhat might the impacts be of environmental change?\nDoes a new (treatment/management) method have a reliable impact?"
+  },
+  {
+    "objectID": "slides/lecture01-1-intro.html#the-ideal",
+    "href": "slides/lecture01-1-intro.html#the-ideal",
+    "title": "Welcome to BEE 4850/5850!",
+    "section": "The Ideal",
+    "text": "The Ideal\n\n\nGoal: Obtain data that is so self-evident that you don’t need to do statistics!\n\n\n\n\nXKCD 2400\n\n\n\nSource: XKCD 2400"
+  },
+  {
+    "objectID": "slides/lecture01-1-intro.html#but-in-actuality",
+    "href": "slides/lecture01-1-intro.html#but-in-actuality",
+    "title": "Welcome to BEE 4850/5850!",
+    "section": "But in Actuality",
+    "text": "But in Actuality\n\nExcept in the most controlled experiments, data are noisy;\nThe causes of the data cannot be extracted from the data alone;\nThe reasons for statistical analyses are not found in the data themselves."
+  },
+  {
+    "objectID": "slides/lecture01-1-intro.html#description-and-inference-are-connected",
+    "href": "slides/lecture01-1-intro.html#description-and-inference-are-connected",
+    "title": "Welcome to BEE 4850/5850!",
+    "section": "Description and Inference are Connected",
+    "text": "Description and Inference are Connected\n\n\nExcept for superficial tasks:\n\nKnowing what is important to describe requires a model;\nUnderstanding how the data might differ from the population requires a model.\n\n\n\n\n\n\nSpidermen Meme"
+  },
+  {
+    "objectID": "slides/lecture01-1-intro.html#some-problems-with-the-standard-data-analysis-toolkit",
+    "href": "slides/lecture01-1-intro.html#some-problems-with-the-standard-data-analysis-toolkit",
+    "title": "Welcome to BEE 4850/5850!",
+    "section": "Some Problems With The “Standard” Data Analysis Toolkit",
+    "text": "Some Problems With The “Standard” Data Analysis Toolkit\n\nStatistical assumptions may not be valid;\n“Null” vs “Alternative” hypotheses and tests may be chosen for computational convenience, not scientific relevance.\nMany different substantive models can imply the same statistical model.\n\n\nImportant: “Big” data doesn’t solve the problem!"
+  },
+  {
+    "objectID": "slides/lecture01-1-intro.html#model-based-data-analysis",
+    "href": "slides/lecture01-1-intro.html#model-based-data-analysis",
+    "title": "Welcome to BEE 4850/5850!",
+    "section": "Model-Based Data Analysis",
+    "text": "Model-Based Data Analysis\n\n\nModels are how we assess evidence for theories.\nModels are encodings of hypothesized data-generating processes.\n\n\n\n\n\nRock Paper Scissors meme"
+  },
+  {
+    "objectID": "slides/lecture01-1-intro.html#what-can-we-do-with-models",
+    "href": "slides/lecture01-1-intro.html#what-can-we-do-with-models",
+    "title": "Welcome to BEE 4850/5850!",
+    "section": "What Can We Do With Models?",
+    "text": "What Can We Do With Models?\n\nInference: what are parameter values which explain data?\nSimulation: what are alternative counterfactual observations?\nProjection: what future data might be observed assuming this data-generating process?\nTesting: which data-generating processes are most consistent with the data?"
+  },
+  {
     "objectID": "slides/lecture01-1-intro.html#my-philosophical-position",
     "href": "slides/lecture01-1-intro.html#my-philosophical-position",
     "title": "Welcome to BEE 4850/5850!",
@@ -4834,15 +4848,15 @@
     "text": "My Philosophical Position\n\n\n\nProbability theory helps us deduce logical implications of theories conditional on our assumptions\nCannot use an “objective” procedure to avoid subjective responsibility\n\n\n\n\n\n\nBart Statistics Meme"
   },
   {
-    "objectID": "slides/lecture01-1-intro.html#model-based-data-analysis",
-    "href": "slides/lecture01-1-intro.html#model-based-data-analysis",
+    "objectID": "slides/lecture01-1-intro.html#model-based-data-analysis-1",
+    "href": "slides/lecture01-1-intro.html#model-based-data-analysis-1",
     "title": "Welcome to BEE 4850/5850!",
     "section": "Model-Based Data Analysis",
     "text": "Model-Based Data Analysis\nWe can (transparently):\n\nExamine logical implications of model assumptions (including interventions/out-of-sample generation).\nAssess evidence for multiple hypotheses by generating simulated data.\nIdentify opportunities to design future experiments or observations to distinguish between competing hypotheses."
   },
   {
-    "objectID": "slides/lecture01-1-intro.html#model-based-data-analysis-1",
-    "href": "slides/lecture01-1-intro.html#model-based-data-analysis-1",
+    "objectID": "slides/lecture01-1-intro.html#model-based-data-analysis-2",
+    "href": "slides/lecture01-1-intro.html#model-based-data-analysis-2",
     "title": "Welcome to BEE 4850/5850!",
     "section": "Model-Based Data Analysis",
     "text": "Model-Based Data Analysis\n\n\nModels are how we assess evidence for theories.\n\n\n\n\n\nRock Paper Scissors meme"
@@ -4852,7 +4866,7 @@
     "href": "slides/lecture01-1-intro.html#course-organization",
     "title": "Welcome to BEE 4850/5850!",
     "section": "Course Organization",
-    "text": "Course Organization\n\n\n\n\n\ntimeline\n      Introduction and Exploratory Analysis (Weeks 1-2): Overview\n                  : Why Analyze Data?\n                  : Exploratory Analysis\n                  : Data Visualization\n      Probability Fundamentals (Weeks 3-6): Prob/Stats \"Review\"\n                                          : Modeling Data-Generating Processes\n                                          : Maximum Likelihood\n                                          : Time Series\n                                          : Extreme Values\n      Simulation Methods (Weeks 7-10): Random Simulation\n                                    : Monte Carlo\n                                    : The Bootstrap\n                                    : Missing Data and Imputation\n      Model Evaluation (Weeks 12-13): Bias and Variance\n                      : Cross-Validation\n                      : Hypothesis Testing\n                      : Information Criteria\n      Experimental Design (Weeks 14-15): Causal Models and Confounds\n                                 : Value of Information"
+    "text": "Course Organization\n\n\n\n\n\ntimeline\n      Introduction and Exploratory Analysis (Weeks 1-2): Overview\n                  : Prob/Stats \"Review\"\n                  : Exploratory Analysis\n                  : Data Visualization\n      Probability Fundamentals (Weeks 3-6): Modeling Data-Generating Processes\n                                          : Maximum Likelihood\n                                          : Time Series\n                                          : Extreme Values\n      Simulation Methods (Weeks 7-10): Random Simulation\n                                    : Monte Carlo\n                                    : The Bootstrap\n                                    : Missing Data and Imputation\n      Model Evaluation (Weeks 12-13): Bias and Variance\n                      : Cross-Validation\n                      : Hypothesis Testing\n                      : Information Criteria\n      Experimental Design (Weeks 14-15): Value of Information\n                                 : Design of Experiments"
   },
   {
     "objectID": "slides/lecture01-1-intro.html#background-knowledge-computing",
@@ -5020,14 +5034,14 @@
     "href": "slides/lecture01-1-intro.html#next-classes",
     "title": "Welcome to BEE 4850/5850!",
     "section": "Next Classes",
-    "text": "Next Classes\n\nWhy Analyze Data?"
+    "text": "Next Classes\n\nProbability Review"
   },
   {
     "objectID": "slides/lecture01-1-intro.html#assessments",
     "href": "slides/lecture01-1-intro.html#assessments",
     "title": "Welcome to BEE 4850/5850!",
     "section": "Assessments",
-    "text": "Assessments\nHomework 1 available; due Friday (2/9)."
+    "text": "Assessments\nHomework 1 available; due Friday, 2/6."
   },
   {
     "objectID": "slides/lecture01-1-intro.html#references-scroll-for-full-list",
@@ -5310,312 +5324,459 @@
     "text": "References (Scroll for Full List)"
   },
   {
-    "objectID": "slides/lecture01-2-why-analyze.html#why-does-data-analysis-matter",
-    "href": "slides/lecture01-2-why-analyze.html#why-does-data-analysis-matter",
-    "title": "Why Analyze Data?",
-    "section": "Why Does Data Analysis Matter?",
-    "text": "Why Does Data Analysis Matter?\n\nScientific insight;\nDecision-making;\nUnderstanding uncertainty"
+    "objectID": "slides/lecture06-2-random-simulation.html#bayesian-statistics",
+    "href": "slides/lecture06-2-random-simulation.html#bayesian-statistics",
+    "title": "Simulating Random Variables",
+    "section": "Bayesian Statistics",
+    "text": "Bayesian Statistics\n\nFocused on conditional probability (conditioned on the data)\nBayes’ Theorem to update priors using likelihood.\nPriors can be finicky: use predictive simulations.\nOutstanding question: how do we sample from the posterior (versus just taking the MAP?)"
   },
   {
-    "objectID": "slides/lecture01-2-why-analyze.html#examples-of-data-related-questions",
-    "href": "slides/lecture01-2-why-analyze.html#examples-of-data-related-questions",
-    "title": "Why Analyze Data?",
-    "section": "Examples of Data-Related Questions",
-    "text": "Examples of Data-Related Questions\n\nHow often will a particular (usually extreme) outcome occur?\nWhat causes differences between environmental conditions at different times/locations?\nWhat might the impacts be of environmental change?\nDoes a new (treatment/management) method have a reliable impact?"
+    "objectID": "slides/lecture06-2-random-simulation.html#why-simulate",
+    "href": "slides/lecture06-2-random-simulation.html#why-simulate",
+    "title": "Simulating Random Variables",
+    "section": "Why Simulate?",
+    "text": "Why Simulate?\n\nWe want to see implications of a probability model.\nWe want to test statistical procedures (synthetic data simulation).\nEasier than computing integrals (Monte Carlo).\nComputational efficiency (e.g. stochastic gradient descent).\n\nGenerally: Turns calculus/analytical problems into data summary problems."
   },
   {
-    "objectID": "slides/lecture01-2-why-analyze.html#the-ideal",
-    "href": "slides/lecture01-2-why-analyze.html#the-ideal",
-    "title": "Why Analyze Data?",
-    "section": "The Ideal",
-    "text": "The Ideal\n\n\nGoal: Obtain data that is so self-evident that you don’t need to do statistics!\n\n\n\n\nXKCD 2400\n\n\n\nSource: XKCD 2400"
+    "objectID": "slides/lecture06-2-random-simulation.html#example-posterior-sampling",
+    "href": "slides/lecture06-2-random-simulation.html#example-posterior-sampling",
+    "title": "Simulating Random Variables",
+    "section": "Example: Posterior Sampling",
+    "text": "Example: Posterior Sampling\n\n\n\\(p(\\theta)\\) and \\(p(y | \\theta)\\) are often “nice” distributions, but nothing says \\[p(\\theta | y) \\propto p(\\theta) \\times p(y | \\theta)\\]\nhas to be!\n\n\n\nCode\nnormal_samples = rand(Normal(2, 0.5), 10)\n\nlik(σ) = prod(pdf(Normal.(2, σ), normal_samples))\nprior(σ) = pdf(LogNormal(log(0.25), 0.25), σ)\nposterior(σ) = lik(σ) * prior(σ)\n\nσ_range = 0.1:0.01:1\nplot(σ_range, posterior.(σ_range) / maximum(posterior.(σ_range)), color=:black, label=\"Posterior\", linewidth=3)\nplot!(σ_range, lik.(σ_range) / maximum(lik.(σ_range)), color=:blue, label=\"Likelihood\", linewidth=3, linestyle=:dash)\nplot!(σ_range, prior.(σ_range) / maximum(prior.(σ_range)), color=:orange, label=\"Prior\", linewidth=3, linestyle=:dot)\nxlabel!(L\"$\\sigma$\")\nylabel!(\"Scaled Log-Density\")\nplot!(size=(550, 500))\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 1: Comparison of prior, posterior, and likelihood."
   },
   {
-    "objectID": "slides/lecture01-2-why-analyze.html#but-in-actuality",
-    "href": "slides/lecture01-2-why-analyze.html#but-in-actuality",
-    "title": "Why Analyze Data?",
-    "section": "But in Actuality",
-    "text": "But in Actuality\n\nExcept in the most controlled experiments, data are noisy;\nThe causes of the data cannot be extracted from the data alone;\nThe reasons for statistical analyses are not found in the data themselves."
+    "objectID": "slides/lecture06-2-random-simulation.html#built-in-sampling-functions",
+    "href": "slides/lecture06-2-random-simulation.html#built-in-sampling-functions",
+    "title": "Simulating Random Variables",
+    "section": "Built-In Sampling Functions",
+    "text": "Built-In Sampling Functions\nR: sample, rnorm, rbinom, etc.\nJulia: rand, Distributions.rand\nPython: numpy.random.rand, scipy.stats.xx.rand"
   },
   {
-    "objectID": "slides/lecture01-2-why-analyze.html#causation-is-not-association",
-    "href": "slides/lecture01-2-why-analyze.html#causation-is-not-association",
-    "title": "Why Analyze Data?",
-    "section": "Causation Is Not Association",
-    "text": "Causation Is Not Association\n\n\n\nWe’ve all heard “correlation (association) does not imply causation”\nBut confounds/noise can mean causation does not imply association\n\n\n\n\n\n\nCorrelation not Causation Meme\n\n\n\n\nSource: Richard McElreath"
+    "objectID": "slides/lecture06-2-random-simulation.html#what-are-these-functions-doing",
+    "href": "slides/lecture06-2-random-simulation.html#what-are-these-functions-doing",
+    "title": "Simulating Random Variables",
+    "section": "What Are These Functions Doing?",
+    "text": "What Are These Functions Doing?\nThink of a biased coin with probability of heads \\(\\theta\\).\nWant to obtain a Bernoulli random variable.\nWhat can we do without using a built-in Bernoulli function?"
   },
   {
-    "objectID": "slides/lecture01-2-why-analyze.html#extreme-events",
-    "href": "slides/lecture01-2-why-analyze.html#extreme-events",
-    "title": "Why Analyze Data?",
-    "section": "Extreme Events",
-    "text": "Extreme Events\n\n\n\n\nExtreme Events\n\n\n\n\nSource: Doss-Gollin & Keller (2023)"
+    "objectID": "slides/lecture06-2-random-simulation.html#coin-flip-simulation",
+    "href": "slides/lecture06-2-random-simulation.html#coin-flip-simulation",
+    "title": "Simulating Random Variables",
+    "section": "Coin Flip Simulation",
+    "text": "Coin Flip Simulation\nGiven heads probability \\(\\theta\\):\n\nDraw \\(u \\sim Uniform(0, 1)\\).\nIf \\(u &lt; \\theta\\), return H.\nElse return T."
   },
   {
-    "objectID": "slides/lecture01-2-why-analyze.html#extreme-events-1",
-    "href": "slides/lecture01-2-why-analyze.html#extreme-events-1",
-    "title": "Why Analyze Data?",
-    "section": "Extreme Events",
-    "text": "Extreme Events\n\n\n\n\nXKCD 2107\n\n\n\n\nSource: XKCD 2107"
+    "objectID": "slides/lecture06-2-random-simulation.html#what-about-discrete-variables",
+    "href": "slides/lecture06-2-random-simulation.html#what-about-discrete-variables",
+    "title": "Simulating Random Variables",
+    "section": "What About Discrete Variables?",
+    "text": "What About Discrete Variables?\nHow can we generalize this strategy for discrete distributions with category probabilities \\(\\theta_1, \\theta_2, \\ldots, \\theta_n\\)?"
   },
   {
-    "objectID": "slides/lecture01-2-why-analyze.html#correlated-uncertainties",
-    "href": "slides/lecture01-2-why-analyze.html#correlated-uncertainties",
-    "title": "Why Analyze Data?",
-    "section": "Correlated Uncertainties",
-    "text": "Correlated Uncertainties\n\n\n \n\n\nSource: Errickson et al. (2021)"
+    "objectID": "slides/lecture06-2-random-simulation.html#discrete-variable-simulation",
+    "href": "slides/lecture06-2-random-simulation.html#discrete-variable-simulation",
+    "title": "Simulating Random Variables",
+    "section": "Discrete Variable Simulation",
+    "text": "Discrete Variable Simulation\nGiven category probabilities \\(\\theta_1, \\theta_2, \\ldots, \\theta_n\\):\n\nDraw \\(u \\sim Uniform(0, 1)\\).\nIf \\(u &lt; \\theta_1\\), return 1.\nIf \\(u &lt; \\theta_1 + \\theta_2\\), return 2,\n\\(\\vdots\\)\nElse return \\(n\\)."
   },
   {
-    "objectID": "slides/lecture01-2-why-analyze.html#non-stationarity",
-    "href": "slides/lecture01-2-why-analyze.html#non-stationarity",
-    "title": "Why Analyze Data?",
-    "section": "Non-Stationarity",
-    "text": "Non-Stationarity\n\n\n\n\nNon-Stationary Trends\n\n\n\n\nSource: Fagnant et al. (2020)"
+    "objectID": "slides/lecture06-2-random-simulation.html#generalization-quantile-transform-method",
+    "href": "slides/lecture06-2-random-simulation.html#generalization-quantile-transform-method",
+    "title": "Simulating Random Variables",
+    "section": "Generalization: Quantile Transform Method",
+    "text": "Generalization: Quantile Transform Method\nGiven \\(U \\sim Uniform(0, 1)\\), target CDF \\(F\\), \\(X = F^{-1}(U)\\) has CDF \\(F\\).\nWhy?\n\\[\\mathbb{P}(X \\leq a) = \\mathbb{P}(F^{-1}(U) \\leq a) = \\mathbb{P}(U \\leq F(a)) = F(a)\\]\n\nIn other words, if we can generate uniform variables and calculate quantiles, can generate non-uniform variables."
   },
   {
-    "objectID": "slides/lecture01-2-why-analyze.html#forcing-model-uncertainty",
-    "href": "slides/lecture01-2-why-analyze.html#forcing-model-uncertainty",
-    "title": "Why Analyze Data?",
-    "section": "Forcing & Model Uncertainty",
-    "text": "Forcing & Model Uncertainty\n\n\n\n\nDifferent Uncertainties for SLR\n\n\n\n\nSource: Doss-Gollin & Keller (2023)"
+    "objectID": "slides/lecture06-2-random-simulation.html#problem-solvedright",
+    "href": "slides/lecture06-2-random-simulation.html#problem-solvedright",
+    "title": "Simulating Random Variables",
+    "section": "Problem Solved…Right?",
+    "text": "Problem Solved…Right?\n\nOften don’t have quantile functions in closed form.\nThey also often don’t have nice numerical solutions."
   },
   {
-    "objectID": "slides/lecture01-2-why-analyze.html#deep-uncertainty",
-    "href": "slides/lecture01-2-why-analyze.html#deep-uncertainty",
-    "title": "Why Analyze Data?",
-    "section": "Deep Uncertainty",
-    "text": "Deep Uncertainty\n\n\n\n\nDeep Uncertainty for Future Climate Projections\n\n\n\n\nSource: Srikrishnan et al. (2022)"
+    "objectID": "slides/lecture06-2-random-simulation.html#using-the-pdf",
+    "href": "slides/lecture06-2-random-simulation.html#using-the-pdf",
+    "title": "Simulating Random Variables",
+    "section": "Using the PDF",
+    "text": "Using the PDF\n\n\nSuppose the PDF \\(f\\) has support on \\([a, b]\\) and \\(f(x) \\leq M\\).\nWhat could we do to sample \\(X \\sim f(\\cdot)\\)?\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 2: Beta Distribution"
   },
   {
-    "objectID": "slides/lecture01-2-why-analyze.html#description-and-inference-are-connected",
-    "href": "slides/lecture01-2-why-analyze.html#description-and-inference-are-connected",
-    "title": "Why Analyze Data?",
-    "section": "Description and Inference are Connected",
-    "text": "Description and Inference are Connected\n\n\nExcept for superficial tasks:\n\nKnowing what is important to describe requires a model;\nUnderstanding how the data might differ from the population requires a model.\n\n\n\n\n\n\nSpidermen Meme"
+    "objectID": "slides/lecture06-2-random-simulation.html#rejection-sampling-algorithm",
+    "href": "slides/lecture06-2-random-simulation.html#rejection-sampling-algorithm",
+    "title": "Simulating Random Variables",
+    "section": "Rejection Sampling Algorithm",
+    "text": "Rejection Sampling Algorithm\nGiven pdf \\(f\\) for \\(X\\), upper bound \\(M\\) on \\(f\\) in \\([a, b]\\):\n\nSimulate uniformly: \\(y \\sim [a, b]\\), \\(u \\sim [0, 1]\\).\nIf \\(Mu &lt; f(y)\\), keep \\(y\\) as a sample of \\(X\\).\nOtherwise reject."
   },
   {
-    "objectID": "slides/lecture01-2-why-analyze.html#some-problems-with-the-standard-data-analysis-toolkit",
-    "href": "slides/lecture01-2-why-analyze.html#some-problems-with-the-standard-data-analysis-toolkit",
-    "title": "Why Analyze Data?",
-    "section": "Some Problems With The “Standard” Data Analysis Toolkit",
-    "text": "Some Problems With The “Standard” Data Analysis Toolkit\n\nStatistical assumptions may not be valid;\n“Null” vs “Alternative” hypotheses and tests may be chosen for computational convenience, not scientific relevance.\nMany different substantive models can imply the same statistical model.\n\n\nImportant: “Big” data doesn’t solve the problem!"
+    "objectID": "slides/lecture06-2-random-simulation.html#rejection-sampling-visualization",
+    "href": "slides/lecture06-2-random-simulation.html#rejection-sampling-visualization",
+    "title": "Simulating Random Variables",
+    "section": "Rejection Sampling Visualization",
+    "text": "Rejection Sampling Visualization\n\n\nFigure 3: Example of rejection sampling for a Beta distribution"
   },
   {
-    "objectID": "slides/lecture01-2-why-analyze.html#model-based-data-analysis",
-    "href": "slides/lecture01-2-why-analyze.html#model-based-data-analysis",
-    "title": "Why Analyze Data?",
-    "section": "Model-Based Data Analysis",
-    "text": "Model-Based Data Analysis\n\n\nModels are how we assess evidence for theories.\nModels are encodings of hypothesized data-generating processes.\n\n\n\n\n\nRock Paper Scissors meme"
+    "objectID": "slides/lecture06-2-random-simulation.html#rejection-sampling-efficiency",
+    "href": "slides/lecture06-2-random-simulation.html#rejection-sampling-efficiency",
+    "title": "Simulating Random Variables",
+    "section": "Rejection Sampling Efficiency",
+    "text": "Rejection Sampling Efficiency\nImportant: Only kept 27% of proposals.\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Results from uniform rejection sampling\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b)\n\n\n\n\n\n\n\nFigure 4"
   },
   {
-    "objectID": "slides/lecture01-2-why-analyze.html#what-can-we-do-with-models",
-    "href": "slides/lecture01-2-why-analyze.html#what-can-we-do-with-models",
-    "title": "Why Analyze Data?",
-    "section": "What Can We Do With Models?",
-    "text": "What Can We Do With Models?\n\nInference: what are parameter values which explain data?\nSimulation: what are alternative counterfactual observations?\nProjection: what future data might be observed assuming this data-generating process?\nTesting: which data-generating processes are most consistent with the data?"
+    "objectID": "slides/lecture06-2-random-simulation.html#more-general-rejection-sampling",
+    "href": "slides/lecture06-2-random-simulation.html#more-general-rejection-sampling",
+    "title": "Simulating Random Variables",
+    "section": "More General Rejection Sampling",
+    "text": "More General Rejection Sampling\n\n\nUse a proposal density \\(g(\\cdot)\\) which “covers” target \\(f(\\cdot)\\) and is easy to sample from.\nSample from \\(g\\), reject based on \\(f\\).\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 5: Using a t distribution as proposal density for normal."
   },
   {
-    "objectID": "slides/lecture01-2-why-analyze.html#next-week",
-    "href": "slides/lecture01-2-why-analyze.html#next-week",
-    "title": "Why Analyze Data?",
-    "section": "Next Week",
-    "text": "Next Week\n\nExploratory Analysis and Data Visualization"
+    "objectID": "slides/lecture06-2-random-simulation.html#general-rejection-sampling-algorithm",
+    "href": "slides/lecture06-2-random-simulation.html#general-rejection-sampling-algorithm",
+    "title": "Simulating Random Variables",
+    "section": "General Rejection Sampling Algorithm",
+    "text": "General Rejection Sampling Algorithm\nSuppose \\(f(x) \\leq M g(x)\\) for some \\(1 &lt; M &lt; \\infty\\).\n\nSimulate a proposal \\(y \\sim g(x)\\) (e.g. by quantile method).\nSimulate \\(u \\sim \\text{Unif}(0, 1)\\)\nIf \\[u &lt; \\frac{f(y)}{M g(y)},\\] accept \\(y\\); otherwise reject."
   },
   {
-    "objectID": "slides/lecture01-2-why-analyze.html#assessments",
-    "href": "slides/lecture01-2-why-analyze.html#assessments",
-    "title": "Why Analyze Data?",
-    "section": "Assessments",
-    "text": "Assessments\nHomework 1 available; due Friday (2/9)."
+    "objectID": "slides/lecture06-2-random-simulation.html#rejection-sampling-example",
+    "href": "slides/lecture06-2-random-simulation.html#rejection-sampling-example",
+    "title": "Simulating Random Variables",
+    "section": "Rejection Sampling Example",
+    "text": "Rejection Sampling Example\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 6: Example of rejection sampling for a Normal distribution\n\n\n\n\n\nThis time we kept 35% of the proposals."
   },
   {
-    "objectID": "slides/lecture01-2-why-analyze.html#references-scroll-for-full-list",
-    "href": "slides/lecture01-2-why-analyze.html#references-scroll-for-full-list",
-    "title": "Why Analyze Data?",
-    "section": "References (Scroll for Full List)",
-    "text": "References (Scroll for Full List)\n\n\n\n\nDoss-Gollin, J., & Keller, K. (2023). A subjective Bayesian framework for synthesizing deep uncertainties in climate risk management. Earths Future, 11, e2022EF003044. https://doi.org/10.1029/2022ef003044\n\n\nErrickson, F. C., Keller, K., Collins, W. D., Srikrishnan, V., & Anthoff, D. (2021). Equity is more important for the social cost of methane than climate uncertainty. Nature, 592, 564–570. https://doi.org/10.1038/s41586-021-03386-6\n\n\nFagnant, C., Gori, A., Sebastian, A., Bedient, P. B., & Ensor, K. B. (2020). Characterizing spatiotemporal trends in extreme precipitation in Southeast Texas. Nat. Hazards, 104, 1597–1621. https://doi.org/10.1007/s11069-020-04235-x\n\n\nSrikrishnan, V., Guan, Y., Tol, R. S. J., & Keller, K. (2022). Probabilistic projections of baseline twenty-first century CO2 emissions using a simple calibrated integrated assessment model. Clim. Change, 170, 37. https://doi.org/10.1007/s10584-021-03279-7"
+    "objectID": "slides/lecture06-2-random-simulation.html#rejection-sampling-efficiency-1",
+    "href": "slides/lecture06-2-random-simulation.html#rejection-sampling-efficiency-1",
+    "title": "Simulating Random Variables",
+    "section": "Rejection Sampling Efficiency",
+    "text": "Rejection Sampling Efficiency\n\nProbability of accepting a sample is \\(1/M\\), so the “tighter” the proposal distribution coverage the more efficient the sampler.\nNeed to be able to compute \\(M\\) and sample from the proposal.\n\nFinding a good proposal and computing \\(M\\) may not be easy (or possible) for complex distributions!"
   },
   {
-    "objectID": "slides/lecture10-2-information-models.html#what-makes-a-good-prediction",
-    "href": "slides/lecture10-2-information-models.html#what-makes-a-good-prediction",
-    "title": "Information and Entropy",
-    "section": "What Makes A Good Prediction?",
-    "text": "What Makes A Good Prediction?\nWhat do we want to see in a probabilistic projection \\(F\\)?\n\n\nCalibration: Does the predicted CDF \\(F(y)\\) align with the “true” distribution of observations \\(y\\)? \\[\\mathbb{P}(y \\leq F^{-1}(\\tau)) = \\tau \\qquad \\forall \\tau \\in [0, 1]\\]\nDispersion: Is the concentration (variance) of \\(F\\) aligned with the concentration of observations?\nSharpness: How concentrated are the forecasts \\(F\\)?"
+    "objectID": "slides/lecture06-2-random-simulation.html#bimodal-rejection-sampling-example",
+    "href": "slides/lecture06-2-random-simulation.html#bimodal-rejection-sampling-example",
+    "title": "Simulating Random Variables",
+    "section": "Bimodal Rejection Sampling Example",
+    "text": "Bimodal Rejection Sampling Example\n\nCode\n# specify target distribution\nmixmod = MixtureModel(Normal, [(-1, 0.75), (1, 0.4)], [0.5, 0.5])\nx = -5:0.01:5\np1 = plot(x, pdf.(mixmod, x), lw=3, color=:red, xlabel=L\"$x$\", ylabel=\"Density\", label=\"Target\")\nplot!(p1, x, 2.5 * pdf.(Normal(0, 1.5), x), lw=3, color=:blue, label=\"Proposal (M=2.5)\")\nplot!(p1, size=(550, 500))\n\nnsamp = 10_000\nM = 2.5\nu = rand(Uniform(0, 1), nsamp)\ny = rand(Normal(0, 1.5), nsamp)\ng = pdf.(Normal(0, 1.5), y)\nf = pdf.(mixmod, y)\nkeep_samp = u .&lt; f ./ (M * g)\np2 = histogram(y[keep_samp], normalize=:pdf, xlabel=L\"$x$\", ylabel=\"Density\", label=\"Kept Samples\", legend=:topleft)\nplot!(p2, x, pdf.(mixmod, x), linewidth=3, color=:black, label=\"True Target\")\ndensity!(y[keep_samp], label=\"Sampled Density\", color=:red)\nplot!(p2, size=(550, 500))\n\ndisplay(p1)\ndisplay(p2)\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(a) rejection sampling for a mixture model\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b)\n\n\n\n\n\n\n\nFigure 7"
   },
   {
-    "objectID": "slides/lecture10-2-information-models.html#probability-integral-transform-pit",
-    "href": "slides/lecture10-2-information-models.html#probability-integral-transform-pit",
-    "title": "Information and Entropy",
-    "section": "Probability Integral Transform (PIT)",
-    "text": "Probability Integral Transform (PIT)\nCommon to use the PIT to make these more concrete: \\(Z_F = F(y)\\).\nThe forecast is probabilistically calibrated if \\(Z_F \\sim Uniform(0, 1)\\).\nThe forecast is properly dispersed if \\(\\text{Var}(Z_F) = 1/12\\).\nSharpness can be measured by the width of a particular prediction interval. A good forecast is a sharp as possible subject to calibration (Gneiting et al., 2007)."
+    "objectID": "slides/lecture06-2-random-simulation.html#where-do-random-samples-come-from",
+    "href": "slides/lecture06-2-random-simulation.html#where-do-random-samples-come-from",
+    "title": "Simulating Random Variables",
+    "section": "Where Do “Random” Samples Come From?",
+    "text": "Where Do “Random” Samples Come From?\n\n\nThere’s no such thing as a truly random number generator!\nNeed to generate samples in a deterministic way that have random-like properties.\n\n\n\n\nXKCD Cartoon 221\n\n\n\nSource: XKCD 221"
   },
   {
-    "objectID": "slides/lecture10-2-information-models.html#scoring-rules",
-    "href": "slides/lecture10-2-information-models.html#scoring-rules",
-    "title": "Information and Entropy",
-    "section": "Scoring Rules",
-    "text": "Scoring Rules\nA scoring rule \\(S(F, y)\\) measures the “loss” of a predicted probability distribution \\(F\\) once an observation \\(y\\) is obtained.\nProper scoring rules are minimized when the forecasted distribution matches the observed distribution:\n\\[\\mathbb{E}_Y(S(G, G)) \\leq \\mathbb{E}_Y(S(F, G)) \\qquad \\forall F.\\]"
+    "objectID": "slides/lecture06-2-random-simulation.html#pseudorandom-number-generators",
+    "href": "slides/lecture06-2-random-simulation.html#pseudorandom-number-generators",
+    "title": "Simulating Random Variables",
+    "section": "Pseudorandom Number Generators",
+    "text": "Pseudorandom Number Generators\nWe want:\n\nNumber of \\(U_i \\in [a, b] \\subset [0, 1]\\) is \\(\\propto b-a\\)\nNo correlation between successive \\(U_i\\).\nNo detectable dependencies in longer series.\n\nThere are several of these implemented in modern programming languages: typical default is the Mersenne Twister."
   },
   {
-    "objectID": "slides/lecture10-2-information-models.html#k-fold-cross-validation",
-    "href": "slides/lecture10-2-information-models.html#k-fold-cross-validation",
-    "title": "Information and Entropy",
-    "section": "\\(k\\)-Fold Cross-Validation",
-    "text": "\\(k\\)-Fold Cross-Validation\nWhat if we repeated this procedure for multiple held-out sets?\n\nRandomly split data into \\(k = n / m\\) equally-sized subsets.\nFor each \\(i = 1, \\ldots, k\\), fit model to \\(y_{-i}\\) and test on \\(y_i\\).\n\nIf data are large, this is a good approximation."
+    "objectID": "slides/lecture06-2-random-simulation.html#example-rotations",
+    "href": "slides/lecture06-2-random-simulation.html#example-rotations",
+    "title": "Simulating Random Variables",
+    "section": "Example: Rotations",
+    "text": "Example: Rotations\n\\[U_{t+1} = U_t + \\alpha \\mod 1\\]\n\nIf \\(\\alpha \\neq k/n\\) is irrational, this never repeats (no \\(m\\) such that \\(m\\alpha = 1\\).)\nIf \\(\\alpha = k/n\\) is rational, this repeats, but with a long period for large \\(n\\)."
   },
   {
-    "objectID": "slides/lecture10-2-information-models.html#loo-cv-algorithm",
-    "href": "slides/lecture10-2-information-models.html#loo-cv-algorithm",
-    "title": "Information and Entropy",
-    "section": "LOO-CV Algorithm",
-    "text": "LOO-CV Algorithm\n\nDrop one value \\(y_i\\).\nRefit model on rest of data \\(y_{-i}\\).\nPredict dropped point \\(p(\\hat{y}_i | y_{-i})\\).\nEvaluate score on dropped point (\\(\\log p(y_i | y_{-i})\\)).\nRepeat on rest of data set."
+    "objectID": "slides/lecture06-2-random-simulation.html#prngs-and-chaos",
+    "href": "slides/lecture06-2-random-simulation.html#prngs-and-chaos",
+    "title": "Simulating Random Variables",
+    "section": "(P)RNGs and Chaos",
+    "text": "(P)RNGs and Chaos\nWe can get similar dynamics from area-preserving chaotic dynamical systems:\n\nLong periods with dense orbits (well-mixing);\nArea-perserving (uniformly distributed);\nRapid divergence of nearby points (sensitivity to initial conditions);"
   },
   {
-    "objectID": "slides/lecture10-2-information-models.html#interpreting-scores",
-    "href": "slides/lecture10-2-information-models.html#interpreting-scores",
-    "title": "Information and Entropy",
-    "section": "Interpreting Scores",
-    "text": "Interpreting Scores\nWhen directly comparing models, this can be straightforward: lower (usually) score =&gt; better.\nBut this doesn’t tell us anything about whether a particular score is good or even acceptable: How do we quantify the “distance” from “perfect” prediction?"
+    "objectID": "slides/lecture06-2-random-simulation.html#example-arnold-cat-map",
+    "href": "slides/lecture06-2-random-simulation.html#example-arnold-cat-map",
+    "title": "Simulating Random Variables",
+    "section": "Example: Arnold Cat Map",
+    "text": "Example: Arnold Cat Map\n\n\n\\[\n\\begin{align*}\n\\phi_{t+1} &= 2U_t + \\phi_t \\mod  1 \\\\\nU_{t+1} &= \\phi_t + U_t \\mod  1\n\\end{align*}\n\\]\nReport only \\((U_t)\\): get hard to predict uniformly distributed data.\n\n\n\n\nArnold Cat Map\n\n\n\nSource: Wikipedia"
   },
   {
-    "objectID": "slides/lecture10-2-information-models.html#uncertainty-and-information",
-    "href": "slides/lecture10-2-information-models.html#uncertainty-and-information",
-    "title": "Information and Entropy",
-    "section": "Uncertainty and Information",
-    "text": "Uncertainty and Information\nMore uncertainty ⇒ predictions are more difficult.\nOne approach: quantify information as the reduction in uncertainty conditional on a prediction or projection.\nExample: Perfect prediction ⇒ complete reduction in uncertainty (observation will always match prediction)."
+    "objectID": "slides/lecture06-2-random-simulation.html#cat-map-vs-mersenne-twister",
+    "href": "slides/lecture06-2-random-simulation.html#cat-map-vs-mersenne-twister",
+    "title": "Simulating Random Variables",
+    "section": "Cat Map vs Mersenne Twister",
+    "text": "Cat Map vs Mersenne Twister\n\nCode\nfunction cat_map(N)\n    U = zeros(N)\n    ϕ = zeros(N)\n    U[1], ϕ[1] = rand(Uniform(0, 1), 2)\n    for i = 2:N\n        ϕ[i] = rem(U[i-1] + 2 * ϕ[i-1], 1.0)\n        U[i] = rem(U[i-1] + ϕ[i-1], 1.0)\n    end\n    return U\nend\n\nN = 1_000\nZ = cat_map(N)\nU = rand(MersenneTwister(1), N) # Mersenne Twister is not the default in Julia, but is in other languages, so using it here by explicitly setting it as the generator\n\np1 = scatter(Z[1:end-1], Z[2:end], xlabel=L\"$U_t$\", ylabel=L\"$U_{t+1}$\", title=\"Cat Map\", label=false, size=(500, 500))\np2 = scatter(U[1:end-1], U[2:end], xlabel=L\"$U_t$\", ylabel=L\"$U_{t+1}$\", title=\"Mersenne Twister\", label=false, size=(500, 500))\n\ndisplay(p1)\ndisplay(p2)\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Comparison of the Arnold cat map and output from the Mersenne Twister\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b)\n\n\n\n\n\n\n\nFigure 8"
   },
   {
-    "objectID": "slides/lecture10-2-information-models.html#quantifying-uncertainty",
-    "href": "slides/lecture10-2-information-models.html#quantifying-uncertainty",
-    "title": "Information and Entropy",
-    "section": "Quantifying Uncertainty",
-    "text": "Quantifying Uncertainty\nWhat properties should a measure of uncertainty possess?\n\nShould be continuous wrt probabilities;\nShould increase with number of possible events;\nShould be additive."
+    "objectID": "slides/lecture06-2-random-simulation.html#random-seeds",
+    "href": "slides/lecture06-2-random-simulation.html#random-seeds",
+    "title": "Simulating Random Variables",
+    "section": "Random Seeds",
+    "text": "Random Seeds\nPseudo-random numbers are deterministic, so can be repeated. The sequence depends on a seed.\n\nIf you don’t set a seed explicitly, the computer will choose one (usually based on the date/time stamp when you execute the script or program).\nSetting a seed resets the sequence.\n\nSet seeds to ensure reproducibility."
   },
   {
-    "objectID": "slides/lecture10-2-information-models.html#entropy",
-    "href": "slides/lecture10-2-information-models.html#entropy",
-    "title": "Information and Entropy",
-    "section": "Entropy",
-    "text": "Entropy\nIt turns out there is only one function which satisfies these conditions: Information Entropy (Shannon, 1948)\n\\[H(p) = -\\mathbb{E}(\\log(p_i)) = - \\sum_{i=1}^n p_i \\log p_i\\]\nThe entropy (or uncertainty) of a probability distribution is the average log-probability of an event."
+    "objectID": "slides/lecture06-2-random-simulation.html#butbe-careful-with-seeds",
+    "href": "slides/lecture06-2-random-simulation.html#butbe-careful-with-seeds",
+    "title": "Simulating Random Variables",
+    "section": "But…Be Careful With Seeds",
+    "text": "But…Be Careful With Seeds\n\nPossible for a statistical procedure to appear to work with just one seed; test across several.\nSeeds may match, but RNG algorithm may be different across different languages/versions."
   },
   {
-    "objectID": "slides/lecture10-2-information-models.html#entropy-example",
-    "href": "slides/lecture10-2-information-models.html#entropy-example",
-    "title": "Information and Entropy",
-    "section": "Entropy Example",
-    "text": "Entropy Example\nSuppose in Ithaca we have “true” probabilities of rain, sunshine, and fog which are 0.55, 0.2, and 0.25.\n\\[H(p) = -(0.55 \\log(0.55) + 0.2 \\log(0.2) + 0.25\\log(0.25) \\approx 1.0\\]"
+    "objectID": "slides/lecture06-2-random-simulation.html#key-points-bayesian-statistics",
+    "href": "slides/lecture06-2-random-simulation.html#key-points-bayesian-statistics",
+    "title": "Simulating Random Variables",
+    "section": "Key Points: Bayesian Statistics",
+    "text": "Key Points: Bayesian Statistics\n\nUse prior predictive simulations to refine priors.\nPriors matter less when likelihood is highly informative."
   },
   {
-    "objectID": "slides/lecture10-2-information-models.html#entropy-example-1",
-    "href": "slides/lecture10-2-information-models.html#entropy-example-1",
-    "title": "Information and Entropy",
-    "section": "Entropy Example",
-    "text": "Entropy Example\nNow suppose in Dubai these probabilities are 0.01, 0.95, and 0.04, respectively.\n\\[H(p) = -(0.01 \\log(0.01) + 0.95 \\log(0.95) + 0.04\\log(0.04) \\approx 0.22\\]\n\\(H\\) is lower in Dubai than in Ithaca because there is less uncertainty about the outcome on a given day."
+    "objectID": "slides/lecture06-2-random-simulation.html#key-points-random-numbers",
+    "href": "slides/lecture06-2-random-simulation.html#key-points-random-numbers",
+    "title": "Simulating Random Variables",
+    "section": "Key Points: Random Numbers",
+    "text": "Key Points: Random Numbers\n\nCan generate uniform distributions using pseudorandom number generators (unstable dynamical systems).\nTransform into other distributions using:\n\nQuantile method;\nRejection method.\n\nDefault functions work well; only really have to worry about any of this when sampling from “non-nice” distributions"
   },
   {
-    "objectID": "slides/lecture10-2-information-models.html#maximum-entropy",
-    "href": "slides/lecture10-2-information-models.html#maximum-entropy",
-    "title": "Information and Entropy",
-    "section": "Maximum Entropy",
-    "text": "Maximum Entropy\nAs an aside, what distribution maximizes entropy (has the most uncertainty subject to its constraints)?\nThis is equivalent to a distribution being the “least informative” given a set of constraints.\nCan think of this as being the distribution which can emerge through the greatest combination of data-generating events."
-  },
-  {
-    "objectID": "slides/lecture10-2-information-models.html#maximum-entropy-examples",
-    "href": "slides/lecture10-2-information-models.html#maximum-entropy-examples",
-    "title": "Information and Entropy",
-    "section": "Maximum Entropy Examples",
-    "text": "Maximum Entropy Examples\n\nFrom the Central Limit Theorem, Gaussians emerge as the limit of sums of arbitrary random variables with finite mean and variance.\nThis is equivalent to Gaussians as the entropy-maximizing distribution for a given (finite) mean and variance.\nBinomial distributions maximize entropy under the assumptions of two outcomes with constant probabilities.\n\nThis is where generalized linear models come from!"
-  },
-  {
-    "objectID": "slides/lecture10-2-information-models.html#from-entropy-to-accuracy",
-    "href": "slides/lecture10-2-information-models.html#from-entropy-to-accuracy",
-    "title": "Information and Entropy",
-    "section": "From Entropy to Accuracy",
-    "text": "From Entropy to Accuracy\nEntropy: Measure of uncertainty across a distribution \\(p\\).\nDivergence: Uncertainty induced by using probabilities from one distribution \\(q\\) to describe outcomes from another “true” distribution \\(p\\).\nThe lower the divergence between a predictive distribution \\(q\\) and a “true” distribution \\(p\\), the more “skill” \\(q\\) has."
-  },
-  {
-    "objectID": "slides/lecture10-2-information-models.html#kullback-leibler-divergence",
-    "href": "slides/lecture10-2-information-models.html#kullback-leibler-divergence",
-    "title": "Information and Entropy",
-    "section": "Kullback-Leibler Divergence",
-    "text": "Kullback-Leibler Divergence\nOne way to formalize divergence: how much additional entropy (uncertainty) is introduced by using a model \\(q\\) instead of the true target \\(p\\)?\n\\[D_{KL}(p, q) = \\sum_i p_i (\\log(p_i) - \\log(q_i)) = \\sum_i p_i \\log\\left(\\frac{p_i}{q_i}\\right)\\]\nThus the “divergence” (intuitively: distance) between two distributions is the average difference in log-probabilities between the target \\(p\\) and the model \\(q\\)."
-  },
-  {
-    "objectID": "slides/lecture10-2-information-models.html#k-l-divergence-example",
-    "href": "slides/lecture10-2-information-models.html#k-l-divergence-example",
-    "title": "Information and Entropy",
-    "section": "K-L Divergence Example",
-    "text": "K-L Divergence Example\n\n\nSuppose the “true” probability of rain is \\(p(\\text{Rain}) = 0.65\\) and the “true” probability of \\(p(\\text{Sunshine})=0.35\\).\nWhat happens as we change \\(q(\\text{Rain})\\)?\n\n\n\nCode\np_true = [0.65, 0.35]\nq_rain = 0.01:0.01:0.99\n\nfunction kl_divergence_2outcome(p, q)\n    div_diff = log.(p) .- log.(q)\n    return sum(p .* div_diff)\nend\n\nkl_out(q) = kl_divergence_2outcome(p_true, [q, 1 - q])\nplot(q_rain, kl_out.(q_rain), lw=3, label=false, ylabel=\"Kullback-Leibler Divergence\", xlabel=L\"$q(\\textrm{Rain})$\")\nvline!([p_true[1]], lw=3, color=:red, linestyle=:dash, label=\"True Probability\")\nplot!(size=(600, 550))\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 1: Example of K-L Divergence"
-  },
-  {
-    "objectID": "slides/lecture10-2-information-models.html#k-l-divergence-is-not-symmetric",
-    "href": "slides/lecture10-2-information-models.html#k-l-divergence-is-not-symmetric",
-    "title": "Information and Entropy",
-    "section": "K-L Divergence Is Not Symmetric",
-    "text": "K-L Divergence Is Not Symmetric\n\n\n\n\nCode\np = MixtureModel(Normal, [(-1, 0.25), (1, 0.25)], [0.5, 0.5])\npsamp = rand(p, 100_000)\nq = Normal(0, 1)\nqsamp = rand(q, 100_000)\n\n# Monte Carlo estimation of K-L Divergence\nkl_pq = mean(logpdf.(p, psamp) .- logpdf.(q, psamp))\nkl_qp = mean(logpdf.(q, qsamp) .- logpdf.(p, qsamp))\np1 = density(psamp, lw=3, label=L\"$p$\", color=:blue, xlabel=L\"$x$\", ylabel=\"Density\")\ndensity!(p1, qsamp, lw=3, label=L\"$q$\", color=:black, linestyle=:dash)\nplot!(p1, size=(500, 300))\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 2: Lack of symmetry of the K-L Divergence\n\n\n\n\n\\(D_{KL}(p, q) =\\) 0.72\n\\(D_{KL}(q, p) =\\) 2.02\n\n\n\nCode\np = MixtureModel(Normal, [(-1, 0.25), (1, 0.25)], [0.5, 0.5])\npsamp = rand(p, 100_000)\nq = Normal(-1, 0.25)\nqsamp = rand(q, 100_000)\n\n# Monte Carlo estimation of K-L Divergence\nkl_pq = mean(logpdf.(p, psamp) .- logpdf.(q, psamp))\nkl_qp = mean(logpdf.(q, qsamp) .- logpdf.(p, qsamp))\np2 = density(psamp, lw=3, label=L\"$p$\", color=:blue, xlabel=L\"$x$\", ylabel=\"Density\")\ndensity!(p2, qsamp, lw=3, label=L\"$q$\", color=:black, linestyle=:dash)\nplot!(p2, size=(500, 300))\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 3: Lack of symmetry of the K-L Divergence\n\n\n\n\n\\(D_{KL}(p, q) =\\) 15.26\n\\(D_{KL}(q, p) =\\) 0.69"
-  },
-  {
-    "objectID": "slides/lecture10-2-information-models.html#divergence-for-model-comparison",
-    "href": "slides/lecture10-2-information-models.html#divergence-for-model-comparison",
-    "title": "Information and Entropy",
-    "section": "Divergence for Model Comparison",
-    "text": "Divergence for Model Comparison\nSo Far: Divergence as measure of lack of accuracy.\nBut we never know the “true” distribution of outcomes.\nIt turns out we rarely need to do this: no model will be “right,” so we’re often interested in comparing two candidate models \\(q\\) and \\(r\\)."
-  },
-  {
-    "objectID": "slides/lecture10-2-information-models.html#divergence-for-model-comparison-1",
-    "href": "slides/lecture10-2-information-models.html#divergence-for-model-comparison-1",
-    "title": "Information and Entropy",
-    "section": "Divergence for Model Comparison",
-    "text": "Divergence for Model Comparison\nWhat is the difference between \\(D_{KL}(p, q)\\) and \\(D_{KL}(p, r)\\)?\n\\[\nD_{KL}(p, q) - D_{KL}(p, r) = \\sum_i p_i (\\log(r_i) - \\log(q_i))\n\\]\nWe don’t know \\(p_i\\), but comparing the logarithmic scores \\(S(r) = \\sum_i \\log(r_i)\\) and \\(S(q) = \\sum_i \\log(q_i)\\) gives us an approximation."
-  },
-  {
-    "objectID": "slides/lecture10-2-information-models.html#deviance-scale",
-    "href": "slides/lecture10-2-information-models.html#deviance-scale",
-    "title": "Information and Entropy",
-    "section": "Deviance Scale",
-    "text": "Deviance Scale\nThis log-predictive-density score is better when larger.\nCommon to see this converted to deviance, which is \\(-2\\text{lppd}\\):\n\n\\(-1\\) reorients so smaller is better;\nMultiplied by \\(2\\) for historical reasons (cancels out the -1/2 in the Gaussian likelihood)."
-  },
-  {
-    "objectID": "slides/lecture10-2-information-models.html#importance-of-holding-out-data",
-    "href": "slides/lecture10-2-information-models.html#importance-of-holding-out-data",
-    "title": "Information and Entropy",
-    "section": "Importance of Holding Out Data",
-    "text": "Importance of Holding Out Data\n\nTraining data contains information about those predictions (reducing cross-entropy).\nTesting model on training data therefore isn’t a test of “pure” prediction."
-  },
-  {
-    "objectID": "slides/lecture10-2-information-models.html#deviance-and-degrees-of-freedom",
-    "href": "slides/lecture10-2-information-models.html#deviance-and-degrees-of-freedom",
-    "title": "Information and Entropy",
-    "section": "Deviance and Degrees of Freedom",
-    "text": "Deviance and Degrees of Freedom\n\nCode\nfunction calculate_deviance(y_gen, x_gen, y_oos, x_oos; degree=2, reg=Inf)\n    # fit model\n    lb = [-5 .+ zeros(degree); 0.01]\n    ub = [5 .+ zeros(degree); 10.0]\n    p0 = [zeros(degree); 5.0]\n\n    function model_loglik(p, y, x, reg)\n        if mean(p[1:end-1]) &lt;= reg\n            ll = 0\n            for i = 1:length(y)\n                μ = sum(x[i, 1:degree] .* p[1:end-1])\n                ll += logpdf(Normal(μ, p[end]), y[i])\n            end\n        else\n            ll = -Inf\n        end\n        return ll\n    end\n\n    result = optimize(p -&gt; -model_loglik(p, y_gen, x_gen, reg), lb, ub, p0)\n    θ = result.minimizer\n\n    function deviance(p, y_pred, x_pred)\n        dev = 0\n        for i = 1:length(y_pred)\n            μ = sum(x_pred[i, 1:degree] .* p[1:end-1])\n            dev += -2 * logpdf(Normal(μ, p[end]), y_pred[i])\n        end\n        return dev\n    end\n\n    dev_is = deviance(θ, y_gen, x_gen)\n    dev_oos = deviance(θ, y_oos, x_oos)\n    return (dev_is, dev_oos)\nend\n\n\nN_sim = 10_000\n\nfunction simulate_deviance(N_sim, N_data; reg=Inf)\n    d_is = zeros(5, 4)\n    for d = 1:5\n        dev_out = zeros(N_sim, 2)\n        for n = 1:N_sim\n            x_gen = rand(Uniform(-2, 2), (N_data, 5))\n            μ_gen = [0.1 * x_gen[i, 1] - 0.3 * x_gen[i, 2] for i in 1:N_data]\n            y_gen = rand.(Normal.(μ_gen, 1))\n\n            x_oos = rand(Uniform(-2, 2), (N_data, 5))\n            μ_oos = [0.1 * x_oos[i, 1] - 0.3 * x_oos[i, 2] for i in 1:N_data]\n            y_oos = rand.(Normal.(μ_oos, 1))\n\n            dev_out[n, :] .= calculate_deviance(y_gen, x_gen, y_oos, x_oos, degree=d, reg=reg)\n        end\n        d_is[d, 1] = mean(dev_out[:, 1])\n        d_is[d, 2] = std(dev_out[:, 1])\n        d_is[d, 3] = mean(dev_out[:, 2])\n        d_is[d, 4] = std(dev_out[:, 2])\n    end\n    return d_is\nend\n\nd_20 = simulate_deviance(N_sim, 20)\np1 = scatter(collect(1:5) .- 0.1, d_20[:, 1], yerr=d_20[:, 2], color=:blue, linecolor=:blue, lw=2, markersize=5, label=\"In Sample\", xlabel=\"Number of Predictors\", ylabel=\"Deviance\", title=L\"$N = 20$\")\nscatter!(p1, collect(1:5) .+ 0.1, d_20[:, 3], yerr=d_20[:, 4], lw=2, markersize=5, color=:black, linecolor=:black, label=\"Out of Sample\")\nplot!(p1, size=(600, 550))\n\nd_100 = simulate_deviance(N_sim, 100)\np2 = scatter(collect(1:5) .- 0.1, d_100[:, 1], yerr=d_100[:, 2], color=:blue, linecolor=:blue, lw=2, markersize=5, label=\"In Sample\", xlabel=\"Number of Predictors\", ylabel=\"Deviance\", title=L\"$N = 100$\")\nscatter!(p2, collect(1:5) .+ 0.1, d_100[:, 3], yerr=d_100[:, 4], lw=2, markersize=5, color=:black, linecolor=:black, label=\"Out of Sample\")\nplot!(p2, size=(600, 550))\n\ndisplay(p1)\ndisplay(p2)\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Simulation of in vs. out of sample deviance calculations with increasing number of simulations\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b)\n\n\n\n\n\n\n\nFigure 4"
-  },
-  {
-    "objectID": "slides/lecture10-2-information-models.html#key-points",
-    "href": "slides/lecture10-2-information-models.html#key-points",
-    "title": "Information and Entropy",
-    "section": "Key Points",
-    "text": "Key Points\n\nInformation entropy as measure of uncertainty.\nKullback-Leiber Divergence: measure of “distance” between two distributions.\nDifference between K-L divergences lets us compare predictive skill of two models even without knowing “true” probabilities of events.\nDeviance: Multiply log-predictive score by -2."
-  },
-  {
-    "objectID": "slides/lecture10-2-information-models.html#next-classes",
-    "href": "slides/lecture10-2-information-models.html#next-classes",
-    "title": "Information and Entropy",
+    "objectID": "slides/lecture06-2-random-simulation.html#next-classes",
+    "href": "slides/lecture06-2-random-simulation.html#next-classes",
+    "title": "Simulating Random Variables",
     "section": "Next Classes",
-    "text": "Next Classes\nNext Week: Spring Break\nWeek After: Information Criteria for Model Comparison\nRest of Semester: Specific topics useful for environmental data analysis (extremes, missing data, etc)."
+    "text": "Next Classes\nNext Week: Monte Carlo Simulation and the Bootstrap"
   },
   {
-    "objectID": "slides/lecture10-2-information-models.html#assessments",
-    "href": "slides/lecture10-2-information-models.html#assessments",
-    "title": "Information and Entropy",
-    "section": "Assessments",
-    "text": "Assessments\nHW4: Due on 4/11 at 9pm."
+    "objectID": "slides/lecture06-2-random-simulation.html#term-project",
+    "href": "slides/lecture06-2-random-simulation.html#term-project",
+    "title": "Simulating Random Variables",
+    "section": "Term Project",
+    "text": "Term Project\n\nCan work in groups of 1-2\nProposal due 3/21.\nMax three pages, should include background and problem statement, data overview, proposed probability models, and research plan.\nDeliverables include presentations (in class, last 2-3 sessions) and written report (during finals week)."
   },
   {
-    "objectID": "slides/lecture10-2-information-models.html#references-scroll-for-full-list",
-    "href": "slides/lecture10-2-information-models.html#references-scroll-for-full-list",
-    "title": "Information and Entropy",
+    "objectID": "slides/lecture06-2-random-simulation.html#references-scroll-for-full-list",
+    "href": "slides/lecture06-2-random-simulation.html#references-scroll-for-full-list",
+    "title": "Simulating Random Variables",
     "section": "References (Scroll for Full List)",
-    "text": "References (Scroll for Full List)\n\n\n\n\nGneiting, T., Fadoua Balabdaoui, & Raftery, A. E. (2007). Probabilistic Forecasts, Calibration and Sharpness. J. R. Stat. Soc. Series B Stat. Methodol., 69, 243–268. Retrieved from http://www.jstor.org/stable/4623266\n\n\nShannon, C. E. (1948). A mathematical theory of communication. Bell Syst. Tech. J., 27, 379–423. Retrieved from https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf"
+    "text": "References (Scroll for Full List)"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#last-class",
+    "href": "slides/lecture01-2-probreview.html#last-class",
+    "title": "Probability Review",
+    "section": "Last Class",
+    "text": "Last Class\n\nClass Motivation\nPolicies (see syllabus if class missed)"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#what-is-uncertainty",
+    "href": "slides/lecture01-2-probreview.html#what-is-uncertainty",
+    "title": "Probability Review",
+    "section": "What is Uncertainty?",
+    "text": "What is Uncertainty?\n\n\n\n…A departure from the (unachievable) ideal of complete determinism…\n\n\n— Walker et al. (2003)\n\nWalker, W. E., Harremoës, P., Rotmans, J., Sluijs, J. P. van der, Asselt, M. B. A. van, Janssen, P., & Krayer von Krauss, M. P. (2003). Defining uncertainty: A conceptual basis for uncertainty management in model-based decision support. Integrated Assessment, 4, 5–17. https://doi.org/10.1076/iaij.4.1.5.16466"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#types-of-uncertainty",
+    "href": "slides/lecture01-2-probreview.html#types-of-uncertainty",
+    "title": "Probability Review",
+    "section": "Types of Uncertainty",
+    "text": "Types of Uncertainty\n\n\n\n\n\n\n\n\n\n\n\nUncertainty Type\nSource\nExample(s)\n\n\n\n\nAleatory uncertainty\nRandomness\nDice rolls, Instrument imprecision\n\n\nEpistemic uncertainty\nLack of knowledge\nClimate sensitivity, Premier League champion\n\n\n\n\n\n\n\nWhich Uncertainty Type Meme\n\n\n\n\n\n\nNote that the distinction between aleatory and epistemic uncertainty is somewhat arbitrary (aside from maybe some quantum effects). For example, we often think of coin tosses as aleatory, but if we had perfect information about the toss, we might be able to predict the outcome with less uncertainty. There’s a famous paper by Persi Diaconis where he collaborated with engineers to build a device which could arbitrary bias a “fair” coin toss.\nBut in practice, this doesn’t really matter: the key thing is whether for a given model we’re treating the uncertainty as entirely random (e.g. white noise) versus being interested in the impacts of that uncertainty on the outcome of interest. And there’s a representation theorem by the Bayesian actuary Bruno de Finetti which shows that, under a condition called exchangeability, we can think of any random sequence as arising from an independent and identically distributed process, so the practical difference can collapse further."
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#sources-of-uncertainty",
+    "href": "slides/lecture01-2-probreview.html#sources-of-uncertainty",
+    "title": "Probability Review",
+    "section": "Sources of Uncertainty",
+    "text": "Sources of Uncertainty\n\n\nModel structures\nParameters\nData collection (measurement/observation errors)"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#probability",
+    "href": "slides/lecture01-2-probreview.html#probability",
+    "title": "Probability Review",
+    "section": "Probability",
+    "text": "Probability\nProbability is a language for expressing uncertainty.\nThe axioms of probability are straightforward:\n\n\\(\\mathcal{P}(E) \\geq 0\\);\n\\(\\mathcal{P}(\\Omega) = 1\\);\n\\(\\mathcal{P}(\\cup_{i=1}^\\infty E_i) = \\sum_{i=1}^\\infty \\mathcal{P}(E_i)\\) for disjoint \\(E_i\\).\n\n\nThe third is a generalization of the definition of independent events to sets of outcomes."
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#frequentist-vs-bayesian-probability",
+    "href": "slides/lecture01-2-probreview.html#frequentist-vs-bayesian-probability",
+    "title": "Probability Review",
+    "section": "Frequentist vs Bayesian Probability",
+    "text": "Frequentist vs Bayesian Probability\n\n\nFrequentist:\n\nProbability as frequency over repeated observations.\nData are random, but parameters are not.\nHow consistent are estimates for different data?\n\n\n\nBayesian:\n\nProbability as degree of belief/betting odds.\nData and parameters are random variables;\nEmphasis on conditional probability."
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#but-what-like-is-probability",
+    "href": "slides/lecture01-2-probreview.html#but-what-like-is-probability",
+    "title": "Probability Review",
+    "section": "But What, Like, Is Probability?",
+    "text": "But What, Like, Is Probability?\n\n\nFrequentist vs. Bayesian: different interpretations with some different methods and formalisms.\nWe will freely borrow from each school depending on the purpose and goal of an analysis.\n\n\n\n\nDefinitions of Probability Meme"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#probability-distributions",
+    "href": "slides/lecture01-2-probreview.html#probability-distributions",
+    "title": "Probability Review",
+    "section": "Probability Distributions",
+    "text": "Probability Distributions\nDistributions are mathematical representations of probabilities over a range of possible outcomes.\n\\[x \\to \\mathbb{P}_{\\color{green}\\mathcal{D}}[x] = p_{\\color{green}\\mathcal{D}}\\left(x | {\\color{purple}\\theta}\\right)\\]\n\n\\({\\color{green}\\mathcal{D}}\\): probability distribution (often implicit);\n\\({\\color{purple}\\theta}\\): distribution parameters"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#sampling-notation",
+    "href": "slides/lecture01-2-probreview.html#sampling-notation",
+    "title": "Probability Review",
+    "section": "Sampling Notation",
+    "text": "Sampling Notation\nTo write \\(x\\) is sampled from \\(\\mathcal{D}(\\theta)\\): \\[x \\sim \\mathcal{D}(\\theta)\\]\nFor example, for a normal distribution: \\[x \\overset{\\text{i.i.d.}}{\\sim} \\mathcal{N}(\\mu, \\sigma)\\]\n\n“i.i.d.” means “identically and independently distributed.””"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#probability-density-function",
+    "href": "slides/lecture01-2-probreview.html#probability-density-function",
+    "title": "Probability Review",
+    "section": "Probability Density Function",
+    "text": "Probability Density Function\nA continuous distribution \\(\\mathcal{D}\\) has a probability density function (PDF) \\(f_\\mathcal{D}(x) = p(x | \\theta)\\).\nThe probability of \\(x\\) occurring in an interval \\((a, b)\\) is \\[\\mathbb{P}[a \\leq x \\leq b] = \\int_a^b f_\\mathcal{D}(x)dx.\\]\nImportant: \\(\\mathbb{P}(x = x^*)\\) is zero!"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#probability-mass-functions",
+    "href": "slides/lecture01-2-probreview.html#probability-mass-functions",
+    "title": "Probability Review",
+    "section": "Probability Mass Functions",
+    "text": "Probability Mass Functions\nDiscrete distributions have probability mass functions (PMFs) which are defined at point values, e.g. \\(p(x = x^*) \\neq 0\\).\n\nUnlike continuous distributions, we can talk about the probability of individual values for discrete distributions, which a PMF provides versus a PDF. But in general these are the same things."
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#cumulative-density-functions",
+    "href": "slides/lecture01-2-probreview.html#cumulative-density-functions",
+    "title": "Probability Review",
+    "section": "Cumulative Density Functions",
+    "text": "Cumulative Density Functions\n\n\nIf \\(\\mathcal{D}\\) is a distribution with PDF \\(f_\\mathcal{D}(x)\\), the cumulative density function (CDF) of \\(\\mathcal{D}\\) is \\(F_\\mathcal{D}(x)\\):\n\\[F_\\mathcal{D}(x) = \\int_{-\\infty}^x f_\\mathcal{D}(u)du.\\]\n\n\ndist = TDist(4)\nx = -5:0.01:5\nq = 0.25\np1 = plot(x, x -&gt; cdf(dist, x), ylabel=\"Cumulative Density\", xlabel=L\"$x$\", linewidth=3, label=false)\nplot!([-5, quantile(dist, q)], [q, q], color=:gray, linestyle=:dash, linewidth=2, label=false)\nplot!([quantile(dist, q), quantile(dist, q)], [0, q], color=:gray, linestyle=:dash, linewidth=2, label=false, size=(500, 300))\n\np2 = plot(x, x -&gt; pdf(dist, x), linewidth=3, ylabel=\"Density\", xlabel=L\"$x$\", label=false)\nxpdf = -5:0.01:quantile(dist, q)\nplot!(xpdf, zeros(length(xpdf)), fillrange=pdf.(dist, xpdf), fillalpha=0.5, color=:gray, label=false, size=(500, 300))\n\ndisplay(p1)\ndisplay(p2)\n\n\n\n\n\n\n\n\n\n\n\n(a) Relationship of CDF and PDF\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b)\n\n\n\n\n\n\n\nFigure 1"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#relationship-between-pdfs-and-cdfs",
+    "href": "slides/lecture01-2-probreview.html#relationship-between-pdfs-and-cdfs",
+    "title": "Probability Review",
+    "section": "Relationship Between PDFs and CDFs",
+    "text": "Relationship Between PDFs and CDFs\nSince \\[F_\\mathcal{D}(x) = \\int_{-\\infty}^x f_\\mathcal{D}(u)du,\\]\nif \\(f_\\mathcal{D}\\) is continuous at \\(x\\), the Fundamental Theorem of Calculus gives: \\[f_\\mathcal{D}(x) = \\frac{d}{dx}F_\\mathcal{D}(x).\\]\n\nThe value of the CDF is the amount of probability “below” the value. So e.g. for a one-sided statistical test, the p-value is the complement of the CDF at the value of the test statistic."
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#quantiles",
+    "href": "slides/lecture01-2-probreview.html#quantiles",
+    "title": "Probability Review",
+    "section": "Quantiles",
+    "text": "Quantiles\n\n\nThe quantile function is the inverse of the CDF:\n\\[q(\\alpha) = F^{-1}_\\mathcal{D}(\\alpha)\\]\nSo \\[x_0 = q(\\alpha) \\iff \\mathbb{P}_\\mathcal{D}(X &lt; x_0) = \\alpha.\\]\n\n\ndist = TDist(4)\nx = -5:0.01:5\nq = 0.25\np1 = plot(x, x -&gt; cdf(dist, x), ylabel=\"Cumulative Density\", xlabel=L\"$x$\", linewidth=3, label=false)\nplot!([-5, quantile(dist, q)], [q, q], color=:gray, linestyle=:dash, linewidth=2, label=false)\nplot!([quantile(dist, q), quantile(dist, q)], [0, q], color=:gray, linestyle=:dash, linewidth=2, label=false, size=(500, 300))\n\np2 = plot(x, x -&gt; pdf(dist, x), linewidth=3, ylabel=\"Density\", xlabel=L\"$x$\", label=false)\nxpdf = -5:0.01:quantile(dist, q)\nplot!(xpdf, zeros(length(xpdf)), fillrange=pdf.(dist, xpdf), fillalpha=0.5, color=:gray, label=false, size=(500, 300))\n\ndisplay(p1)\ndisplay(p2)\n\n\n\n\n\n\n\n\n\n\n\n(a) Relationship of CDF and PDF\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b)\n\n\n\n\n\n\n\nFigure 2"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#distributions-are-assumptions",
+    "href": "slides/lecture01-2-probreview.html#distributions-are-assumptions",
+    "title": "Probability Review",
+    "section": "Distributions Are Assumptions",
+    "text": "Distributions Are Assumptions\nSpecifying a distribution is making an assumption about observations and any applicable constraints.\nExamples: If your observations are…\n\nContinuous and fat-tailed? Cauchy distribution\nContinuous and bounded? Beta distribution\nSums of positive random variables? Gamma or Normal distribution."
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#why-normal-distributions",
+    "href": "slides/lecture01-2-probreview.html#why-normal-distributions",
+    "title": "Probability Review",
+    "section": "Why Normal Distributions?",
+    "text": "Why Normal Distributions?\n\n\nTwo main reasons to use linear models/normal distributions:\n\nInferential: “Least informative” distribution assuming knowledge of just mean and variance;\nGenerative: Central Limit Theorem (summed fluctuations are asymptotically normal)\n\n\n\n\n\nWeight stack Gaussian distribution\n\n\n\nSource: r/GymMemes\n\n\n\nOne key thing: normal distributions are the “least informative” distribution given constraints on mean and variance. So all else being equal, this is a useful machine if all we’re interested in are those two moments."
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#statistics-of-random-variables-are-random-variables",
+    "href": "slides/lecture01-2-probreview.html#statistics-of-random-variables-are-random-variables",
+    "title": "Probability Review",
+    "section": "Statistics of Random Variables are Random Variables",
+    "text": "Statistics of Random Variables are Random Variables\nThe sum or mean of a random sample is itself a random variable:\n\\[\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i \\sim \\mathcal{D}_n\\]\n\n\\(\\mathcal{D}_n\\): The sampling distribution of the mean (or sum, or other estimate of interest)."
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#sampling-distributions",
+    "href": "slides/lecture01-2-probreview.html#sampling-distributions",
+    "title": "Probability Review",
+    "section": "Sampling Distributions",
+    "text": "Sampling Distributions\n\n\n\nIllustration of the Sampling Distribution"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#central-limit-theorem",
+    "href": "slides/lecture01-2-probreview.html#central-limit-theorem",
+    "title": "Probability Review",
+    "section": "Central Limit Theorem",
+    "text": "Central Limit Theorem\nIf\n\n\\(\\mathbb{E}[X_i] = \\mu\\)\nand \\(\\text{Var}(X_i) = \\sigma^2 &lt; \\infty\\),\n\n\\[\\begin{align*}\n&\\bbox[yellow, 10px, border:5px solid red]\n{\\lim_{n \\to \\infty} \\sqrt{n}(\\bar{X}_n - \\mu ) = \\mathcal{N}(0, \\sigma^2)} \\\\\n\\Rightarrow &\\bbox[yellow, 10px, border:5px solid red] {\\bar{X}_n \\overset{\\text{approx}}{\\sim} \\mathcal{N}(\\mu, \\sigma^2/n)}\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#central-limit-theorem-more-intuitive",
+    "href": "slides/lecture01-2-probreview.html#central-limit-theorem-more-intuitive",
+    "title": "Probability Review",
+    "section": "Central Limit Theorem (More Intuitive)",
+    "text": "Central Limit Theorem (More Intuitive)\n\n\nFor a large enough set of samples, the sampling distribution of a sum or mean of random variables is approximately a normal distribution, even if the random variables themselves are not.\n\n\n\n\nSmall n Meme\n\n\n\nSource: Unknown"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#likelihood-1",
+    "href": "slides/lecture01-2-probreview.html#likelihood-1",
+    "title": "Probability Review",
+    "section": "Likelihood",
+    "text": "Likelihood\nHow do we “fit” distributions to a dataset?\nLikelihood of data to have come from distribution \\(\\mathcal{D}\\) with pdf \\(f(\\mathbf{x} | \\theta)\\):\n\\[\\mathcal{L}(\\theta | \\mathbf{x}) = \\underbrace{f(\\mathbf{x} | \\theta)}_{\\text{PDF}}\\]\nIn other words: likelihood evaluates parameters conditional on data, PDF evaluates data conditional on parameters.\n\nThe likelihood gives us a measure of how probable a dataset is from a given distribution. It’s the PDF of the distribution at the data.\nBut the perspective is flipped: instead of fixing a distribution and calculating the probability of some data, we fix the data and look at how the probability of observing that data changes as the distribution changes."
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#normal-distribution-pdf",
+    "href": "slides/lecture01-2-probreview.html#normal-distribution-pdf",
+    "title": "Probability Review",
+    "section": "Normal Distribution PDF",
+    "text": "Normal Distribution PDF\n\\[f_\\mathcal{D}(x) = p(x | \\mu, \\sigma) = \\frac{1}{\\sigma\\sqrt{2\\pi}} \\exp\\left(-\\frac{1}{2}\\left(\\frac{x - \\mu}{\\sigma}^2\\right)\\right)\\]\n\n\nplot(Normal(0, sqrt(3)), linewidth=3, color=:blue, label=L\"$\\mu=0$, $\\sigma=\\sqrt{3}$\", guidefontsize=20, legendfontsize=20, tickfontsize=14)\nplot!(Normal(2, 1), linewidth=3, color=:orange, label=L\"$\\mu=2$, $\\sigma=1$\")\nplot!(Normal(0, 1), linewidth=3, color=:red, label=L\"$\\mu=0$, $\\sigma=1$\")\nplot!(size=(1200, 400), left_margin=10mm, bottom_margin=10mm)\nvline!([0.5], color=:black, linestyle=:dash)\nxlabel!(L\"$x$\")\nylabel!(\"Likelihood\")\nxlims!((-5, 5))\n\n\n\n\n\n\nFigure 3"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#likelihood-of-multiple-samples",
+    "href": "slides/lecture01-2-probreview.html#likelihood-of-multiple-samples",
+    "title": "Probability Review",
+    "section": "Likelihood of Multiple Samples",
+    "text": "Likelihood of Multiple Samples\nFor multiple (independent) samples \\(\\mathbf{x} = \\{x_1, \\ldots, x_n\\}\\):\n\\[\\mathcal{L}(\\theta | \\mathbf{x}) = \\prod_{i=1}^n \\mathcal{L}(\\theta | x_i).\\]"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#likelihood-example",
+    "href": "slides/lecture01-2-probreview.html#likelihood-example",
+    "title": "Probability Review",
+    "section": "Likelihood Example",
+    "text": "Likelihood Example\n\n\n\n\ndist = Normal(-0.5, 2)\nx = rand(dist, 10)\nplot(Normal(0, 1), linewidth=3, ylabel=\"Density\", xlabel=L\"$x$\", legend=false, color=:blue, size=(600, 400))\nvline!(x, color=:red)\nxlims!((-9, 6))\n\n\n\n\n\n\n\n\nDistribution\nLikelihood\n\n\n\n\n\\(N(0, 1)\\)\n3.7e-11"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#likelihood-example-1",
+    "href": "slides/lecture01-2-probreview.html#likelihood-example-1",
+    "title": "Probability Review",
+    "section": "Likelihood Example",
+    "text": "Likelihood Example\n\n\n\n\nplot(Normal(0, 1), linewidth=3, ylabel=\"Density\", xlabel=L\"$x$\", alpha=0.2, legend=false, color=:blue, size=(600, 400))\nplot!(Normal(-1, 2), linewidth=3, color=:blue)\nvline!(x, color=:red)\nxlims!((-9, 6))\n\n\n\n\n\n\n\n\nDistribution\nLikelihood\n\n\n\n\n\\(N(0, 1)\\)\n3.7e-11\n\n\n\\(N(-1, 2)\\)\n5.9e-10"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#likelihood-example-2",
+    "href": "slides/lecture01-2-probreview.html#likelihood-example-2",
+    "title": "Probability Review",
+    "section": "Likelihood Example",
+    "text": "Likelihood Example\n\n\n\n\nplot(Normal(0, 1), linewidth=3, ylabel=\"Density\", xlabel=L\"$x$\", alpha=0.2, legend=false, color=:blue, size=(600, 400))\nplot!(Normal(-1, 2), linewidth=3, color=:blue, alpha=0.2)\nplot!(Normal(-1, 1), linewidth=3, color=:blue)\nvline!(x, color=:red)\nxlims!((-9, 6))\n\n\n\n\n\n\n\n\nDistribution\nLikelihood\n\n\n\n\n\\(N(0, 1)\\)\n3.7e-11\n\n\n\\(N(-1, 2)\\)\n5.9e-10\n\n\n\\(N(-1, 1)\\)\n1.2e-13"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#log-likelihood",
+    "href": "slides/lecture01-2-probreview.html#log-likelihood",
+    "title": "Probability Review",
+    "section": "Log-Likelihood",
+    "text": "Log-Likelihood\n\n\nLikelihoods get very small very fast due to multiplying small numbers.\nThis is a computational problem due to underflow.\nWe use logarithms to avoid these issues: compute \\(\\log \\mathcal{L}(\\theta | x)\\).\n\n\n\n\nLogarithms for probability calculations"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#confidence-intervals",
+    "href": "slides/lecture01-2-probreview.html#confidence-intervals",
+    "title": "Probability Review",
+    "section": "Confidence Intervals",
+    "text": "Confidence Intervals\n\n\nFrequentist estimates have confidence intervals, which will contain the “true” parameter value for \\(\\alpha\\)% of data samples.\nNo guarantee that an individual CI contains the true value (with any “probability”)!\n\n\n\n\nHorseshoe Illustration\n\n\n\nSource: https://www.wikihow.com/Throw-a-Horseshoe\n\n\n\n\nConfidence intervals only capture uncertainty in parameter inferences due to data uncertainty, though this language sometimes gets misused to also refer to data/estimand uncertainty."
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#example-95-cis-for-n0.4-2",
+    "href": "slides/lecture01-2-probreview.html#example-95-cis-for-n0.4-2",
+    "title": "Probability Review",
+    "section": "Example: 95% CIs for N(0.4, 2)",
+    "text": "Example: 95% CIs for N(0.4, 2)\n\nCode\n# set up distribution\nmean_true = 0.4\nn_cis = 100 # number of CIs to compute\ndist = Normal(mean_true, 2)\n\n# use sample size of 100\nsamples = rand(dist, (100, n_cis))\n# mapslices broadcasts over a matrix dimension, could also use a loop\nsample_means = mapslices(mean, samples; dims=1)\nsample_sd = mapslices(std, samples; dims=1) \nmc_sd = 1.96 * sample_sd / sqrt(100)\nmc_ci = zeros(n_cis, 2) # preallocate\nfor i = 1:n_cis\n    mc_ci[i, 1] = sample_means[i] - mc_sd[i]\n    mc_ci[i, 2] = sample_means[i] + mc_sd[i]\nend\n# find which CIs contain the true value\nci_true = (mc_ci[:, 1] .&lt; mean_true) .&& (mc_ci[:, 2] .&gt; mean_true)\n# compute percentage of CIs which contain the true value\nci_frac1 = 100 * sum(ci_true) ./ n_cis\n\n# plot CIs\np1 = plot([mc_ci[1, :]], [1, 1], linewidth=3, color=:deepskyblue, label=\"95% Confidence Interval\", title=\"Sample Size 100\", yticks=:false, legend=:false)\nfor i = 2:n_cis\n    if ci_true[i]\n        plot!(p1, [mc_ci[i, :]], [i, i], linewidth=2, color=:deepskyblue, label=:false)\n    else\n        plot!(p1, [mc_ci[i, :]], [i, i], linewidth=2, color=:red, label=:false)\n    end\nend\nvline!(p1, [mean_true], color=:black, linewidth=2, linestyle=:dash, label=\"True Value\") # plot true value as a vertical line\nxaxis!(p1, \"Estimate\")\nplot!(p1, size=(500, 350)) # resize to fit slide\n\n# use sample size of 1000\nsamples = rand(dist, (1000, n_cis))\n# mapslices broadcasts over a matrix dimension, could also use a loop\nsample_means = mapslices(mean, samples; dims=1)\nsample_sd = mapslices(std, samples; dims=1) \nmc_sd = 1.96 * sample_sd / sqrt(1000)\nmc_ci = zeros(n_cis, 2) # preallocate\nfor i = 1:n_cis\n    mc_ci[i, 1] = sample_means[i] - mc_sd[i]\n    mc_ci[i, 2] = sample_means[i] + mc_sd[i]\nend\n# find which CIs contain the true value\nci_true = (mc_ci[:, 1] .&lt; mean_true) .&& (mc_ci[:, 2] .&gt; mean_true)\n# compute percentage of CIs which contain the true value\nci_frac2 = 100 * sum(ci_true) ./ n_cis\n\n# plot CIs\np2 = plot([mc_ci[1, :]], [1, 1], linewidth=3, color=:deepskyblue, label=\"95% Confidence Interval\", title=\"Sample Size 1,000\", yticks=:false, legend=:false)\nfor i = 2:n_cis\n    if ci_true[i]\n        plot!(p2, [mc_ci[i, :]], [i, i], linewidth=2, color=:deepskyblue, label=:false)\n    else\n        plot!(p2, [mc_ci[i, :]], [i, i], linewidth=2, color=:red, label=:false)\n    end\nend\nvline!(p2, [mean_true], color=:black, linewidth=2, linestyle=:dash, label=\"True Value\") # plot true value as a vertical line\nxaxis!(p2, \"Estimate\")\nplot!(p2, size=(500, 350)) # resize to fit slide\n\ndisplay(p1)\ndisplay(p2)\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Sample Size 100\n\n\n\n\n\n\n\n\n\n\n\n(b) Sample Size 1,000\n\n\n\n\n\n\n\nFigure 4: Display of 95% confidence intervals\n\n\n\n96% of the CIs contain the true value (left) vs. 96% (right)"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#predictive-intervals",
+    "href": "slides/lecture01-2-probreview.html#predictive-intervals",
+    "title": "Probability Review",
+    "section": "Predictive Intervals",
+    "text": "Predictive Intervals\n\n\nPredictive intervals capture uncertainty in an estimand.\nWith what probability would I see a particular outcome in the future?\nOften need to construct these using simulation.\n\n\nplot(Gamma(7.5), linewidth=3, xlabel=\"Data/Parameter\", label=:false, legend=:outerbottom)\nq1 = quantile(Gamma(7.5), [0.05, 0.95])\nq2 = quantile(Gamma(7.5), [0.01, 0.91])\nq3 = quantile(Gamma(7.5), [0.09, 0.99])\ngamma_pdf(x) = pdf(Gamma(7.5), x)\nplot!(q1[1]:0.01:q1[2], gamma_pdf(q1[1]:0.01:q1[2]), fillrange=zero(q1[1]:0.01:q1[2]), alpha=0.2, label=\"90% Interval 1\")\nplot!(q2[1]:0.01:q2[2], gamma_pdf(q2[1]:0.01:q2[2]), fillrange=zero(q2[1]:0.01:q2[2]), alpha=0.2, label=\"90% Interval 2\")\nplot!(q3[1]:0.01:q3[2], gamma_pdf(q3[1]:0.01:q3[2]), fillrange=zero(q3[1]:0.01:q3[2]), alpha=0.2, label=\"90% Interval 3\")\nplot!(size=(600, 650))\n\n\n\n\n\n\nFigure 5: Two different 95% credible intervals.\n\n\n\n\n\n\n\nDue to this non-uniqueness, the typical convention is to use the “equal tailed” interval based on quantiles."
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#next-classes",
+    "href": "slides/lecture01-2-probreview.html#next-classes",
+    "title": "Probability Review",
+    "section": "Next Classes",
+    "text": "Next Classes\nNext Week: Exploratory Data Analysis"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#assessments",
+    "href": "slides/lecture01-2-probreview.html#assessments",
+    "title": "Probability Review",
+    "section": "Assessments",
+    "text": "Assessments\nHomework 1 due next Friday (2/6).\nReading:"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#references-scroll-for-full-list",
+    "href": "slides/lecture01-2-probreview.html#references-scroll-for-full-list",
+    "title": "Probability Review",
+    "section": "References (Scroll for Full List)",
+    "text": "References (Scroll for Full List)"
   },
   {
     "objectID": "slides/lecture12-1-peaks-thresholds.html#extreme-values",
@@ -6491,5 +6652,502 @@
     "title": "Literature Critique Instructions",
     "section": "",
     "text": "For the literature critique, you should pick a paper of your choice involving some aspect of data analysis and critically evaluate its statistical and scientific choices. Your critique should discuss how the statistical, data, and modeling choices support (or don’t) the scientific conclusions of the paper and provide ideas for how these could be strengthened.\nYou should submit a short written evaluation (2-3 pages, not including figures or references) on 5/5."
+  },
+  {
+    "objectID": "syllabus.html#tentative-schedule",
+    "href": "syllabus.html#tentative-schedule",
+    "title": "Syllabus",
+    "section": "Tentative Schedule",
+    "text": "Tentative Schedule\n\n\n\n#\nDate\nDay\nTopic\nHW\nProject\n\n\n\n\nIntroduction\n\n\n1\n01-21\nWed\nCourse Overview and Introduction\nHW1 Released\n\n\n\n2\n01-23\nFri\nProbability Review\n\n\n\n\nExploratory Analysis\n\n\n3\n01-26\nMon\nData Visualization and Exploratory Analysis\n\n\n\n\n4\n01-28\nWed\nProbability Models and Linear Regression\n\n\n\n\n5\n01-30\nFri\nLab: Data Visualization\n\n\n\n\nProbability Models\n\n\n6\n02-02\nMon\nWhat Linear Regression Is And Isn't Useful For\n\n\n\n\n7\n02-04\nWed\nMaximum Likelihood Estimation and Fisher Information\n\n\n\n\n8\n02-06\nFri\nMeasurement Error and Model Discrepancy\nHW1 Due\n\n\n\n9\n02-09\nMon\nMultiple Regression and Causal Reasoning\nHW2 Released\n\n\n\n10\n02-11\nWed\nDirect Acyclic Graphs and Confounds\n\n\n\n\n11\n02-13\nFri\nLab: Reasoning with DAGs\n\nExploratory Analysis\n\n\n\n02-16\nMon\nFebruary Break\n\n\n\n\n12\n02-18\nWed\nGeneralized Linear Models\n\n\n\n\n13\n02-20\nFri\nMore Generalized Linear Models\nHW2 Due\n\n\n\n14\n02-23\nMon\nLab: Selecting a Probability Model\nHW3 Released\n\n\n\n15\n02-25\nWed\nAutocorrelation and Time Series\n\n\n\n\n16\n02-27\nFri\nTime Series Examples\n\n\n\n\n17\n03-02\nMon\nModeling Extremes: Block Maxima\n\n\n\n\n18\n03-04\nWed\nModeling Extremes: Peak Over Thresholds\n\n\n\n\n19\n03-06\nFri\nLab: Extreme Value Models\nHW3 Due\n\n\n\nSimulation Methods\n\n\n20\n03-09\nMon\nRandom Variate Simulation\n\n\n\n\n21\n03-11\nWed\nRandom Number Generation\n\n\n\n\n22\n03-13\nFri\nPrelim\n\n\n\n\n23\n03-16\nMon\nMonte Carlo: Theory\nHW4 Released\n\n\n\n24\n03-18\nWed\nMonte Carlo: Examples\n\n\n\n\n25\n03-20\nFri\nLab: Monte Carlo\n\nCandidate Model(s)\n\n\n26\n03-23\nMon\nUncertainty Quantification and the Bootstrap\n\n\n\n\n27\n03-25\nWed\nBootstraps for Structured Data\n\n\n\n\n28\n03-27\nFri\nLab: The Bootstrap\nHW4 Due\n\n\n\n\n03-30\nMon\nSpring Break\n\n\n\n\n\n04-01\nWed\nSpring Break\n\n\n\n\n\n04-03\nFri\nSpring Break\n\n\n\n\n29\n04-06\nMon\nMissing and Censored Data\nHW5 Released\n\n\n\n30\n04-08\nWed\nMultiple Imputation\n\n\n\n\n31\n04-10\nFri\nLab: Missing Data\n\n\n\n\nHypothesis Testing and Model Assessment\n\n\n32\n04-13\nMon\nOverfitting and Bias-Variance Tradeoff\n\n\n\n\n33\n04-15\nWed\nScoring Rules and Graphical Checks\n\n\n\n\n34\n04-17\nFri\nCross-Validation\nHW5 Due\n\n\n\n35\n04-20\nMon\nHypothesis Testing\nHW6 Released\n\n\n\n36\n04-22\nWed\nEntropy and Information\n\n\n\n\n37\n04-24\nFri\nInformation Criteria\n\nSimulation Study\n\n\nDesign of Experiments and Value of Information\n\n\n38\n04-27\nMon\nValue of Information\n\n\n\n\n39\n04-29\nWed\nDesign of Experiments\n\n\n\n\n40\n05-01\nFri\nPrelim 2\nHW6 Due\n\n\n\n41\n05-04\nMon\nClass Wrap-Up"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html",
+    "href": "slides/lecture02-2-probmodels.html",
+    "title": "Probability Models",
+    "section": "",
+    "text": "import Pkg\nPkg.activate(@__DIR__)\nPkg.instantiate()\nusing Random\nusing DataFrames\nusing DataFramesMeta\nusing CSV\nusing Dates\nusing Distributions\nusing ColorSchemes\nusing Plots\nusing StatsPlots\nusing StatsBase\nusing Optim\nusing LaTeXStrings\nusing Measures\n\nRandom.seed!(1)\n\nplot_font = \"Computer Modern\"\ndefault(\n    fontfamily=plot_font,\n    linewidth=3, \n    framestyle=:box, \n    label=nothing, \n    grid=false,\n    guidefontsize=18,\n    legendfontsize=16,\n    tickfontsize=16,\n    titlefontsize=20,\n    bottom_margin=10mm,\n    left_margin=5mm\n)"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#probability-fundamentals",
+    "href": "slides/lecture02-2-probmodels.html#probability-fundamentals",
+    "title": "Probability Models",
+    "section": "Probability Fundamentals",
+    "text": "Probability Fundamentals\n\nBayesian vs. Frequentist Interpretations\nDistributions reflect assumptions on probability of data.\nNormal distributions: “least informative” distribution for a given mean/variance.\nFit distributions by maximizing likelihood.\nCommunicating uncertainty: confidence vs. predictive intervals."
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#how-does-river-flow-affect-tds",
+    "href": "slides/lecture02-2-probmodels.html#how-does-river-flow-affect-tds",
+    "title": "Probability Models",
+    "section": "How Does River Flow Affect TDS?",
+    "text": "How Does River Flow Affect TDS?\n\n\nQuestion: Does river flow affect the concentration of total dissolved solids?\nData: Cuyahoga River (1969 – 1973), from Helsel et al. (2020, Chapter 9).\n\nHelsel, D. R., Hirsch, R. M., Ryberg, K. R., Archfield, S. A., & Gilroy, E. J. (2020). Statistical methods in water resources (research report No. 4-A3) (p. 484). Reston, VA: U.S. Geological Survey. Retrieved from http://pubs.er.usgs.gov/publication/tm4A3\n\n\ntds = let\n    fname = \"data/tds/cuyaTDS.csv\" # CHANGE THIS!\n    tds = DataFrame(CSV.File(fname))\n    tds[!, [:date, :discharge_cms, :tds_mgL]]\nend\np = scatter(\n    tds.discharge_cms,\n    tds.tds_mgL,\n    xlabel=L\"Discharge (m$^3$/s)\",\n    ylabel=\"Total dissolved solids (mg/L)\",\n    markersize=5,\n    label=\"Observations\"\n)\nplot!(p, size=(600, 600))"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#how-does-tds-affect-river-flow",
+    "href": "slides/lecture02-2-probmodels.html#how-does-tds-affect-river-flow",
+    "title": "Probability Models",
+    "section": "How Does TDS Affect River Flow?",
+    "text": "How Does TDS Affect River Flow?\n\n\nQuestion: Does river flow affect the concentration of total dissolved solids?\nModel: \\[D \\rightarrow S \\ {\\color{purple}\\leftarrow U}\\] \\[S = f(D, U)\\]\n\n\np"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#log-linear-relationships",
+    "href": "slides/lecture02-2-probmodels.html#log-linear-relationships",
+    "title": "Probability Models",
+    "section": "Log-Linear Relationships",
+    "text": "Log-Linear Relationships\n\n\n\\[\n\\begin{align*}\nS &= \\beta_0 + \\beta_1 \\log(D) + U\\\\\nU &\\sim \\mathcal{N}(0, \\sigma^2)\n\\end{align*}\n\\]\n\n\nxx = [2, 5, 10, 20, 50, 100]\np1 = plot(p, xaxis=:log, xticks=(xx, string.(xx)))"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#likelihood",
+    "href": "slides/lecture02-2-probmodels.html#likelihood",
+    "title": "Probability Models",
+    "section": "Likelihood",
+    "text": "Likelihood\nHow do we find \\(\\beta_i\\) and \\(\\sigma\\)?\nLikelihood of data to have come from distribution \\(f(\\mathbf{x} | \\theta)\\): \\[\\mathcal{L}(\\theta | \\mathbf{x}) = \\underbrace{f(\\mathbf{x} | \\theta)}_{\\text{PDF}}\\]\nHere the randomness comes from \\(U\\): \\[S \\sim \\mathcal{N}(\\beta_0 + \\beta_1 \\log(D), \\sigma^2)\\]"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#maximizing-gaussian-likelihood-least-squares",
+    "href": "slides/lecture02-2-probmodels.html#maximizing-gaussian-likelihood-least-squares",
+    "title": "Probability Models",
+    "section": "Maximizing Gaussian Likelihood ⇔ Least Squares",
+    "text": "Maximizing Gaussian Likelihood ⇔ Least Squares\n\\[y_i \\sim \\mathcal{N}(F(x_i), \\sigma^2)\\]\n\n\\[\\mathcal{L}(\\theta | \\mathbf{y}; F) = \\prod_{i=1}^n \\frac{1}{\\sqrt{2\\pi}} \\exp(-\\frac{y_i - F(x_i)^2}{2\\sigma^2})\\]\n\n\n\\[\\log \\mathcal{L}(\\theta | \\mathbf{y}; F) = \\sum_{i=1}^n \\left[\\log \\frac{1}{\\sqrt{2\\pi}} - \\frac{1}{2\\sigma^2}(y_i - F(x_i))^2 \\right]\\]"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#simplifying-log-likelihood",
+    "href": "slides/lecture02-2-probmodels.html#simplifying-log-likelihood",
+    "title": "Probability Models",
+    "section": "",
+    "text": "\\[\n\\begin{align}\n\\log \\mathcal{L}(\\theta | \\mathbf{y}, F) &= \\sum_{i=1}^n \\left[\\log \\frac{1}{\\sqrt{2\\pi}} - \\frac{1}{2\\sigma^2}(y_i - F(x_i))  ^2 \\right] \\\\\n&= n \\log \\frac{1}{\\sqrt{2\\pi}} - \\frac{1}{2\\sigma^2} \\sum_{i=1}^n (y_i - F(x_i))^2\n\\end{align}\n\\]"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#simplifying-constants-ignore",
+    "href": "slides/lecture02-2-probmodels.html#simplifying-constants-ignore",
+    "title": "Probability Models",
+    "section": "",
+    "text": "Ignoring constants (including \\(\\sigma\\)):\n\\[\\log \\mathcal{L}(\\theta | \\mathbf{y}, F) \\propto -\\sum_{i=1}^n (y_i - F(x_i))^2.\\]\n\nMaximizing \\(f(x)\\) is equivalent to minimizing \\(-f(x)\\):\n\\[\n-\\log \\mathcal{L}(\\theta | \\mathbf{y}, F) \\propto \\sum_{i=1}^n (y_i - F(x_i))^2 = \\text{MSE}\n\\]\nBut note: Don’t get an estimate of \\(\\sigma^2\\) directly through least squares."
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#back-to-the-problem",
+    "href": "slides/lecture02-2-probmodels.html#back-to-the-problem",
+    "title": "Probability Models",
+    "section": "Back to the Problem…",
+    "text": "Back to the Problem…\n\n# tds_riverflow_loglik: function to compute the log-likelihood for the tds model\n# θ: vector of model parameters (coefficients β₀ and β₁ and stdev σ)\n# tds, flow: vectors of data\nfunction tds_riverflow_loglik(θ, tds, flow)\n    β₀, β₁, σ = θ # unpack parameter vector\n    μ = β₀ .+ β₁ * log.(flow) # find mean\n    ll = sum(logpdf.(Normal.(μ, σ), tds)) # compute log-likelihood\n    return ll\nend\n\nlb = [0.0, -1000.0, 1.0]\nub = [1000.0, 1000.0, 100.0]\nθ₀ = [500.0, 0.0, 50.0]\noptim_out = Optim.optimize(θ -&gt; -tds_riverflow_loglik(θ, tds.tds_mgL, tds.discharge_cms), lb, ub, θ₀)\nθ_mle = round.(optim_out.minimizer; digits=0)\n@show θ_mle;\n\nθ_mle = [610.0, -112.0, 72.0]"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#maximum-likelihood-results",
+    "href": "slides/lecture02-2-probmodels.html#maximum-likelihood-results",
+    "title": "Probability Models",
+    "section": "Maximum Likelihood Results",
+    "text": "Maximum Likelihood Results\n\n# simulate 10,000 predictions\nx = 1:0.1:60\nμ = θ_mle[1] .+ θ_mle[2] * log.(x)\n\ny_pred = zeros(length(x), 10_000)\nfor i = 1:length(x)\n    y_pred[i, :] = rand(Normal(μ[i], θ_mle[3]), 10_000)\nend\n# take quantiles to find prediction intervals\ny_q = mapslices(v -&gt; quantile(v, [0.05, 0.5, 0.95]), y_pred; dims=2)\n\nplot(p1, \n    x,\n    y_q[:, 2],\n    ribbon = (y_q[:, 2] - y_q[:, 1], y_q[:, 3] - y_q[:, 2]),\n    linewidth=3, \n    fillalpha=0.2, \n    label=\"Best Fit\",\n    size=(600, 550))"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#residual-analysis",
+    "href": "slides/lecture02-2-probmodels.html#residual-analysis",
+    "title": "Probability Models",
+    "section": "Residual Analysis",
+    "text": "Residual Analysis\npred = θ_mle[1] .+ θ_mle[2] * log.(tds.discharge_cms)\nresids = pred - tds.tds_mgL\np1 = histogram(resids, xlabel=\"Model Residuals (mg/L)\", ylabel=\"Count\", title=\"Residual Histogram\", size=(600, 500))\np2 = qqnorm(resids, xlabel=\"Theoretical Values\", ylabel=\"Empirical Values\", title=\"Residual Q-Q- Plot\", size=(600, 500))\ndisplay(p1)\ndisplay(p2)\n\n\n\n\n\n\n\n\n\n\n\n(a) Residuals for the TDS-Riverflow model.\n\n\n\n\n\n\n\n\n\n\n\n(b)\n\n\n\n\n\n\n\nFigure 1"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#structure-of-a-probability-model",
+    "href": "slides/lecture02-2-probmodels.html#structure-of-a-probability-model",
+    "title": "Probability Models",
+    "section": "Structure of a Probability Model",
+    "text": "Structure of a Probability Model\nUnpacking linear regression:\n\\[\\begin{align*}\ny_i &\\sim N(\\mu_i, \\sigma^2) \\\\\n\\mu_i &= \\sum_j \\beta_j x^j_i\n\\end{align*}\n\\]\n\nNote: Can handle heteroskedastic errors with a regression \\[\\sigma_i^2 = \\sum_j \\alpha_j z^j_i\\]"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#think-generatively",
+    "href": "slides/lecture02-2-probmodels.html#think-generatively",
+    "title": "Probability Models",
+    "section": "Think Generatively",
+    "text": "Think Generatively\n\n\nComponents of probability model for observations:\n\nModel for “system state” (LR: \\(\\sum_j \\beta_j x^j_i\\))\nChoice of “error” distribution (LR: \\(N(0, \\sigma^2)\\))\n\n\n\n\n\nBrain on Regression Meme\n\n\n\nSource: Richard McElreath"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#you-can-always-fit-models",
+    "href": "slides/lecture02-2-probmodels.html#you-can-always-fit-models",
+    "title": "Probability Models",
+    "section": "You Can Always Fit Models…",
+    "text": "You Can Always Fit Models…\n\n\nBut not all models are theoretically justifiable.\n\n\n\n\nIan Malcolm meme"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#how-do-we-choose-what-to-model",
+    "href": "slides/lecture02-2-probmodels.html#how-do-we-choose-what-to-model",
+    "title": "Probability Models",
+    "section": "How Do We Choose What To Model?",
+    "text": "How Do We Choose What To Model?\n\n\n\nXKCD 2620\n\n\n\nSource: XKCD 2620"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#example-modeling-counts",
+    "href": "slides/lecture02-2-probmodels.html#example-modeling-counts",
+    "title": "Probability Models",
+    "section": "Example: Modeling Counts",
+    "text": "Example: Modeling Counts\n\n\nCode\nfish = CSV.File(\"data/ecology/Fish.csv\") |&gt; DataFrame\nfish[1:3, :]\n\n\n3×6 DataFrame\n\n\n\nRow\nfish_caught\nlivebait\ncamper\npersons\nchild\nhours\n\n\n\nInt64\nInt64\nInt64\nInt64\nInt64\nFloat64\n\n\n\n\n1\n0\n0\n0\n1\n0\n21.124\n\n\n2\n0\n1\n1\n1\n0\n5.732\n\n\n3\n0\n1\n0\n1\n0\n1.323"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#what-distribution",
+    "href": "slides/lecture02-2-probmodels.html#what-distribution",
+    "title": "Probability Models",
+    "section": "What Distribution?",
+    "text": "What Distribution?\n\nCount data can be modeled using a Poisson or negative binomial distribution.\np1 = plot(Poisson(2), size=(500, 450), title=\"Poisson(2)\", xlabel=\"Value\")\np2 = plot(NegativeBinomial(2, 0.5), size=(500, 450), title=\"Negative Binomial(2, 0.5)\", xlabel=\"Value\")\ndisplay(p1)\ndisplay(p2)\n\n\n\n\n\n\n\n\n\nFigure 2: Poisson\n\n\n\n\n\n\n\n\n\n\n\nFigure 3: Negative Binomial"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#exploring-the-data",
+    "href": "slides/lecture02-2-probmodels.html#exploring-the-data",
+    "title": "Probability Models",
+    "section": "Exploring the Data",
+    "text": "Exploring the Data\n\nhistogram(fish.fish_caught, xlabel=\"Caught Fish\", ylabel=\"Count\", size=(1000, 400))\n\n\n\n\n\n\nFigure 4: Fishing Data\n\n\n\n\n\nMean: 3.3\nVariance: 135.4"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#model-specification",
+    "href": "slides/lecture02-2-probmodels.html#model-specification",
+    "title": "Probability Models",
+    "section": "Model Specification",
+    "text": "Model Specification\nWe might hypothesize that more people fishing for more hours results in a greater chance of catching fish.\n\\[\\begin{align*}\ny_i &\\sim Poisson(\\lambda_i) \\\\\nf(\\lambda_i) &= \\beta_0 + \\beta_1 P_i + \\beta_2 H_i\n\\end{align*}\n\\]\n\n\\(\\lambda_i\\): positive “rate”\n\\(f(\\cdot)\\): maps positive reals (rate scale) to all reals (linear model scale)"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#link-functions",
+    "href": "slides/lecture02-2-probmodels.html#link-functions",
+    "title": "Probability Models",
+    "section": "Link Functions",
+    "text": "Link Functions\n\n\n\\(\\color{brown}f\\) is the link function.\n\\(\\color{royalblue}f^{-1}\\) is the inverse link.\n\n\\[\\begin{align*}\ny_i &\\sim Poisson(\\lambda_i) \\\\\n{\\color{brown}f}(\\lambda_i) &= \\beta_0 + \\beta_1 P_i + \\beta_2 H_i\n\\end{align*}\n\\]\n\\[\n\\lambda_i = {\\color{royalblue}f^{-1}}\\left(\\beta_0 + \\beta_1 P_i + \\beta_2 H_i\\right)\n\\]"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#choosing-a-link-function",
+    "href": "slides/lecture02-2-probmodels.html#choosing-a-link-function",
+    "title": "Probability Models",
+    "section": "Choosing a Link Function",
+    "text": "Choosing a Link Function\nLink functions are typically linked to distributions.\n\nPoisson models usually use the log link (positives → reals).\nBinomial/Bernoulli models use the logit link (\\([0, 1]\\) → reals) \\[\\text{logit}(p) = \\log\\left(\\frac{p}{1-p}\\right)\\]"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#fitting-the-model",
+    "href": "slides/lecture02-2-probmodels.html#fitting-the-model",
+    "title": "Probability Models",
+    "section": "Fitting the Model",
+    "text": "Fitting the Model\n\nfunction fish_model(params, persons, hours, fish_caught)\n    β₀, β₁, β₂ = params\n    λ = exp.(β₀ .+ β₁ * persons + β₂ * hours)\n    loglik = sum(logpdf.(Poisson.(λ), fish_caught))\nend\n\nlb = [-100.0, -100.0, -100.0]\nub = [100.0, 100.0, 100.0]\ninit = [0.0, 0.0, 0.0]\n\noptim_out = optimize(θ -&gt; -fish_model(θ, fish.persons, fish.hours, fish.fish_caught), lb, ub, init)\nθ_mle = optim_out.minimizer\n@show round.(θ_mle; digits=1);\n\nround.(θ_mle; digits = 1) = [-1.5, 0.8, 0.0]"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#evaluating-model-fit",
+    "href": "slides/lecture02-2-probmodels.html#evaluating-model-fit",
+    "title": "Probability Models",
+    "section": "Evaluating Model Fit",
+    "text": "Evaluating Model Fit\n\nP = 1:4 # number of persons\n# simulate samples for each P\nλ = exp.(θ_mle[1] .+ θ_mle[2] * P)\n# draw 10,000 samples for each\nfish_sim = zeros(10_000, length(P)) # initialize matrix to store simulations\nfor i = 1:length(P)\n    fish_sim[:, i] = rand(Poisson(λ[i]), 10_000)\nend\n\n# plot predictive interval against return periods\nboxplot(fish_sim, fillalpha=0.3, size=(900, 600), label=:none, color=:blue, ylabel=\"Fish Caught\", xlabel=\"Persons\")\nscatter!(fish.persons .+ 0.5, fish.fish_caught, label=\"Observations\", color=:black)\n\n\n\n\n\n\nFigure 5: Predictive distribution for fitted fish model."
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#what-was-the-problem",
+    "href": "slides/lecture02-2-probmodels.html#what-was-the-problem",
+    "title": "Probability Models",
+    "section": "What Was The Problem?",
+    "text": "What Was The Problem?\n\nModel neglected other plausible contributors, e.g. live bait.\nData is over-dispersed: higher variance than mean.\nMight be better described by a zero-inflated Poisson model:\n\nVisitors who spent little time are likely to catch no fish.\nVisitors who spent more time are likely to catch positive fish."
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#probability-models",
+    "href": "slides/lecture02-2-probmodels.html#probability-models",
+    "title": "Probability Models",
+    "section": "Probability Models",
+    "text": "Probability Models\n\nThink of regression as modeling system state (or expectation).\nFull probability model includes distribution of “errors” from expected state.\n\nError models can be complex! More on this later…\n\nGeneralized linear models may require a link to map regression to parameters.\nFit models by maximizing likelihood: no problem using optimization routines."
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#next-classes",
+    "href": "slides/lecture02-2-probmodels.html#next-classes",
+    "title": "Probability Models",
+    "section": "Next Classes",
+    "text": "Next Classes\nWednesday: Modeling Time Series\nNext Week: Bayesian Statistics and Inference"
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#assessments",
+    "href": "slides/lecture02-2-probmodels.html#assessments",
+    "title": "Probability Models",
+    "section": "Assessments",
+    "text": "Assessments\nHomework 1 Due Friday (2/7)."
+  },
+  {
+    "objectID": "slides/lecture02-2-probmodels.html#references-scroll-for-full-list",
+    "href": "slides/lecture02-2-probmodels.html#references-scroll-for-full-list",
+    "title": "Probability Models",
+    "section": "References (Scroll for Full List)",
+    "text": "References (Scroll for Full List)"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html",
+    "href": "slides/lecture02-1-dataviz.html",
+    "title": "Probability Fundamentals",
+    "section": "",
+    "text": "import Pkg\nPkg.activate(@__DIR__)\nPkg.instantiate()\nusing Random\nusing DataFrames\nusing DataFramesMeta\nusing CSV\nusing Dates\nusing Distributions\nusing ColorSchemes\nusing Plots\nusing StatsPlots\nusing StatsBase\nusing GLM\nusing Optim\nusing LaTeXStrings\nusing Measures\n\nRandom.seed!(1)\n\nplot_font = \"Computer Modern\"\ndefault(\n    fontfamily=plot_font,\n    linewidth=3, \n    framestyle=:box, \n    label=nothing, \n    grid=false,\n    guidefontsize=18,\n    legendfontsize=16,\n    tickfontsize=16,\n    titlefontsize=20,\n    bottom_margin=10mm,\n    left_margin=5mm\n)"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#null-hypothesis-significance-testing",
+    "href": "slides/lecture02-1-dataviz.html#null-hypothesis-significance-testing",
+    "title": "Probability Fundamentals",
+    "section": "Null Hypothesis Significance Testing",
+    "text": "Null Hypothesis Significance Testing\n\nBinary “significant”/“non-significant” decision framework;\nAccept or reject null hypothesis \\(\\mathcal{H}_0\\) based on p-value of test statistic (relative to significance level \\(\\alpha\\));\n“Typical” statistical models for \\(\\mathcal{H}_0\\) often chosen out of computational convenience\nThere be dragons: Multiple comparisons, lack of statistical power, reading rejection of \\(\\mathcal{H}_0\\) as acceptance of alternative \\(\\mathcal{H}\\)"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#what-nhst-means-and-doesnt",
+    "href": "slides/lecture02-1-dataviz.html#what-nhst-means-and-doesnt",
+    "title": "Probability Fundamentals",
+    "section": "What NHST Means (and Doesn’t)",
+    "text": "What NHST Means (and Doesn’t)\n\nRejection of \\(\\mathcal{H}_0\\) does not mean \\(\\mathcal{H}\\) is true\nNot rejecting \\(\\mathcal{H}_0\\) does not mean \\(\\mathcal{H}\\) is false.\nSays nothing about \\(p(\\mathcal{H}_0 | y)\\)\n“Simply” a measure of surprise at seeing data under null model."
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#what-is-uncertainty",
+    "href": "slides/lecture02-1-dataviz.html#what-is-uncertainty",
+    "title": "Probability Fundamentals",
+    "section": "What is Uncertainty?",
+    "text": "What is Uncertainty?\n\n\n\n…A departure from the (unachievable) ideal of complete determinism…\n\n\n— Walker et al. (2003)\n\nWalker, W. E., Harremoës, P., Rotmans, J., Sluijs, J. P. van der, Asselt, M. B. A. van, Janssen, P., & Krayer von Krauss, M. P. (2003). Defining uncertainty: A conceptual basis for uncertainty management in model-based decision support. Integrated Assessment, 4, 5–17. https://doi.org/10.1076/iaij.4.1.5.16466"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#types-of-uncertainty",
+    "href": "slides/lecture02-1-dataviz.html#types-of-uncertainty",
+    "title": "Probability Fundamentals",
+    "section": "Types of Uncertainty",
+    "text": "Types of Uncertainty\n\n\n\n\n\n\n\n\n\n\n\nUncertainty Type\nSource\nExample(s)\n\n\n\n\nAleatory uncertainty\nRandomness\nDice rolls, Instrument imprecision\n\n\nEpistemic uncertainty\nLack of knowledge\nClimate sensitivity, Premier League champion\n\n\n\n\n\n\n\nWhich Uncertainty Type Meme\n\n\n\n\n\n\nNote that the distinction between aleatory and epistemic uncertainty is somewhat arbitrary (aside from maybe some quantum effects). For example, we often think of coin tosses as aleatory, but if we had perfect information about the toss, we might be able to predict the outcome with less uncertainty. There’s a famous paper by Persi Diaconis where he collaborated with engineers to build a device which could arbitrary bias a “fair” coin toss.\nBut in practice, this doesn’t really matter: the key thing is whether for a given model we’re treating the uncertainty as entirely random (e.g. white noise) versus being interested in the impacts of that uncertainty on the outcome of interest. And there’s a representation theorem by the Bayesian actuary Bruno de Finetti which shows that, under a condition called exchangeability, we can think of any random sequence as arising from an independent and identically distributed process, so the practical difference can collapse further."
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#probability",
+    "href": "slides/lecture02-1-dataviz.html#probability",
+    "title": "Probability Fundamentals",
+    "section": "Probability",
+    "text": "Probability\nProbability is a language for expressing uncertainty.\nThe axioms of probability are straightforward:\n\n\\(\\mathcal{P}(E) \\geq 0\\);\n\\(\\mathcal{P}(\\Omega) = 1\\);\n\\(\\mathcal{P}(\\cup_{i=1}^\\infty E_i) = \\sum_{i=1}^\\infty \\mathcal{P}(E_i)\\) for disjoint \\(E_i\\).\n\n\nThe third is a generalization of the definition of independent events to sets of outcomes."
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#frequentist-vs-bayesian-probability",
+    "href": "slides/lecture02-1-dataviz.html#frequentist-vs-bayesian-probability",
+    "title": "Probability Fundamentals",
+    "section": "Frequentist vs Bayesian Probability",
+    "text": "Frequentist vs Bayesian Probability\n\n\nFrequentist:\n\nProbability as frequency over repeated observations.\nData are random, but parameters are not.\nHow consistent are estimates for different data?\n\n\n\nBayesian:\n\nProbability as degree of belief/betting odds.\nData and parameters are random variables;\nEmphasis on conditional probability."
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#but-what-like-is-probability",
+    "href": "slides/lecture02-1-dataviz.html#but-what-like-is-probability",
+    "title": "Probability Fundamentals",
+    "section": "But What, Like, Is Probability?",
+    "text": "But What, Like, Is Probability?\n\n\nFrequentist vs. Bayesian: different interpretations with some different methods and formalisms.\nWe will freely borrow from each school depending on the purpose and goal of an analysis.\n\n\n\n\nDefinitions of Probability Meme"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#probability-distributions",
+    "href": "slides/lecture02-1-dataviz.html#probability-distributions",
+    "title": "Probability Fundamentals",
+    "section": "Probability Distributions",
+    "text": "Probability Distributions\nDistributions are mathematical representations of probabilities over a range of possible outcomes.\n\\[x \\to \\mathbb{P}_{\\color{green}\\mathcal{D}}[x] = p_{\\color{green}\\mathcal{D}}\\left(x | {\\color{purple}\\theta}\\right)\\]\n\n\\({\\color{green}\\mathcal{D}}\\): probability distribution (often implicit);\n\\({\\color{purple}\\theta}\\): distribution parameters"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#sampling-notation",
+    "href": "slides/lecture02-1-dataviz.html#sampling-notation",
+    "title": "Probability Fundamentals",
+    "section": "Sampling Notation",
+    "text": "Sampling Notation\nTo write \\(x\\) is sampled from \\(\\mathcal{D}(\\theta) = p(x|\\theta)\\): \\[x \\sim \\mathcal{D}(\\theta)\\]\nFor example, for a normal distribution: \\[x \\overset{\\text{i.i.d.}}{\\sim} \\mathcal{N}(\\mu, \\sigma)\\]\n\n“i.i.d.” means “identically and independently distributed.””"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#probability-density-function",
+    "href": "slides/lecture02-1-dataviz.html#probability-density-function",
+    "title": "Probability Fundamentals",
+    "section": "Probability Density Function",
+    "text": "Probability Density Function\nA continuous distribution \\(\\mathcal{D}\\) has a probability density function (PDF) \\(f_\\mathcal{D}(x) = p(x | \\theta)\\).\nThe probability of \\(x\\) occurring in an interval \\((a, b)\\) is \\[\\mathbb{P}[a \\leq x \\leq b] = \\int_a^b f_\\mathcal{D}(x)dx.\\]\nImportant: \\(\\mathbb{P}(x = x^*)\\) is zero!"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#probability-mass-functions",
+    "href": "slides/lecture02-1-dataviz.html#probability-mass-functions",
+    "title": "Probability Fundamentals",
+    "section": "Probability Mass Functions",
+    "text": "Probability Mass Functions\nDiscrete distributions have probability mass functions (PMFs) which are defined at point values, e.g. \\(p(x = x^*) \\neq 0\\).\n\nUnlike continuous distributions, we can talk about the probability of individual values for discrete distributions, which a PMF provides versus a PDF. But in general these are the same things."
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#cumulative-density-functions",
+    "href": "slides/lecture02-1-dataviz.html#cumulative-density-functions",
+    "title": "Probability Fundamentals",
+    "section": "Cumulative Density Functions",
+    "text": "Cumulative Density Functions\n\n\nIf \\(\\mathcal{D}\\) is a distribution with PDF \\(f_\\mathcal{D}(x)\\), the cumulative density function (CDF) of \\(\\mathcal{D}\\) is \\(F_\\mathcal{D}(x)\\):\n\\[F_\\mathcal{D}(x) = \\int_{-\\infty}^x f_\\mathcal{D}(u)du.\\]\n\n\ndist = TDist(4)\nx = -5:0.01:5\nq = 0.25\np1 = plot(x, x -&gt; cdf(dist, x), ylabel=\"Cumulative Density\", xlabel=L\"$x$\", linewidth=3, label=false)\nplot!([-5, quantile(dist, q)], [q, q], color=:gray, linestyle=:dash, linewidth=2, label=false)\nplot!([quantile(dist, q), quantile(dist, q)], [0, q], color=:gray, linestyle=:dash, linewidth=2, label=false, size=(500, 300))\n\np2 = plot(x, x -&gt; pdf(dist, x), linewidth=3, ylabel=\"Density\", xlabel=L\"$x$\", label=false)\nxpdf = -5:0.01:quantile(dist, q)\nplot!(xpdf, zeros(length(xpdf)), fillrange=pdf.(dist, xpdf), fillalpha=0.5, color=:gray, label=false, size=(500, 300))\n\ndisplay(p1)\ndisplay(p2)\n\n\n\n\n\n\n\n\n\n\n\n(a) Relationship of CDF and PDF\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b)\n\n\n\n\n\n\n\nFigure 1"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#relationship-between-pdfs-and-cdfs",
+    "href": "slides/lecture02-1-dataviz.html#relationship-between-pdfs-and-cdfs",
+    "title": "Probability Fundamentals",
+    "section": "Relationship Between PDFs and CDFs",
+    "text": "Relationship Between PDFs and CDFs\nSince \\[F_\\mathcal{D}(x) = \\int_{-\\infty}^x f_\\mathcal{D}(u)du,\\]\nif \\(f_\\mathcal{D}\\) is continuous at \\(x\\), the Fundamental Theorem of Calculus gives: \\[f_\\mathcal{D}(x) = \\frac{d}{dx}F_\\mathcal{D}(x).\\]\n\nThe value of the CDF is the amount of probability “below” the value. So e.g. for a one-sided statistical test, the p-value is the complement of the CDF at the value of the test statistic."
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#quantiles",
+    "href": "slides/lecture02-1-dataviz.html#quantiles",
+    "title": "Probability Fundamentals",
+    "section": "Quantiles",
+    "text": "Quantiles\n\n\nThe quantile function is the inverse of the CDF:\n\\[q(\\alpha) = F^{-1}_\\mathcal{D}(\\alpha)\\]\nSo \\[x_0 = q(\\alpha) \\iff \\mathbb{P}_\\mathcal{D}(X &lt; x_0) = \\alpha.\\]\n\n\ndist = TDist(4)\nx = -5:0.01:5\nq = 0.25\np1 = plot(x, x -&gt; cdf(dist, x), ylabel=\"Cumulative Density\", xlabel=L\"$x$\", linewidth=3, label=false)\nplot!([-5, quantile(dist, q)], [q, q], color=:gray, linestyle=:dash, linewidth=2, label=false)\nplot!([quantile(dist, q), quantile(dist, q)], [0, q], color=:gray, linestyle=:dash, linewidth=2, label=false, size=(500, 300))\n\np2 = plot(x, x -&gt; pdf(dist, x), linewidth=3, ylabel=\"Density\", xlabel=L\"$x$\", label=false)\nxpdf = -5:0.01:quantile(dist, q)\nplot!(xpdf, zeros(length(xpdf)), fillrange=pdf.(dist, xpdf), fillalpha=0.5, color=:gray, label=false, size=(500, 300))\n\ndisplay(p1)\ndisplay(p2)\n\n\n\n\n\n\n\n\n\n\n\n(a) Relationship of CDF and PDF\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b)\n\n\n\n\n\n\n\nFigure 2"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#distributions-are-assumptions",
+    "href": "slides/lecture02-1-dataviz.html#distributions-are-assumptions",
+    "title": "Probability Fundamentals",
+    "section": "Distributions Are Assumptions",
+    "text": "Distributions Are Assumptions\nSpecifying a distribution is making an assumption about observations and any applicable constraints.\nExamples: If your observations are…\n\nContinuous and fat-tailed? Cauchy distribution\nContinuous and bounded? Beta distribution\nSums of positive random variables? Gamma or Normal distribution."
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#why-use-a-normal-distribution",
+    "href": "slides/lecture02-1-dataviz.html#why-use-a-normal-distribution",
+    "title": "Probability Fundamentals",
+    "section": "Why Use a Normal Distribution?",
+    "text": "Why Use a Normal Distribution?\n\n\nTwo main reasons to use linear models/normal distributions:\n\nInferential: “Least informative” distribution assuming knowledge of just mean and variance;\nGenerative: Central Limit Theorem (summed fluctuations are asymptotically normal)\n\n\n\n\n\nWeight stack Gaussian distribution\n\n\n\nSource: r/GymMemes\n\n\n\n\nOne key thing: normal distributions are the “least informative” distribution given constraints on mean and variance. So all else being equal, this is a useful machine if all we’re interested in are those two moments."
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#statistics-of-random-variables-are-random-variables",
+    "href": "slides/lecture02-1-dataviz.html#statistics-of-random-variables-are-random-variables",
+    "title": "Probability Fundamentals",
+    "section": "Statistics of Random Variables are Random Variables",
+    "text": "Statistics of Random Variables are Random Variables\nThe sum or mean of a random sample is itself a random variable:\n\\[\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i \\sim \\mathcal{D}_n\\]\n\n\\(\\mathcal{D}_n\\): The sampling distribution of the mean (or sum, or other estimate of interest)."
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#sampling-distributions",
+    "href": "slides/lecture02-1-dataviz.html#sampling-distributions",
+    "title": "Probability Fundamentals",
+    "section": "Sampling Distributions",
+    "text": "Sampling Distributions\n\n\n\nIllustration of the Sampling Distribution"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#central-limit-theorem",
+    "href": "slides/lecture02-1-dataviz.html#central-limit-theorem",
+    "title": "Probability Fundamentals",
+    "section": "Central Limit Theorem",
+    "text": "Central Limit Theorem\nIf\n\n\\(\\mathbb{E}[X_i] = \\mu\\)\nand \\(\\text{Var}(X_i) = \\sigma^2 &lt; \\infty\\),\n\n\\[\\begin{align*}\n&\\bbox[yellow, 10px, border:5px solid red]\n{\\lim_{n \\to \\infty} \\sqrt{n}(\\bar{X}_n - \\mu ) = \\mathcal{N}(0, \\sigma^2)} \\\\\n\\Rightarrow &\\bbox[yellow, 10px, border:5px solid red] {\\bar{X}_n \\overset{\\text{approx}}{\\sim} \\mathcal{N}(\\mu, \\sigma^2/n)}\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#central-limit-theorem-more-intuitive",
+    "href": "slides/lecture02-1-dataviz.html#central-limit-theorem-more-intuitive",
+    "title": "Probability Fundamentals",
+    "section": "Central Limit Theorem (More Intuitive)",
+    "text": "Central Limit Theorem (More Intuitive)\n\n\nFor a large enough set of samples, the sampling distribution of a sum or mean of random variables is approximately a normal distribution, even if the random variables themselves are not.\n\n\n\n\nSmall n Meme\n\n\n\nSource: Unknown"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#what-distribution-should-i-use",
+    "href": "slides/lecture02-1-dataviz.html#what-distribution-should-i-use",
+    "title": "Probability Fundamentals",
+    "section": "“What Distribution Should I Use?”",
+    "text": "“What Distribution Should I Use?”\nThere is no right answer to this, no matter what a statistical test tells you.\n\nWhat assumptions are justifiable from theory?\nWhat information do you have?"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#what-distribution-should-i-use-1",
+    "href": "slides/lecture02-1-dataviz.html#what-distribution-should-i-use-1",
+    "title": "Probability Fundamentals",
+    "section": "“What Distribution Should I Use?”",
+    "text": "“What Distribution Should I Use?”\nFor example, suppose our data are counts of events:\n\nIf you know something about rates, you can use a Poisson distribution\nIf you know something about probabilities, you can use a Binomial distribution."
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#q-q-plots",
+    "href": "slides/lecture02-1-dataviz.html#q-q-plots",
+    "title": "Probability Fundamentals",
+    "section": "Q-Q Plots",
+    "text": "Q-Q Plots\n\n\nOne exploratory method to see if your data is reasonably described by a theoretical distribution is a Q-Q plot.\n\n\n\nCode\nsamps = rand(Normal(0, 3), 20)\nqqplot(Normal, samps, tickfontsize=16, guidefontsize=18, linewidth=3, markersize=6)\nxlabel!(\"Theoretical Quantiles\")\nylabel!(\"Empirical Quantiles\")\nplot!(size=(500, 450))\n\n\n\n\n\n\n\nFigure 3"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#fat-tailed-data-and-q-q-plots",
+    "href": "slides/lecture02-1-dataviz.html#fat-tailed-data-and-q-q-plots",
+    "title": "Probability Fundamentals",
+    "section": "Fat-Tailed Data and Q-Q Plots",
+    "text": "Fat-Tailed Data and Q-Q Plots\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Normal vs Cauchy Distribution\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b) Q-Q Plot\n\n\n\n\n\n\n\nFigure 4: Q-Q Plot for Cauchy Data and Normal Distribution"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#likelihood",
+    "href": "slides/lecture02-1-dataviz.html#likelihood",
+    "title": "Probability Fundamentals",
+    "section": "Likelihood",
+    "text": "Likelihood\nHow do we “fit” distributions to a dataset?\nLikelihood of data to have come from distribution \\(f(\\mathbf{x} | \\theta)\\):\n\\[\\mathcal{L}(\\theta | \\mathbf{x}) = \\underbrace{f(\\mathbf{x} | \\theta)}_{\\text{PDF}}\\]\n\nThe likelihood gives us a measure of how probable a dataset is from a given distribution. It’s the PDF of the distribution at the data.\nBut the perspective is flipped: instead of fixing a distribution and calculating the probability of some data, we fix the data and look at how the probability of observing that data changes as the distribution changes."
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#normal-distribution-pdf",
+    "href": "slides/lecture02-1-dataviz.html#normal-distribution-pdf",
+    "title": "Probability Fundamentals",
+    "section": "Normal Distribution PDF",
+    "text": "Normal Distribution PDF\n\\[f_\\mathcal{D}(x) = p(x | \\mu, \\sigma) = \\frac{1}{\\sigma\\sqrt{2\\pi}} \\exp\\left(-\\frac{1}{2}\\left(\\frac{x - \\mu}{\\sigma}^2\\right)\\right)\\]\n\n\nplot(Normal(0, sqrt(3)), linewidth=3, color=:blue, label=L\"$\\mu=0$, $\\sigma=\\sqrt{3}$\", guidefontsize=20, legendfontsize=20, tickfontsize=14)\nplot!(Normal(2, 1), linewidth=3, color=:orange, label=L\"$\\mu=2$, $\\sigma=1$\")\nplot!(Normal(0, 1), linewidth=3, color=:red, label=L\"$\\mu=0$, $\\sigma=1$\")\nplot!(size=(1200, 400), left_margin=10mm, bottom_margin=10mm)\nvline!([0.5], color=:black, linestyle=:dash)\nxlabel!(L\"$x$\")\nylabel!(\"Likelihood\")\nxlims!((-5, 5))\n\n\n\n\n\n\nFigure 5"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#likelihood-of-multiple-samples",
+    "href": "slides/lecture02-1-dataviz.html#likelihood-of-multiple-samples",
+    "title": "Probability Fundamentals",
+    "section": "Likelihood of Multiple Samples",
+    "text": "Likelihood of Multiple Samples\nFor multiple (independent) samples \\(\\mathbf{x} = \\{x_1, \\ldots, x_n\\}\\):\n\\[\\mathcal{L}(\\theta | \\mathbf{x}) = \\prod_{i=1}^n \\mathcal{L}(\\theta | x_i).\\]"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#likelihood-example",
+    "href": "slides/lecture02-1-dataviz.html#likelihood-example",
+    "title": "Probability Fundamentals",
+    "section": "Likelihood Example",
+    "text": "Likelihood Example\n\n\n\n\ndist = Normal(-0.5, 2)\nx = rand(dist, 10)\nplot(Normal(0, 1), linewidth=3, ylabel=\"Density\", xlabel=L\"$x$\", legend=false, color=:blue, size=(600, 400))\nvline!(x, color=:red)\nxlims!((-9, 6))\n\n\n\n\n\n\n\n\nDistribution\nLikelihood\n\n\n\n\n\\(N(0, 1)\\)\n1.9e-8"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#likelihood-example-1",
+    "href": "slides/lecture02-1-dataviz.html#likelihood-example-1",
+    "title": "Probability Fundamentals",
+    "section": "Likelihood Example",
+    "text": "Likelihood Example\n\n\n\n\nplot(Normal(0, 1), linewidth=3, ylabel=\"Density\", xlabel=L\"$x$\", alpha=0.2, legend=false, color=:blue, size=(600, 400))\nplot!(Normal(-1, 2), linewidth=3, color=:blue)\nvline!(x, color=:red)\nxlims!((-9, 6))\n\n\n\n\n\n\n\n\nDistribution\nLikelihood\n\n\n\n\n\\(N(0, 1)\\)\n1.9e-8\n\n\n\\(N(-1, 2)\\)\n1.5e-8"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#likelihood-example-2",
+    "href": "slides/lecture02-1-dataviz.html#likelihood-example-2",
+    "title": "Probability Fundamentals",
+    "section": "Likelihood Example",
+    "text": "Likelihood Example\n\n\n\n\nplot(Normal(0, 1), linewidth=3, ylabel=\"Density\", xlabel=L\"$x$\", alpha=0.2, legend=false, color=:blue, size=(600, 400))\nplot!(Normal(-1, 2), linewidth=3, color=:blue, alpha=0.2)\nplot!(Normal(-1, 1), linewidth=3, color=:blue)\nvline!(x, color=:red)\nxlims!((-9, 6))\n\n\n\n\n\n\n\n\nDistribution\nLikelihood\n\n\n\n\n\\(N(0, 1)\\)\n1.9e-8\n\n\n\\(N(-1, 2)\\)\n1.5e-8\n\n\n\\(N(-1, 1)\\)\n4.6e-8"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#maximizing-likelihood",
+    "href": "slides/lecture02-1-dataviz.html#maximizing-likelihood",
+    "title": "Probability Fundamentals",
+    "section": "Maximizing Likelihood",
+    "text": "Maximizing Likelihood\nTo find the parameters \\(\\hat{\\theta}\\) which best fit the data:\n\\(\\hat{\\theta} = \\max_\\theta \\mathcal{L}(\\theta | \\mathbf{x})\\)"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#generally-maximizing-likelihood",
+    "href": "slides/lecture02-1-dataviz.html#generally-maximizing-likelihood",
+    "title": "Probability Fundamentals",
+    "section": "Generally Maximizing Likelihood",
+    "text": "Generally Maximizing Likelihood\n\n\nCan use optimization algorithms to maximize \\(\\theta \\to \\mathcal{L}(\\theta | x).\\)\nDragons: Probability calculations tend to under- and overflow due to floating point precision.\n\n\n\n\nFloating Point Logarithms meme"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#confidence-intervals",
+    "href": "slides/lecture02-1-dataviz.html#confidence-intervals",
+    "title": "Probability Fundamentals",
+    "section": "Confidence Intervals",
+    "text": "Confidence Intervals\n\n\nFrequentist estimates have confidence intervals, which will contain the “true” parameter value for \\(\\alpha\\)% of data samples.\nNo guarantee that an individual CI contains the true value (with any “probability”)!\n\n\n\n\nHorseshoe Illustration\n\n\n\nSource: https://www.wikihow.com/Throw-a-Horseshoe\n\n\n\n\nConfidence intervals only capture uncertainty in parameter inferences due to data uncertainty, though this language sometimes gets misused to also refer to data/estimand uncertainty."
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#example-95-cis-for-n0.4-2",
+    "href": "slides/lecture02-1-dataviz.html#example-95-cis-for-n0.4-2",
+    "title": "Probability Fundamentals",
+    "section": "Example: 95% CIs for N(0.4, 2)",
+    "text": "Example: 95% CIs for N(0.4, 2)\n\nCode\n# set up distribution\nmean_true = 0.4\nn_cis = 100 # number of CIs to compute\ndist = Normal(mean_true, 2)\n\n# use sample size of 100\nsamples = rand(dist, (100, n_cis))\n# mapslices broadcasts over a matrix dimension, could also use a loop\nsample_means = mapslices(mean, samples; dims=1)\nsample_sd = mapslices(std, samples; dims=1) \nmc_sd = 1.96 * sample_sd / sqrt(100)\nmc_ci = zeros(n_cis, 2) # preallocate\nfor i = 1:n_cis\n    mc_ci[i, 1] = sample_means[i] - mc_sd[i]\n    mc_ci[i, 2] = sample_means[i] + mc_sd[i]\nend\n# find which CIs contain the true value\nci_true = (mc_ci[:, 1] .&lt; mean_true) .&& (mc_ci[:, 2] .&gt; mean_true)\n# compute percentage of CIs which contain the true value\nci_frac1 = 100 * sum(ci_true) ./ n_cis\n\n# plot CIs\np1 = plot([mc_ci[1, :]], [1, 1], linewidth=3, color=:deepskyblue, label=\"95% Confidence Interval\", title=\"Sample Size 100\", yticks=:false, legend=:false)\nfor i = 2:n_cis\n    if ci_true[i]\n        plot!(p1, [mc_ci[i, :]], [i, i], linewidth=2, color=:deepskyblue, label=:false)\n    else\n        plot!(p1, [mc_ci[i, :]], [i, i], linewidth=2, color=:red, label=:false)\n    end\nend\nvline!(p1, [mean_true], color=:black, linewidth=2, linestyle=:dash, label=\"True Value\") # plot true value as a vertical line\nxaxis!(p1, \"Estimate\")\nplot!(p1, size=(500, 350)) # resize to fit slide\n\n# use sample size of 1000\nsamples = rand(dist, (1000, n_cis))\n# mapslices broadcasts over a matrix dimension, could also use a loop\nsample_means = mapslices(mean, samples; dims=1)\nsample_sd = mapslices(std, samples; dims=1) \nmc_sd = 1.96 * sample_sd / sqrt(1000)\nmc_ci = zeros(n_cis, 2) # preallocate\nfor i = 1:n_cis\n    mc_ci[i, 1] = sample_means[i] - mc_sd[i]\n    mc_ci[i, 2] = sample_means[i] + mc_sd[i]\nend\n# find which CIs contain the true value\nci_true = (mc_ci[:, 1] .&lt; mean_true) .&& (mc_ci[:, 2] .&gt; mean_true)\n# compute percentage of CIs which contain the true value\nci_frac2 = 100 * sum(ci_true) ./ n_cis\n\n# plot CIs\np2 = plot([mc_ci[1, :]], [1, 1], linewidth=3, color=:deepskyblue, label=\"95% Confidence Interval\", title=\"Sample Size 1,000\", yticks=:false, legend=:false)\nfor i = 2:n_cis\n    if ci_true[i]\n        plot!(p2, [mc_ci[i, :]], [i, i], linewidth=2, color=:deepskyblue, label=:false)\n    else\n        plot!(p2, [mc_ci[i, :]], [i, i], linewidth=2, color=:red, label=:false)\n    end\nend\nvline!(p2, [mean_true], color=:black, linewidth=2, linestyle=:dash, label=\"True Value\") # plot true value as a vertical line\nxaxis!(p2, \"Estimate\")\nplot!(p2, size=(500, 350)) # resize to fit slide\n\ndisplay(p1)\ndisplay(p2)\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Sample Size 100\n\n\n\n\n\n\n\n\n\n\n\n(b) Sample Size 1,000\n\n\n\n\n\n\n\nFigure 6: Display of 95% confidence intervals\n\n\n\n95% of the CIs contain the true value (left) vs. 94% (right)"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#predictive-intervals",
+    "href": "slides/lecture02-1-dataviz.html#predictive-intervals",
+    "title": "Probability Fundamentals",
+    "section": "Predictive Intervals",
+    "text": "Predictive Intervals\n\n\nPredictive intervals capture uncertainty in an estimand.\nWith what probability would I see a particular outcome in the future?\nOften need to construct these using simulation.\n\n\nplot(Gamma(7.5), linewidth=3, xlabel=\"Data/Parameter\", label=:false, legend=:outerbottom)\nq1 = quantile(Gamma(7.5), [0.05, 0.95])\nq2 = quantile(Gamma(7.5), [0.01, 0.91])\nq3 = quantile(Gamma(7.5), [0.09, 0.99])\ngamma_pdf(x) = pdf(Gamma(7.5), x)\nplot!(q1[1]:0.01:q1[2], gamma_pdf(q1[1]:0.01:q1[2]), fillrange=zero(q1[1]:0.01:q1[2]), alpha=0.2, label=\"90% Interval 1\")\nplot!(q2[1]:0.01:q2[2], gamma_pdf(q2[1]:0.01:q2[2]), fillrange=zero(q2[1]:0.01:q2[2]), alpha=0.2, label=\"90% Interval 2\")\nplot!(q3[1]:0.01:q3[2], gamma_pdf(q3[1]:0.01:q3[2]), fillrange=zero(q3[1]:0.01:q3[2]), alpha=0.2, label=\"90% Interval 3\")\nplot!(size=(600, 650))\n\n\n\n\n\n\nFigure 7: Two different 95% credible intervals.\n\n\n\n\n\n\n\nDue to this non-uniqueness, the typical convention is to use the “equal tailed” interval based on quantiles."
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#next-classes",
+    "href": "slides/lecture02-1-dataviz.html#next-classes",
+    "title": "Probability Fundamentals",
+    "section": "Next Classes",
+    "text": "Next Classes\nNext Week: Probability Models for Data"
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#assessments",
+    "href": "slides/lecture02-1-dataviz.html#assessments",
+    "title": "Probability Fundamentals",
+    "section": "Assessments",
+    "text": "Assessments\nHomework 1 due next Friday (2/7).\nQuiz: Due before next class.\nReading: Annotate/submit writing before next class, will reserve time for discussion."
+  },
+  {
+    "objectID": "slides/lecture02-1-dataviz.html#references-scroll-for-full-list",
+    "href": "slides/lecture02-1-dataviz.html#references-scroll-for-full-list",
+    "title": "Probability Fundamentals",
+    "section": "References (Scroll for Full List)",
+    "text": "References (Scroll for Full List)"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html",
+    "href": "slides/lecture01-2-probreview.html",
+    "title": "Probability Review",
+    "section": "",
+    "text": "import Pkg\nPkg.activate(@__DIR__)\nPkg.instantiate()\nusing Random\nusing DataFrames\nusing DataFramesMeta\nusing CSV\nusing Dates\nusing Distributions\nusing ColorSchemes\nusing Plots\nusing StatsPlots\nusing StatsBase\nusing GLM\nusing Optim\nusing LaTeXStrings\nusing Measures\n\nRandom.seed!(1)\n\nplot_font = \"Computer Modern\"\ndefault(\n    fontfamily=plot_font,\n    linewidth=3, \n    framestyle=:box, \n    label=nothing, \n    grid=false,\n    guidefontsize=18,\n    legendfontsize=16,\n    tickfontsize=16,\n    titlefontsize=20,\n    bottom_margin=10mm,\n    left_margin=5mm\n)"
+  },
+  {
+    "objectID": "slides/lecture01-2-probreview.html#measures-of-central-tendency",
+    "href": "slides/lecture01-2-probreview.html#measures-of-central-tendency",
+    "title": "Probability Review",
+    "section": "Measures of Central Tendency",
+    "text": "Measures of Central Tendency\nCommon measures of “typical” values of a function \\(f\\) of a random variable \\(Y \\sim p_{\\mathcal{D}}(y)\\):\n\nMean (or expected value): \\[\\mathbb{E}[f(Y)] = \\int_Y f(y) p(y) dy\\]\nMedian: \\(q(0.50)\\)\nMode: \\(\\max_{Y} p(f(Y))\\)"
   }
 ]

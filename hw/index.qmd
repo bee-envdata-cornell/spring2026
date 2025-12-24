@@ -28,3 +28,9 @@ Make sure to look over the [standard homework rubric](../policies/rubric.qmd) an
 | Assignment | Topic | Instructions | Solutions | Assigned | Due| 
 |:------:|:------------:|:------:|:------:|:--------:|:--------:|
 | HW 1 | Intro and Exploratory Data Analysis | [{{< fa sharp pen-field >}}](hw01/hw01.qmd) |  [{{< fa sharp key-skeleton >}}]{style="color: grey;"} | Jan. 21, 2026 | Feb. 06, 2026 |
+| HW 2 | Linear Models and DAGs | [{{< fa sharp pen-field >}}]{style="color: grey;"}  [{{< fa sharp key-skeleton >}}]{style="color: grey;"} | Feb. 09, 2026 | Feb. 20, 2026 |
+| HW 3 | Generalized Linear Models and Time Series | [{{< fa sharp pen-field >}}]{style="color: grey;"}  [{{< fa sharp key-skeleton >}}]{style="color: grey;"} | Feb. 23, 2026 | Mar. 06, 2026 |
+| HW 4 | Monte Carlo | [{{< fa sharp pen-field >}}]{style="color: grey;"}  [{{< fa sharp key-skeleton >}}]{style="color: grey;"} | Mar. 16, 2026 | Mar. 27, 2026 |
+| HW 5 | The Bootstrap and Multiple Imputation | [{{< fa sharp pen-field >}}]{style="color: grey;"}  [{{< fa sharp key-skeleton >}}]{style="color: grey;"} | Apr. 06, 2026 | Apr. 17, 2026 |
+| HW 6 | Model Scoring and Hypothesis Testing | [{{< fa sharp pen-field >}}]{style="color: grey;"}  [{{< fa sharp key-skeleton >}}]{style="color: grey;"} | Apr. 20, 2026 | May. 20, 2026 |
+

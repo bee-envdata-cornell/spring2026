@@ -1,0 +1,46 @@
+week,group,subgroup,date,day,title,deadline
+1,Introduction,Introduction,2026-01-21,Wed,Class Overview,
+1,Introduction,Introduction,2026-01-23,Fri,Probability Review,
+2,Probability Models,Linear Regression,2026-01-26,Mon,Probability Models and Linear Regression,
+2,Probability Models,Linear Regression,2026-01-28,Wed,Linear Regression: Uses and Misuses,
+2,Probability Models,Linear Regression,2026-01-30,Fri,Lab 1: Linear Regression,
+3,Probability Models,Model Fitting,2026-02-02,Mon,Maximum Likelihood Estimation,Lab 1 Due
+3,Probability Models,Model Fitting,2026-02-04,Wed,Fisher Information and Uncertainty,
+3,Probability Models,Model Fitting,2026-02-06,Fri,Measurement Error and Model Discrepancy,HW 1 Due
+4,Probability Models,Causal Reasoning,2026-02-09,Mon,Multiple Regression and Causal Reasoning,
+4,Probability Models,Causal Reasoning,2026-02-11,Wed,Direct Acyclic Graphs and Confounds,
+4,Probability Models,Causal Reasoning,2026-02-13,Fri,Lab 2: Reasoning With DAGs,Project Proposal Due
+5,Probability Models,Generalized Linear Models,2026-02-16,Mon,Generalized Linear Models,Lab 2 Due
+5,Probability Models,Generalized Linear Models,2026-02-18,Wed,Binomial and Poisson Regressions,
+5,Probability Models,Generalized Linear Models,2026-02-20,Fri,Lab 3: Generalized Linear Models,HW 2 Due
+6,Probability Models,February Break,2026-02-23,Mon,February Break,
+6,Probability Models,Time Series,2026-02-25,Wed,Autocorrelations and Time Series,Lab 3 Due
+6,Probability Models,Time Series,2026-02-27,Fri,Time Series Examples,
+7,Probability Models,Extreme Values,2026-03-02,Mon,Block Maxima,
+7,Probability Models,Extreme Values,2026-03-04,Wed,Peaks Over Thresholds,
+7,Probability Models,Extreme Values,2026-03-06,Fri,Lab 4: Extreme Values,HW 3 Due
+8,Simulation Methods,Random Simulation,2026-03-09,Mon,Random Number Generation,Lab 4 Due
+8,Simulation Methods,Random Simulation,2026-03-11,Wed,Simulating Random Variates,
+8,Simulation Methods,Random Simulation,2026-03-13,Fri,Prelim 1,
+9,Simulation Methods,Monte Carlo,2026-03-16,Mon,Monte Carlo: Theory,
+9,Simulation Methods,Monte Carlo,2026-03-18,Wed,Monte Carlo: Examples,
+9,Simulation Methods,Monte Carlo,2026-03-20,Fri,Lab 5: Monte Carlo,Project Model Writeup Due
+10,Simulation Methods,The Bootstrap,2026-03-23,Mon,Uncertainty Quantification and The Bootstrap,Lab 5 Due
+10,Simulation Methods,The Bootstrap,2026-03-25,Wed,Bootstrap Confidence Intervals,
+10,Simulation Methods,The Bootstrap,2026-03-27,Fri,Bootstrapping Structured Data,HW 4 Due
+11,Simulation Methods,Spring Break,2026-03-30,Mon,Spring Break,
+11,Simulation Methods,Spring Break,2026-04-01,Wed,Spring Break,
+11,Simulation Methods,Spring Break,2026-04-03,Fri,Spring Break,
+12,Simulation Methods,Missing Data,2026-04-06,Mon,Missing Data Mechanisms,
+12,Simulation Methods,Missing Data,2026-04-08,Wed,Multiple Imputation,
+12,Simulation Methods,Missing Data,2026-04-10,Fri,Lab 6: Missing Data,
+13,Hypothesis Testing,Model Evaluation,2026-04-13,Mon,Overfitting and Bias-Variance Tradeoff,Lab 6 Due
+13,Hypothesis Testing,Model Evaluation,2026-04-15,Wed,Scoring Rules and Graphical Checks,
+13,Hypothesis Testing,Model Evaluation,2026-04-17,Fri,Cross-Validation,HW 5 Due
+14,Hypothesis Testing,Model Comparison,2026-04-20,Mon,Null Hypothesis Testing and Statistical Significance,
+14,Hypothesis Testing,Model Comparison,2026-04-22,Wed,Information Criteria,
+14,Hypothesis Testing,Model Comparison,2026-04-24,Fri,Lab 7: Model Comparison,Project Simulation Study Due
+15,Hypothesis Testing,Value of Information,2026-04-27,Mon,Value of Information,Lab 7 Due
+15,Hypothesis Testing,Value of Information,2026-04-29,Wed,Design of Experiments,
+15,Hypothesis Testing,Value of Information,2026-05-01,Fri,Prelim 2,
+16,Class Wrap-Up,Class Wrap-Up,2026-05-04,Mon,Class-Wrap-Up,HW 6 Due

@@ -23,7 +23,7 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
@@ -77,6 +77,9 @@ window.MathJax = {
     }
   };
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <meta property="og:title" content="Syllabus – Environmental Data Analysis &amp; Simulation">
@@ -256,8 +259,9 @@ window.MathJax = {
   <li><a href="#prelims" id="toc-prelims" class="nav-link" data-scroll-target="#prelims">Prelims</a></li>
   <li><a href="#term-project" id="toc-term-project" class="nav-link" data-scroll-target="#term-project">Term Project</a></li>
   </ul></li>
+  <li><a href="#tentative-schedule" id="toc-tentative-schedule" class="nav-link" data-scroll-target="#tentative-schedule">Tentative Schedule</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/bee-envdata-cornell/spring2026/edit/main/syllabus.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bee-envdata-cornell/spring2026/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="syllabus.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="syllabus.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/bee-envdata-cornell/spring2026/edit/main/syllabus.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bee-envdata-cornell/spring2026/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="syllabus-BEE4850-SP26.pdf"><i class="bi bi-file-pdf"></i>Typst</a></li><li><a href="syllabus.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="syllabus.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -761,9 +765,404 @@ What If I Can’t Make Office Hours?
 <li>Several updates aligning with course models. Students will provide short summaries of their proposed topic and exploratory analysis, proposed probability model(s), simulation studies, and hypothesis tests/model assessments. Each of these should be no more than 2 pages (11 point font, 1 inch margins), not including of figures or references.</li>
 <li>A final presentation and report. The report should be no more than 5 pages (11 point font, 1 inch margins), not including references and figures. The presentation should be no more than 10 minutes and will be delivered in-class; presentations may be spread across multiple class periods if the number of projects requires it. More details and rubrics will be provided later in the semester.</li>
 </ul>
-
-
 </section>
+</section>
+<section id="tentative-schedule" class="level2">
+<h2 class="anchored" data-anchor-id="tentative-schedule">Tentative Schedule</h2>
+<table class="caption-top table" data-quarto-postprocess="true">
+<thead>
+<tr class="columnLabelRow header">
+<th class="stubheadLabel" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">#</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold;">Date</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold;">Day</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Topic</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">HW</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Project</th>
+</tr>
+</thead>
+<tbody>
+<tr class="rowGroupLabel odd">
+<td colspan="6" style="text-align: left; color: DarkGrey; font-weight: bold;">Introduction</td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">1</td>
+<td style="text-align: center;">01-21</td>
+<td style="text-align: center;">Wed</td>
+<td style="text-align: left;">Course Overview and Introduction</td>
+<td style="text-align: left;">HW1 Released</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">2</td>
+<td style="text-align: center;">01-23</td>
+<td style="text-align: center;">Fri</td>
+<td style="text-align: left;">Probability Review</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="rowGroupLabel even">
+<td colspan="6" style="text-align: left; color: DarkGrey; font-weight: bold;">Exploratory Analysis</td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">3</td>
+<td style="text-align: center;">01-26</td>
+<td style="text-align: center;">Mon</td>
+<td style="text-align: left;">Data Visualization and Exploratory Analysis</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">4</td>
+<td style="text-align: center;">01-28</td>
+<td style="text-align: center;">Wed</td>
+<td style="text-align: left;">Probability Models and Linear Regression</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">5</td>
+<td style="text-align: center;">01-30</td>
+<td style="text-align: center;">Fri</td>
+<td style="text-align: left;">Lab: Data Visualization</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="rowGroupLabel even">
+<td colspan="6" style="text-align: left; color: DarkGrey; font-weight: bold;">Probability Models</td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">6</td>
+<td style="text-align: center;">02-02</td>
+<td style="text-align: center;">Mon</td>
+<td style="text-align: left;">What Linear Regression Is And Isn't Useful For</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">7</td>
+<td style="text-align: center;">02-04</td>
+<td style="text-align: center;">Wed</td>
+<td style="text-align: left;">Maximum Likelihood Estimation and Fisher Information</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">8</td>
+<td style="text-align: center;">02-06</td>
+<td style="text-align: center;">Fri</td>
+<td style="text-align: left;">Measurement Error and Model Discrepancy</td>
+<td style="text-align: left;">HW1 Due</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">9</td>
+<td style="text-align: center;">02-09</td>
+<td style="text-align: center;">Mon</td>
+<td style="text-align: left;">Multiple Regression and Causal Reasoning</td>
+<td style="text-align: left;">HW2 Released</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">10</td>
+<td style="text-align: center;">02-11</td>
+<td style="text-align: center;">Wed</td>
+<td style="text-align: left;">Direct Acyclic Graphs and Confounds</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">11</td>
+<td style="text-align: center;">02-13</td>
+<td style="text-align: center;">Fri</td>
+<td style="text-align: left;">Lab: Reasoning with DAGs</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Exploratory Analysis</td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;"></td>
+<td style="text-align: center; color: red;">02-16</td>
+<td style="text-align: center; color: red;">Mon</td>
+<td style="text-align: left; color: red;">February Break</td>
+<td style="text-align: left; color: red;"></td>
+<td style="text-align: left; color: red;"></td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">12</td>
+<td style="text-align: center;">02-18</td>
+<td style="text-align: center;">Wed</td>
+<td style="text-align: left;">Generalized Linear Models</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">13</td>
+<td style="text-align: center;">02-20</td>
+<td style="text-align: center;">Fri</td>
+<td style="text-align: left;">More Generalized Linear Models</td>
+<td style="text-align: left;">HW2 Due</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">14</td>
+<td style="text-align: center;">02-23</td>
+<td style="text-align: center;">Mon</td>
+<td style="text-align: left;">Lab: Selecting a Probability Model</td>
+<td style="text-align: left;">HW3 Released</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">15</td>
+<td style="text-align: center;">02-25</td>
+<td style="text-align: center;">Wed</td>
+<td style="text-align: left;">Autocorrelation and Time Series</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">16</td>
+<td style="text-align: center;">02-27</td>
+<td style="text-align: center;">Fri</td>
+<td style="text-align: left;">Time Series Examples</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">17</td>
+<td style="text-align: center;">03-02</td>
+<td style="text-align: center;">Mon</td>
+<td style="text-align: left;">Modeling Extremes: Block Maxima</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">18</td>
+<td style="text-align: center;">03-04</td>
+<td style="text-align: center;">Wed</td>
+<td style="text-align: left;">Modeling Extremes: Peak Over Thresholds</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">19</td>
+<td style="text-align: center;">03-06</td>
+<td style="text-align: center;">Fri</td>
+<td style="text-align: left;">Lab: Extreme Value Models</td>
+<td style="text-align: left;">HW3 Due</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="rowGroupLabel even">
+<td colspan="6" style="text-align: left; color: DarkGrey; font-weight: bold;">Simulation Methods</td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">20</td>
+<td style="text-align: center;">03-09</td>
+<td style="text-align: center;">Mon</td>
+<td style="text-align: left;">Random Variate Simulation</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">21</td>
+<td style="text-align: center;">03-11</td>
+<td style="text-align: center;">Wed</td>
+<td style="text-align: left;">Random Number Generation</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">22</td>
+<td style="text-align: center;">03-13</td>
+<td style="text-align: center;">Fri</td>
+<td style="text-align: left;">Prelim</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">23</td>
+<td style="text-align: center;">03-16</td>
+<td style="text-align: center;">Mon</td>
+<td style="text-align: left;">Monte Carlo: Theory</td>
+<td style="text-align: left;">HW4 Released</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">24</td>
+<td style="text-align: center;">03-18</td>
+<td style="text-align: center;">Wed</td>
+<td style="text-align: left;">Monte Carlo: Examples</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">25</td>
+<td style="text-align: center;">03-20</td>
+<td style="text-align: center;">Fri</td>
+<td style="text-align: left;">Lab: Monte Carlo</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Candidate Model(s)</td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">26</td>
+<td style="text-align: center;">03-23</td>
+<td style="text-align: center;">Mon</td>
+<td style="text-align: left;">Uncertainty Quantification and the Bootstrap</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">27</td>
+<td style="text-align: center;">03-25</td>
+<td style="text-align: center;">Wed</td>
+<td style="text-align: left;">Bootstraps for Structured Data</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">28</td>
+<td style="text-align: center;">03-27</td>
+<td style="text-align: center;">Fri</td>
+<td style="text-align: left;">Lab: The Bootstrap</td>
+<td style="text-align: left;">HW4 Due</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;"></td>
+<td style="text-align: center; color: red;">03-30</td>
+<td style="text-align: center; color: red;">Mon</td>
+<td style="text-align: left; color: red;">Spring Break</td>
+<td style="text-align: left; color: red;"></td>
+<td style="text-align: left; color: red;"></td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;"></td>
+<td style="text-align: center; color: red;">04-01</td>
+<td style="text-align: center; color: red;">Wed</td>
+<td style="text-align: left; color: red;">Spring Break</td>
+<td style="text-align: left; color: red;"></td>
+<td style="text-align: left; color: red;"></td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;"></td>
+<td style="text-align: center; color: red;">04-03</td>
+<td style="text-align: center; color: red;">Fri</td>
+<td style="text-align: left; color: red;">Spring Break</td>
+<td style="text-align: left; color: red;"></td>
+<td style="text-align: left; color: red;"></td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">29</td>
+<td style="text-align: center;">04-06</td>
+<td style="text-align: center;">Mon</td>
+<td style="text-align: left;">Missing and Censored Data</td>
+<td style="text-align: left;">HW5 Released</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">30</td>
+<td style="text-align: center;">04-08</td>
+<td style="text-align: center;">Wed</td>
+<td style="text-align: left;">Multiple Imputation</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">31</td>
+<td style="text-align: center;">04-10</td>
+<td style="text-align: center;">Fri</td>
+<td style="text-align: left;">Lab: Missing Data</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="rowGroupLabel even">
+<td colspan="6" style="text-align: left; color: DarkGrey; font-weight: bold;">Hypothesis Testing and Model Assessment</td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">32</td>
+<td style="text-align: center;">04-13</td>
+<td style="text-align: center;">Mon</td>
+<td style="text-align: left;">Overfitting and Bias-Variance Tradeoff</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">33</td>
+<td style="text-align: center;">04-15</td>
+<td style="text-align: center;">Wed</td>
+<td style="text-align: left;">Scoring Rules and Graphical Checks</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">34</td>
+<td style="text-align: center;">04-17</td>
+<td style="text-align: center;">Fri</td>
+<td style="text-align: left;">Cross-Validation</td>
+<td style="text-align: left;">HW5 Due</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">35</td>
+<td style="text-align: center;">04-20</td>
+<td style="text-align: center;">Mon</td>
+<td style="text-align: left;">Hypothesis Testing</td>
+<td style="text-align: left;">HW6 Released</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">36</td>
+<td style="text-align: center;">04-22</td>
+<td style="text-align: center;">Wed</td>
+<td style="text-align: left;">Entropy and Information</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">37</td>
+<td style="text-align: center;">04-24</td>
+<td style="text-align: center;">Fri</td>
+<td style="text-align: left;">Information Criteria</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Simulation Study</td>
+</tr>
+<tr class="rowGroupLabel odd">
+<td colspan="6" style="text-align: left; color: DarkGrey; font-weight: bold;">Design of Experiments and Value of Information</td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">38</td>
+<td style="text-align: center;">04-27</td>
+<td style="text-align: center;">Mon</td>
+<td style="text-align: left;">Value of Information</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">39</td>
+<td style="text-align: center;">04-29</td>
+<td style="text-align: center;">Wed</td>
+<td style="text-align: left;">Design of Experiments</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">40</td>
+<td style="text-align: center;">05-01</td>
+<td style="text-align: center;">Fri</td>
+<td style="text-align: left;">Prelim 2</td>
+<td style="text-align: left;">HW6 Due</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">41</td>
+<td style="text-align: center;">05-04</td>
+<td style="text-align: center;">Mon</td>
+<td style="text-align: left;">Class Wrap-Up</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+
+
 </section>
 
 </main> <!-- /main -->
