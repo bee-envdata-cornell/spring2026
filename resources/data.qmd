@@ -1,5 +1,7 @@
 ---
 title: "Data"
+format:
+  html: default
 ---
 
 There are a number of places you can look to find interesting datasets.

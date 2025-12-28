@@ -13,22 +13,10 @@ format:
     toc-depth: 3
   typst:
     output-file: "syllabus-BEE4850-SP26.pdf"
-    citeproc: true
-    csl: _assets/references/american-geophysical-union.csl
     include-in-header: 
       - "_assets/typst-pdf/include-in-header.typ"
     include-before-body:
       - "_assets/typst-pdf/note.typ"
-    filters: 
-      - "_assets/typst-pdf/processing.lua"
-    mainfont: IBM Plex Sans
-    fontsize: "10pt"  
-    toc: true
-    toc-depth: 2
-    toc-title: Contents
-    margin:
-      x: 1in
-      y: 1in
   docx:
     output-file: "syllabus-BEE4850-SP26.docx"
     toc: true
@@ -440,9 +428,9 @@ label_idx = uniqueidx(group_idx)
 holiday_idx = findall(occursin.("Break", sched[!, :subgroup]))
 shade_idx = iseven.(sched[!, :week])
 
-# figure out alternative subgroups for highlighting
+# figure out alternating weeks for highlighting
 sched = @chain sched begin
- @groupby :subgroup
+ @groupby :week
  @transform! :is_first = :date .== first(:date)
  @transform! :subgroup = ifelse.(:is_first, :subgroup, "")
  @transform 
@@ -558,35 +546,35 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "background-color: lightgrey; text-align: left;">Linear Regression</td>
       <td style = "background-color: lightgrey; text-align: center;">January 26</td>
       <td style = "background-color: lightgrey; text-align: center;">Mon</td>
-      <td style = "background-color: lightgrey; text-align: left;">Probability Models and Linear Regression</td>
+      <td style = "background-color: lightgrey; text-align: left;">Probability Models and EDA</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;"></td>
       <td style = "background-color: lightgrey; text-align: center;">January 28</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
-      <td style = "background-color: lightgrey; text-align: left;">Linear Regression: Uses and Misuses</td>
+      <td style = "background-color: lightgrey; text-align: left;">Linear Regression</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;"></td>
       <td style = "background-color: lightgrey; text-align: center;">January 30</td>
       <td style = "background-color: lightgrey; text-align: center;">Fri</td>
-      <td style = "background-color: lightgrey; text-align: left;">Lab 1: Linear Regression</td>
+      <td style = "background-color: lightgrey; text-align: left;">Lab 1: Data Visualization</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;">Model Fitting</td>
+      <td style = "text-align: left;">Linear Regression</td>
       <td style = "text-align: center;">February 2</td>
       <td style = "text-align: center;">Mon</td>
-      <td style = "text-align: left;">Maximum Likelihood Estimation</td>
+      <td style = "text-align: left;">Linear Regression: Uses and Misuses</td>
       <td style = "text-align: left;">Lab 1 Due</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;"></td>
       <td style = "text-align: center;">February 4</td>
       <td style = "text-align: center;">Wed</td>
-      <td style = "text-align: left;">Fisher Information and Uncertainty</td>
+      <td style = "text-align: left;">Maximum Likelihood Estimation and Fisher Information</td>
       <td style = "text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
@@ -646,7 +634,7 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;">Time Series</td>
+      <td style = "background-color: lightgrey; text-align: left;"></td>
       <td style = "background-color: lightgrey; text-align: center;">February 25</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
       <td style = "background-color: lightgrey; text-align: left;">Autocorrelations and Time Series</td>

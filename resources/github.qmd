@@ -1,5 +1,7 @@
 ---
 title: "GitHub Resources"
+format:
+  html: default
 ---
 
 * [Git Basics](https://www.theodinproject.com/lessons/foundations-git-basics) from The Odin Project.

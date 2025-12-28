@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -23,7 +23,7 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
@@ -32,14 +32,15 @@ ul.task-list li input[type="checkbox"] {
 <link href="./_assets/logos/favicon.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1d1e7f53b840ad8d06c4ae6c57b8588.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-5cf72458b51e521e41f1ac40627354c5.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ba9c0723bac509a7d8c9561700ea21a1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-fb17626478aa78ce15980021f2baceac.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -77,13 +78,13 @@ window.MathJax = {
     }
   };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <meta property="og:title" content="Syllabus – Environmental Data Analysis &amp; Simulation">
-<meta property="og:description" content="Homepage for the Spring 2026 version of BEE 4850/5850, Environmental Data Analysis &amp; Simulation, at Cornell University.">
+<meta property="og:description" content="This is a 3 credit course offered as an elective.">
 <meta property="og:site_name" content="Environmental Data Analysis &amp; Simulation">
 </head>
 
@@ -95,7 +96,7 @@ window.MathJax = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">BEE 4850/5850</span>
+    <span class="navbar-title">{{&lt; var course.number &gt;}}</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -144,6 +145,8 @@ window.MathJax = {
     <a class="dropdown-item" href="./hw/index.html">
  <span class="dropdown-text">Homework Assignments</span></a>
   </li>  
+        <li class="dropdown-header">
+ lit_critique/index.qmd</li>
         <li>
     <a class="dropdown-item" href="./project/index.html">
  <span class="dropdown-text">Term Project</span></a>
@@ -189,19 +192,19 @@ window.MathJax = {
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link" href="https://github.com/bee-envdata-cornell/spring2026/"> 
-<span class="menu-text"><i class="fa-brands fa-github" aria-label="github"></i> GitHub</span></a>
+<span class="menu-text">{{&lt; fa brands github &gt;}} GitHub</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="https://canvas.cornell.edu"> 
-<span class="menu-text"><i class="fa-regular fa-notebook" aria-label="notebook"></i> Canvas</span></a>
+<span class="menu-text">{{&lt; fa regular notebook &gt;}} Canvas</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="https://edstem.org"> 
-<span class="menu-text"><i class="fa-regular fa-comments" aria-label="comments"></i> Ed</span></a>
+<span class="menu-text">{{&lt; fa regular comments &gt;}} Ed</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="https://gradescope.com"> 
-<span class="menu-text"><i class="fa-regular fa-chart-simple" aria-label="chart-simple"></i> Gradescope</span></a>
+<span class="menu-text">{{&lt; fa regular chart-simple &gt;}} Gradescope</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -259,9 +262,8 @@ window.MathJax = {
   <li><a href="#prelims" id="toc-prelims" class="nav-link" data-scroll-target="#prelims">Prelims</a></li>
   <li><a href="#term-project" id="toc-term-project" class="nav-link" data-scroll-target="#term-project">Term Project</a></li>
   </ul></li>
-  <li><a href="#tentative-schedule" id="toc-tentative-schedule" class="nav-link" data-scroll-target="#tentative-schedule">Tentative Schedule</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/bee-envdata-cornell/spring2026/edit/main/syllabus.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bee-envdata-cornell/spring2026/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="syllabus-BEE4850-SP26.pdf"><i class="bi bi-file-pdf"></i>Typst</a></li><li><a href="syllabus.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="syllabus.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/bee-envdata-cornell/spring2026/edit/main/syllabus.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bee-envdata-cornell/spring2026/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="syllabus-BEE4850-SP26.pdf"><i class="bi bi-file-pdf"></i>Typst</a></li><li><a href="syllabus-BEE4850-SP26.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -356,7 +358,7 @@ window.MathJax = {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-What If My Programming or Stats Skills Are Rusty?
+<span class="screen-reader-only">Tip</span>What If My Programming or Stats Skills Are Rusty?
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -432,7 +434,7 @@ What If My Programming or Stats Skills Are Rusty?
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Please, Be Excellent To Teach Other
+<span class="screen-reader-only">Important</span>Please, Be Excellent To Teach Other
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -455,7 +457,7 @@ Please, Be Excellent To Teach Other
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Ed Tips
+<span class="screen-reader-only">Important</span>Ed Tips
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -476,7 +478,7 @@ Ed Tips
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Mental Health And This Class
+<span class="screen-reader-only">Important</span>Mental Health And This Class
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -497,7 +499,7 @@ Mental Health And This Class
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-What If I’m Sick?
+<span class="screen-reader-only">Important</span>What If I’m Sick?
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -552,7 +554,7 @@ What If I’m Sick?
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-We Can Only Grade What You Submitted
+<span class="screen-reader-only">Important</span>We Can Only Grade What You Submitted
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -566,7 +568,7 @@ We Can Only Grade What You Submitted
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Regrade Requests Can Be A Gamble!
+<span class="screen-reader-only">Warning</span>Regrade Requests Can Be A Gamble!
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -579,7 +581,7 @@ Regrade Requests Can Be A Gamble!
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-What If I Find A Different Type of Mistake?
+<span class="screen-reader-only">Tip</span>What If I Find A Different Type of Mistake?
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -601,7 +603,7 @@ What If I Find A Different Type of Mistake?
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-What If I Can’t Make Office Hours?
+<span class="screen-reader-only">Tip</span>What If I Can’t Make Office Hours?
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -665,50 +667,54 @@ What If I Can’t Make Office Hours?
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;">A</td>
-<td style="text-align: left;">93–100</td>
+<td style="text-align: center;">A+</td>
+<td style="text-align: left;">97–100</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;">A</td>
+<td style="text-align: left;">93–97</td>
+</tr>
+<tr class="odd">
 <td style="text-align: center;">A-</td>
 <td style="text-align: left;">90–93</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: center;">B+</td>
 <td style="text-align: left;">87–90</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: center;">B</td>
 <td style="text-align: left;">83–87</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: center;">B-</td>
 <td style="text-align: left;">80–83</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: center;">C+</td>
 <td style="text-align: left;">77–80</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: center;">C</td>
 <td style="text-align: left;">73–77</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: center;">C-</td>
 <td style="text-align: left;">70–73</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: center;">D+</td>
 <td style="text-align: left;">67–70</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: center;">D</td>
 <td style="text-align: left;">63–67</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: center;">D-</td>
 <td style="text-align: left;">60–63</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: center;">F</td>
 <td style="text-align: left;">&lt; 60</td>
 </tr>
@@ -767,403 +773,6 @@ What If I Can’t Make Office Hours?
 </ul>
 </section>
 </section>
-<section id="tentative-schedule" class="level2">
-<h2 class="anchored" data-anchor-id="tentative-schedule">Tentative Schedule</h2>
-<table class="caption-top table" data-quarto-postprocess="true">
-<thead>
-<tr class="columnLabelRow header">
-<th class="stubheadLabel" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">#</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold;">Date</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold;">Day</th>
-<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Topic</th>
-<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">HW</th>
-<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Project</th>
-</tr>
-</thead>
-<tbody>
-<tr class="rowGroupLabel odd">
-<td colspan="6" style="text-align: left; color: DarkGrey; font-weight: bold;">Introduction</td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">1</td>
-<td style="text-align: center;">01-21</td>
-<td style="text-align: center;">Wed</td>
-<td style="text-align: left;">Course Overview and Introduction</td>
-<td style="text-align: left;">HW1 Released</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">2</td>
-<td style="text-align: center;">01-23</td>
-<td style="text-align: center;">Fri</td>
-<td style="text-align: left;">Probability Review</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="rowGroupLabel even">
-<td colspan="6" style="text-align: left; color: DarkGrey; font-weight: bold;">Exploratory Analysis</td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">3</td>
-<td style="text-align: center;">01-26</td>
-<td style="text-align: center;">Mon</td>
-<td style="text-align: left;">Data Visualization and Exploratory Analysis</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">4</td>
-<td style="text-align: center;">01-28</td>
-<td style="text-align: center;">Wed</td>
-<td style="text-align: left;">Probability Models and Linear Regression</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">5</td>
-<td style="text-align: center;">01-30</td>
-<td style="text-align: center;">Fri</td>
-<td style="text-align: left;">Lab: Data Visualization</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="rowGroupLabel even">
-<td colspan="6" style="text-align: left; color: DarkGrey; font-weight: bold;">Probability Models</td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">6</td>
-<td style="text-align: center;">02-02</td>
-<td style="text-align: center;">Mon</td>
-<td style="text-align: left;">What Linear Regression Is And Isn't Useful For</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">7</td>
-<td style="text-align: center;">02-04</td>
-<td style="text-align: center;">Wed</td>
-<td style="text-align: left;">Maximum Likelihood Estimation and Fisher Information</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">8</td>
-<td style="text-align: center;">02-06</td>
-<td style="text-align: center;">Fri</td>
-<td style="text-align: left;">Measurement Error and Model Discrepancy</td>
-<td style="text-align: left;">HW1 Due</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">9</td>
-<td style="text-align: center;">02-09</td>
-<td style="text-align: center;">Mon</td>
-<td style="text-align: left;">Multiple Regression and Causal Reasoning</td>
-<td style="text-align: left;">HW2 Released</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">10</td>
-<td style="text-align: center;">02-11</td>
-<td style="text-align: center;">Wed</td>
-<td style="text-align: left;">Direct Acyclic Graphs and Confounds</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">11</td>
-<td style="text-align: center;">02-13</td>
-<td style="text-align: center;">Fri</td>
-<td style="text-align: left;">Lab: Reasoning with DAGs</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Exploratory Analysis</td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;"></td>
-<td style="text-align: center; color: red;">02-16</td>
-<td style="text-align: center; color: red;">Mon</td>
-<td style="text-align: left; color: red;">February Break</td>
-<td style="text-align: left; color: red;"></td>
-<td style="text-align: left; color: red;"></td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">12</td>
-<td style="text-align: center;">02-18</td>
-<td style="text-align: center;">Wed</td>
-<td style="text-align: left;">Generalized Linear Models</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">13</td>
-<td style="text-align: center;">02-20</td>
-<td style="text-align: center;">Fri</td>
-<td style="text-align: left;">More Generalized Linear Models</td>
-<td style="text-align: left;">HW2 Due</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">14</td>
-<td style="text-align: center;">02-23</td>
-<td style="text-align: center;">Mon</td>
-<td style="text-align: left;">Lab: Selecting a Probability Model</td>
-<td style="text-align: left;">HW3 Released</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">15</td>
-<td style="text-align: center;">02-25</td>
-<td style="text-align: center;">Wed</td>
-<td style="text-align: left;">Autocorrelation and Time Series</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">16</td>
-<td style="text-align: center;">02-27</td>
-<td style="text-align: center;">Fri</td>
-<td style="text-align: left;">Time Series Examples</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">17</td>
-<td style="text-align: center;">03-02</td>
-<td style="text-align: center;">Mon</td>
-<td style="text-align: left;">Modeling Extremes: Block Maxima</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">18</td>
-<td style="text-align: center;">03-04</td>
-<td style="text-align: center;">Wed</td>
-<td style="text-align: left;">Modeling Extremes: Peak Over Thresholds</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">19</td>
-<td style="text-align: center;">03-06</td>
-<td style="text-align: center;">Fri</td>
-<td style="text-align: left;">Lab: Extreme Value Models</td>
-<td style="text-align: left;">HW3 Due</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="rowGroupLabel even">
-<td colspan="6" style="text-align: left; color: DarkGrey; font-weight: bold;">Simulation Methods</td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">20</td>
-<td style="text-align: center;">03-09</td>
-<td style="text-align: center;">Mon</td>
-<td style="text-align: left;">Random Variate Simulation</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">21</td>
-<td style="text-align: center;">03-11</td>
-<td style="text-align: center;">Wed</td>
-<td style="text-align: left;">Random Number Generation</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">22</td>
-<td style="text-align: center;">03-13</td>
-<td style="text-align: center;">Fri</td>
-<td style="text-align: left;">Prelim</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">23</td>
-<td style="text-align: center;">03-16</td>
-<td style="text-align: center;">Mon</td>
-<td style="text-align: left;">Monte Carlo: Theory</td>
-<td style="text-align: left;">HW4 Released</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">24</td>
-<td style="text-align: center;">03-18</td>
-<td style="text-align: center;">Wed</td>
-<td style="text-align: left;">Monte Carlo: Examples</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">25</td>
-<td style="text-align: center;">03-20</td>
-<td style="text-align: center;">Fri</td>
-<td style="text-align: left;">Lab: Monte Carlo</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Candidate Model(s)</td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">26</td>
-<td style="text-align: center;">03-23</td>
-<td style="text-align: center;">Mon</td>
-<td style="text-align: left;">Uncertainty Quantification and the Bootstrap</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">27</td>
-<td style="text-align: center;">03-25</td>
-<td style="text-align: center;">Wed</td>
-<td style="text-align: left;">Bootstraps for Structured Data</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">28</td>
-<td style="text-align: center;">03-27</td>
-<td style="text-align: center;">Fri</td>
-<td style="text-align: left;">Lab: The Bootstrap</td>
-<td style="text-align: left;">HW4 Due</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;"></td>
-<td style="text-align: center; color: red;">03-30</td>
-<td style="text-align: center; color: red;">Mon</td>
-<td style="text-align: left; color: red;">Spring Break</td>
-<td style="text-align: left; color: red;"></td>
-<td style="text-align: left; color: red;"></td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;"></td>
-<td style="text-align: center; color: red;">04-01</td>
-<td style="text-align: center; color: red;">Wed</td>
-<td style="text-align: left; color: red;">Spring Break</td>
-<td style="text-align: left; color: red;"></td>
-<td style="text-align: left; color: red;"></td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;"></td>
-<td style="text-align: center; color: red;">04-03</td>
-<td style="text-align: center; color: red;">Fri</td>
-<td style="text-align: left; color: red;">Spring Break</td>
-<td style="text-align: left; color: red;"></td>
-<td style="text-align: left; color: red;"></td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">29</td>
-<td style="text-align: center;">04-06</td>
-<td style="text-align: center;">Mon</td>
-<td style="text-align: left;">Missing and Censored Data</td>
-<td style="text-align: left;">HW5 Released</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">30</td>
-<td style="text-align: center;">04-08</td>
-<td style="text-align: center;">Wed</td>
-<td style="text-align: left;">Multiple Imputation</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">31</td>
-<td style="text-align: center;">04-10</td>
-<td style="text-align: center;">Fri</td>
-<td style="text-align: left;">Lab: Missing Data</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="rowGroupLabel even">
-<td colspan="6" style="text-align: left; color: DarkGrey; font-weight: bold;">Hypothesis Testing and Model Assessment</td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">32</td>
-<td style="text-align: center;">04-13</td>
-<td style="text-align: center;">Mon</td>
-<td style="text-align: left;">Overfitting and Bias-Variance Tradeoff</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">33</td>
-<td style="text-align: center;">04-15</td>
-<td style="text-align: center;">Wed</td>
-<td style="text-align: left;">Scoring Rules and Graphical Checks</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">34</td>
-<td style="text-align: center;">04-17</td>
-<td style="text-align: center;">Fri</td>
-<td style="text-align: left;">Cross-Validation</td>
-<td style="text-align: left;">HW5 Due</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">35</td>
-<td style="text-align: center;">04-20</td>
-<td style="text-align: center;">Mon</td>
-<td style="text-align: left;">Hypothesis Testing</td>
-<td style="text-align: left;">HW6 Released</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">36</td>
-<td style="text-align: center;">04-22</td>
-<td style="text-align: center;">Wed</td>
-<td style="text-align: left;">Entropy and Information</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">37</td>
-<td style="text-align: center;">04-24</td>
-<td style="text-align: center;">Fri</td>
-<td style="text-align: left;">Information Criteria</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Simulation Study</td>
-</tr>
-<tr class="rowGroupLabel odd">
-<td colspan="6" style="text-align: left; color: DarkGrey; font-weight: bold;">Design of Experiments and Value of Information</td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">38</td>
-<td style="text-align: center;">04-27</td>
-<td style="text-align: center;">Mon</td>
-<td style="text-align: left;">Value of Information</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">39</td>
-<td style="text-align: center;">04-29</td>
-<td style="text-align: center;">Wed</td>
-<td style="text-align: left;">Design of Experiments</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow even">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">40</td>
-<td style="text-align: center;">05-01</td>
-<td style="text-align: center;">Fri</td>
-<td style="text-align: left;">Prelim 2</td>
-<td style="text-align: left;">HW6 Due</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="dataRow odd">
-<td class="rowLabel" style="text-align: right; font-weight: bold;">41</td>
-<td style="text-align: center;">05-04</td>
-<td style="text-align: center;">Mon</td>
-<td style="text-align: left;">Class Wrap-Up</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-
-
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1217,13 +826,14 @@ What If I Can’t Make Office Hours?
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -1594,8 +1204,10 @@ What If I Can’t Make Office Hours?
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p><span class="faux-block"><i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> 2025 Vivek Srikrishnan</span><br> See the <a href="./about.html">About Page</a> for credit information.</p>
-</div>   
+      <div class="footer-contents"><span class="faux-block"> 2025 Vivek Srikrishnan</span><br>
+See the [About Page](/about.qmd) for credit information.
+</div>  
+    </div>   
     <div class="nav-footer-center">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
@@ -1604,8 +1216,10 @@ What If I Can’t Make Office Hours?
 </ul>
     <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/bee-envdata-cornell/spring2026/edit/main/syllabus.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bee-envdata-cornell/spring2026/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
-<p>Made with <a href="https://julialang.org">Julia</a> and <a href="https://quarto.org/">Quarto</a><br> <a href="https://github.com/bee-envdata-cornell/spring2026">View the source at <i class="fa-brands fa-github" aria-label="github"></i> GitHub</a></p>
-</div>
+      <div class="footer-contents">Made with [Julia](https://julialang.org) and [Quarto](https://quarto.org/)<br>
+[View the source at  GitHub](https://github.com/bee-envdata-cornell/spring2026)
+</div>  
+    </div>
   </div>
 </footer>
 

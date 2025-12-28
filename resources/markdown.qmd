@@ -1,5 +1,7 @@
 ---
 title: "Markdown Resources"
+format:
+  html: default
 ---
 
 * [Markdown Cheatsheet](https://www.markdownguide.org/cheat-sheet/)

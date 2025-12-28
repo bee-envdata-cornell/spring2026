@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="960" height="672" viewBox="0 0 3840 2688">
+<defs>
+  <clipPath id="clip050">
+    <rect x="0" y="0" width="3840" height="2688"/>
+  </clipPath>
+</defs>
+<path clip-path="url(#clip050)" d="M0 2688 L3840 2688 L3840 -1.47793e-13 L0 -1.47793e-13  Z" fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
+<defs>
+  <clipPath id="clip051">
+    <rect x="768" y="0" width="2689" height="2688"/>
+  </clipPath>
+</defs>
+<path clip-path="url(#clip050)" d="M47.2441 2640.76 L3792.76 2640.76 L3792.76 47.2441 L47.2441 47.2441  Z" fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
+<defs>
+  <clipPath id="clip052">
+    <rect x="47" y="47" width="3747" height="2595"/>
+  </clipPath>
+</defs>
+<polyline clip-path="url(#clip052)" style="stroke:#009af9; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="153.249,2374.48 1036.62,1635.65 1920,699.402 2803.38,888.378 3686.75,120.645 "/>
+<polyline clip-path="url(#clip052)" style="stroke:#e26f46; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="153.249,2054.6 1036.62,508.305 1920,480.616 2803.38,775.897 3686.75,2121.81 "/>
+<circle clip-path="url(#clip052)" cx="153.249" cy="1041.51" r="14.4" fill="#3da44d" fill-rule="evenodd" fill-opacity="1" stroke="#000000" stroke-opacity="1" stroke-width="5.376"/>
+<circle clip-path="url(#clip052)" cx="1036.62" cy="1358.28" r="14.4" fill="#3da44d" fill-rule="evenodd" fill-opacity="1" stroke="#000000" stroke-opacity="1" stroke-width="5.376"/>
+<circle clip-path="url(#clip052)" cx="1920" cy="1761.3" r="14.4" fill="#3da44d" fill-rule="evenodd" fill-opacity="1" stroke="#000000" stroke-opacity="1" stroke-width="5.376"/>
+<circle clip-path="url(#clip052)" cx="2803.38" cy="2567.35" r="14.4" fill="#3da44d" fill-rule="evenodd" fill-opacity="1" stroke="#000000" stroke-opacity="1" stroke-width="5.376"/>
+<circle clip-path="url(#clip052)" cx="3686.75" cy="1052.39" r="14.4" fill="#3da44d" fill-rule="evenodd" fill-opacity="1" stroke="#000000" stroke-opacity="1" stroke-width="5.376"/>
+</svg>

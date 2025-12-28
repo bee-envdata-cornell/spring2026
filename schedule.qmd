@@ -2,6 +2,8 @@
 title: "Class Schedule"
 tbl-colwidths: [5, 10, 25, 5, 15, 5, 5, 5, 5]
 suppress-bibliography: true
+format:
+  html: default
 ---
 
 This page contains a schedule of the topics, content, and assignments for the semester.
@@ -13,8 +15,11 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 
 | Week | Date | Topic | Slides | Reading | Homework | Lab | Resources |
 :-----:|:---------|:---------|:---------:|:------:|:--:|:---:|
-| 1 | 1/21 | Class Introduction | [{{< fa sharp presentation-screen >}}](slides/lecture01-1-intro.qmd) | | [{{< fa sharp pen-field >}}](hw/hw01/hw01.qmd) | | |
+| 1 | 1/21 | Class Introduction | [{{< fa sharp presentation-screen >}}](slides/lecture01-1-intro.qmd)   | | [{{< fa sharp pen-field >}}](hw/hw01/hw01.qmd) | | |
 |  | 1/23 | Probability Review | [{{< fa sharp presentation-screen >}}](slides/lecture01-2-probreview.qmd)  |  | | | |
-| 2 | 1/26 | Data Visualization and Exploratory Analysis | |  | | [Data Viz](resources/dataviz.qmd) | |
-|   | 1/28 | Probability Models and Linear Regression | | | | |  |
+| 2 | 1/26 | Probability Models and EDA | |  | | [Data Viz](resources/dataviz.qmd) | |
+|   | 1/28 | Linear Regression | | | | |  |
 |   | 1/30 | Lab: Data Visualization | | | | [{{< fa sharp laptop >}}](labs/lab01/lab01.qmd)  | |
+| 3 | 2/02 | Linear Regression: Uses and Misuses | | | | | |
+|   | 2/04 | Maximum Likelihood Estimation | | | | | |
+|   | 2/06 | Measurement Error and Model Discrepancy | | | | | |

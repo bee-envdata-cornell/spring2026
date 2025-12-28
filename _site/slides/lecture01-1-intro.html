@@ -7,8 +7,8 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.31">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.26">
 
   <meta name="author" content="Vivek Srikrishnan">
   <meta name="dcterms.date" content="2026-01-21">
@@ -31,7 +31,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-7b87de61f0bc8c7187b97021a1ec54e0.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-99469881743cb8bd1bf840c72478da80.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -125,32 +125,14 @@
       margin-right: 0; 
     }
   </style>
-  <!-- Mathjax 3 config -->
+  <!-- MathJax 3 -->
   <script>
   window.MathJax = {
-      loader: {load: ['[tex]/tagformat']},
-      tex: {packages: {'[+]': ['tagformat']}}
-  };
-  MathJax = {
-    chtml: {
-      scale: 1,
-      minScale: 0.5
-    },
-    options: {
-      menuOptions: {
-        settings: {
-          assistiveMml: false,   // true to enable assitive MathML
-          collapsible: false,   // true to enable collapsible math
-          explorer: false      // true to enable the expression explorer
-        }
+      tex: {
+        tags: 'ams'
       }
-    }
-  };
+    };
   </script>
-  <meta name="mermaid-theme" content="dark">
-  <script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
-  <script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
-  <link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 <meta property="og:title" content="Welcome to BEE 4850/5850! – Environmental Data Analysis &amp; Simulation">
 <meta property="og:description" content="Lecture 01">
 <meta property="og:site_name" content="Environmental Data Analysis &amp; Simulation">
@@ -362,39 +344,16 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 </div>
 </div></div>
 </section>
-<section id="course-organization" class="slide level2">
-<h2>Course Organization</h2>
-<div class="cell" data-reveal="true" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class=""><p></p>
-<div>
-<pre class="mermaid mermaid-js">timeline
-      Introduction and Exploratory Analysis (Weeks 1-2): Overview
-                  : Prob/Stats "Review"
-                  : Exploratory Analysis
-                  : Data Visualization
-      Probability Fundamentals (Weeks 3-6): Modeling Data-Generating Processes
-                                          : Maximum Likelihood
-                                          : Time Series
-                                          : Extreme Values
-      Simulation Methods (Weeks 7-10): Random Simulation
-                                    : Monte Carlo
-                                    : The Bootstrap
-                                    : Missing Data and Imputation
-      Model Evaluation (Weeks 12-13): Bias and Variance
-                      : Cross-Validation
-                      : Hypothesis Testing
-                      : Information Criteria
-      Experimental Design (Weeks 14-15): Value of Information
-                                 : Design of Experiments
-
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
+<section id="what-we-will-cover" class="slide level2">
+<h2>What We Will Cover</h2>
+<ul>
+<li>Review of Prob/Stats</li>
+<li>Probability Models (Linear/Generalized Linear Models, Time Series, Extreme Values, Causal Reasoning)</li>
+<li>Simulation Methods (Monte Carlo, The Bootstrap, Missing Data)<br>
+</li>
+<li>Hypothesis Testing (Model Evaluation, Cross-Validation, Information Criteria)</li>
+<li>Value of Information</li>
+</ul>
 </section></section>
 <section>
 <section id="course-policies" class="title-slide slide level1 center">
@@ -913,13 +872,14 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

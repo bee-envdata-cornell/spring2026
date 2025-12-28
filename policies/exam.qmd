@@ -1,6 +1,8 @@
 ---
 title: "Exam Policies"
 anchor-sections: true
+format:
+  html: default
 ---
 
 This page includes some information on the exams for BEE 4750/5750, including policies and logistics. 

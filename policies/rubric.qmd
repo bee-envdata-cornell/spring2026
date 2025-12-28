@@ -3,16 +3,7 @@ format:
   html:
     toc-depth: 3
     title: "Standard Rubrics"
-  pdf:
-    documentclass: article
-    geometry:
-      - margin=1in  
-    include-in-header:
-      text: |
-        \renewcommand\toprule[2]\relax
-        \renewcommand\bottomrule[2]\relax
-    title: "{{< var course.number >}} ({{< var course.title >}}) Standard Rubric"
-    subtitle: "{{< var course.semester >}}"
+  typst: default
 ---
 
 These rubrics are intended as a description for students and a guide to the grader for how to assign partial credit. 

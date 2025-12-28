@@ -1,6 +1,8 @@
 ---
 title: Term Project
 tbl-colwidths: [20, 5, 10]
+format:
+  html: default
 ---
 
 ## Overview

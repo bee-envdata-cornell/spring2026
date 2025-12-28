@@ -1,5 +1,7 @@
 ---
 title: "Setup"
+format:
+  html: default
 ---
 
 ## Setting Up Computing Environment

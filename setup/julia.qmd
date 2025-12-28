@@ -1,5 +1,7 @@
 ---
 title: Julia
+format:
+  html: default
 ---
 
 ## Install Julia {#sec-install-julia}

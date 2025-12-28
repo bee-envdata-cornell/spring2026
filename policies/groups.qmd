@@ -1,6 +1,8 @@
 ---
 title: "Group Expectations"
 anchor-sections: true
+format:
+  html: default
 ---
 
 ## Expectations

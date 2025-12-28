@@ -7,11 +7,11 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/jquery-3.6.3/jquery-3.6.3.min.js"></script>
 <script src="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.js" defer="true"></script>
 <link href="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.31">
+  <meta name="generator" content="quarto-1.8.26">
 
   <meta name="author" content="Vivek Srikrishnan">
   <meta name="dcterms.date" content="2024-02-19">
@@ -120,7 +120,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-7b87de61f0bc8c7187b97021a1ec54e0.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-99469881743cb8bd1bf840c72478da80.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -214,6 +214,14 @@
       margin-right: 0; 
     }
   </style>
+  <!-- MathJax 3 -->
+  <script>
+  window.MathJax = {
+      tex: {
+        tags: 'ams'
+      }
+    };
+  </script>
   <!-- Mathjax 3 config -->
   <script>
   window.MathJax = {
@@ -389,7 +397,10 @@ L_T &amp;= L_1 + \int_1^T \frac{dL}{dt}dt
 <h2>A Coin Flipping Example</h2>
 <p>We would like to understand if a coin-flipping game is fair. We’ve observed the following sequence of flips:</p>
 <div id="6" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a>flips <span class="op">=</span> [<span class="st">"H"</span>, <span class="st">"H"</span>, <span class="st">"H"</span>, <span class="st">"T"</span>, <span class="st">"H"</span>, <span class="st">"H"</span>, <span class="st">"H"</span>, <span class="st">"H"</span>, <span class="st">"H"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a>flips <span class="op">=</span> [<span class="st">"H"</span>, <span class="st">"H"</span>, <span class="st">"H"</span>, <span class="st">"T"</span>, <span class="st">"H"</span>, <span class="st">"H"</span>, <span class="st">"H"</span>, <span class="st">"H"</span>, <span class="st">"H"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>9-element Vector{String}:
  "H"
@@ -409,9 +420,12 @@ L_T &amp;= L_1 + \int_1^T \frac{dL}{dt}dt
 <p>The data-generating process here is straightforward: we can represent a coin flip with a heads-probability of <span class="math inline">\(\theta\)</span> as a sample from a Bernoulli distribution,</p>
 <p><span class="math display">\[y_i \sim \text{Bernoulli}(\theta).\]</span></p>
 <div id="8" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a></a><span class="fu">flip_ll</span>(θ) <span class="op">=</span> <span class="fu">sum</span>(<span class="fu">logpdf</span>(<span class="fu">Bernoulli</span>(θ), flips <span class="op">.==</span> <span class="st">"H"</span>))</span>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a></a><span class="fu">flip_ll</span>(θ) <span class="op">=</span> <span class="fu">sum</span>(<span class="fu">logpdf</span>(<span class="fu">Bernoulli</span>(θ), flips <span class="op">.==</span> <span class="st">"H"</span>))</span>
 <span id="cb3-2"><a></a>θ_mle <span class="op">=</span> Optim.<span class="fu">optimize</span>(θ <span class="op">-&gt;</span> <span class="fu">-flip_ll</span>(θ), <span class="fl">0</span>, <span class="fl">1</span>).minimizer</span>
-<span id="cb3-3"><a></a><span class="fu">round</span>(θ_mle, digits<span class="op">=</span><span class="fl">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a></a><span class="fu">round</span>(θ_mle, digits<span class="op">=</span><span class="fl">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>0.89</code></pre>
 </div>
@@ -430,9 +444,9 @@ L_T &amp;= L_1 + \int_1^T \frac{dL}{dt}dt
 <div id="cell-fig-beta-prior" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a></a>prior_dist <span class="op">=</span> <span class="fu">Beta</span>(<span class="fl">5</span>, <span class="fl">5</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a></a>prior_dist <span class="op">=</span> <span class="fu">Beta</span>(<span class="fl">5</span>, <span class="fl">5</span>)</span>
 <span id="cb5-2"><a></a><span class="fu">plot</span>(prior_dist; label<span class="op">=</span><span class="cn">false</span>, xlabel<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span><span class="st">θ</span><span class="sc">$</span><span class="st">", </span>ylabel<span class="st">=L"</span><span class="op">$</span><span class="fu">p</span>(θ)<span class="op">$</span><span class="st">", linewidth=3, tickfontsize=16, guidefontsize=18)</span></span>
-<span id="cb5-3"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">500</span>, <span class="fl">500</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">500</span>, <span class="fl">500</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-beta-prior" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -497,11 +511,14 @@ Figure&nbsp;1: Beta prior for coin flipping example
 <h2><em>Maximum A Posteriori</em> Estimate</h2>
 <p>Combining using Bayes’ rule lets us calculate the <strong>maximum <em>a posteriori</em> (MAP)</strong> estimate:</p>
 <div id="12" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb6" data-code-line-numbers="|2,3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a></a><span class="fu">flip_ll</span>(θ) <span class="op">=</span> <span class="fu">sum</span>(<span class="fu">logpdf</span>(<span class="fu">Bernoulli</span>(θ), flips <span class="op">.==</span> <span class="st">"H"</span>))</span>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6" data-code-line-numbers="|2,3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a></a><span class="fu">flip_ll</span>(θ) <span class="op">=</span> <span class="fu">sum</span>(<span class="fu">logpdf</span>(<span class="fu">Bernoulli</span>(θ), flips <span class="op">.==</span> <span class="st">"H"</span>))</span>
 <span id="cb6-2"><a></a><span class="fu">flip_lprior</span>(θ) <span class="op">=</span> <span class="fu">logpdf</span>(<span class="fu">Beta</span>(<span class="fl">5</span>, <span class="fl">5</span>), θ)</span>
 <span id="cb6-3"><a></a><span class="fu">flip_lposterior</span>(θ) <span class="op">=</span> <span class="fu">flip_ll</span>(θ) <span class="op">+</span> <span class="fu">flip_lprior</span>(θ)</span>
 <span id="cb6-4"><a></a>θ_map <span class="op">=</span> Optim.<span class="fu">optimize</span>(θ <span class="op">-&gt;</span> <span class="fu">-</span>(<span class="fu">flip_lposterior</span>(θ)), <span class="fl">0</span>, <span class="fl">1</span>).minimizer</span>
-<span id="cb6-5"><a></a><span class="fu">round</span>(θ_map, digits<span class="op">=</span><span class="fl">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-5"><a></a><span class="fu">round</span>(θ_map, digits<span class="op">=</span><span class="fl">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>0.71</code></pre>
 </div>
@@ -512,7 +529,7 @@ Figure&nbsp;1: Beta prior for coin flipping example
 <div id="cell-fig-code-posterior" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a></a>θ_range <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">0.01</span><span class="op">:</span><span class="fl">1</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a></a>θ_range <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">0.01</span><span class="op">:</span><span class="fl">1</span></span>
 <span id="cb8-2"><a></a><span class="fu">plot</span>(θ_range, <span class="fu">flip_lposterior</span>.(θ_range), color<span class="op">=:</span>black, label<span class="op">=</span><span class="st">"Posterior"</span>, linewidth<span class="op">=</span><span class="fl">3</span>)</span>
 <span id="cb8-3"><a></a><span class="fu">plot!</span>(θ_range, <span class="fu">flip_ll</span>.(θ_range), color<span class="op">=:</span>black, label<span class="op">=</span><span class="st">"Likelihood"</span>, linewidth<span class="op">=</span><span class="fl">3</span>, linestyle<span class="op">=:</span>dash)</span>
 <span id="cb8-4"><a></a><span class="fu">plot!</span>(θ_range, <span class="fu">flip_lprior</span>.(θ_range), color<span class="op">=:</span>black, label<span class="op">=</span><span class="st">"Prior"</span>, linewidth<span class="op">=</span><span class="fl">3</span>, linestyle<span class="op">=:</span>dot)</span>
@@ -520,7 +537,7 @@ Figure&nbsp;1: Beta prior for coin flipping example
 <span id="cb8-6"><a></a><span class="fu">vline!</span>([θ_mle], color<span class="op">=:</span>blue, label<span class="op">=</span><span class="st">"MLE"</span>, linewidth<span class="op">=</span><span class="fl">2</span>)</span>
 <span id="cb8-7"><a></a><span class="fu">xlabel!</span>(L<span class="st">"</span><span class="sc">$</span><span class="st">\</span>theta<span class="sc">$</span><span class="st">")</span></span>
 <span id="cb8-8"><a></a>ylabel<span class="st">!("</span>Log<span class="op">-</span>Density<span class="st">")</span></span>
-<span id="cb8-9"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">1000</span>, <span class="fl">450</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-9"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">1000</span>, <span class="fl">450</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-code-posterior" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -936,13 +953,14 @@ Laplace, P. S. (1774). <span class="nocase">Mémoire sur la Probabilité des Cau
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

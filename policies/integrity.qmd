@@ -1,6 +1,8 @@
 ---
 title: "Academic Integrity"
 anchor-sections: true
+format:
+  html: default
 ---
 
 While we don't expect academic integrity to be a problem (**we trust you, which is why the course is designed to be open and collaborative!**), these policy statements are unfortunately necessary due to a very small minority of students. If you are worried about whether something you are doing is in danger of violating this course's academic integrity policy, please don't hesitate to ask during lecture, in office hours, by email, or on Ed Discussion.

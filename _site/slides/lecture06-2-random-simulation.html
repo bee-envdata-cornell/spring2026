@@ -7,11 +7,11 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/jquery-3.6.3/jquery-3.6.3.min.js"></script>
 <script src="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.js" defer="true"></script>
 <link href="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.31">
+  <meta name="generator" content="quarto-1.8.26">
 
   <meta name="author" content="Vivek Srikrishnan">
   <meta name="dcterms.date" content="2024-02-26">
@@ -100,7 +100,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-7b87de61f0bc8c7187b97021a1ec54e0.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-99469881743cb8bd1bf840c72478da80.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -194,6 +194,14 @@
       margin-right: 0; 
     }
   </style>
+  <!-- MathJax 3 -->
+  <script>
+  window.MathJax = {
+      tex: {
+        tags: 'ams'
+      }
+    };
+  </script>
   <!-- Mathjax 3 config -->
   <script>
   window.MathJax = {
@@ -285,7 +293,7 @@
 <div id="cell-fig-posterior" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a>normal_samples <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">Normal</span>(<span class="fl">2</span>, <span class="fl">0.5</span>), <span class="fl">10</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a>normal_samples <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">Normal</span>(<span class="fl">2</span>, <span class="fl">0.5</span>), <span class="fl">10</span>)</span>
 <span id="cb1-2"><a></a></span>
 <span id="cb1-3"><a></a><span class="fu">lik</span>(σ) <span class="op">=</span> <span class="fu">prod</span>(<span class="fu">pdf</span>(<span class="fu">Normal</span>.(<span class="fl">2</span>, σ), normal_samples))</span>
 <span id="cb1-4"><a></a><span class="fu">prior</span>(σ) <span class="op">=</span> <span class="fu">pdf</span>(<span class="fu">LogNormal</span>(<span class="fu">log</span>(<span class="fl">0.25</span>), <span class="fl">0.25</span>), σ)</span>
@@ -297,7 +305,7 @@
 <span id="cb1-10"><a></a><span class="fu">plot!</span>(σ_range, <span class="fu">prior</span>.(σ_range) <span class="op">/</span> <span class="fu">maximum</span>(<span class="fu">prior</span>.(σ_range)), color<span class="op">=:</span>orange, label<span class="op">=</span><span class="st">"Prior"</span>, linewidth<span class="op">=</span><span class="fl">3</span>, linestyle<span class="op">=:</span>dot)</span>
 <span id="cb1-11"><a></a><span class="fu">xlabel!</span>(L<span class="st">"</span><span class="sc">$</span><span class="st">\</span>sigma<span class="sc">$</span><span class="st">")</span></span>
 <span id="cb1-12"><a></a>ylabel<span class="st">!("</span>Scaled Log<span class="op">-</span>Density<span class="st">")</span></span>
-<span id="cb1-13"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">550</span>, <span class="fl">500</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-13"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">550</span>, <span class="fl">500</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-posterior" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -2442,7 +2450,7 @@ Figure&nbsp;6: Example of rejection sampling for a Normal distribution
 <h2>Bimodal Rejection Sampling Example</h2>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a></a><span class="co"># specify target distribution</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a></a><span class="co"># specify target distribution</span></span>
 <span id="cb2-2"><a></a>mixmod <span class="op">=</span> <span class="fu">MixtureModel</span>(Normal, [(<span class="op">-</span><span class="fl">1</span>, <span class="fl">0.75</span>), (<span class="fl">1</span>, <span class="fl">0.4</span>)], [<span class="fl">0.5</span>, <span class="fl">0.5</span>])</span>
 <span id="cb2-3"><a></a>x <span class="op">=</span> <span class="op">-</span><span class="fl">5</span><span class="op">:</span><span class="fl">0.01</span><span class="op">:</span><span class="fl">5</span></span>
 <span id="cb2-4"><a></a>p1 <span class="op">=</span> <span class="fu">plot</span>(x, <span class="fu">pdf</span>.(mixmod, x), lw<span class="op">=</span><span class="fl">3</span>, color<span class="op">=:</span>red, xlabel<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span>x<span class="sc">$</span><span class="st">", </span>ylabel<span class="st">="</span>Density<span class="st">", label="</span>Target<span class="st">")</span></span>
@@ -2462,7 +2470,7 @@ Figure&nbsp;6: Example of rejection sampling for a Normal distribution
 <span id="cb2-18"><a></a><span class="fu">plot!</span>(p2, size<span class="op">=</span>(<span class="fl">550</span>, <span class="fl">500</span>))</span>
 <span id="cb2-19"><a></a></span>
 <span id="cb2-20"><a></a><span class="fu">display</span>(p1)</span>
-<span id="cb2-21"><a></a><span class="fu">display</span>(p2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-21"><a></a><span class="fu">display</span>(p2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-mixture" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
@@ -2722,7 +2730,7 @@ U_{t+1} &amp;= \phi_t + U_t \mod  1
 <h2>Cat Map vs Mersenne Twister</h2>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a></a><span class="kw">function</span> <span class="fu">cat_map</span>(N)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a></a><span class="kw">function</span> <span class="fu">cat_map</span>(N)</span>
 <span id="cb3-2"><a></a>    U <span class="op">=</span> <span class="fu">zeros</span>(N)</span>
 <span id="cb3-3"><a></a>    ϕ <span class="op">=</span> <span class="fu">zeros</span>(N)</span>
 <span id="cb3-4"><a></a>    U[<span class="fl">1</span>], ϕ[<span class="fl">1</span>] <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">Uniform</span>(<span class="fl">0</span>, <span class="fl">1</span>), <span class="fl">2</span>)</span>
@@ -2741,7 +2749,7 @@ U_{t+1} &amp;= \phi_t + U_t \mod  1
 <span id="cb3-17"><a></a>p2 <span class="op">=</span> <span class="fu">scatter</span>(U[<span class="fl">1</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>], U[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>], xlabel<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span>U_t<span class="sc">$</span><span class="st">", </span>ylabel<span class="st">=L"</span><span class="op">$</span>U_{t<span class="op">+</span><span class="fl">1</span>}<span class="op">$</span><span class="st">", title="</span>Mersenne Twister<span class="st">", label=false, size=(500, 500))</span></span>
 <span id="cb3-18"><a></a></span>
 <span id="cb3-19"><a></a><span class="fu">display</span>(p1)</span>
-<span id="cb3-20"><a></a><span class="fu">display</span>(p2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-20"><a></a><span class="fu">display</span>(p2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-prng-compare" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
@@ -5196,13 +5204,14 @@ Figure&nbsp;8
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

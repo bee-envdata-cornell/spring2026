@@ -7,11 +7,11 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/jquery-3.6.3/jquery-3.6.3.min.js"></script>
 <script src="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.js" defer="true"></script>
 <link href="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.31">
+  <meta name="generator" content="quarto-1.8.26">
 
   <meta name="author" content="Vivek Srikrishnan">
   <meta name="dcterms.date" content="2025-04-07">
@@ -120,7 +120,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-7b87de61f0bc8c7187b97021a1ec54e0.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-99469881743cb8bd1bf840c72478da80.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -214,6 +214,14 @@
       margin-right: 0; 
     }
   </style>
+  <!-- MathJax 3 -->
+  <script>
+  window.MathJax = {
+      tex: {
+        tags: 'ams'
+      }
+    };
+  </script>
   <!-- Mathjax 3 config -->
   <script>
   window.MathJax = {
@@ -301,7 +309,7 @@ D_{KL}(p, q) - D_{KL}(p, r) = \sum_i p_i (\log(r_i) - \log(q_i))
 <h2>Deviance and Degrees of Freedom</h2>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a><span class="kw">function</span> <span class="fu">calculate_deviance</span>(y_gen, x_gen, y_oos, x_oos; degree<span class="op">=</span><span class="fl">2</span>, reg<span class="op">=</span><span class="cn">Inf</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a><span class="kw">function</span> <span class="fu">calculate_deviance</span>(y_gen, x_gen, y_oos, x_oos; degree<span class="op">=</span><span class="fl">2</span>, reg<span class="op">=</span><span class="cn">Inf</span>)</span>
 <span id="cb1-2"><a></a>    <span class="co"># fit model</span></span>
 <span id="cb1-3"><a></a>    lb <span class="op">=</span> [<span class="op">-</span><span class="fl">5</span> <span class="op">.+</span> <span class="fu">zeros</span>(degree); <span class="fl">0.01</span>]</span>
 <span id="cb1-4"><a></a>    ub <span class="op">=</span> [<span class="fl">5</span> <span class="op">.+</span> <span class="fu">zeros</span>(degree); <span class="fl">10.0</span>]</span>
@@ -374,7 +382,7 @@ D_{KL}(p, q) - D_{KL}(p, r) = \sum_i p_i (\log(r_i) - \log(q_i))
 <span id="cb1-71"><a></a><span class="fu">plot!</span>(p2, size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">550</span>))</span>
 <span id="cb1-72"><a></a></span>
 <span id="cb1-73"><a></a><span class="fu">display</span>(p1)</span>
-<span id="cb1-74"><a></a><span class="fu">display</span>(p2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-74"><a></a><span class="fu">display</span>(p2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-deviance-sim" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
@@ -706,12 +714,12 @@ Q(\tilde{y}_i) &amp;= \mathbb{E}_\theta \left[p(\tilde{y}_i | \theta)\right] \\
 <h2>AIC and Deviance Example</h2>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a></a><span class="fu">scatter!</span>(p1, <span class="fu">collect</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>) <span class="op">.+</span> <span class="fl">0.2</span>, d_20[<span class="op">:</span>, <span class="fl">1</span>] <span class="op">.+</span> <span class="fl">2</span> <span class="op">*</span> (<span class="fl">2</span><span class="op">:</span><span class="fl">6</span>), yerr<span class="op">=</span>d_20[<span class="op">:</span>, <span class="fl">2</span>], lw<span class="op">=</span><span class="fl">2</span>, markersize<span class="op">=</span><span class="fl">5</span>, color<span class="op">=:</span>red, linecolor<span class="op">=:</span>black, label<span class="op">=</span><span class="st">"AIC"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a></a><span class="fu">scatter!</span>(p1, <span class="fu">collect</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>) <span class="op">.+</span> <span class="fl">0.2</span>, d_20[<span class="op">:</span>, <span class="fl">1</span>] <span class="op">.+</span> <span class="fl">2</span> <span class="op">*</span> (<span class="fl">2</span><span class="op">:</span><span class="fl">6</span>), yerr<span class="op">=</span>d_20[<span class="op">:</span>, <span class="fl">2</span>], lw<span class="op">=</span><span class="fl">2</span>, markersize<span class="op">=</span><span class="fl">5</span>, color<span class="op">=:</span>red, linecolor<span class="op">=:</span>black, label<span class="op">=</span><span class="st">"AIC"</span>)</span>
 <span id="cb2-2"><a></a></span>
 <span id="cb2-3"><a></a><span class="fu">scatter!</span>(p2, <span class="fu">collect</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>) <span class="op">.+</span> <span class="fl">0.2</span>, d_100[<span class="op">:</span>, <span class="fl">1</span>] <span class="op">.+</span> <span class="fl">2</span> <span class="op">*</span> (<span class="fl">2</span><span class="op">:</span><span class="fl">6</span>), yerr<span class="op">=</span>d_20[<span class="op">:</span>, <span class="fl">2</span>], lw<span class="op">=</span><span class="fl">2</span>, markersize<span class="op">=</span><span class="fl">5</span>, color<span class="op">=:</span>red, linecolor<span class="op">=:</span>black, label<span class="op">=</span><span class="st">"AIC"</span>)</span>
 <span id="cb2-4"><a></a></span>
 <span id="cb2-5"><a></a><span class="fu">display</span>(p1)</span>
-<span id="cb2-6"><a></a><span class="fu">display</span>(p2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-6"><a></a><span class="fu">display</span>(p2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-aic-sim" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
@@ -1014,7 +1022,7 @@ Figure&nbsp;2
 <div id="cell-fig-gev-data" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a></a><span class="co"># load SF tide gauge data</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a></a><span class="co"># load SF tide gauge data</span></span>
 <span id="cb3-2"><a></a><span class="co"># read in data and get annual maxima</span></span>
 <span id="cb3-3"><a></a><span class="kw">function</span> <span class="fu">load_data</span>(fname)</span>
 <span id="cb3-4"><a></a>    date_format <span class="op">=</span> <span class="fu">DateFormat</span>(<span class="st">"yyyy-mm-dd HH:MM:SS"</span>)</span>
@@ -1059,7 +1067,7 @@ Figure&nbsp;2
 <span id="cb3-43"><a></a>    markersize<span class="op">=</span><span class="fl">5</span></span>
 <span id="cb3-44"><a></a>)</span>
 <span id="cb3-45"><a></a></span>
-<span id="cb3-46"><a></a><span class="fu">plot!</span>(psurge, size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">400</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-46"><a></a><span class="fu">plot!</span>(psurge, size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">400</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-gev-data" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -1256,7 +1264,7 @@ Figure&nbsp;3: San Francisco tide gauge data
 <div id="14" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a></a>stat_mle <span class="op">=</span> [<span class="fl">1258.71</span>, <span class="fl">56.27</span>, <span class="fl">0.017</span>]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a></a>stat_mle <span class="op">=</span> [<span class="fl">1258.71</span>, <span class="fl">56.27</span>, <span class="fl">0.017</span>]</span>
 <span id="cb4-2"><a></a>stat_ll <span class="op">=</span> <span class="op">-</span><span class="fl">707.67</span></span>
 <span id="cb4-3"><a></a>nonstat_mle <span class="op">=</span> [<span class="fl">1231.58</span>, <span class="fl">0.42</span>, <span class="fl">52.07</span>, <span class="fl">0.075</span>]</span>
 <span id="cb4-4"><a></a>nonstat_ll <span class="op">=</span> <span class="op">-</span><span class="fl">702.45</span></span>
@@ -1268,11 +1276,11 @@ Figure&nbsp;3: San Francisco tide gauge data
 <span id="cb4-10"><a></a>nonstat_aic <span class="op">=</span> nonstat_ll <span class="op">-</span> <span class="fl">4</span></span>
 <span id="cb4-11"><a></a>pdo_aic <span class="op">=</span> pdo_ll <span class="op">-</span> <span class="fl">4</span></span>
 <span id="cb4-12"><a></a></span>
-<span id="cb4-13"><a></a>model_aic <span class="op">=</span> <span class="fu">DataFrame</span>(Model<span class="op">=</span>[<span class="st">"Stationary"</span>, <span class="st">"Time"</span>, <span class="st">"PDO"</span>], LogLik<span class="op">=</span><span class="fu">trunc</span>.(<span class="dt">Int64</span>, <span class="fu">round</span>.([stat_ll, nonstat_ll, pdo_ll]; digits<span class="op">=</span><span class="fl">0</span>)), AIC<span class="op">=</span><span class="fu">trunc</span>.(<span class="dt">Int64</span>, <span class="fu">round</span>.(<span class="op">-</span><span class="fl">2</span> <span class="op">*</span> [stat_aic, nonstat_aic, pdo_aic]; digits<span class="op">=</span><span class="fl">0</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-13"><a></a>model_aic <span class="op">=</span> <span class="fu">DataFrame</span>(Model<span class="op">=</span>[<span class="st">"Stationary"</span>, <span class="st">"Time"</span>, <span class="st">"PDO"</span>], LogLik<span class="op">=</span><span class="fu">trunc</span>.(<span class="dt">Int64</span>, <span class="fu">round</span>.([stat_ll, nonstat_ll, pdo_ll]; digits<span class="op">=</span><span class="fl">0</span>)), AIC<span class="op">=</span><span class="fu">trunc</span>.(<span class="dt">Int64</span>, <span class="fu">round</span>.(<span class="op">-</span><span class="fl">2</span> <span class="op">*</span> [stat_aic, nonstat_aic, pdo_aic]; digits<span class="op">=</span><span class="fl">0</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <div><div style="float: left;"><span>3×3 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
-<table class="data-frame caption-top" data-quarto-postprocess="true" style="margin-bottom: 6px;">
+<table class="data-frame caption-top" style="margin-bottom: 6px;">
 <thead>
 <tr class="header">
 <th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Row</th>
@@ -1732,13 +1740,14 @@ Stone, M. (1977). <span class="nocase">An asymptotic equivalence of choice of mo
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

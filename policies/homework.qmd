@@ -1,6 +1,8 @@
 ---
 title: "Homework Policies"
 anchor-sections: true
+format:
+  html: default
 ---
 
 This page includes some information on the homework assignments for BEE 4850/5850, including policies and logistics. The goal is to help you get as many points on your homework as possible and to return them as soon as possible.

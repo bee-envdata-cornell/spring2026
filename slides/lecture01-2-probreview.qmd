@@ -6,32 +6,7 @@ course: "BEE 4850"
 institution: "Cornell University"
 date: "January 23, 2026"
 format:
-    revealjs:
-        slide-number: c/t
-        show-slide-number: all
-        center-title-slide: true
-        width: 1280
-        height: 720
-        transition: none
-        toc: true
-        toc-depth: 1
-        toc-title: "Overview"
-        history: false
-        link-external-newwindow: true
-        theme: ../sass/slides.scss
-        template-partials:
-            - title-slide.html
-        menu:
-            numbers: true
-        html-math-method: mathjax
-        include-in-header: mathjax-config.html
-        date-format: long
-        email-obfuscation: javascript
-        chalkboard:
-            theme: whiteboard
-            buttons: true
-        mermaid: 
-            theme: dark
+    revealjs: default
 engine: julia
 julia:
     exeflags: ["+1.11.5"]
@@ -347,11 +322,10 @@ If
 - $\mathbb{E}[X_i] = \mu$ 
 - and $\text{Var}(X_i) = \sigma^2 < \infty$, 
 
-$$\begin{align*}
-&\bbox[yellow, 10px, border:5px solid red]
-{\lim_{n \to \infty} \sqrt{n}(\bar{X}_n - \mu ) = \mathcal{N}(0, \sigma^2)} \\
-\Rightarrow &\bbox[yellow, 10px, border:5px solid red] {\bar{X}_n \overset{\text{approx}}{\sim} \mathcal{N}(\mu, \sigma^2/n)}
-\end{align*}$$
+$$\begin{aligned}
+\lim_{n \to \infty} \sqrt{n}(\bar{X}_n - \mu ) &= \mathcal{N}(0, \sigma^2)} \\
+\Rightarrow & \bar{X}_n \overset{\text{approx}}{\sim} \mathcal{N}(\mu, \sigma^2/n)
+\end{aligned}$$
 
 ## Central Limit Theorem (More Intuitive)
 

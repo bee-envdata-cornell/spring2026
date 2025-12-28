@@ -1,6 +1,7 @@
 ---
 title: "Generative AI and LLMs"
-
+format:
+  html: default
 ---
 
 **TL; DR**: My recommendation is that you do not use ChatGPT, NotebookLLM, or similar large language model (LLM) tools in this class for substantive tasks (annotating/summarizing readings, writing solutions), though they can be useful for programming tasks. If you do use these tools, please do so after independent effort, and clearly document how you've used them.

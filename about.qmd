@@ -1,5 +1,7 @@
 ---
 title: "About This Website"
+format:
+  html: default
 ---
 
 This website contains course materials for the {{< var course.semester >}} edition of [{{< var course.title >}}]({{< var course.url >}}), taught by [{{< var instructor.name_no_title >}}]({{< var instructor.url >}}) at [{{< var university.name >}}]({{< var university.url >}}).

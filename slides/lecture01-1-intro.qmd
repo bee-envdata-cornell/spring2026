@@ -6,32 +6,7 @@ course: "BEE 4850"
 institution: "Cornell University"
 date: "January 21, 2026"
 format:
-    revealjs:
-        slide-number: c/t
-        show-slide-number: all
-        center-title-slide: true
-        width: 1280
-        height: 720
-        transition: none
-        toc: true
-        toc-depth: 1
-        toc-title: "Overview"
-        history: false
-        link-external-newwindow: true
-        theme: ../sass/slides.scss
-        template-partials:
-            - title-slide.html
-        menu:
-            numbers: true
-        html-math-method: mathjax
-        include-in-header: mathjax-config.html
-        date-format: long
-        email-obfuscation: javascript
-        chalkboard:
-            theme: whiteboard
-            buttons: true
-        mermaid: 
-            theme: dark
+    revealjs: default
 engine: julia
 julia:
   exeflags: ["+1.11.5"]
@@ -187,30 +162,13 @@ Models are how we assess evidence for theories.
 :::
 ::::
 
-## Course Organization
+## What We Will Cover
 
-```{mermaid}
-timeline
-      Introduction and Exploratory Analysis (Weeks 1-2): Overview
-                  : Prob/Stats "Review"
-                  : Exploratory Analysis
-                  : Data Visualization
-      Probability Fundamentals (Weeks 3-6): Modeling Data-Generating Processes
-                                          : Maximum Likelihood
-                                          : Time Series
-                                          : Extreme Values
-      Simulation Methods (Weeks 7-10): Random Simulation
-                                    : Monte Carlo
-                                    : The Bootstrap
-                                    : Missing Data and Imputation
-      Model Evaluation (Weeks 12-13): Bias and Variance
-                      : Cross-Validation
-                      : Hypothesis Testing
-                      : Information Criteria
-      Experimental Design (Weeks 14-15): Value of Information
-                                 : Design of Experiments
-
-```
+- Review of Prob/Stats
+- Probability Models (Linear/Generalized Linear Models, Time Series, Extreme Values, Causal Reasoning)
+- Simulation Methods (Monte Carlo, The Bootstrap, Missing Data)  
+- Hypothesis Testing (Model Evaluation, Cross-Validation, Information Criteria)
+- Value of Information
 
 # Course Policies
 

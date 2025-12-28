@@ -1,5 +1,7 @@
 ---
 title: Assignment Workflow
+format:
+  html: default
 ---
 
 Your assignments (labs and homeworks) will be distributed as Jupyter Notebooks (`.ipynb` files) using GitHub Classroom, and will be submitted to Gradescope as PDF files. This means that the following steps are required for each assignment^[Note that you do not actually have to solve your assignments using the provided notebook: we aren't going to grade your code, so if you want to solve the problems separately and write up your solutions in something like Microsoft Word (with figures), that's fine. But, in this case, I would make sure your code is synced with GitHub in case there are any questions about how you got your solutions].

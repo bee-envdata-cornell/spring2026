@@ -1,6 +1,8 @@
 ---
 title: "Homework Policies"
 anchor-sections: true
+format:
+  html: default
 ---
 
 This page includes some information on the homework assignments for BEE 4850/5850, including policies and logistics. The goal is to help you get as many points on your homework as possible and to return them as soon as possible.
@@ -13,7 +15,7 @@ Homework assignments will be assigned on Monday and are generally due two Friday
 
 ## How To Write Assignments
 
-Here are some tips for how to make the grader (the TA or Prof. Srikrishnan) understand what you mean in the time they're looking at your problem: as noted in the [rubrics](../rubrics/standard.qmd), if your solution isn't clear enough for us to follow, you will not receive the points even if your answer is technically correct, because part of demonstrating understanding is the ability to organize and communicate.
+Here are some tips for how to make the grader (the TA or Prof. Srikrishnan) understand what you mean in the time they're looking at your problem: as noted in the [rubrics](rubric.qmd), if your solution isn't clear enough for us to follow, you will not receive the points even if your answer is technically correct, because part of demonstrating understanding is the ability to organize and communicate.
 
 ### Be Honest
 

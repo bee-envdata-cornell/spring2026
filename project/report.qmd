@@ -1,5 +1,7 @@
 ---
 title: "Project Report Instructions"
+format:
+  html: default
 ---
 
 These are the instructions for your final project report. The report should be submitted on Gradescope during finals week, but **no later than May 17, 2024**.

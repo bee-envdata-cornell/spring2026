@@ -1,7 +1,8 @@
 ---
 title: "Homework Assignments"
 tbl-colwidths: [5, 15, 5, 5, 10, 10]
-engine: julia
+format:
+  html: default
 ---
 
 This page contains information about and a schedule of the homework assignments for the semester.

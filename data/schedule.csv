@@ -1,11 +1,11 @@
 week,group,subgroup,date,day,title,deadline
 1,Introduction,Introduction,2026-01-21,Wed,Class Overview,
 1,Introduction,Introduction,2026-01-23,Fri,Probability Review,
-2,Probability Models,Linear Regression,2026-01-26,Mon,Probability Models and Linear Regression,
-2,Probability Models,Linear Regression,2026-01-28,Wed,Linear Regression: Uses and Misuses,
-2,Probability Models,Linear Regression,2026-01-30,Fri,Lab 1: Linear Regression,
-3,Probability Models,Model Fitting,2026-02-02,Mon,Maximum Likelihood Estimation,Lab 1 Due
-3,Probability Models,Model Fitting,2026-02-04,Wed,Fisher Information and Uncertainty,
+2,Probability Models,Linear Regression,2026-01-26,Mon,Exploratory Data Analysis,
+2,Probability Models,Linear Regression,2026-01-28,Wed,Probability Models and Linear Regression,
+2,Probability Models,Linear Regression,2026-01-30,Fri,Lab 1: Data Visualization,
+3,Probability Models,Linear Regression,2026-02-02,Mon,Linear Regression: Uses and Misuses,Lab 1 Due
+3,Probability Models,Model Fitting,2026-02-04,Wed,Maximum Likelihood Estimation and Fisher Information,
 3,Probability Models,Model Fitting,2026-02-06,Fri,Measurement Error and Model Discrepancy,HW 1 Due
 4,Probability Models,Causal Reasoning,2026-02-09,Mon,Multiple Regression and Causal Reasoning,
 4,Probability Models,Causal Reasoning,2026-02-11,Wed,Direct Acyclic Graphs and Confounds,

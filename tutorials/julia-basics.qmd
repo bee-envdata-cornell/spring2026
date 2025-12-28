@@ -5,7 +5,9 @@ execute:
     warning: true
 engine: julia
 julia:
-    exeflags: ["+1.10.4"]
+    exeflags: ["+1.11.5"]
+format:
+  html: default    
 ---
 
 ## Overview

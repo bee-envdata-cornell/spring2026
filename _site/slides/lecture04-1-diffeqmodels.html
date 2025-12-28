@@ -7,11 +7,11 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/jquery-3.6.3/jquery-3.6.3.min.js"></script>
 <script src="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.js" defer="true"></script>
 <link href="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.31">
+  <meta name="generator" content="quarto-1.8.26">
 
   <meta name="author" content="Vivek Srikrishnan">
   <meta name="dcterms.date" content="2025-02-10">
@@ -120,7 +120,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-7b87de61f0bc8c7187b97021a1ec54e0.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-99469881743cb8bd1bf840c72478da80.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -214,6 +214,14 @@
       margin-right: 0; 
     }
   </style>
+  <!-- MathJax 3 -->
+  <script>
+  window.MathJax = {
+      tex: {
+        tags: 'ams'
+      }
+    };
+  </script>
   <!-- Mathjax 3 config -->
   <script>
   window.MathJax = {
@@ -299,7 +307,7 @@
 <div id="cell-fig-temps" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a>temps <span class="op">=</span> CSV.<span class="fu">read</span>(<span class="st">"data/climate/HadCRUT.5.0.1.0.analysis.summary_series.global.annual.csv"</span>, DataFrame, delim<span class="op">=</span><span class="st">","</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a>temps <span class="op">=</span> CSV.<span class="fu">read</span>(<span class="st">"data/climate/HadCRUT.5.0.1.0.analysis.summary_series.global.annual.csv"</span>, DataFrame, delim<span class="op">=</span><span class="st">","</span>)</span>
 <span id="cb1-2"><a></a></span>
 <span id="cb1-3"><a></a>time_obs <span class="op">=</span> temps[<span class="op">:</span>, <span class="fl">1</span>]</span>
 <span id="cb1-4"><a></a>temp_obs <span class="op">=</span> temps[<span class="op">:</span>, <span class="fl">2</span>]</span>
@@ -319,7 +327,7 @@
 <span id="cb1-18"><a></a>sim_idx <span class="op">=</span> <span class="fu">indexin</span>(sim_years, forcing_years)</span>
 <span id="cb1-19"><a></a></span>
 <span id="cb1-20"><a></a><span class="fu">plot</span>(time_obs, temp_obs, ribbon<span class="op">=</span>(temp_obs<span class="op">-</span>temp_lo,temp_hi<span class="op">-</span>temp_obs), color<span class="op">=</span><span class="st">"blue"</span>, linewidth<span class="op">=</span><span class="fl">2</span>, fillalpha<span class="op">=</span><span class="fl">0.2</span>, legend<span class="op">=</span><span class="cn">false</span>, xlabel<span class="op">=</span><span class="st">"Year"</span>, ylabel<span class="op">=</span><span class="st">"Temperature anomaly (°C)"</span>, labelfontsize<span class="op">=</span><span class="fl">18</span>, tickfontsize<span class="op">=</span><span class="fl">16</span>, bottom_margin<span class="op">=</span><span class="fl">10</span>mm, left_margin<span class="op">=</span><span class="fl">10</span>mm)</span>
-<span id="cb1-21"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">550</span>, <span class="fl">450</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-21"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">550</span>, <span class="fl">450</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-temps" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -454,7 +462,7 @@ Figure&nbsp;1: Global temperature anomalies
 <div id="cell-fig-rf" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a></a><span class="co"># Dataset from https://zenodo.org/record/3973015</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a></a><span class="co"># Dataset from https://zenodo.org/record/3973015</span></span>
 <span id="cb2-2"><a></a><span class="co"># The CSV is read into a DataFrame object, and we specify that it is comma delimited</span></span>
 <span id="cb2-3"><a></a>forcings_all_85 <span class="op">=</span> CSV.<span class="fu">read</span>(<span class="st">"data/climate/ERF_ssp585_1750-2500.csv"</span>, DataFrame, delim<span class="op">=</span><span class="st">","</span>)</span>
 <span id="cb2-4"><a></a></span>
@@ -477,7 +485,7 @@ Figure&nbsp;1: Global temperature anomalies
 <span id="cb2-21"><a></a><span class="fu">plot!</span>(time_forcing, forcing_other_85, label<span class="op">=</span><span class="st">"Other"</span>, color<span class="op">=:</span>purple, linewidth<span class="op">=</span><span class="fl">2</span>)</span>
 <span id="cb2-22"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">800</span>, <span class="fl">450</span>))</span>
 <span id="cb2-23"><a></a><span class="fu">xlims!</span>((<span class="fl">1750</span>, <span class="fl">2020</span>))</span>
-<span id="cb2-24"><a></a><span class="fu">ylims!</span>(<span class="op">-</span><span class="fl">4.5</span>, <span class="fl">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-24"><a></a><span class="fu">ylims!</span>(<span class="op">-</span><span class="fl">4.5</span>, <span class="fl">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-rf" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -669,7 +677,9 @@ T_D(t+1) &amp;= T_D(t) + \frac{\gamma (T(t) - T_D(t))}{C_D} \Delta t
 <section id="programming-implementation" class="slide level2">
 <h2>Programming Implementation</h2>
 <div id="10" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a></a><span class="kw">function</span> <span class="fu">ebm</span>(rf_nonaerosol, rf_aerosol; p<span class="op">=</span>(<span class="fl">3.2</span>, <span class="fl">1.0</span>, <span class="fl">1.3</span>, <span class="fl">100.0</span>, <span class="fl">800.0</span>, <span class="op">-</span><span class="fl">0.1</span>))</span>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a></a><span class="kw">function</span> <span class="fu">ebm</span>(rf_nonaerosol, rf_aerosol; p<span class="op">=</span>(<span class="fl">3.2</span>, <span class="fl">1.0</span>, <span class="fl">1.3</span>, <span class="fl">100.0</span>, <span class="fl">800.0</span>, <span class="op">-</span><span class="fl">0.1</span>))</span>
 <span id="cb3-2"><a></a>    <span class="co"># set up model parameters</span></span>
 <span id="cb3-3"><a></a>    S, γ, α, d, D, T₀ <span class="op">=</span> p <span class="co"># this unpacks the parameter tuple into variables</span></span>
 <span id="cb3-4"><a></a>    F2xCO₂ <span class="op">=</span> <span class="fl">4.0</span> <span class="co"># radiative forcing [W/m²] for a doubling of CO₂</span></span>
@@ -692,7 +702,8 @@ T_D(t+1) &amp;= T_D(t) + \frac{\gamma (T(t) - T_D(t))}{C_D} \Delta t
 <span id="cb3-21"><a></a>    <span class="cf">return</span> T</span>
 <span id="cb3-22"><a></a><span class="kw">end</span></span>
 <span id="cb3-23"><a></a></span>
-<span id="cb3-24"><a></a><span class="fu">ebm_wrap</span>(params) <span class="op">=</span> <span class="fu">ebm</span>(forcing_non_aerosol_85[hind_idx], forcing_aerosol_85[hind_idx], p <span class="op">=</span> params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-24"><a></a><span class="fu">ebm_wrap</span>(params) <span class="op">=</span> <span class="fu">ebm</span>(forcing_non_aerosol_85[hind_idx], forcing_aerosol_85[hind_idx], p <span class="op">=</span> params)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="probability-models-for-simulations" class="slide level2">
@@ -738,7 +749,9 @@ T_D(t+1) &amp;= T_D(t) + \frac{\gamma (T(t) - T_D(t))}{C_D} \Delta t
 <section id="mle-for-gaussian-discrepancy" class="slide level2">
 <h2>MLE for Gaussian Discrepancy</h2>
 <div id="12" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a></a><span class="kw">function</span> <span class="fu">gaussian_iid_homosked</span>(params, temp_dat, temp_err, m)</span>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a></a><span class="kw">function</span> <span class="fu">gaussian_iid_homosked</span>(params, temp_dat, temp_err, m)</span>
 <span id="cb4-2"><a></a>    S, γ, α, d, D, T₀, σ <span class="op">=</span> params </span>
 <span id="cb4-3"><a></a>    ebm_sim <span class="op">=</span> <span class="fu">m</span>((S, γ, α, d, D, T₀))</span>
 <span id="cb4-4"><a></a>    ll <span class="op">=</span> <span class="fu">sum</span>(<span class="fu">logpdf</span>.(<span class="fu">Normal</span>.(ebm_sim, <span class="fu">sqrt</span>.(σ<span class="op">^</span><span class="fl">2</span> <span class="op">.+</span> temp_err<span class="op">.^</span><span class="fl">2</span>)), temp_dat))</span>
@@ -750,7 +763,8 @@ T_D(t+1) &amp;= T_D(t) + \frac{\gamma (T(t) - T_D(t))}{C_D} \Delta t
 <span id="cb4-10"><a></a>p0 <span class="op">=</span> [<span class="fl">3.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">100.0</span>, <span class="fl">800.0</span>,temp_obs[<span class="fl">1</span>], <span class="fl">5.0</span>]</span>
 <span id="cb4-11"><a></a></span>
 <span id="cb4-12"><a></a>result <span class="op">=</span> Optim.<span class="fu">optimize</span>(params <span class="op">-&gt;</span> <span class="fu">-gaussian_iid_homosked</span>(params, temp_obs, temp_sd, ebm_wrap), lower, upper, p0)</span>
-<span id="cb4-13"><a></a>θ_iid <span class="op">=</span> result.minimizer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-13"><a></a>θ_iid <span class="op">=</span> result.minimizer</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="mle-for-gaussian-discrepancy-1" class="slide level2">
@@ -799,7 +813,7 @@ T_D(t+1) &amp;= T_D(t) + \frac{\gamma (T(t) - T_D(t))}{C_D} \Delta t
 <div id="cell-fig-gaussian-mle" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a></a>n_samples <span class="op">=</span> <span class="fl">10_000</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a></a>n_samples <span class="op">=</span> <span class="fl">10_000</span></span>
 <span id="cb5-2"><a></a>temp_iid <span class="op">=</span> <span class="fu">ebm_wrap</span>(θ_iid) <span class="co"># simulate IID best fit</span></span>
 <span id="cb5-3"><a></a><span class="co"># simulate projections with discrepancy and errors</span></span>
 <span id="cb5-4"><a></a>temp_iid_proj <span class="op">=</span> <span class="fu">zeros</span>(n_samples, <span class="fu">length</span>(temp_sd))</span>
@@ -812,7 +826,7 @@ T_D(t+1) &amp;= T_D(t) + \frac{\gamma (T(t) - T_D(t))}{C_D} \Delta t
 <span id="cb5-11"><a></a></span>
 <span id="cb5-12"><a></a>p <span class="op">=</span> <span class="fu">scatter</span>(time_obs, temp_obs, color<span class="op">=:</span>black, label<span class="op">=</span><span class="st">"Observations"</span>, ylabel<span class="op">=</span><span class="st">"(°C)"</span>, xlabel<span class="op">=</span><span class="st">"Year"</span>, title<span class="op">=</span><span class="st">"Temperature Anomaly"</span>)</span>
 <span id="cb5-13"><a></a><span class="fu">plot!</span>(p, time_obs, temp_iid_q[<span class="fl">2</span>, <span class="op">:</span>], ribbon<span class="op">=</span>(temp_iid_q[<span class="fl">2</span>, <span class="op">:</span>] <span class="op">-</span> temp_iid_q[<span class="fl">1</span>, <span class="op">:</span>], temp_iid_q[<span class="fl">3</span>, <span class="op">:</span>] <span class="op">-</span> temp_iid_q[<span class="fl">2</span>, <span class="op">:</span>]), color<span class="op">=:</span>red, fillalpha<span class="op">=</span><span class="fl">0.3</span>, label<span class="op">=</span><span class="st">"Gaussian Discrepancy"</span>)</span>
-<span id="cb5-14"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">500</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-14"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">500</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-gaussian-mle" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -1094,12 +1108,12 @@ Figure&nbsp;3: MLE Fit for Gaussian discrepancy
 <div class="fragment fade-in">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a></a>resids_homogauss <span class="op">=</span> temp_obs <span class="op">-</span> temp_iid</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a></a>resids_homogauss <span class="op">=</span> temp_obs <span class="op">-</span> temp_iid</span>
 <span id="cb6-2"><a></a>p1 <span class="op">=</span> <span class="fu">plot</span>(time_obs, resids_homogauss, linewidth<span class="op">=</span><span class="fl">3</span>, label<span class="op">=</span><span class="cn">false</span>, size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">500</span>), xlabel<span class="op">=</span><span class="st">"Year"</span>, ylabel<span class="op">=</span><span class="st">"Residual (°C)"</span>)</span>
 <span id="cb6-3"><a></a>p2 <span class="op">=</span> <span class="fu">histogram</span>(resids_homogauss, size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">500</span>), xlabel<span class="op">=</span><span class="st">"Residual (°C)"</span>, ylabel<span class="op">=</span><span class="st">"Count"</span>)</span>
 <span id="cb6-4"><a></a></span>
 <span id="cb6-5"><a></a><span class="fu">display</span>(p1)</span>
-<span id="cb6-6"><a></a><span class="fu">display</span>(p2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-6"><a></a><span class="fu">display</span>(p2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-gaussian-residuals" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
@@ -1346,13 +1360,13 @@ Figure&nbsp;4
 <div class="fragment fade-in">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a></a>p1 <span class="op">=</span> <span class="fu">qqnorm</span>(resids_homogauss, xlabel<span class="op">=</span><span class="st">"Theoretical Values"</span>, ylabel<span class="op">=</span><span class="st">"Empirical Values"</span>, title<span class="op">=</span><span class="st">"Normal Q-Q Plot"</span>, size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">500</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a></a>p1 <span class="op">=</span> <span class="fu">qqnorm</span>(resids_homogauss, xlabel<span class="op">=</span><span class="st">"Theoretical Values"</span>, ylabel<span class="op">=</span><span class="st">"Empirical Values"</span>, title<span class="op">=</span><span class="st">"Normal Q-Q Plot"</span>, size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">500</span>))</span>
 <span id="cb7-2"><a></a>pacf_homogauss <span class="op">=</span> <span class="fu">pacf</span>(resids_homogauss, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>)</span>
 <span id="cb7-3"><a></a>p2 <span class="op">=</span> <span class="fu">plot</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, pacf_homogauss, marker<span class="op">=:</span>circle, line<span class="op">=:</span>stem, linewidth<span class="op">=</span><span class="fl">3</span>, markersize<span class="op">=</span><span class="fl">8</span>, tickfontsize<span class="op">=</span><span class="fl">16</span>, guidefontsize<span class="op">=</span><span class="fl">18</span>, legend<span class="op">=</span><span class="cn">false</span>, ylabel<span class="op">=</span><span class="st">"Partial Autocorrelation"</span>, xlabel<span class="op">=</span><span class="st">"Time Lag"</span>, title<span class="op">=</span><span class="st">"Partial Autocorrelation Plot"</span>, size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">500</span>))</span>
 <span id="cb7-4"><a></a><span class="fu">hline!</span>(p2, [<span class="fl">0</span>], color<span class="op">=:</span>black, linestyle<span class="op">=:</span>dash)</span>
 <span id="cb7-5"><a></a></span>
 <span id="cb7-6"><a></a><span class="fu">display</span>(p1)</span>
-<span id="cb7-7"><a></a><span class="fu">display</span>(p2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-7"><a></a><span class="fu">display</span>(p2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-gaussian-residuals-diagnostics" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
@@ -2069,13 +2083,14 @@ Palmer, M. D., Harris, G. R., &amp; Gregory, J. M. (2018). <span class="nocase">
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

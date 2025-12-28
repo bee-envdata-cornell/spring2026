@@ -1,6 +1,8 @@
 ---
 title: "Grading Policies"
 anchor-sections: true
+format:
+  html: default
 ---
 
 ## How Work Is Graded

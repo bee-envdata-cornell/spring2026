@@ -42,6 +42,7 @@ website:
         menu:
           - labs/index.qmd
           - hw/index.qmd
+          - lit_critique/index.qmd
           - project/index.qmd
       - text: "Resources"
         menu:
@@ -148,6 +149,60 @@ format:
     html-math-method: mathjax
     include-in-header: mathjax-config.html
     footnotes-hover: false
+    default-image-extension: png
+  typst:
+    citeproc: true
+    csl: _assets/references/american-geophysical-union.csl
+    filters: 
+      - "_assets/typst-pdf/processing.lua"
+    mainfont: IBM Plex Sans
+    fontsize: "10pt"  
+    toc: true
+    toc-depth: 2
+    toc-title: Contents
+    margin:
+      x: 1in
+      y: 1in
+    default-image-extension: png  
+  revealjs:
+    slide-number: c/t
+    show-slide-number: all
+    center-title-slide: true
+    width: 1280
+    height: 720
+    transition: none
+    toc: true
+    toc-depth: 1
+    toc-title: "Overview"
+    history: false
+    link-external-newwindow: true
+    theme: sass/slides.scss
+    template-partials:
+      - slides/title-slide.html
+    menu:
+      numbers: true
+    html-math-method: mathjax
+    include-in-header: mathjax-config.html
+    date-format: long
+    email-obfuscation: javascript
+    chalkboard:
+      theme: whiteboard
+      buttons: true
+    mermaid: 
+        theme: dark
+    default-image-extension: png 
+    code-fold: true
+  beamer:
+    theme: metropolis
+    colortheme: dolphin
+    fonttheme: professionalfonts
+    aspectratio: 169
+    navigation: horizontal
+    section-titles: true
+    toc: false     
+    default-image-extension: png
+    monofontoptions: 
+      - Scale=0.55
 
 bibliography: references.bib
 csl: _assets/references/american-geophysical-union.csl

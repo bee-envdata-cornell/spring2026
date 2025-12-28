@@ -1,5 +1,7 @@
 ---
 title: "Julia Resources"
+format:
+  html: default
 ---
 
 * [Setting up VS Code and Julia (Youtube)](https://www.youtube.com/watch?v=KesuPOlBB_o)

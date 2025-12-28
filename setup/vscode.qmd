@@ -1,5 +1,7 @@
 ---
 title: VS Code
+format:
+  html: default
 ---
 
 ## Install and Set Up VS Code {#sec-install-code}
