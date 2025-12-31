@@ -441,7 +441,6 @@ shade_idx = iseven.(sched[!, :week])
 sched = @chain sched begin
  @groupby :week
  @transform! :is_first = :date .== first(:date)
- @transform! :subgroup = ifelse.(:is_first, :subgroup, "")
  @transform 
 end
 
@@ -542,7 +541,7 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;"></td>
+      <td style = "text-align: left;">Introduction</td>
       <td style = "text-align: center;">January 23</td>
       <td style = "text-align: center;">Fri</td>
       <td style = "text-align: left;">Probability Review</td>
@@ -556,14 +555,14 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;"></td>
+      <td style = "background-color: lightgrey; text-align: left;">Probability Models</td>
       <td style = "background-color: lightgrey; text-align: center;">January 28</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
       <td style = "background-color: lightgrey; text-align: left;">Probability Models</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;"></td>
+      <td style = "background-color: lightgrey; text-align: left;">Probability Models</td>
       <td style = "background-color: lightgrey; text-align: center;">January 30</td>
       <td style = "background-color: lightgrey; text-align: center;">Fri</td>
       <td style = "background-color: lightgrey; text-align: left;">Lab 1: Data Visualization</td>
@@ -580,14 +579,14 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "text-align: left;">Lab 1 Due</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;"></td>
+      <td style = "text-align: left;">Linear Regression</td>
       <td style = "text-align: center;">February 4</td>
       <td style = "text-align: center;">Wed</td>
       <td style = "text-align: left;">Maximum Likelihood Estimation</td>
       <td style = "text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;"></td>
+      <td style = "text-align: left;">Linear Regression</td>
       <td style = "text-align: center;">February 6</td>
       <td style = "text-align: center;">Fri</td>
       <td style = "text-align: left;">MLE Uncertainty and Fisher Information</td>
@@ -601,14 +600,14 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;"></td>
+      <td style = "background-color: lightgrey; text-align: left;">Model Evaluation</td>
       <td style = "background-color: lightgrey; text-align: center;">February 11</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
       <td style = "background-color: lightgrey; text-align: left;">Cross-Validation</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;"></td>
+      <td style = "background-color: lightgrey; text-align: left;">Model Comparison</td>
       <td style = "background-color: lightgrey; text-align: center;">February 13</td>
       <td style = "background-color: lightgrey; text-align: center;">Fri</td>
       <td style = "background-color: lightgrey; text-align: left;">Null Hypothesis Testing</td>
@@ -622,14 +621,14 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;"></td>
+      <td style = "text-align: left;">Model Comparison</td>
       <td style = "text-align: center;">February 18</td>
       <td style = "text-align: center;">Wed</td>
       <td style = "text-align: left;">Information Criteria</td>
       <td style = "text-align: left;">Lab 2 Due</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;"></td>
+      <td style = "text-align: left;">Model Comparison</td>
       <td style = "text-align: center;">February 20</td>
       <td style = "text-align: center;">Fri</td>
       <td style = "text-align: left;">Lab 2: Model Comparison</td>
@@ -643,14 +642,14 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "background-color: lightgrey; text-align: left;">Lab 2 Due</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;"></td>
+      <td style = "background-color: lightgrey; text-align: left;">Time Series</td>
       <td style = "background-color: lightgrey; text-align: center;">February 25</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
       <td style = "background-color: lightgrey; text-align: left;">Time Series Models and Examples</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;"></td>
+      <td style = "background-color: lightgrey; text-align: left;">Time Series</td>
       <td style = "background-color: lightgrey; text-align: center;">February 27</td>
       <td style = "background-color: lightgrey; text-align: center;">Fri</td>
       <td style = "background-color: lightgrey; text-align: left;">Lab 3: Time Series</td>
@@ -664,14 +663,14 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "text-align: left;">Lab 3 Due</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;"></td>
+      <td style = "text-align: left;">Model Calibration</td>
       <td style = "text-align: center;">March 4</td>
       <td style = "text-align: center;">Wed</td>
       <td style = "text-align: left;">Model Calibration</td>
       <td style = "text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;"></td>
+      <td style = "text-align: left;">Model Calibration</td>
       <td style = "text-align: center;">March 6</td>
       <td style = "text-align: center;">Fri</td>
       <td style = "text-align: left;">Lab 4: Calibrating Numerical Models</td>
@@ -688,14 +687,14 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "background-color: lightgrey; text-align: left;">Lab 4 Due</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;"></td>
+      <td style = "background-color: lightgrey; text-align: left;">Monte Carlo</td>
       <td style = "background-color: lightgrey; text-align: center;">March 11</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
       <td style = "background-color: lightgrey; text-align: left;">Monte Carlo: Convergence</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;"></td>
+      <td style = "background-color: lightgrey; text-align: left;">Prelim</td>
       <td style = "background-color: lightgrey; text-align: center;">March 13</td>
       <td style = "background-color: lightgrey; text-align: center;">Fri</td>
       <td style = "background-color: lightgrey; text-align: left;">Prelim 1</td>
@@ -709,14 +708,14 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "text-align: left;">Lab 4 Due</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;"></td>
+      <td style = "text-align: left;">The Bootstrap</td>
       <td style = "text-align: center;">March 18</td>
       <td style = "text-align: center;">Wed</td>
       <td style = "text-align: left;">Types of Bootstraps</td>
       <td style = "text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;"></td>
+      <td style = "text-align: left;">The Bootstrap</td>
       <td style = "text-align: center;">March 20</td>
       <td style = "text-align: center;">Fri</td>
       <td style = "text-align: left;">Lab 5: The Bootstrap</td>
@@ -730,14 +729,14 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "background-color: lightgrey; text-align: left;">Lab 5 Due</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;"></td>
+      <td style = "background-color: lightgrey; text-align: left;">Missing Data</td>
       <td style = "background-color: lightgrey; text-align: center;">March 25</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
       <td style = "background-color: lightgrey; text-align: left;">Mechanisms of Missingness</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;"></td>
+      <td style = "background-color: lightgrey; text-align: left;">Missing Data</td>
       <td style = "background-color: lightgrey; text-align: center;">March 27</td>
       <td style = "background-color: lightgrey; text-align: center;">Fri</td>
       <td style = "background-color: lightgrey; text-align: left;">Multiple Imputation</td>
@@ -775,18 +774,18 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;"></td>
+      <td style = "background-color: lightgrey; text-align: left;">Logistic Regression</td>
       <td style = "background-color: lightgrey; text-align: center;">April 8</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
       <td style = "background-color: lightgrey; text-align: left;">Scoring Rules and Calibration</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;"></td>
+      <td style = "background-color: lightgrey; text-align: left;">Logistic Regression</td>
       <td style = "background-color: lightgrey; text-align: center;">April 10</td>
       <td style = "background-color: lightgrey; text-align: center;">Fri</td>
       <td style = "background-color: lightgrey; text-align: left;">Logistic Regression As GLM</td>
-      <td style = "background-color: lightgrey; text-align: left;"></td>
+      <td style = "background-color: lightgrey; text-align: left;">Interim Report Due</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;">Generalized Linear Models</td>
@@ -796,14 +795,14 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;"></td>
+      <td style = "text-align: left;">Generalized Linear Models</td>
       <td style = "text-align: center;">April 15</td>
       <td style = "text-align: center;">Wed</td>
       <td style = "text-align: left;">Overdispersed and Zero-Inflated Models</td>
       <td style = "text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;"></td>
+      <td style = "text-align: left;">Generalized Linear Models</td>
       <td style = "text-align: center;">April 17</td>
       <td style = "text-align: center;">Fri</td>
       <td style = "text-align: left;">Lab 6: Generalized Linear Models</td>
@@ -820,14 +819,14 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "background-color: lightgrey; text-align: left;">Lab 6 Due</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;"></td>
+      <td style = "background-color: lightgrey; text-align: left;">Block Maxima</td>
       <td style = "background-color: lightgrey; text-align: center;">April 22</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
       <td style = "background-color: lightgrey; text-align: left;">Nonstationarity and Extremes</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;"></td>
+      <td style = "background-color: lightgrey; text-align: left;">Block Maxima</td>
       <td style = "background-color: lightgrey; text-align: center;">April 24</td>
       <td style = "background-color: lightgrey; text-align: center;">Fri</td>
       <td style = "background-color: lightgrey; text-align: left;">Lab 6: Nonstationary Extreme Values</td>
@@ -841,14 +840,14 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "text-align: left;">Lab 6 Due</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;"></td>
+      <td style = "text-align: left;">Peaks Over Thresholds</td>
       <td style = "text-align: center;">April 29</td>
       <td style = "text-align: center;">Wed</td>
       <td style = "text-align: left;">Clustering Peaks</td>
       <td style = "text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;"></td>
+      <td style = "text-align: left;">Prelim</td>
       <td style = "text-align: center;">May 1</td>
       <td style = "text-align: center;">Fri</td>
       <td style = "text-align: left;">Prelim 2</td>
@@ -863,13 +862,6 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "background-color: lightgrey; text-align: center;">Mon</td>
       <td style = "background-color: lightgrey; text-align: left;">Class Wrap-Up</td>
       <td style = "background-color: lightgrey; text-align: left;">HW 6 Due</td>
-    </tr>
-    <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;">Class Wrap-Up</td>
-      <td style = "background-color: lightgrey; text-align: center;">TBD</td>
-      <td style = "background-color: lightgrey; text-align: center;">TBD</td>
-      <td style = "background-color: lightgrey; text-align: left;">During Finals Week</td>
-      <td style = "background-color: lightgrey; text-align: left;">Project Report Due</td>
     </tr>
   </tbody>
 </table>
