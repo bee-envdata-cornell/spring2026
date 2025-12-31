@@ -7,10 +7,8 @@ pdf-note: |
 pdf-header-left: BEE 4850/5850
 pdf-header-right: Spring 2026
 pdf-footer-left: Environmental Data Analysis & Simulation
-reference-location: margin
 format:
-  html:
-    toc-depth: 3
+  html: default
   typst:
     output-file: "syllabus-BEE4850-SP26.pdf"
     include-in-header: 
@@ -274,7 +272,6 @@ All regrades will be assessed based only on the submitted work. You cannot get a
 
 The first regrade request for any submission will be handled by the person who graded that homework problem. The first regrade request for any exam submission will be handled by whoever graded that exam problem. If the submission was graded by the TA, additional regrade requests for the same submission will be handled directly by the instructor. Once Prof. Srikrishnan issues a final response to a regrade request, further requests for that submission will be ignored.
 
-
 ::: {.callout-warning}
 ## Regrade Requests Can Be A Gamble! 
 
@@ -302,11 +299,12 @@ Space at office hours can be limited (we may shift to the conference room in 316
 
 While we will try to select office hours that work for as much of the class as possible, both the course staff and students have busy schedules and no time will work for everyone. **If you need help outside of office hours (*e.g.* office hours do not fit your schedule), please send an email to the TA or Prof. Srikrishnan as soon as possible**. These requests may not be accepted on short notice (*e.g.* if you have a question about a homework due on Thursday and send a request on the immediately prior Wednesday; schedules for course staff may already be full). We recommend starting your homework promptly so you can take advantage of office hours or make an appointment over a longer period.
 :::
+
 ## Assessments
 
 ### Technologies
 
-We will use Canvas as a gradebook, and to distribute PDFs of readings (which also be made available through the website, via the Cornell library). Ed Discussion will be used for course communications. Assignments will be submitted and graded in Gradescope. 
+We will use Canvas as a gradebook, and to distribute PDFs of readings (which also be made available through the website when possible, via the Cornell library). Ed Discussion will be used for course communications. Assignments will be submitted and graded in Gradescope. 
 
 Students can use any programming language they like to solve problems, though we will make notebooks and package environments available for Julia (which may help structure your assignments if you use a different language) via GitHub. If students use a language other than Julia, we may limited in the programming assistance we can provide (though we're happy to try to help!).
 
@@ -319,11 +317,12 @@ Final grades will be computed based on the following assessment weights:
 | Assessment | Weight |
 |:-----------|-----------:|
 | Labs | 10% |
-| Quizzes | 10% |
+| Quizzes | 5% |
 | Participation (4850)/Literature Critique (5850) | 10% |
+| Readings | 10% |
 | Homework Assignments | 15% |
 | Prelims | 30% |
-| Term Project | 25% |
+| Term Project | 20% |
 
 The following grading scale will be used to convert the numerical weighted average to letter grades:
 
@@ -358,15 +357,19 @@ Note that just passively attending class will not yield full participation point
 
 ### Quizzes
 
-Quizzes will be assigned in Gradescope most weeks based on recently discussed content. These will be relatively short and are intended to consolidate material recently discussed in class. The quizzes will be released after Wednesday's class and will be due prior to next Monday's. Quizzes can be retaken as many times as are desired prior to the submission deadline. They may consist of multiple choice questions or questions involving small mathematical, computational, or open-ended problems.
+Quizzes will be assigned in Gradescope most weeks based on recently discussed content. These will be relatively short and are intended to consolidate material recently discussed in class. The quizzes will be released after Wednesday's class and will be due prior to next Monday's. Quizzes can be retaken as many times as are desired prior to the submission deadline. They may consist of multiple choice questions or questions involving small mathematical, computational, or open-ended problems. One quiz will be dropped automatically (this is intended to account for a week in which you forget or are too busy to submit).
 
 ### Labs
 
-Several class periods (typically on Fridays) will be dedicated to in-class labs. Students will be given worksheets and Jupyter notebooks aimed at getting hands-on practice with the prior lecture topic(s). Lab writeups will be due before the class meeting the following Monday after the lab period.
+Several class periods (typically on Fridays) will be dedicated to in-class labs. Students will be given worksheets and/or Jupyter notebooks aimed at getting hands-on practice with the prior lecture topic(s). Lab writeups will be due before the class meeting the following Monday after the lab period. They will be graded primarily on evidence of effort rather than correctness. One lab assignment will be automatically dropped.
 
 ### Literature Critique
 
 Students in BEE 5850 will select a peer-reviewed journal article related to an application of data analysis and will write a short discussion paper (2-3 pages) analyzing the hypotheses and statistical choices. Students should feel free to select their own paper or can work with Prof. Srikrishnan to identify one of interest, but in all cases should discuss with Prof. Srikrishnan to ensure that the article is appropriate. The discussion paper will be due towards at the end of the semester.
+
+### Readings
+
+Readings will be assigned throughout the semester to help students engage with background or uses of the material for that week. These readings will be provided as PDFs on Canvas through Perusall and (when possible through open access or the Cornell library) links from the website. Students are expected to demonstrate engagement with the material through collaborative annotations, whether their own comments on parts of the reading they found interesting or had questions on or responses to other students' annotations. Students should post overall reflections, synthesizing their takeaways from the reading with content from this or other classes or other experiences, on Ed Discussion. Both the annotations and the reflections should be completed by the start of the first lecture the next week. Students will not be graded on the quantity of annotations, but the degree to which their annotations reflect critical engagement with the reading. One reading assignment will be dropped automatically.
 
 ### Homework Assignments
 
@@ -384,7 +387,9 @@ Some notes on assignment and grading logistics:
   * Homeworks are due by 9:00pm Eastern Time on the designed due date (usually a Thursday). Your assignment writeup should be submitted to Gradescope as a PDF with the answers to each question tagged (a failure to do this will result in a non-negotiable 10% point deduction). 
   * A meta-rubric is provided on the website, under the Homework page. These are not customized for each assignment but the principles will apply generally.
   * No homework assignments will be dropped, but you can turn in assignments within 24 hours of the due date with a 50% penalty. If you need a further accomodation for a particular assignment, talk to Prof. Srikrishnan ***before the due date.*** Requests for extensions made after the due date will only be considered under extraordinary and unexpected circumstances. Technical challenges submitting assignments are not acceptable reasons for extensions to be granted, and late penalties will apply.
-  * **Your submitted homework must stand on its own***! We cannot grade you on the basis of information which was not included in the submitted assignment. While regrade requests should include a justification for why your grade is incorrect, we will not consider explanations or additional reasoning outside of the submission.
+  * **Your submitted homework must stand on its own**! We cannot grade you on the basis of information which was not included in the submitted assignment. While regrade requests should include a justification for why your grade is incorrect, we will not consider explanations or additional reasoning outside of the submission.
+
+No homework assignments will be automatically dropped.  
 
 
 ### Prelims
@@ -396,10 +401,14 @@ One in-class prelim will be given. The exam is closed-book and closed-note. As a
 
 Throughout the semester, students will apply the concepts and methods from class to a data set of their choosing. If a student does not have a data set in mind, we will find one which aligns with their interests.
 
-The term project can be completed individually or in groups of 2. There will be 
+The term project can be completed individually or in groups of 2. There will be three deliverables throughout the semester:
 
-  * Several updates aligning with course models. Students will provide short summaries of their proposed topic and exploratory analysis, proposed probability model(s), simulation studies, and hypothesis tests/model assessments. Each of these should be no more than 2 pages (11 point font, 1 inch margins), not including of figures or references.
-  * A final presentation and report. The report should be no more than 5 pages (11 point font, 1 inch margins), not including references and figures. The presentation should be no more than 10 minutes and will be delivered in-class; presentations may be spread across multiple class periods if the number of projects requires it. More details and rubrics will be provided later in the semester.
+  * A proposal (no more than 2 pages with 11 point font, 1 inch margins, not including figures or references) including:
+    * The underlying science question for your project and any associated hypotheses;
+    * The dataset(s) you will analyze and use to test your hypotheses;
+    * Statistical model(s) for the hypotheses and your planned strategy for analysis.
+  * An interim report (no more than 2 pages with 11 point font, 1 inch margins, not including figures or references) summarizing progress to date, including changes from the original proposal or challenges faced and plans to overcome them.
+  * A final report. The report should be no more than 5 pages (11 point font, 1 inch margins), not including references and figures. More details and rubrics will be provided later in the semester.
 
 
 ::: {.content-visible unless-format="html"}
@@ -425,7 +434,7 @@ group_names = unique(sched[:, :group])
 group_idx = groupindices(groupby(sched, :group)) 
 uniqueidx(v) = unique(i -> v[i], eachindex(v))
 label_idx = uniqueidx(group_idx)
-holiday_idx = findall(occursin.("Break", sched[!, :subgroup]))
+holiday_idx = findall(occursin.("Break", sched[:, :title]))
 shade_idx = iseven.(sched[!, :week])
 
 # figure out alternating weeks for highlighting
@@ -539,21 +548,18 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "text-align: left;">Probability Review</td>
       <td style = "text-align: left;"></td>
     </tr>
-    <tr class = "rowGroupLabel">
-      <td colspan = "5" style = "border-bottom: thick double black; font-weight: bold; text-align: left;">Probability Models</td>
-    </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;">Linear Regression</td>
+      <td style = "background-color: lightgrey; text-align: left;">Probability Models</td>
       <td style = "background-color: lightgrey; text-align: center;">January 26</td>
       <td style = "background-color: lightgrey; text-align: center;">Mon</td>
-      <td style = "background-color: lightgrey; text-align: left;">Probability Models and EDA</td>
+      <td style = "background-color: lightgrey; text-align: left;">Exploratory Data Analysis and Visualization</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;"></td>
       <td style = "background-color: lightgrey; text-align: center;">January 28</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
-      <td style = "background-color: lightgrey; text-align: left;">Linear Regression</td>
+      <td style = "background-color: lightgrey; text-align: left;">Probability Models</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
@@ -563,126 +569,129 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "background-color: lightgrey; text-align: left;">Lab 1: Data Visualization</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
+    <tr class = "rowGroupLabel">
+      <td colspan = "5" style = "border-bottom: thick double black; font-weight: bold; text-align: left;">Regression</td>
+    </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;">Linear Regression</td>
       <td style = "text-align: center;">February 2</td>
       <td style = "text-align: center;">Mon</td>
-      <td style = "text-align: left;">Linear Regression: Uses and Misuses</td>
+      <td style = "text-align: left;">(Multiple) Linear Regression</td>
       <td style = "text-align: left;">Lab 1 Due</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;"></td>
       <td style = "text-align: center;">February 4</td>
       <td style = "text-align: center;">Wed</td>
-      <td style = "text-align: left;">Maximum Likelihood Estimation and Fisher Information</td>
+      <td style = "text-align: left;">Maximum Likelihood Estimation</td>
       <td style = "text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;"></td>
       <td style = "text-align: center;">February 6</td>
       <td style = "text-align: center;">Fri</td>
-      <td style = "text-align: left;">Measurement Error and Model Discrepancy</td>
+      <td style = "text-align: left;">MLE Uncertainty and Fisher Information</td>
       <td style = "text-align: left;">HW 1 Due</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;">Causal Reasoning</td>
+      <td style = "background-color: lightgrey; text-align: left;">Model Evaluation</td>
       <td style = "background-color: lightgrey; text-align: center;">February 9</td>
       <td style = "background-color: lightgrey; text-align: center;">Mon</td>
-      <td style = "background-color: lightgrey; text-align: left;">Multiple Regression and Causal Reasoning</td>
+      <td style = "background-color: lightgrey; text-align: left;">Graphical Checks</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;"></td>
       <td style = "background-color: lightgrey; text-align: center;">February 11</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
-      <td style = "background-color: lightgrey; text-align: left;">Direct Acyclic Graphs and Confounds</td>
+      <td style = "background-color: lightgrey; text-align: left;">Cross-Validation</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;"></td>
       <td style = "background-color: lightgrey; text-align: center;">February 13</td>
       <td style = "background-color: lightgrey; text-align: center;">Fri</td>
-      <td style = "background-color: lightgrey; text-align: left;">Lab 2: Reasoning With DAGs</td>
-      <td style = "background-color: lightgrey; text-align: left;">Project Proposal Due</td>
+      <td style = "background-color: lightgrey; text-align: left;">Null Hypothesis Testing</td>
+      <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;">Generalized Linear Models</td>
+      <td style = "text-align: left;"></td>
       <td style = "text-align: center;">February 16</td>
       <td style = "text-align: center;">Mon</td>
-      <td style = "text-align: left;">Generalized Linear Models</td>
-      <td style = "text-align: left;">Lab 2 Due</td>
+      <td style = "text-align: left;">February Break</td>
+      <td style = "text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;"></td>
       <td style = "text-align: center;">February 18</td>
       <td style = "text-align: center;">Wed</td>
-      <td style = "text-align: left;">Binomial and Poisson Regressions</td>
-      <td style = "text-align: left;"></td>
+      <td style = "text-align: left;">Information Criteria</td>
+      <td style = "text-align: left;">Lab 2 Due</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;"></td>
       <td style = "text-align: center;">February 20</td>
       <td style = "text-align: center;">Fri</td>
-      <td style = "text-align: left;">Lab 3: Generalized Linear Models</td>
+      <td style = "text-align: left;">Lab 2: Model Comparison</td>
       <td style = "text-align: left;">HW 2 Due</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;"></td>
+      <td style = "background-color: lightgrey; text-align: left;">Time Series</td>
       <td style = "background-color: lightgrey; text-align: center;">February 23</td>
       <td style = "background-color: lightgrey; text-align: center;">Mon</td>
-      <td style = "background-color: lightgrey; text-align: left;">February Break</td>
-      <td style = "background-color: lightgrey; text-align: left;"></td>
+      <td style = "background-color: lightgrey; text-align: left;">Autocorrelations</td>
+      <td style = "background-color: lightgrey; text-align: left;">Lab 2 Due</td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;"></td>
       <td style = "background-color: lightgrey; text-align: center;">February 25</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
-      <td style = "background-color: lightgrey; text-align: left;">Autocorrelations and Time Series</td>
-      <td style = "background-color: lightgrey; text-align: left;">Lab 3 Due</td>
+      <td style = "background-color: lightgrey; text-align: left;">Time Series Models and Examples</td>
+      <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;"></td>
       <td style = "background-color: lightgrey; text-align: center;">February 27</td>
       <td style = "background-color: lightgrey; text-align: center;">Fri</td>
-      <td style = "background-color: lightgrey; text-align: left;">Time Series Examples</td>
+      <td style = "background-color: lightgrey; text-align: left;">Lab 3: Time Series</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;">Extreme Values</td>
+      <td style = "text-align: left;">Model Calibration</td>
       <td style = "text-align: center;">March 2</td>
       <td style = "text-align: center;">Mon</td>
-      <td style = "text-align: left;">Block Maxima</td>
-      <td style = "text-align: left;"></td>
+      <td style = "text-align: left;">Model-Data Discrepancy</td>
+      <td style = "text-align: left;">Lab 3 Due</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;"></td>
       <td style = "text-align: center;">March 4</td>
       <td style = "text-align: center;">Wed</td>
-      <td style = "text-align: left;">Peaks Over Thresholds</td>
+      <td style = "text-align: left;">Model Calibration</td>
       <td style = "text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;"></td>
       <td style = "text-align: center;">March 6</td>
       <td style = "text-align: center;">Fri</td>
-      <td style = "text-align: left;">Lab 4: Extreme Values</td>
+      <td style = "text-align: left;">Lab 4: Calibrating Numerical Models</td>
       <td style = "text-align: left;">HW 3 Due</td>
     </tr>
     <tr class = "rowGroupLabel">
       <td colspan = "5" style = "border-bottom: thick double black; font-weight: bold; text-align: left;">Simulation Methods</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;">Random Simulation</td>
+      <td style = "background-color: lightgrey; text-align: left;">Monte Carlo</td>
       <td style = "background-color: lightgrey; text-align: center;">March 9</td>
       <td style = "background-color: lightgrey; text-align: center;">Mon</td>
-      <td style = "background-color: lightgrey; text-align: left;">Random Number Generation</td>
+      <td style = "background-color: lightgrey; text-align: left;">Monte Carlo Simulation</td>
       <td style = "background-color: lightgrey; text-align: left;">Lab 4 Due</td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;"></td>
       <td style = "background-color: lightgrey; text-align: center;">March 11</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
-      <td style = "background-color: lightgrey; text-align: left;">Simulating Random Variates</td>
+      <td style = "background-color: lightgrey; text-align: left;">Monte Carlo: Convergence</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
@@ -693,45 +702,45 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;">Monte Carlo</td>
+      <td style = "text-align: left;">The Bootstrap</td>
       <td style = "text-align: center;">March 16</td>
       <td style = "text-align: center;">Mon</td>
-      <td style = "text-align: left;">Monte Carlo: Theory</td>
-      <td style = "text-align: left;"></td>
+      <td style = "text-align: left;">The Bootstrap Principle</td>
+      <td style = "text-align: left;">Lab 4 Due</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;"></td>
       <td style = "text-align: center;">March 18</td>
       <td style = "text-align: center;">Wed</td>
-      <td style = "text-align: left;">Monte Carlo: Examples</td>
+      <td style = "text-align: left;">Types of Bootstraps</td>
       <td style = "text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;"></td>
       <td style = "text-align: center;">March 20</td>
       <td style = "text-align: center;">Fri</td>
-      <td style = "text-align: left;">Lab 5: Monte Carlo</td>
-      <td style = "text-align: left;">Project Model Writeup Due</td>
+      <td style = "text-align: left;">Lab 5: The Bootstrap</td>
+      <td style = "text-align: left;">Project Proposal Due</td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;">The Bootstrap</td>
       <td style = "background-color: lightgrey; text-align: center;">March 23</td>
       <td style = "background-color: lightgrey; text-align: center;">Mon</td>
-      <td style = "background-color: lightgrey; text-align: left;">Uncertainty Quantification and The Bootstrap</td>
+      <td style = "background-color: lightgrey; text-align: left;">Bootstraping Structured Data</td>
       <td style = "background-color: lightgrey; text-align: left;">Lab 5 Due</td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;"></td>
       <td style = "background-color: lightgrey; text-align: center;">March 25</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
-      <td style = "background-color: lightgrey; text-align: left;">Bootstrap Confidence Intervals</td>
+      <td style = "background-color: lightgrey; text-align: left;">Mechanisms of Missingness</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;"></td>
       <td style = "background-color: lightgrey; text-align: center;">March 27</td>
       <td style = "background-color: lightgrey; text-align: center;">Fri</td>
-      <td style = "background-color: lightgrey; text-align: left;">Bootstrapping Structured Data</td>
+      <td style = "background-color: lightgrey; text-align: left;">Multiple Imputation</td>
       <td style = "background-color: lightgrey; text-align: left;">HW 4 Due</td>
     </tr>
     <tr class = "dataRow">
@@ -755,84 +764,87 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "text-align: left;">Spring Break</td>
       <td style = "text-align: left;"></td>
     </tr>
+    <tr class = "rowGroupLabel">
+      <td colspan = "5" style = "border-bottom: thick double black; font-weight: bold; text-align: left;">Generalized Linear Models</td>
+    </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;">Missing Data</td>
+      <td style = "background-color: lightgrey; text-align: left;">Logistic Regression</td>
       <td style = "background-color: lightgrey; text-align: center;">April 6</td>
       <td style = "background-color: lightgrey; text-align: center;">Mon</td>
-      <td style = "background-color: lightgrey; text-align: left;">Missing Data Mechanisms</td>
+      <td style = "background-color: lightgrey; text-align: left;">Logistic Regression</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;"></td>
       <td style = "background-color: lightgrey; text-align: center;">April 8</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
-      <td style = "background-color: lightgrey; text-align: left;">Multiple Imputation</td>
+      <td style = "background-color: lightgrey; text-align: left;">Scoring Rules and Calibration</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;"></td>
       <td style = "background-color: lightgrey; text-align: center;">April 10</td>
       <td style = "background-color: lightgrey; text-align: center;">Fri</td>
-      <td style = "background-color: lightgrey; text-align: left;">Lab 6: Missing Data</td>
+      <td style = "background-color: lightgrey; text-align: left;">Logistic Regression As GLM</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
-    <tr class = "rowGroupLabel">
-      <td colspan = "5" style = "border-bottom: thick double black; font-weight: bold; text-align: left;">Hypothesis Testing</td>
-    </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;">Model Evaluation</td>
+      <td style = "text-align: left;">Generalized Linear Models</td>
       <td style = "text-align: center;">April 13</td>
       <td style = "text-align: center;">Mon</td>
-      <td style = "text-align: left;">Overfitting and Bias-Variance Tradeoff</td>
-      <td style = "text-align: left;">Lab 6 Due</td>
+      <td style = "text-align: left;">Modeling Counts</td>
+      <td style = "text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;"></td>
       <td style = "text-align: center;">April 15</td>
       <td style = "text-align: center;">Wed</td>
-      <td style = "text-align: left;">Scoring Rules and Graphical Checks</td>
+      <td style = "text-align: left;">Overdispersed and Zero-Inflated Models</td>
       <td style = "text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;"></td>
       <td style = "text-align: center;">April 17</td>
       <td style = "text-align: center;">Fri</td>
-      <td style = "text-align: left;">Cross-Validation</td>
+      <td style = "text-align: left;">Lab 6: Generalized Linear Models</td>
       <td style = "text-align: left;">HW 5 Due</td>
     </tr>
+    <tr class = "rowGroupLabel">
+      <td colspan = "5" style = "border-bottom: thick double black; font-weight: bold; text-align: left;">Extreme Values</td>
+    </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;">Model Comparison</td>
+      <td style = "background-color: lightgrey; text-align: left;">Block Maxima</td>
       <td style = "background-color: lightgrey; text-align: center;">April 20</td>
       <td style = "background-color: lightgrey; text-align: center;">Mon</td>
-      <td style = "background-color: lightgrey; text-align: left;">Null Hypothesis Testing and Statistical Significance</td>
-      <td style = "background-color: lightgrey; text-align: left;"></td>
+      <td style = "background-color: lightgrey; text-align: left;">Block Maxima and GEVs</td>
+      <td style = "background-color: lightgrey; text-align: left;">Lab 6 Due</td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;"></td>
       <td style = "background-color: lightgrey; text-align: center;">April 22</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
-      <td style = "background-color: lightgrey; text-align: left;">Information Criteria</td>
+      <td style = "background-color: lightgrey; text-align: left;">Nonstationarity and Extremes</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;"></td>
       <td style = "background-color: lightgrey; text-align: center;">April 24</td>
       <td style = "background-color: lightgrey; text-align: center;">Fri</td>
-      <td style = "background-color: lightgrey; text-align: left;">Lab 7: Model Comparison</td>
-      <td style = "background-color: lightgrey; text-align: left;">Project Simulation Study Due</td>
+      <td style = "background-color: lightgrey; text-align: left;">Lab 6: Nonstationary Extreme Values</td>
+      <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;">Value of Information</td>
+      <td style = "text-align: left;">Peaks Over Thresholds</td>
       <td style = "text-align: center;">April 27</td>
       <td style = "text-align: center;">Mon</td>
-      <td style = "text-align: left;">Value of Information</td>
-      <td style = "text-align: left;">Lab 7 Due</td>
+      <td style = "text-align: left;">Peaks Over Thresholds and GPDs</td>
+      <td style = "text-align: left;">Lab 6 Due</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;"></td>
       <td style = "text-align: center;">April 29</td>
       <td style = "text-align: center;">Wed</td>
-      <td style = "text-align: left;">Design of Experiments</td>
+      <td style = "text-align: left;">Clustering Peaks</td>
       <td style = "text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
@@ -849,11 +861,21 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "background-color: lightgrey; text-align: left;">Class Wrap-Up</td>
       <td style = "background-color: lightgrey; text-align: center;">May 4</td>
       <td style = "background-color: lightgrey; text-align: center;">Mon</td>
-      <td style = "background-color: lightgrey; text-align: left;">Class-Wrap-Up</td>
+      <td style = "background-color: lightgrey; text-align: left;">Class Wrap-Up</td>
       <td style = "background-color: lightgrey; text-align: left;">HW 6 Due</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "background-color: lightgrey; text-align: left;">Class Wrap-Up</td>
+      <td style = "background-color: lightgrey; text-align: center;">TBD</td>
+      <td style = "background-color: lightgrey; text-align: center;">TBD</td>
+      <td style = "background-color: lightgrey; text-align: left;">During Finals Week</td>
+      <td style = "background-color: lightgrey; text-align: left;">Project Report Due</td>
     </tr>
   </tbody>
 </table>
-```
 
+
+```
+:::
+:::
 :::

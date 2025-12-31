@@ -15,11 +15,11 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 
 | Week | Date | Topic | Slides | Reading | Homework | Lab | Resources |
 :-----:|:---------|:---------|:---------:|:------:|:--:|:---:|
-| 1 | 1/21 | Class Introduction | [{{< fa sharp presentation-screen >}}](slides/lecture01-1-intro.qmd)   | | [{{< fa sharp pen-field >}}](hw/hw01/hw01.qmd) | | |
+| 1 | 1/21 | Class Introduction | [{{< fa sharp presentation-screen >}}](slides/lecture01-1-intro.qmd)   | [@OHagan2004-am](http://doi.wiley.com/10.1111/j.1740-9713.2004.00050.x) | [{{< fa sharp pen-field >}}](hw/hw01/hw01.qmd) | | |
 |  | 1/23 | Probability Review | [{{< fa sharp presentation-screen >}}](slides/lecture01-2-probreview.qmd)  |  | | | |
-| 2 | 1/26 | Probability Models and EDA | |  | | [Data Viz](resources/dataviz.qmd) | |
-|   | 1/28 | Linear Regression | | | | |  |
-|   | 1/30 | Lab: Data Visualization | | | | [{{< fa sharp laptop >}}](labs/lab01/lab01.qmd)  | |
-| 3 | 2/02 | Linear Regression: Uses and Misuses | | | | | |
-|   | 2/04 | Maximum Likelihood Estimation | | | | | |
-|   | 2/06 | Measurement Error and Model Discrepancy | | | | | |
+| 2 | 1/26 | Exploratory Data Analysis and Visualization | [{{< fa sharp presentation-screen >}}](slides/lecture02-1-eda.qmd) |  | |  | [Data Viz](resources/dataviz.qmd) |
+|   | 1/28 | Probability Models | [{{< fa sharp presentation-screen >}}](slides/lecture02-2-probmodels.qmd)  | | | |  |
+|   | 1/30 | Lab 1: Data Visualization  | | | |  [{{< fa sharp laptop >}}](labs/lab01/lab01.qmd) | |
+| 3 | 2/02 | Linear Regression and Smoothing | | | | | |
+|   | 2/04 | Linear Regression: Uses and Misuses | | | | | |
+|   | 2/06 | Maximum Likelihood and Fisher Information | | | |  | |

@@ -27,9 +27,9 @@ Labs will be graded on a scale of 0-3:
 
 | Lab | Topic | Instructions | Class Date | Due |
 |:------:|:------------:|:------:|:------:|:--------:|:--------:|
-| Lab 1 | Data Visualization | [{{< fa sharp pen-field >}}](lab01/lab01.qmd) | [{{< fa sharp key-skeleton >}}]{style="color: grey;"} | Jan. 30 | Feb. 2|
-| Lab 2 | Causal Reasoning | [{{< fa sharp pen-field >}}]{style="color: grey;"} | Feb. 13 | Feb. 16 |
-| Lab 3 | Generalized Linear Models | [{{< fa sharp pen-field >}}]{style="color: grey;"} | Feb. 20 | Feb. 23 |
+| Lab 1 | Data Visualization | [{{< fa sharp pen-field >}}](lab01/lab01.qmd) | [{{< fa sharp key-skeleton >}}]{style="color: grey;"} | Feb. 6 | Feb. 9|
+| Lab 2 | Calibrating Numerical Models | [{{< fa sharp pen-field >}}]{style="color: grey;"} | Feb. 13 | Feb. 16 |
+| Lab 3 | Selecting a Probability Model | [{{< fa sharp pen-field >}}]{style="color: grey;"} | Feb. 20 | Feb. 23 |
 | Lab 4 | Extreme Values | [{{< fa sharp pen-field >}}]{style="color: grey;"} | Mar. 6 | Mar. 9 |
 | Lab 5 | Monte Carlo | [{{< fa sharp pen-field >}}]{style="color: grey;"} | Mar. 20 | Mar. 23 |
 | Lab 6 | Missing Data | [{{< fa sharp pen-field >}}]{style="color: grey;"} | Apr. 10 | Apr. 13 |

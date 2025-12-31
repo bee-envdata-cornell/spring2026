@@ -1,0 +1,468 @@
+---
+title: "Probability Models and EDA"
+subtitle: "Lecture 03"
+author: "Vivek Srikrishnan"
+course: "BEE 4850"
+institution: "Cornell University"
+date: "January 28, 2026"
+format:
+    revealjs: default
+engine: julia
+filters:
+  - code-fullscreen
+---
+
+```{julia}
+#| output: false
+
+import Pkg
+Pkg.activate(@__DIR__)
+Pkg.instantiate()
+```
+
+```{julia}
+#| output: false
+
+using Random
+using Distributions
+using ColorSchemes
+using Plots
+using StatsPlots
+using StatsBase
+using LaTeXStrings
+using Measures
+
+Random.seed!(1)
+
+plot_font = "Computer Modern"
+default(
+    fontfamily=plot_font,
+    linewidth=3, 
+    framestyle=:box, 
+    label=nothing, 
+    grid=false,
+    guidefontsize=18,
+    legendfontsize=16,
+    tickfontsize=16,
+    titlefontsize=20,
+    bottom_margin=10mm,
+    left_margin=5mm
+)
+```
+
+# Review
+
+## Statistics as Decision-Making Under Uncertainty
+
+- Went over "standard" null hypothesis significance approach.
+- Null vs. alternative hypotheses
+- $p$-values: (continuous) assessment of probability of seeing test statistic under null hypothesis.
+
+# Probability Models
+
+## Why Do We Need Models For Data?
+
+- **Data are imperfect**: Data $X$ are only one realization of the data that **could** have been observed and/or we can only measure indirect proxies of what we care about.
+- Over time, statisticians learned to treat these imperfections as the results of **random** processes (for some of this history, see @Hacking1990-yr), requiring probability models.
+
+## Predicting Random Variables
+
+Let's say that we want to predict the value of a variable $y \sim Y$. We need a criteria to define the "best" point prediction.
+
+Reasonable starting point: 
+
+$$\text{MSE}(m) = \mathbb{E}\left[(Y - m)^2\right]$$
+
+## MSE As (Squared) Bias + Variance
+
+$$\begin{aligned}
+\mathbb{V}(Y) &= \mathbb{E}\left[(Y - \mathbb{E}[Y])^2\right] \\
+&= \mathbb{E}\left[Y^2 - 2Y\mathbb{E}[Y] + \mathbb{E}[Y]^2\right] \\
+&= \mathbb{E}[Y^2] - 2\mathbb{E}[Y]^2 + \mathbb{E}[Y]^2 = \mathbb{E}[Y^2] - \mathbb{E}[Y]^2 .
+\end{aligned}$$
+
+::: {.fragment .fade-in}
+$$\Rightarrow \text{MSE}(m) = \mathbb{E}\left[(Y - m)^2\right] = \mathbb{E}\left[(Y-m)\right]^2 + \mathbb{V}(Y - m).$$
+:::
+
+## Bias-Variance Decomposition of MSE
+
+Then:
+
+$$\begin{aligned}
+\text{MSE}(m) &= \mathbb{E}\left[(Y-m)\right]^2 + \mathbb{V}(Y - m)  \\
+&= \mathbb{E}\left[(Y-m)\right]^2 + \mathbb{V}(Y) \\
+&= \left(\mathbb{E}[Y] - m\right)^2 + \mathbb{V}(Y).
+\end{aligned}$$
+
+This is the source of the so-called "bias-variance tradeoff" (more on this later).
+
+## Optimizing...
+
+We want to find the minimum value of $\text{MSE}(m)$ (denote the optimal prediction by $\mu$):
+
+::: {.fragment .fade-in}
+$$
+\begin{aligned}
+\frac{d\text{MSE}}{dm} &= -2(\mathbb{E}[Y] - m) + 0 \\
+0 = \left.\frac{d\text{MSE}}{dm}\right|_{m = \mu} &= -2(\mathbb{E}[Y] - \mu) 
+\end{aligned}$$
+
+$$\Rightarrow \mu = \mathbb{E}[Y].$$
+:::
+
+## Expected Value As Best Prediction
+
+In other words, **the best predicted value of a random variable is its expectation**.
+
+But:
+
+1. We usually don't have enough data to know what $\mathbb{E}[Y]$ is: need to make probabilistic assumptions;
+2. In many applications, we don't just want a point estimate, we need some estimate of ranges of values **we might observe**.
+
+## Uses of Models
+
+What can we use a probability model for?
+
+1. **Summaries** of data: store $y = f(\mathbf{x})$ instead of all data points $(y, x_1, \ldots, x_n)$
+2. **Smooth** values by removing noise
+3. **Predict** new data (interpolation/extrapolation): $\hat{f} = f(\hat{\mathbf{x}})$
+4. **Infer** relationships between variables (interpret coefficients of $f$)
+
+## Linear Regression As A Probability Model
+
+The "simplest" model is **linear**:
+
+:::: {.columns}
+::: {.column width=50%}
+$$\begin{aligned}
+y_i &\sim N(\mu_i, \sigma^2) \\
+\mu_i &= \sum_j \beta_j x^j_i
+\end{aligned}
+$$
+:::
+::: {.column width=50%}
+$$\begin{aligned}
+y_i &= \sum_j \beta_j x^j_i + \varepsilon_i \\
+\varepsilon_i &\sim N(0, \sigma^2)
+\end{aligned}
+$$
+:::
+::::
+
+
+## Why Linear Models?
+
+:::: {.columns}
+::: {.column width=60%}
+Two main reasons to use linear models/normal distributions:
+
+1. **Inferential**: "Least informative" distribution assuming only finite mean/variance;
+2. **Generative**: Central Limit Theorem (summed fluctuations are asymptotically normal)
+
+:::
+::: {.column width=40%}
+![Weight stack Gaussian distribution](https://i.redd.it/zl5mo1n45wyb1.jpg)
+
+::: {.caption}
+Source: r/GymMemes
+:::
+:::
+::::
+
+::: {.notes}
+One key thing: normal distributions are the "least informative" distribution given constraints on mean and variance. So all else being equal, this is a useful machine if all we're interested in are those two moments.
+:::
+
+## Linear Regression As Probability Model
+
+$$
+y = \underbrace{\sum_j \beta_j x^j_i)}_{\mathbb{E}[y | x^j]} + \underbrace{\varepsilon_i}_{\text{noise}}, \quad \varepsilon_i \sim N(0, \sigma^2)
+$$
+
+1. $\mathbb{E}[y | x^j]$: Best linear prediction of $y$ conditional on choice of predictors $x^j$.
+2. The noise defines the probability distribution (here: Gaussian) of the observations.
+
+
+## Implications of Gaussian Noise
+
+Without explicit modeling of sources of measurement uncertainty, in LR we can't separate a noisy system state (due to *e.g.* omitted variables) from measurement error (more on this later).
+
+$$
+\begin{array}{l}
+X \sim N(\mu_1, \sigma_1^2) \\
+Y \sim N(\mu_2, \sigma_2^2) \\
+Z = X + Y
+\end{array}
+\qquad \Rightarrow \qquad Z \sim N(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)
+$$
+
+
+# Exploratory Data Analysis
+
+## You Can Always Fit Models...
+
+:::: {.columns}
+::: {.column width=50%}
+But not all models **are theoretically justifiable**.
+:::
+::: {.column width=50%}
+![Ian Malcolm meme](memes/ian_malcolm_should_model.png)
+:::
+::::
+
+## Some Implications of Mis-Specification
+
+- Biased estimates (expected value from the model does not match "true" expected value);
+- Incorrect inferences or inappropriate understandings of relationships/causality.
+- Over/under-confident risk assessments.
+
+## How Do We Choose What To Model?
+
+![XKCD 2620](https://imgs.xkcd.com/comics/health_data.png)
+
+::: {.caption}
+Source: [XKCD 2620](https://xkcd.com/2620/)
+:::
+
+## How Do We Choose What To Model?
+
+Developing suitable models often starts with both **exploratory data analysis (EDA)** and **theoretical reasoning**.
+
+::: {.incremental}
+1. **EDA**: examining patterns/relationships with visual (plots, clustering) or quantitative (correlations).
+2. **Theory**: Avoids "data dredging" or "mining," which can find spurious correlations or patterns which are misleading without broader context about data-generating mechanisms.
+:::
+
+
+## Exploratory Data Analysis
+
+- Will see many examples of this throughout the semester.
+- Try to impose as few assumptions as possible.
+- Often useful to start with **scatterplots**: one variable (typically independent) on the $x$-axis, another (typically dependent) on the $y$-axis.
+- Time series: **time always goes on the $x$-axis**.
+- Boxplots for comparison quantiles/ranges of variables or groups of data.
+
+## Common EDA Approaches
+
+- Data summaries (quantiles, mean/median, max/min, etc.)
+- Correlations
+- **Plot data** (from multiple perspectives)
+- Clustering (do you need multiple models?)
+
+## Anscombe's Quartet
+
+:::: {.columns}
+
+::: {.column width=40%}
+Four datasets, all with the same means, variances, correlations, and regression lines.
+
+Shows the importance of visualization!
+:::
+::: {.column width=60%}
+![Anscombe's Quartet](figures/Anscombe.svg)
+
+::: {.caption}
+Source: [Wikipedia](https://en.wikipedia.org/wiki/Anscombe%27s_quartet)
+:::
+:::
+::::
+
+## Considerations When Plotting
+
+- Worry about the vertical scale
+    - Are you exaggerating small changes? Downplaying meaningful changes?
+    - "Adjust vertical scale of data" to reflect meaningful changes and "Vertical scale should always include zero" are conflicting advice.
+- Need to be thoughtful: **there is no such thing as objectively "correct" visualizations**, just **honest** visualizations. 
+
+## Information Channels
+
+A *channel* is a mechanism for encoding information.
+
+::: {.fragment .fade-in}
+Examples:
+
+- Color (Hue/Saturation/Luminescence)
+- Position (1D/2D/3D)
+- Size (Length/Area/Volume)
+- Angle
+:::
+
+## Ordered vs. Categorical Attributes
+
+The channels available depend on the type of attribute:
+
+- **Ordered** attributes can be 
+  - *Ordinal*: Ranking, no meaning to distance;
+  - *Quantitative*: Measure of magnitude which supports arithmetic comparison;
+- **Categorical** attributes are unordered.
+
+## Channel Effectiveness: Ordered Data
+
+:::: {.columns}
+::: {.column width=75%}
+![](figures/ordered-channels.png){fig-align=center}
+:::
+::: {.column width=25%}
+::: {.caption}
+Channels for ordered data, arranged top-to-bottom from more to less effective (channels in the right column are less effective than those in the left). Modified from @Healy2018-zx after @Munzner2014-pj.
+:::
+:::
+::::
+
+## Channel Effectiveness: Categorical Data
+
+:::: {.columns}
+::: {.column width=75%}
+![](figures/categorical-channels.png){fig-align=center width=5in}
+:::
+::: {.column width=25%}
+::: {.caption}
+Channels for categorical data, arranged top-to-bottom from more to less effective. Modified from Healy (2018) after Munzer (2014).
+:::
+:::
+::::
+
+## Preattentive Popout
+
+:::: {.columns}
+::: {.column width=30%}
+Try to make your key features "pop out" to the viewer during the pre-attentive scan.
+
+::: {.caption}
+Searching for the blue circle becomes harder. Adapted from @Healy2018-zx.
+:::
+:::
+::: {.column width=70%}
+
+```{julia}
+#| code-fold: true
+#| echo: true
+npt = 20
+dist = Distributions.Product(Uniform.([0, 0], [1, 1]))
+pts = Tuple.(eachcol(rand(dist, npt)))
+blueidx = rand(1:npt)
+p1 = scatter(pts[1:end .!= blueidx], color=:red, xticks=:false, yticks=:false, legend=:false, markersize=5, title="Color Only, N=20", framestyle=:box)
+scatter!(p1, pts[blueidx, :], color=:blue, markersize=5)
+
+npt = 100
+pts = Tuple.(eachcol(rand(dist, npt)))
+blueidx = rand(1:npt)
+p2 = scatter(pts[1:end .!= blueidx], color=:red, xticks=:false, yticks=:false, legend=:false, markersize=5, title="Color Only, N=100", framestyle=:box)
+scatter!(p2, pts[blueidx, :], color=:blue, markersize=5)
+
+npt = 20
+pts = Tuple.(eachcol(rand(dist, npt)))
+blueidx = rand(1:npt)
+p3 = scatter(pts[1:end .!= blueidx], color=:blue, markershape=:utriangle, xticks=:false, yticks=:false, legend=:false, markersize=5, title="Shape Only, N=20", framestyle=:box)
+scatter!(p3, pts[blueidx, :], color=:blue, markersize=5, markershape=:circle)
+
+npt = 100
+pts = Tuple.(eachcol(rand(dist, npt)))
+blueidx = rand(1:npt)
+p4 = scatter(pts[1:end .!= blueidx], color=:blue, markershape=:utriangle, xticks=:false, yticks=:false, legend=:false, markersize=5, title="Shape Only, N=100", framestyle=:box)
+scatter!(p4, pts[blueidx, :], color=:blue, markersize=5, markershape=:circle)
+
+plot(p1, p2, p3, p4, layout=(2, 2), size=(800, 500))
+```
+
+:::
+::::
+
+## Color Schemes
+
+Different color schemes are appropriate depending on whether the data is *sequential*, *divergent*, or *unordered*.
+
+::: {.callout-important}
+### Appropriate Color Schemes
+
+Color schemes should be *perceptually uniform* to preserve a mapping between changes in perceived colors and changes in attribute values. 
+
+Try to also choose color schemes which avoid confusing people who are color blind.
+:::
+
+
+## Color Schemes
+
+**Good news**: Most plotting libraries include a wide variety of perceptually uniform, color-blind safe color schemes.
+
+**Bad news**: These are not usually the defaults (in particular, avoid "rainbow" color schemes).
+
+## Sequential Color Schemes
+
+Sequential schemes change in intensity from low to high as the value changes. 
+
+```{julia}
+#| fig-align: center
+ColorSchemes.Blues_7
+```
+
+## Divergent Color Schemes
+
+Divergent schemes intensify in two directions from a zero or mean value.
+
+```{julia}
+reverse(ColorSchemes.PRGn_7)
+```
+
+## Unordered Color Schemes
+
+Unordered schemes are appropriate for categorical data. 
+
+```{julia}
+reverse(ColorSchemes.Dark2_7)
+```
+
+
+
+## Some Caveats
+
+::: {.incremental}
+- There is no recipe to effective visualization. Everything depends on your data and the story you want to tell.
+- This also means that defaults from data visualization packages are usually bad.
+- Principles are largely based on Western (American/European) norms and may not translate perfectly.
+- A lot of these guidelines are based on average outcomes, there is likely to be a lot of individual variation.
+:::
+
+
+# Key Points
+
+## Probability Models
+
+- Almost anything we want to use data for involves an assumption about the underlying probability model for the data.
+- Our goal this semester is to develop a toolkit to specify, test, and use these probability models.
+
+## EDA/Data Visualization
+
+- No such thing as "objectively best" visualization.
+- Need to be thoughtful about the story you're trying to tell.
+- Usually involves a lot of experimentation to make important features of the data pop out.
+- **EDA**: Try to make as few assumptions as possible (e.g. look at the raw data, not "smoothed" versions).
+
+## Data Visualization Suggestions
+
+- Some key degrees of freedom: vertical scale, information channels.
+- **Don't add unnecessary artifacts!** Easy to get "cute" and distract from core message.
+- Start simple (scatterplots, boxplots, histograms)
+
+# Upcoming Schedule
+
+## Next Classes
+
+**Friday**: Linear Regression
+
+For **Next Friday**: Data Visualization Lab.
+
+## Preparation for Lab
+
+1. Find a visualization and its underlying dataset you think could be improved.
+2. Deconstruct what the weaknesses are and reconstruct it to be more effective.
+3. Come to class with critique of original visual and new visual (plus documentation of what you changed and why); will form small groups and discuss.
+
+## Assessments
+
+**Homework 1** Due Friday, 2/6.
+
+# References
+
+## References (Scroll for Full List)

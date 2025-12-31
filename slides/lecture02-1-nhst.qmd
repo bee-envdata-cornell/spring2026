@@ -1,37 +1,12 @@
 ---
-title: "Hypothesis Testing and Decision-Making"
-subtitle: "Lecture 02"
+title: "Statistics as Decision-Making"
+subtitle: "Lecture 03"
 author: "Vivek Srikrishnan"
 course: "BEE 4850"
 institution: "Cornell University"
-date: "January 27, 2025"
+date: "January 26, 2026"
 format:
-    revealjs:
-        slide-number: c/t
-        show-slide-number: all
-        center-title-slide: true
-        width: 1280
-        height: 720
-        transition: none
-        toc: true
-        toc-depth: 1
-        toc-title: "Overview"
-        history: false
-        link-external-newwindow: true
-        theme: ../sass/slides.scss
-        template-partials:
-            - title-slide.html
-        menu:
-            numbers: true
-        html-math-method: mathjax
-        include-in-header: mathjax-config.html
-        date-format: long
-        email-obfuscation: javascript
-        chalkboard:
-            theme: whiteboard
-            buttons: true
-        mermaid: 
-            theme: dark
+    revealjs: default
 engine: julia
 filters:
   - code-fullscreen
@@ -80,6 +55,16 @@ default(
 )
 ```
 
+# Review
+
+## Probability Fundamentals
+
+- Bayesian vs. Frequentist Interpretations
+- Distributions reflect assumptions on probability of data.
+- PDFs, CDFs, quantiles
+- Likelihood
+- Communicating uncertainty: confidence vs. predictive intervals.
+
 # Statistics and Decision-Making
 
 ## Science as Decision-Making Under Uncertainty
@@ -91,7 +76,6 @@ Goal is to draw insights:
 - About causes and effects;
 - About interventions.
 
-But our models are simplifications and our observations are uncertain!
 :::
 
 ::: {.column width=40%}
@@ -103,13 +87,6 @@ Source: [XKCD 2440](https://xkcd.com/2440)
 :::
 ::::
 
-::: {.notes}
-These decisions are complicated by model simplifications and observational uncertainties.
-
-So we can never actually "know" something is true: we instead assess the consistency of evidence with predictions from theory.
-
-But often the predictions are not black-and-white and must be understood probabilistically.
-:::
 
 ## Data Generation Approximates Reality
 
@@ -139,105 +116,7 @@ Goal is to start with some "true" process, then apply a procedure (experimental/
 But lots can go wrong in this process!
 :::
 
-## Bayesian (Risk-Based) Decision Analysis
-
-Take some decision $d(x)$ based on $x$.
-
-$$\overbrace{R(d(x))}^{\text{risk}} = \int_Y \overbrace{\mathcal{L}(d(x), y)}^{\text{loss function}} \overbrace{\pi(y | x)}^{\substack{\text{probability} \\ \text{of outcome}}}dy$$
-
-::: {.fragment .fade-in}
-Then the **optimal decision** is $\hat{\alpha} = \underset{\alpha}{\operatorname{argmin}} R(\alpha)$.
-
-:::
-
-## Pascal's Wager as BDA
-
-:::: {.columns}
-::: {.column width=70%}
-- Loss of mistaken belief: -c
-- Loss of mistaken disbelief: $-\infty$
-- Loss of correct disbelief: +c
-- Loss of correct belief: $+\infty$
-
-Pascal's conclusion: "Optimal" decision is belief regardless of asserted probability of God's existence.
-:::
-
-::: {.column width=30%}
-![Blaise Pascal](https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Blaise_Pascal_Versailles.JPG/1024px-Blaise_Pascal_Versailles.JPG){width=100%}
-
-::: {.caption}
-Source: [Wikipedia](https://en.wikipedia.org/wiki/Pascal%27s_wager)
-:::
-:::
-::::
-
-::: {.notes}
-Blaise Pascal formulated a decision problem as evidence that rationality could not be used to justify sin/a lack of belief in God. This was done in what we now recognize as Bayesian terms (though it predates Bayes). 
-:::
-
-## Standard Parameter Estimators
-
-What if we want to estimate a parameter $\hat{\theta}$ from data $x$? 
-
-| Loss Function | $\mathcal{L}(\hat{\theta}, \theta)$ | $\hat{\alpha}$ |
-|:--------:|:---------:|:-------|
-| Quadratic | $\|\hat{\theta} - \theta\|^2$ | $\text{Mean}(x)$ |
-| Linear | $\|\hat{\theta} - \theta\|$ | $\text{Median}(x)$ |
-| 0-1 | $\begin{cases} 0 & \hat{\theta} \neq \theta \\ 1 & \hat{\theta} = \theta \end{cases}$ | $\text{Mode}(x)$ |
-
-
-## Risk-Based Analysis: The Original Statistical Decision-Making
-
-:::: {.columns}
-::: {.column width=50%}
-![Orbit of Ceres](https://upload.wikimedia.org/wikipedia/en/4/43/Ceres_Orbit_c.png)
-
-::: {.caption}
-Source: [Wikipedia](https://en.wikipedia.org/wiki/Ceres_%28dwarf_planet%29)
-:::
-:::
-
-::: {.column width=50%}
-![Piazzi's Measurements](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Ceres-Beobachtung_von_Piazzi.png/1920px-Ceres-Beobachtung_von_Piazzi.png)
-
-::: {.caption}
-Source: [Wikipedia](https://en.wikipedia.org/wiki/Giuseppe_Piazzi)
-:::
-:::
-::::
-
-::: {.notes}
-This type of statistical decision-making prompted the introduction of ordinary least squares by Gauss in the 1800s. The question was to predict the position of Ceres given a few error-prone observations by Giuseppe Piazzi.
-:::
-
-## Origin of Ordinary Least Squares
-
-:::: {.columns}
-::: {.column width=50%}
-Gauss (1809): Risk/Bayesian argument for OLS estimator from quadratic loss.
-
-::: {.fragment .fade-in}
-![German 10 Mark Note with Gauss](http://old.nationalcurvebank.org///gaussdist/banknote.jpg)
-
-::: {.caption}
-Source: [National Curve Bank](https://nationalcurvebank.org/deposits/gaussdist.html)
-:::
-:::
-
-:::
-
-::: {.column width=50%}
-![Gauss](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Carl_Friedrich_Gau%C3%9F%2C_Pastellgem%C3%A4lde_von_Johann_Christian_August_Schwartz%2C_1803%2C_ohne_Rahmen.jpg/800px-Carl_Friedrich_Gau%C3%9F%2C_Pastellgem%C3%A4lde_von_Johann_Christian_August_Schwartz%2C_1803%2C_ohne_Rahmen.jpg){width=60%}
-
-::: {.caption}
-Source: [Wikipedia](https://en.wikipedia.org/wiki/Carl_Friedrich_Gauss)
-:::
-:::
-
-::::
-
-# Hypothesis Testing
-
+  
 ## Questions We Might Like To Answer
 
 ::: {.incremental}
@@ -250,7 +129,7 @@ Source: [Wikipedia](https://en.wikipedia.org/wiki/Carl_Friedrich_Gauss)
 
 :::: {.columns width=50%}
 ::: {.column width=50%}
-**Core assumption**: Burden of proof is on someone claiming an  effect (or a similar hypothesis).
+**Core assumption**: Burden of proof is on someone claiming an effect (or a similar hypothesis).
 
 :::
 
@@ -290,7 +169,7 @@ For scientific hypotheses, this has been encoded in the NHST paradigm:
 ## From Null Hypothesis to Null Model
 
 ::: {.quote}
-> ...the null hypothesis must be exact, that is free of vagueness and ambiguity, because it must supply the basis of the 'problem of distribution,' of which the test of significance is the solution.
+> ...**the null hypothesis must be exact**, that is free of vagueness and ambiguity, **because it must supply the basis of the 'problem of distribution,'** of which the test of significance is the solution.
 
 ::: {.cite} 
 --- R. A. Fisher, *The Design of Experiments*, 1935.
@@ -377,7 +256,7 @@ Note that we didn't do anything yet to justify whether linear regression is a no
 
 $\mathcal{H}_0$ (Null Hypothesis):
 
-- The "trend" is just due to chance, there is no long-term trend in the data.
+- The "trend" is just due to chance, there is no "true" long-term trend in the data.
   
 ::: {.fragment .fade-in}
 - Statistically: 
@@ -412,16 +291,24 @@ In this example, our null is an example of a *point-null* hypothesis.
 
 ## Computing the Test Statistic
 
-For this type of null hypothesis test, our **test statistic** is the slope of the OLS fit $$\hat{a} = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{(x_i - \bar{x})^2}.$$
+For this type of null hypothesis test, our **test statistic** is the slope of the linear fit. OLS estimate: $$\hat{a} = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{(x_i - \bar{x})^2}.$$
 
-::: {.fragment .fade-in}
-**Assuming the null**, the **sampling distribution** of the statistic is $$\frac{\hat{a}}{SE_{\hat{a}}} \sim t_{n-2}.$$
-:::
+Idea is that even **assuming the null hypothesis**, we could obtain many different datasets, **some of which will have a non-zero slope by chance**.
+
+
+## Sampling Distribution of Test Statistic
+
+The distribution of all of these slopes is the **sampling distribution**.
+
+Standard result (don't worry if this isn't familiar to you):
+
+**Assuming the null**, the **sampling distribution** of the slope statistic is given by a t-distribution: 
+
+$$\frac{\hat{a}}{SE_{\hat{a}}} \sim t_{n-2}.$$
 
 ## Statistical Significance
 
 Is the value of the test statistic consistent with the null hypothesis?
-
 
 :::: {.columns}
 ::: {.column width=40%}
@@ -481,9 +368,7 @@ plot!(size=(600, 400))
 :::
 ::::
 
-::: {.notes}
-In the tide gauge test, for a two-tailed test, the p-value is 0.02. What does that mean?
-:::
+
 
 # Statistical Significance
 
@@ -565,6 +450,7 @@ A p-value is a random variable which depends on the data. It's evidence which ca
 Over repeated experiments, reasoning about validity of the null should have the right properties assuming the experiments are conducted faithfully.
 :::
 
+
 # Problems with Null Hypothesis Testing
 
 ## Statistical Significance &ne; Scientific Significance
@@ -572,9 +458,9 @@ Over repeated experiments, reasoning about validity of the null should have the 
 :::: {.columns}
 ::: {.column width=50%}
 
-Statistical significance does not mean anything about:
+Statistical significance does not mean anything about whether the alternative hypothesis is:
 
-1. whether the alternative hypothesis is "true";
+1. "true";
 2. an accurate reflection of the data-generating process.
 
 :::
@@ -590,18 +476,6 @@ Statistical significance does not mean anything about:
 3. **Obtain the sampling distribution of the test statistic $S$ under $H_0$.**
 4. Calculate $\mathbb{P}(S > \hat{S})$ (*the p-value*).
 
-## Why Was $\mathcal{H}_0$ chosen?
-
-:::: {.columns}
-::: {.column width=50%}
-- Often out of convenience for the test.
-- Point-null hypotheses are almost always wrong for the social and environmental sciences.
-:::
-
-::: {.column width=50%}
-![Point-Null Hypothesis Meme](memes/point_null_space.png)
-:::
-::::
 
 ## Non-Uniqueness of "Null" Models
 
@@ -609,8 +483,8 @@ Statistical significance does not mean anything about:
 ::: {.column width=50%}
 Is there a trend in the SF tide gauge trend data?
 
-- Trend as regression ($p \approx 0.02$)
-- Mann-Kendall test for monotonic trend ($p \approx 0.5$)
+- Trend as regression ($p\text{-value} \approx 0.02$)
+- Mann-Kendall test for monotonic trend ($p\text{-value} \approx 0.5$)
 :::
 ::: {.column width=50%}
 ![Non-Uniqueness of Null Models](figures/mcelreath_hypothesis_nonunique.png)
@@ -621,24 +495,6 @@ Source: @mcelreath2020statistical [Fig. 1.2]
 :::
 ::::
 
-## Statistical Test Zoo
-
-:::: {.columns}
-::: {.column width=50%}
-![Zoo of Statistical Tests](figures/mcelreath_test_zoo.png)
-
-::: {.caption}
-Source: @mcelreath2020statistical [Fig. 1.1]
-:::
-:::
-
-::: {.column width=50%}
-::: {.fragment .fade-in}
-![Zoo of Statistical Tests](memes/pepe_silvia_tests.png)
-:::
-:::
-
-::::
 
 ## Multiple Comparisons
 
@@ -670,74 +526,6 @@ There are a number of corrections (Bonferroni being the most common), but someti
 Source: Richard McElreath
 :::
 
-## Interpretability of p-Values and Significance
-
-:::: {.columns}
-::: {.column width=50%}
-- p-values are often confused with hypothesis probabilities or Type I error rates
-- p-values are a continuous measure of "surprise" at seeing a dataset given the null, but **"significance" is binary**.
-:::
-
-::: {.column width=50%}
-![XKCD #1478 ](https://imgs.xkcd.com/comics/p_values_2x.png){width=50%}
-
-::: {.caption}
-*Source*: [XKCD](https://xkcd.com/1478/)
-:::
-:::
-
-::::
-
-## Practical Results of NHST
-
-:::: {.columns}
-::: {.column width=50%}
-
-Perhaps most damningly:
-
-The null hypothesis approach, **as described here and typically practiced** has empirically failed to maintain rigor and credibility in the scientific literature [@Ioannidis2005-zb; @Szucs2017-of].
-
-  
-:::
-::: {.column width=50%}
-![How Could Stats Do This Meme](memes/how_could_stats_do_this.png){width=75%}
-
-::: {.caption}
-Source: Richard McElreath
-:::
-:::
-::::
-
-## Practical Results of NHST
-
-:::: {.columns}
-::: {.column width=50%}
-
-- Overconfident confidence intervals;
-- Strawman null hypotheses;
-- Biased sampling;
-- Lack of replications;
-- p-hacking.
-  
-:::
-::: {.column width=50%}
-![How Could Stats Do This Meme](memes/how_could_stats_do_this.png){width=75%}
-
-::: {.caption}
-Source: Richard McElreath
-:::
-:::
-::::
-
-
-## What Might Be More Satisfying?
-
-::: {.incremental}
-- Consideration of multiple plausible (possibly more nuanced) hypotheses.
-- Assessment/quantification of evidence consistent with different hypotheses.
-- Identification of opportunities to design experiments/learn.
-- Insight into the effect size.
-:::
 
 ## Note: This Does Not Mean Null Hypothesis Testing Is Useless!
 
@@ -757,6 +545,16 @@ Deborah Mayo discusses this interpretation as "severe testing": apply different 
 The idea of a p-value (not necessarily "significance") being a piece of inductive evidence rather than a threshold for validity (especially for an individual experiment) reflects the original views of Fisher.
 :::
 
+## What Might Be More Satisfying?
+
+::: {.incremental}
+- Consideration of multiple plausible (possibly more nuanced) hypotheses.
+- Assessment/quantification of evidence consistent with different hypotheses.
+- Identification of opportunities to design experiments/learn.
+- Insight into the effect size.
+:::
+
+
 # Key Points
 
 ## Hypothesis Testing
@@ -767,21 +565,22 @@ The idea of a p-value (not necessarily "significance") being a piece of inductiv
 
 ## Problems with NHST framework
 
+- Real "null" hypotheses are often more nuanced than in typical tests (which were often developed for controlled experiments or for computational convenience).
+- Decisions are often not binary ("significant/not significant").
 - $p$-values are often over-interpreted and are often be incorrectly calculated, with negative outcomes!
 - **Important**: "Big" data can make things worse, as NHST is highly sensitive to small but evidence effects.
-
 
 # Upcoming Schedule
 
 ## Next Classes
 
-**Wednesday**: What is a **generative** model?
+**Wednesday**: Probability Models and Exploratory (Graphical) Analysis
 
-**Next Week+**: Prob/Stats "Review" and Fundamentals
+**Friday**: Multiple Linear Regression.
 
 ## Assessments
 
-**Homework 1** available; due *next* Friday (2/7).
+**Homework 1** available; due *next* Friday (2/6).
 
 # References
 

@@ -164,11 +164,11 @@ Models are how we assess evidence for theories.
 
 ## What We Will Cover
 
-- Review of Prob/Stats
-- Probability Models (Linear/Generalized Linear Models, Time Series, Extreme Values, Causal Reasoning)
-- Simulation Methods (Monte Carlo, The Bootstrap, Missing Data)  
-- Hypothesis Testing (Model Evaluation, Cross-Validation, Information Criteria)
-- Value of Information
+- Exploratory Analysis
+- Linear Models and GLMs
+- Model Calibration, Evaluation, and Comparison
+- Simulation (Monte Carlo, Bootstrap, Imputation)
+- Extreme Value Analysis
 
 # Course Policies
 
@@ -245,22 +245,19 @@ Models are how we assess evidence for theories.
 
 - Analyze a question of interest using a data set of your choosing
 - Can work individually or groups of 2
-- Several deliverables throughout the semester
-
-## Term Project Structure
-
-- Updates due as we progress through material.
-- Final report due during finals week.
+- Proposal due in March, interim update in April, final report during finals week.
 
 ## Attendance
 
 Not required, but students tend to do better when they're actively engaged in class.
 
+For 4850 students: hard to earn participation points if you're not attending!
+
 ## Office Hours
 
 - **Instructor**: MWTh 10-11 AM, 318 Riley-Robb
 - **TA**: TBD
-- Almost impossible to find a time that works for all (or even most); please feel free to make appointments as/if needed.
+- Almost impossible to find a time that works for all (or even most); please feel free to make appointments as/if needed. Usually also have time after class (perhaps not all Mondays).
 
 ## Accomodations
 
@@ -338,7 +335,9 @@ Better: Use Ed Discussion and reserve email for matters that are particular urge
 
 ## Next Classes
 
-- Probability Review
+**Friday**: Probability Review
+
+**Next Week**: Exploratory analysis and intro to probability models.
 
 ## Assessments
 
