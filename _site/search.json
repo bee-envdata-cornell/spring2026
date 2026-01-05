@@ -1609,277 +1609,228 @@
     "text": "References (Scroll for Full List)"
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#probability-fundamentals",
-    "href": "slides/lecture02-1-probmodels.html#probability-fundamentals",
-    "title": "Probability Models and EDA",
-    "section": "Probability Fundamentals",
-    "text": "Probability Fundamentals\n\nBayesian vs. Frequentist Interpretations\nDistributions reflect assumptions on probability of data.\nNormal distributions: “least informative” distribution for a given mean/variance.\nFit distributions by maximizing likelihood.\nCommunicating uncertainty: confidence vs. predictive intervals."
+    "objectID": "slides/lecture07-2-bootstrap.html#monte-carlo-simulation",
+    "href": "slides/lecture07-2-bootstrap.html#monte-carlo-simulation",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Monte Carlo Simulation",
+    "text": "Monte Carlo Simulation\n\nMonte Carlo Principle: Approximate \\[\\mathbb{E}_f[h(X)] = \\int h(x) f(x) dx \\approx \\frac{1}{n} \\sum_{i=1}^n h(X_i)\\]\nMonte Carlo is an unbiased estimator, but beware (and always report) the standard error \\(\\sigma_n = \\sigma_Y / \\sqrt{n}\\) or confidence intervals.\nMore advanced methods can reduce variance, but may be difficult to implement in practice."
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#science-as-decision-making-under-uncertainty",
-    "href": "slides/lecture02-1-probmodels.html#science-as-decision-making-under-uncertainty",
-    "title": "Probability Models and EDA",
-    "section": "Science as Decision-Making Under Uncertainty",
-    "text": "Science as Decision-Making Under Uncertainty\n\n\nGoal is to draw insights:\n\nAbout causes and effects;\nAbout interventions\n\nfrom a limited (and noisy) set of data.\n\n\n\n\nXKCD 2440\n\n\n\nSource: XKCD 2440\n\n\n\nThese decisions are complicated by model simplifications and observational uncertainties.\nSo we can never actually “know” something is true: we instead assess the consistency of evidence with predictions from theory.\nBut often the predictions are not black-and-white and must be understood probabilistically."
+    "objectID": "slides/lecture07-2-bootstrap.html#uses-of-monte-carlo",
+    "href": "slides/lecture07-2-bootstrap.html#uses-of-monte-carlo",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Uses of Monte Carlo",
+    "text": "Uses of Monte Carlo\n\nEstimate expectations / quantiles;\nCalculate deterministic quantities (framed as stochastic expectations);\nOptimization (problem 3 on HW3)."
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#why-do-we-need-models-for-data",
-    "href": "slides/lecture02-1-probmodels.html#why-do-we-need-models-for-data",
-    "title": "Probability Models and EDA",
-    "section": "Why Do We Need Models For Data?",
-    "text": "Why Do We Need Models For Data?\n\nData are imperfect: Data \\(X\\) are only one realization of the data that could have been observed and/or we can only measure indirect proxies of what we care about.\nOver time, statisticians learned to treat these imperfections as the results of random processes (for some of this history, see Hacking (1990)), requiring probability models.\nAll methods for data analysis assume a probability model even when they pretend otherwise."
+    "objectID": "slides/lecture07-2-bootstrap.html#so-far",
+    "href": "slides/lecture07-2-bootstrap.html#so-far",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "So Far…",
+    "text": "So Far…\nWe’re 7 weeks in and haven’t said anything about how to quantify uncertainties.\nLet’s talk about that."
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#uses-of-models",
-    "href": "slides/lecture02-1-probmodels.html#uses-of-models",
-    "title": "Probability Models and EDA",
-    "section": "Uses of Models",
-    "text": "Uses of Models\nWhat can we use a probability model for?\n\nSummaries of data: store \\(y = f(\\mathbf{x})\\) instead of all data points \\((y, x_1, \\ldots, x_n)\\)\nSmooth values by removing noise\nPredict new data (interpolation/extrapolation): \\(\\hat{f} = f(\\hat{\\mathbf{x}})\\)\nInfer relationships between variables (interpret coefficients of \\(f\\))"
+    "objectID": "slides/lecture07-2-bootstrap.html#sampling-distributions-1",
+    "href": "slides/lecture07-2-bootstrap.html#sampling-distributions-1",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Sampling Distributions",
+    "text": "Sampling Distributions\n\n\nThe sampling distribution of a statistic captures the uncertainty associated with random samples.\n\n\n\n\nSampling Distribution"
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#predicting-random-variables",
-    "href": "slides/lecture02-1-probmodels.html#predicting-random-variables",
-    "title": "Probability Models and EDA",
-    "section": "Predicting Random Variables",
-    "text": "Predicting Random Variables\nLet’s say that we want to predict the value of a variable \\(y \\sim Y\\). We need a criteria to define the “best” point prediction.\nReasonable starting point:\n\\[\\text{MSE}(m) = \\mathbb{E}\\left[(Y - m)^2\\right]\\]"
+    "objectID": "slides/lecture07-2-bootstrap.html#estimating-sampling-distributions",
+    "href": "slides/lecture07-2-bootstrap.html#estimating-sampling-distributions",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Estimating Sampling Distributions",
+    "text": "Estimating Sampling Distributions\n\nSpecial Cases: can derive closed-form representations of sampling distributions (think statistical tests)\nAsymptotics: Central Limit Theorem or Fisher Information"
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#mse-as-squared-bias-variance",
-    "href": "slides/lecture02-1-probmodels.html#mse-as-squared-bias-variance",
-    "title": "Probability Models and EDA",
-    "section": "MSE As (Squared) Bias + Variance",
-    "text": "MSE As (Squared) Bias + Variance\n\\[\\begin{aligned}\n\\mathbb{V}(Y) &= \\mathbb{E}\\left[(Y - \\mathbb{E}[Y])^2\\right] \\\\\n&= \\mathbb{E}\\left[Y^2 - 2Y\\mathbb{E}[Y] + \\mathbb{E}[Y]^2\\right] \\\\\n&= \\mathbb{E}[Y^2] - 2\\mathbb{E}[Y]^2 + \\mathbb{E}[Y]^2 = \\mathbb{E}[Y^2] - \\mathbb{E}[Y]^2 .\n\\end{aligned}\\]\n\n\\[\\Rightarrow \\text{MSE}(m) = \\mathbb{E}\\left[(Y - m)^2\\right] = \\mathbb{E}\\left[(Y-m)\\right]^2 + \\mathbb{V}(Y - m).\\]"
+    "objectID": "slides/lecture07-2-bootstrap.html#fisher-information",
+    "href": "slides/lecture07-2-bootstrap.html#fisher-information",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Fisher Information",
+    "text": "Fisher Information\n\n\nFisher Information: \\[\\mathcal{I}_x(\\theta) = -\\mathbb{E}\\left[\\frac{\\partial^2}{\\partial \\theta_i \\partial \\theta_j} \\log \\mathcal{L}(\\theta | x)\\right]\\]\nObserved Fisher Information (uses observed data and calculated at the MLE): \\[\\mathcal{I}_\\tilde{x}(\\hat{\\theta})\\]\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 1: Examples of Fisher Information"
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#bias-variance-decomposition-of-mse",
-    "href": "slides/lecture02-1-probmodels.html#bias-variance-decomposition-of-mse",
-    "title": "Probability Models and EDA",
-    "section": "Bias-Variance Decomposition of MSE",
-    "text": "Bias-Variance Decomposition of MSE\nThen:\n\\[\\begin{aligned}\n\\text{MSE}(m) &= \\mathbb{E}\\left[(Y-m)\\right]^2 + \\mathbb{V}(Y - m)  \\\\\n&= \\mathbb{E}\\left[(Y-m)\\right]^2 + \\mathbb{V}(Y) \\\\\n&= \\left(\\mathbb{E}[Y] - m\\right)^2 + \\mathbb{V}(Y).\n\\end{aligned}\\]\nThis is the source of the so-called “bias-variance tradeoff” (more on this later)."
+    "objectID": "slides/lecture07-2-bootstrap.html#fisher-information-and-standard-errors",
+    "href": "slides/lecture07-2-bootstrap.html#fisher-information-and-standard-errors",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Fisher Information and Standard Errors",
+    "text": "Fisher Information and Standard Errors\nAsymptotic result: \\[\\sqrt{n}(\\theta_\\text{MLE} - \\theta^*) \\to N(0, \\left(\\mathcal{I}_x(\\hat{\\theta^*})\\right)^{-1}\\]\nSampling distribution based on observed data: \\[\\theta \\sim N\\left(\\hat{\\theta}_\\text{MLE}, \\left(n\\mathcal{I}_\\tilde{x}(\\theta_\\text{MLE})\\right)^{-1}\\right)\\]"
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#optimizing",
-    "href": "slides/lecture02-1-probmodels.html#optimizing",
-    "title": "Probability Models and EDA",
-    "section": "Optimizing…",
-    "text": "Optimizing…\nWe want to find the minimum value of \\(\\text{MSE}(m)\\) (denote the optimal prediction by \\(\\mu\\)):\n\n\\[\n\\begin{aligned}\n\\frac{d\\text{MSE}}{dm} &= -2(\\mathbb{E}[Y] - m) + 0 \\\\\n0 = \\left.\\frac{d\\text{MSE}}{dm}\\right|_{m = \\mu} &= -2(\\mathbb{E}[Y] - \\mu)\n\\end{aligned}\\]\n\\[\\Rightarrow \\mu = \\mathbb{E}[Y].\\]"
+    "objectID": "slides/lecture07-2-bootstrap.html#estimating-fisher-information",
+    "href": "slides/lecture07-2-bootstrap.html#estimating-fisher-information",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Estimating Fisher Information",
+    "text": "Estimating Fisher Information\n\nCan be done with automatic differentiation or (sometimes hard) calculations;\nMay be singular (no inverse ; undefined standard errors) for complex models;\nMay not be a good approximation of the variance for finite samples!"
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#expected-value-as-best-prediction",
-    "href": "slides/lecture02-1-probmodels.html#expected-value-as-best-prediction",
-    "title": "Probability Models and EDA",
-    "section": "Expected Value As Best Prediction",
-    "text": "Expected Value As Best Prediction\nIn other words, the best predicted value of a random variable is its expectation.\nBut:\n\nWe usually don’t have enough data to know what \\(\\mathbb{E}[Y]\\) is: need to make probabilistic assumptions;\nIn many applications, we don’t just want a point estimate, we need some estimate of ranges of values we might observe."
+    "objectID": "slides/lecture07-2-bootstrap.html#the-bootstrap-principle",
+    "href": "slides/lecture07-2-bootstrap.html#the-bootstrap-principle",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "The Bootstrap Principle",
+    "text": "The Bootstrap Principle\n\n\nEfron (1979) suggested combining estimation with simulation: the bootstrap.\nKey idea: use the data to simulate a data-generating mechanism.\n\n\n\n\n\nXxibit Bootstrap Meme"
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#linear-regression-as-a-probability-model",
-    "href": "slides/lecture02-1-probmodels.html#linear-regression-as-a-probability-model",
-    "title": "Probability Models and EDA",
-    "section": "Linear Regression As A Probability Model",
-    "text": "Linear Regression As A Probability Model\nThe “simplest” model is linear:\n\n\n\\[\\begin{aligned}\ny_i &\\sim N(\\mu_i, \\sigma^2) \\\\\n\\mu_i &= \\sum_j \\beta_j x^j_i\n\\end{aligned}\n\\]\n\n\\[\\begin{aligned}\ny_i &= \\sum_j \\beta_j x^j_i + \\varepsilon_i \\\\\n\\varepsilon_i &\\sim N(0, \\sigma^2)\n\\end{aligned}\n\\]"
+    "objectID": "slides/lecture07-2-bootstrap.html#bootstrap-principle",
+    "href": "slides/lecture07-2-bootstrap.html#bootstrap-principle",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Bootstrap Principle",
+    "text": "Bootstrap Principle\n\n\n\nAssume the existing data is representative of the “true” population,\nSimulate based on properties of the data itself\nRe-estimate statistics from re-samples.\n\n\n\n\n\nBootstrap Sampling Distribution"
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#why-linear-models",
-    "href": "slides/lecture02-1-probmodels.html#why-linear-models",
-    "title": "Probability Models and EDA",
-    "section": "Why Linear Models?",
-    "text": "Why Linear Models?\n\n\nTwo main reasons to use linear models/normal distributions:\n\nInferential: “Least informative” distribution assuming only finite mean/variance;\nGenerative: Central Limit Theorem (summed fluctuations are asymptotically normal)\n\n\n\n\n\nWeight stack Gaussian distribution\n\n\n\nSource: r/GymMemes\n\n\n\nOne key thing: normal distributions are the “least informative” distribution given constraints on mean and variance. So all else being equal, this is a useful machine if all we’re interested in are those two moments."
+    "objectID": "slides/lecture07-2-bootstrap.html#why-does-the-bootstrap-work",
+    "href": "slides/lecture07-2-bootstrap.html#why-does-the-bootstrap-work",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Why Does The Bootstrap Work?",
+    "text": "Why Does The Bootstrap Work?\nEfron’s key insight: due to the Central Limit Theorem, the bootstrap distribution \\(\\mathcal{D}(\\tilde{t}_i)\\) has the same relationship to the observed estimate \\(\\hat{t}\\) as the sampling distribution \\(\\mathcal{D}(\\hat{t})\\) has to the “true” value \\(t_0\\):\n\\[\\mathcal{D}(\\tilde{t} - \\hat{t}) \\approx \\mathcal{D}(\\hat{t} - t_0)\\]\nwhere \\(t_0\\) the “true” value of a statistic, \\(\\hat{t}\\) the sample estimate, and \\((\\tilde{t}_i)\\) the bootstrap estimates."
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#linear-regression-as-probability-model",
-    "href": "slides/lecture02-1-probmodels.html#linear-regression-as-probability-model",
-    "title": "Probability Models and EDA",
-    "section": "Linear Regression As Probability Model",
-    "text": "Linear Regression As Probability Model\n\\[\ny = \\underbrace{\\sum_j \\beta_j x^j_i)}_{\\mathbb{E}[y | x^j]} + \\underbrace{\\varepsilon_i}_{\\text{noise}}, \\quad \\varepsilon_i \\sim N(0, \\sigma^2)\n\\]\n\n\\(\\mathbb{E}[y | x^j]\\): Best linear prediction of \\(y\\) conditional on choice of predictors \\(x^j\\).\nThe noise defines the probability distribution (here: Gaussian) of the observations."
+    "objectID": "slides/lecture07-2-bootstrap.html#what-can-we-do-with-the-bootstrap",
+    "href": "slides/lecture07-2-bootstrap.html#what-can-we-do-with-the-bootstrap",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "What Can We Do With The Bootstrap?",
+    "text": "What Can We Do With The Bootstrap?\nLet \\(t_0\\) the “true” value of a statistic, \\(\\hat{t}\\) the estimate of the statistic from the sample, and \\((\\tilde{t}_i)\\) the bootstrap estimates.\n\nEstimate Variance: \\(\\text{Var}[\\hat{t}] \\approx \\text{Var}[\\tilde{t}]\\)\nBias Correction: \\(\\mathbb{E}[\\hat{t}] - t_0 \\approx \\mathbb{E}[\\tilde{t}] - \\hat{t}\\)\n\n\nNotice that bias correction “shifts” away from the bootstrapped samples."
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#implications-of-gaussian-noise",
-    "href": "slides/lecture02-1-probmodels.html#implications-of-gaussian-noise",
-    "title": "Probability Models and EDA",
-    "section": "Implications of Gaussian Noise",
-    "text": "Implications of Gaussian Noise\nWithout explicit modeling of sources of measurement uncertainty, in LR we can’t separate a noisy system state (due to e.g. omitted variables) from measurement error (more on this later).\n\\[\n\\begin{array}{l}\nX \\sim N(\\mu_1, \\sigma_1^2) \\\\\nY \\sim N(\\mu_2, \\sigma_2^2) \\\\\nZ = X + Y\n\\end{array}\n\\qquad \\Rightarrow \\qquad Z \\sim N(\\mu_1 + \\mu_2, \\sigma_1^2 + \\sigma_2^2)\n\\]"
+    "objectID": "slides/lecture07-2-bootstrap.html#simple-bootstrap-confidence-intervals",
+    "href": "slides/lecture07-2-bootstrap.html#simple-bootstrap-confidence-intervals",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "“Simple” Bootstrap Confidence Intervals",
+    "text": "“Simple” Bootstrap Confidence Intervals\n\nBasic Bootstrap CIs (based on CLT for error distribution \\(\\tilde{t} - \\hat{t}\\)): \\[\\left(\\hat{t} - (Q_{\\tilde{t}}(1-\\alpha/2) - \\hat{t}), \\hat{t} - (Q_{\\tilde{t}}(\\alpha/2) - \\hat{t})\\right)\\]\nPercentile Bootstrap CIs (simplest, often wrong coverage): \\[(Q_{\\tilde{t}}(1-\\alpha/2), Q_{\\tilde{t}}(1-\\alpha/2))\\]"
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#you-can-always-fit-models",
-    "href": "slides/lecture02-1-probmodels.html#you-can-always-fit-models",
-    "title": "Probability Models and EDA",
-    "section": "You Can Always Fit Models…",
-    "text": "You Can Always Fit Models…\n\n\nBut not all models are theoretically justifiable.\n\n\n\n\nIan Malcolm meme"
+    "objectID": "slides/lecture07-2-bootstrap.html#the-non-parametric-bootstrap-1",
+    "href": "slides/lecture07-2-bootstrap.html#the-non-parametric-bootstrap-1",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "The Non-Parametric Bootstrap",
+    "text": "The Non-Parametric Bootstrap\n\n\nThe non-parametric bootstrap is the most “naive” approach to the bootstrap: resample-then-estimate.\n\n\n\n\nNon-Parametric Bootstrap"
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#some-implications-of-mis-specification",
-    "href": "slides/lecture02-1-probmodels.html#some-implications-of-mis-specification",
-    "title": "Probability Models and EDA",
-    "section": "Some Implications of Mis-Specification",
-    "text": "Some Implications of Mis-Specification\n\nBiased estimates (expected value from the model does not match “true” expected value);\nIncorrect inferences or inappropriate understandings of relationships/causality.\nOver/under-confident risk assessments."
+    "objectID": "slides/lecture07-2-bootstrap.html#sources-of-non-parametric-bootstrap-error",
+    "href": "slides/lecture07-2-bootstrap.html#sources-of-non-parametric-bootstrap-error",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Sources of Non-Parametric Bootstrap Error",
+    "text": "Sources of Non-Parametric Bootstrap Error\n\nSampling error: error from using finitely many replications\nStatistical error: error in the bootstrap sampling distribution approximation"
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#data-generation-approximates-reality",
-    "href": "slides/lecture02-1-probmodels.html#data-generation-approximates-reality",
-    "title": "Probability Models and EDA",
-    "section": "Data Generation Approximates Reality",
-    "text": "Data Generation Approximates Reality\n\n\n\n\n\nEstimand Estimator Cake\n\n\n\n\n\n\n\nEstimand Estimator Cake\n\n\n\n\n\n\n\n\nEstimate Cake\n\n\n\n\n\nSource: Richard McElreath\n\n\nGoal is to start with some “true” process, then apply a procedure (experimental/observational + statistical) and recover what is hopefully a good estimate.\nBut lots can go wrong in this process!"
+    "objectID": "slides/lecture07-2-bootstrap.html#simple-example-is-a-coin-fair",
+    "href": "slides/lecture07-2-bootstrap.html#simple-example-is-a-coin-fair",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Simple Example: Is A Coin Fair?",
+    "text": "Simple Example: Is A Coin Fair?\nSuppose we have observed twenty flips with a coin, and want to know if it is weighted.\n\n\nCode\n# define coin-flip model\np_true = 0.6\nn_flips = 20\ncoin_dist = Bernoulli(p_true)\n# generate data set\ndat = rand(coin_dist, n_flips)\nfreq_dat = sum(dat) / length(dat)\ndat'\n\n\n1×20 adjoint(::Vector{Bool}) with eltype Bool:\n 1  1  0  0  0  1  0  0  0  1  1  1  1  1  1  0  1  1  1  1\n\n\nThe frequency of heads is 0.65."
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#how-do-we-choose-what-to-model",
-    "href": "slides/lecture02-1-probmodels.html#how-do-we-choose-what-to-model",
-    "title": "Probability Models and EDA",
-    "section": "How Do We Choose What To Model?",
-    "text": "How Do We Choose What To Model?\n\nXKCD 2620\nSource: XKCD 2620"
+    "objectID": "slides/lecture07-2-bootstrap.html#is-the-coin-fair",
+    "href": "slides/lecture07-2-bootstrap.html#is-the-coin-fair",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Is The Coin Fair?",
+    "text": "Is The Coin Fair?\n\n\nCode\n# bootstrap: draw new samples\nfunction coin_boot_sample(dat)\n    boot_sample = sample(dat, length(dat); replace=true)\n    return boot_sample\nend\n\nfunction coin_boot_freq(dat, nsamp)\n    boot_freq = [sum(coin_boot_sample(dat)) for _ in 1:nsamp]\n    return boot_freq / length(dat)\nend\n\nboot_out = coin_boot_freq(dat, 1000)\nq_boot = 2 * freq_dat .- quantile(boot_out, [0.975, 0.025])\n\np = histogram(boot_out, xlabel=\"Heads Frequency\", ylabel=\"Count\", title=\"1000 Bootstrap Samples\", label=false, right_margin=5mm)\nvline!(p, [p_true], linewidth=3, color=:orange, linestyle=:dash, label=\"True Probability\")\nvline!(p, [mean(boot_out) ], linewidth=3, color=:red, linestyle=:dash, label=\"Bootstrap Mean\")\nvline!(p, [freq_dat], linewidth=3, color=:purple, linestyle=:dot, label=\"Observed Frequency\")\nvspan!(p, q_boot, linecolor=:grey, fillcolor=:grey, alpha=0.3, fillalpha=0.3, label=\"95% CI\")\nplot!(p, size=(1000, 450))\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 2: Bootstrap heads frequencies for 20 resamples."
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#how-do-we-choose-what-to-model-1",
-    "href": "slides/lecture02-1-probmodels.html#how-do-we-choose-what-to-model-1",
-    "title": "Probability Models and EDA",
-    "section": "How Do We Choose What To Model?",
-    "text": "How Do We Choose What To Model?\nDeveloping suitable models often starts with both exploratory data analysis (EDA) and theoretical reasoning.\n\nEDA: examining patterns/relationships with visual (plots, clustering) or quantitative (correlations).\nTheory: Avoids “data dredging” or “mining,” which can find spurious correlations or patterns which are misleading without broader context about data-generating mechanisms."
+    "objectID": "slides/lecture07-2-bootstrap.html#larger-sample-example",
+    "href": "slides/lecture07-2-bootstrap.html#larger-sample-example",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Larger Sample Example",
+    "text": "Larger Sample Example\n\n\nCode\nn_flips = 50\ndat = rand(coin_dist, n_flips)\nfreq_dat = sum(dat) / length(dat)\n\nboot_out = coin_boot_freq(dat, 1000)\nq_boot = 2 * freq_dat .- quantile(boot_out, [0.975, 0.025])\n\np = histogram(boot_out, xlabel=\"Heads Frequency\", ylabel=\"Count\", title=\"1000 Bootstrap Samples\", titlefontsize=20, guidefontsize=18, tickfontsize=16, legendfontsize=16, label=false, bottom_margin=7mm, left_margin=5mm, right_margin=5mm)\nvline!(p, [p_true], linewidth=3, color=:orange, linestyle=:dash, label=\"True Probability\")\nvline!(p, [mean(boot_out) ], linewidth=3, color=:red, linestyle=:dash, label=\"Bootstrap Mean\")\nvline!(p, [freq_dat], linewidth=3, color=:purple, linestyle=:dot, label=\"Observed Frequency\")\nvspan!(p, q_boot, linecolor=:grey, fillcolor=:grey, alpha=0.3, fillalpha=0.3, label=\"95% CI\")\nplot!(p, size=(1000, 450))\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 3: Bootstrap heads frequencies for 1000 resamples."
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#exploratory-data-analysis-1",
-    "href": "slides/lecture02-1-probmodels.html#exploratory-data-analysis-1",
-    "title": "Probability Models and EDA",
-    "section": "Exploratory Data Analysis",
-    "text": "Exploratory Data Analysis\n\nWill see many examples of this throughout the semester.\nTry to impose as few assumptions as possible.\nOften useful to start with scatterplots: one variable (typically independent) on the \\(x\\)-axis, another (typically dependent) on the \\(y\\)-axis.\nTime series: time always goes on the \\(x\\)-axis.\nBoxplots for comparison quantiles/ranges of variables or groups of data."
+    "objectID": "slides/lecture07-2-bootstrap.html#why-use-the-non-parametric-bootstrap",
+    "href": "slides/lecture07-2-bootstrap.html#why-use-the-non-parametric-bootstrap",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Why Use The Non-Parametric Bootstrap?",
+    "text": "Why Use The Non-Parametric Bootstrap?\n\nDo not need to rely on variance asymptotics;\nCan obtain non-symmetric CIs.\nEmbarrassingly parallel to simulate new replicates and generate statistics."
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#common-eda-approaches",
-    "href": "slides/lecture02-1-probmodels.html#common-eda-approaches",
-    "title": "Probability Models and EDA",
-    "section": "Common EDA Approaches",
-    "text": "Common EDA Approaches\n\nData summaries (quantiles, mean/median, max/min, etc.)\nCorrelations\nPlot data (from multiple perspectives)\nClustering (do you need multiple models?)"
+    "objectID": "slides/lecture07-2-bootstrap.html#when-cant-you-use-the-non-parametric-bootstrap",
+    "href": "slides/lecture07-2-bootstrap.html#when-cant-you-use-the-non-parametric-bootstrap",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "When Can’t You Use The Non-Parametric Bootstrap",
+    "text": "When Can’t You Use The Non-Parametric Bootstrap\n\nMaxima/minima\nVery extreme values.\n\nGenerally, anything very sensitive to outliers which might not be re-sampled."
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#anscombes-quartet",
-    "href": "slides/lecture02-1-probmodels.html#anscombes-quartet",
-    "title": "Probability Models and EDA",
-    "section": "Anscombe’s Quartet",
-    "text": "Anscombe’s Quartet\n\n\nFour datasets, all with the same means, variances, correlations, and regression lines.\nShows the importance of visualization!\n\n\n\n\nAnscombe’s Quartet\n\n\n\nSource: Wikipedia"
+    "objectID": "slides/lecture07-2-bootstrap.html#bootstrapping-with-structured-data",
+    "href": "slides/lecture07-2-bootstrap.html#bootstrapping-with-structured-data",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Bootstrapping with Structured Data",
+    "text": "Bootstrapping with Structured Data\nThe naive non-parametric bootstrap that we just saw doesn’t work if data has structure, e.g. spatial or temporal dependence."
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#considerations-when-plotting",
-    "href": "slides/lecture02-1-probmodels.html#considerations-when-plotting",
-    "title": "Probability Models and EDA",
-    "section": "Considerations When Plotting",
-    "text": "Considerations When Plotting\n\nWorry about the vertical scale\n\nAre you exaggerating small changes? Downplaying meaningful changes?\n“Adjust vertical scale of data” to reflect meaningful changes and “Vertical scale should always include zero” are conflicting advice.\n\nNeed to be thoughtful: there is no such thing as objectively “correct” visualizations, just honest visualizations."
+    "objectID": "slides/lecture07-2-bootstrap.html#simple-bootstrapping-fails-with-structured-data",
+    "href": "slides/lecture07-2-bootstrap.html#simple-bootstrapping-fails-with-structured-data",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Simple Bootstrapping Fails with Structured Data",
+    "text": "Simple Bootstrapping Fails with Structured Data\n\nCode\ntide_dat = CSV.read(joinpath(\"data\", \"surge\", \"norfolk-hourly-surge-2015.csv\"), DataFrame)\nsurge_resids = tide_dat[:, 5] - tide_dat[:, 3]\n\np1 = plot(surge_resids, xlabel=\"Hour\", ylabel=\"(m)\", title=\"Tide Gauge Residuals\", label=:false, linewidth=3)\nplot!(p1, size=(600, 450))\n\nresample_index = sample(1:length(surge_resids), length(surge_resids); replace=true)\np2 = plot(surge_resids[resample_index], xlabel=\"Hour\", ylabel=\"(m)\", title=\"Tide Gauge Resample\", label=:false, linewidth=3)\nplot!(p2, size=(600, 450))\n\ndisplay(p1)\ndisplay(p2)\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Simple bootstrap with time series data.\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b)\n\n\n\n\n\n\n\nFigure 4"
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#information-channels",
-    "href": "slides/lecture02-1-probmodels.html#information-channels",
-    "title": "Probability Models and EDA",
-    "section": "Information Channels",
-    "text": "Information Channels\nA channel is a mechanism for encoding information.\n\nExamples:\n\nColor (Hue/Saturation/Luminescence)\nPosition (1D/2D/3D)\nSize (Length/Area/Volume)\nAngle"
+    "objectID": "slides/lecture07-2-bootstrap.html#block-bootstraps",
+    "href": "slides/lecture07-2-bootstrap.html#block-bootstraps",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Block Bootstraps",
+    "text": "Block Bootstraps\nClever idea from Kunsch (1989): Divide time series \\(y_{1:T}\\) into overlapping blocks of length \\(k\\).\n\\[\\{y_{1:k}, y_{2:k+1}, \\ldots y_{n-k+1:n}\\}\\]\nThen draw \\(m = n / k\\) of these blocks with replacement and construct replicate time series:\n\\[\\hat{y}_{1:n} = (y_{b_1}, \\ldots, y_{b_m}) \\]\nNote: Your series must not have a trend!"
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#ordered-vs.-categorical-attributes",
-    "href": "slides/lecture02-1-probmodels.html#ordered-vs.-categorical-attributes",
-    "title": "Probability Models and EDA",
-    "section": "Ordered vs. Categorical Attributes",
-    "text": "Ordered vs. Categorical Attributes\nThe channels available depend on the type of attribute:\n\nOrdered attributes can be\n\nOrdinal: Ranking, no meaning to distance;\nQuantitative: Measure of magnitude which supports arithmetic comparison;\n\nCategorical attributes are unordered."
+    "objectID": "slides/lecture07-2-bootstrap.html#block-bootstrap-example",
+    "href": "slides/lecture07-2-bootstrap.html#block-bootstrap-example",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Block Bootstrap Example",
+    "text": "Block Bootstrap Example\n\n\n\n\nCode\nk = 20\nn_blocks = length(surge_resids) - k + 1\nblocks = zeros(Float64, (k, n_blocks))\nfor i = 1:n_blocks\n    blocks[:, i] = surge_resids[i:(k+i-1)]\nend\nblocks[:, 1:5]\n\n\n20×5 Matrix{Float64}:\n  0.136   0.107   0.097   0.093   0.093\n  0.107   0.097   0.093   0.093   0.08\n  0.097   0.093   0.093   0.08    0.068\n  0.093   0.093   0.08    0.068   0.031\n  0.093   0.08    0.068   0.031   0.005\n  0.08    0.068   0.031   0.005   0.011\n  0.068   0.031   0.005   0.011   0.012\n  0.031   0.005   0.011   0.012   0.001\n  0.005   0.011   0.012   0.001  -0.002\n  0.011   0.012   0.001  -0.002  -0.014\n  0.012   0.001  -0.002  -0.014  -0.013\n  0.001  -0.002  -0.014  -0.013  -0.015\n -0.002  -0.014  -0.013  -0.015  -0.02\n -0.014  -0.013  -0.015  -0.02   -0.019\n -0.013  -0.015  -0.02   -0.019  -0.031\n -0.015  -0.02   -0.019  -0.031  -0.071\n -0.02   -0.019  -0.031  -0.071  -0.067\n -0.019  -0.031  -0.071  -0.067  -0.084\n -0.031  -0.071  -0.067  -0.084  -0.086\n -0.071  -0.067  -0.084  -0.086  -0.092\n\n\n\n\n\nCode\nm = Int64(ceil(length(surge_resids) / k))\nn_boot = 1_000\nsurge_bootstrap = zeros(length(surge_resids), n_boot)\nfor i = 1:n_boot\n    block_sample_idx = sample(1:n_blocks, m; replace=true)\n    surge_bootstrap[:, i] = reduce(vcat, blocks[:, block_sample_idx])\nend\n\np = plot(surge_resids, color=:black, lw=3, label=\"Data\", xlabel=\"Hour\", ylabel=\"(m)\", title=\"Tide Gauge Residuals\", alpha=0.5)\nplot!(p, surge_bootstrap[:, 1], color=:blue, lw=3, label=\"Replicate\", alpha=0.5)\nplot!(p, size=(600, 500))\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 5: Comparison of original data with block bootstrap replicate."
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#channel-effectiveness-ordered-data",
-    "href": "slides/lecture02-1-probmodels.html#channel-effectiveness-ordered-data",
-    "title": "Probability Models and EDA",
-    "section": "Channel Effectiveness: Ordered Data",
-    "text": "Channel Effectiveness: Ordered Data\n\n\n\n\n\n\n\n\n\nChannels for ordered data, arranged top-to-bottom from more to less effective (channels in the right column are less effective than those in the left). Modified from Healy (2018) after Munzner (2014)."
+    "objectID": "slides/lecture07-2-bootstrap.html#block-bootstrap-replicates",
+    "href": "slides/lecture07-2-bootstrap.html#block-bootstrap-replicates",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Block Bootstrap Replicates",
+    "text": "Block Bootstrap Replicates\n\n\nCode\np = plot(xlabel=\"Hour\", ylabel=\"(m)\", title=\"Tide Gauge Residuals\")\nfor i = 1:10\n    label = i == 1 ? \"Replicate\" : false\n    plot!(p, surge_bootstrap[:, i], label=label, color=:gray, alpha=0.2, lw=2)\nend\nplot!(p, surge_resids, label=\"Data\", color=:black, lw=3)\nplot!(p, size=(1200, 500))\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 6: Block bootstrap with time series data."
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#channel-effectiveness-categorical-data",
-    "href": "slides/lecture02-1-probmodels.html#channel-effectiveness-categorical-data",
-    "title": "Probability Models and EDA",
-    "section": "Channel Effectiveness: Categorical Data",
-    "text": "Channel Effectiveness: Categorical Data\n\n\n\n\n\n\n\n\n\nChannels for categorical data, arranged top-to-bottom from more to less effective. Modified from Healy (2018) after Munzer (2014)."
+    "objectID": "slides/lecture07-2-bootstrap.html#generalizing-the-block-bootstrap",
+    "href": "slides/lecture07-2-bootstrap.html#generalizing-the-block-bootstrap",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Generalizing the Block Bootstrap",
+    "text": "Generalizing the Block Bootstrap\n\nCircular Bootstrap: “Wrap” the time series in a circle, \\(y_1, y_2, \\ldots, y_n, y_1, y_2, \\ldots\\) then divide into blocks and resample.\nStationary Bootstrap: Use random block lengths to avoid systematic boundary transitions.\nBlock of Blocks Bootstrap: Divide series into blocks of length \\(k_2\\), then subdivide into blocks of length \\(k_1\\). Sample blocks with replacement then sample sub-blocks within each block with replacement."
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#preattentive-popout",
-    "href": "slides/lecture02-1-probmodels.html#preattentive-popout",
-    "title": "Probability Models and EDA",
-    "section": "Preattentive Popout",
-    "text": "Preattentive Popout\n\n\nTry to make your key features “pop out” to the viewer during the pre-attentive scan.\n\nSearching for the blue circle becomes harder. Adapted from Healy (2018).\n\n\n\n\nCode\nnpt = 20\ndist = Distributions.Product(Uniform.([0, 0], [1, 1]))\npts = Tuple.(eachcol(rand(dist, npt)))\nblueidx = rand(1:npt)\np1 = scatter(pts[1:end .!= blueidx], color=:red, xticks=:false, yticks=:false, legend=:false, markersize=5, title=\"Color Only, N=20\", framestyle=:box)\nscatter!(p1, pts[blueidx, :], color=:blue, markersize=5)\n\nnpt = 100\npts = Tuple.(eachcol(rand(dist, npt)))\nblueidx = rand(1:npt)\np2 = scatter(pts[1:end .!= blueidx], color=:red, xticks=:false, yticks=:false, legend=:false, markersize=5, title=\"Color Only, N=100\", framestyle=:box)\nscatter!(p2, pts[blueidx, :], color=:blue, markersize=5)\n\nnpt = 20\npts = Tuple.(eachcol(rand(dist, npt)))\nblueidx = rand(1:npt)\np3 = scatter(pts[1:end .!= blueidx], color=:blue, markershape=:utriangle, xticks=:false, yticks=:false, legend=:false, markersize=5, title=\"Shape Only, N=20\", framestyle=:box)\nscatter!(p3, pts[blueidx, :], color=:blue, markersize=5, markershape=:circle)\n\nnpt = 100\npts = Tuple.(eachcol(rand(dist, npt)))\nblueidx = rand(1:npt)\np4 = scatter(pts[1:end .!= blueidx], color=:blue, markershape=:utriangle, xticks=:false, yticks=:false, legend=:false, markersize=5, title=\"Shape Only, N=100\", framestyle=:box)\nscatter!(p4, pts[blueidx, :], color=:blue, markersize=5, markershape=:circle)\n\nplot(p1, p2, p3, p4, layout=(2, 2), size=(800, 500))"
+    "objectID": "slides/lecture07-2-bootstrap.html#key-points",
+    "href": "slides/lecture07-2-bootstrap.html#key-points",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Key Points",
+    "text": "Key Points\n\nBootstrap: Approximate sampling distribution by re-simulating data\nNon-Parametric Bootstrap: Treat data as representative of population and re-sample.\nMore complicated for structured data: block bootstrap for time series, analogues for spatial data."
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#color-schemes",
-    "href": "slides/lecture02-1-probmodels.html#color-schemes",
-    "title": "Probability Models and EDA",
-    "section": "Color Schemes",
-    "text": "Color Schemes\nDifferent color schemes are appropriate depending on whether the data is sequential, divergent, or unordered.\n\n\n\n\n\n\nAppropriate Color Schemes\n\n\nColor schemes should be perceptually uniform to preserve a mapping between changes in perceived colors and changes in attribute values.\nTry to also choose color schemes which avoid confusing people who are color blind."
+    "objectID": "slides/lecture07-2-bootstrap.html#sources-of-non-parametric-bootstrap-error-1",
+    "href": "slides/lecture07-2-bootstrap.html#sources-of-non-parametric-bootstrap-error-1",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "Sources of Non-Parametric Bootstrap Error",
+    "text": "Sources of Non-Parametric Bootstrap Error\n\nSampling error: error from using finitely many replications\nStatistical error: error in the bootstrap sampling distribution approximation"
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#color-schemes-1",
-    "href": "slides/lecture02-1-probmodels.html#color-schemes-1",
-    "title": "Probability Models and EDA",
-    "section": "Color Schemes",
-    "text": "Color Schemes\nGood news: Most plotting libraries include a wide variety of perceptually uniform, color-blind safe color schemes.\nBad news: These are not usually the defaults (in particular, avoid “rainbow” color schemes)."
+    "objectID": "slides/lecture07-2-bootstrap.html#when-to-use-the-non-parametric-bootstrap",
+    "href": "slides/lecture07-2-bootstrap.html#when-to-use-the-non-parametric-bootstrap",
+    "title": "Uncertainty Quantification and The Bootstrap",
+    "section": "When To Use The Non-Parametric Bootstrap",
+    "text": "When To Use The Non-Parametric Bootstrap\n\nSample is representative of the sampling distribution\nDoesn’t work well for extreme values!\nDoes not work at all for max/mins (or any other case where the CLT fails)."
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#sequential-color-schemes",
-    "href": "slides/lecture02-1-probmodels.html#sequential-color-schemes",
-    "title": "Probability Models and EDA",
-    "section": "Sequential Color Schemes",
-    "text": "Sequential Color Schemes\nSequential schemes change in intensity from low to high as the value changes."
-  },
-  {
-    "objectID": "slides/lecture02-1-probmodels.html#divergent-color-schemes",
-    "href": "slides/lecture02-1-probmodels.html#divergent-color-schemes",
-    "title": "Probability Models and EDA",
-    "section": "Divergent Color Schemes",
-    "text": "Divergent Color Schemes\nDivergent schemes intensify in two directions from a zero or mean value."
-  },
-  {
-    "objectID": "slides/lecture02-1-probmodels.html#unordered-color-schemes",
-    "href": "slides/lecture02-1-probmodels.html#unordered-color-schemes",
-    "title": "Probability Models and EDA",
-    "section": "Unordered Color Schemes",
-    "text": "Unordered Color Schemes\nUnordered schemes are appropriate for categorical data."
-  },
-  {
-    "objectID": "slides/lecture02-1-probmodels.html#some-caveats",
-    "href": "slides/lecture02-1-probmodels.html#some-caveats",
-    "title": "Probability Models and EDA",
-    "section": "Some Caveats",
-    "text": "Some Caveats\n\nThere is no recipe to effective visualization. Everything depends on your data and the story you want to tell.\nThis also means that defaults from data visualization packages are usually bad.\nPrinciples are largely based on Western (American/European) norms and may not translate perfectly.\nA lot of these guidelines are based on average outcomes, there is likely to be a lot of individual variation."
-  },
-  {
-    "objectID": "slides/lecture02-1-probmodels.html#probability-models-1",
-    "href": "slides/lecture02-1-probmodels.html#probability-models-1",
-    "title": "Probability Models and EDA",
-    "section": "Probability Models",
-    "text": "Probability Models\n\nAlmost anything we want to use data for involves an assumption about the underlying probability model for the data.\nOur goal this semester is to develop a toolkit to specify, test, and use these probability models."
-  },
-  {
-    "objectID": "slides/lecture02-1-probmodels.html#edadata-visualization",
-    "href": "slides/lecture02-1-probmodels.html#edadata-visualization",
-    "title": "Probability Models and EDA",
-    "section": "EDA/Data Visualization",
-    "text": "EDA/Data Visualization\n\nNo such thing as “objectively best” visualization.\nNeed to be thoughtful about the story you’re trying to tell.\nUsually involves a lot of experimentation to make important features of the data pop out.\nEDA: Try to make as few assumptions as possible (e.g. look at the raw data, not “smoothed” versions)."
-  },
-  {
-    "objectID": "slides/lecture02-1-probmodels.html#data-visualization-suggestions",
-    "href": "slides/lecture02-1-probmodels.html#data-visualization-suggestions",
-    "title": "Probability Models and EDA",
-    "section": "Data Visualization Suggestions",
-    "text": "Data Visualization Suggestions\n\nSome key degrees of freedom: vertical scale, information channels.\nDon’t add unnecessary artifacts! Easy to get “cute” and distract from core message.\nStart simple (scatterplots, boxplots, histograms)"
-  },
-  {
-    "objectID": "slides/lecture02-1-probmodels.html#next-classes",
-    "href": "slides/lecture02-1-probmodels.html#next-classes",
-    "title": "Probability Models and EDA",
+    "objectID": "slides/lecture07-2-bootstrap.html#next-classes",
+    "href": "slides/lecture07-2-bootstrap.html#next-classes",
+    "title": "Uncertainty Quantification and The Bootstrap",
     "section": "Next Classes",
-    "text": "Next Classes\nWednesday: Linear Regression (Examples/Why It Works)\nFriday: Data Visualization Lab (come prepared with a visualization and its underlying dataset)."
+    "text": "Next Classes\nMonday: The Parametric Bootstrap\nWednesday: What is a Markov Chain?"
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#assessments",
-    "href": "slides/lecture02-1-probmodels.html#assessments",
-    "title": "Probability Models and EDA",
+    "objectID": "slides/lecture07-2-bootstrap.html#assessments",
+    "href": "slides/lecture07-2-bootstrap.html#assessments",
+    "title": "Uncertainty Quantification and The Bootstrap",
     "section": "Assessments",
-    "text": "Assessments\nHomework 1 Due Friday, 2/6."
+    "text": "Assessments\nHomework 3: Due next Friday (3/14)\nProject Proposals: Due 3/21."
   },
   {
-    "objectID": "slides/lecture02-1-probmodels.html#references-scroll-for-full-list",
-    "href": "slides/lecture02-1-probmodels.html#references-scroll-for-full-list",
-    "title": "Probability Models and EDA",
+    "objectID": "slides/lecture07-2-bootstrap.html#references-scroll-for-full-list",
+    "href": "slides/lecture07-2-bootstrap.html#references-scroll-for-full-list",
+    "title": "Uncertainty Quantification and The Bootstrap",
     "section": "References (Scroll for Full List)",
-    "text": "References (Scroll for Full List)\n\n\n\n\nHacking, I. (1990). The Taming of Chance. Cambridge, England: Cambridge University Press. https://doi.org/10.1017/CBO9780511819766\n\n\nHealy, K. (2018). Data visualization: A practical introduction. Princeton University Press.\n\n\nMunzner, T. (2014). Visualization analysis and design. CRC Press."
+    "text": "References (Scroll for Full List)\n\n\n\n\nEfron, B. (1979). Bootstrap methods: Another look at the jackknife. Ann. Stat., 7, 1–26. https://doi.org/10.1214/aos/1176344552\n\n\nKunsch, H. R. (1989). The jackknife and the bootstrap for general stationary observations. Ann. Stat., 17, 1217–1241. https://doi.org/10.1214/aos/1176347265"
   },
   {
     "objectID": "slides/lecture01-1-intro.html#about-me",
@@ -5315,228 +5266,263 @@
     "text": "References (Scroll for Full List)"
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#monte-carlo-simulation",
-    "href": "slides/lecture07-2-bootstrap.html#monte-carlo-simulation",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Monte Carlo Simulation",
-    "text": "Monte Carlo Simulation\n\nMonte Carlo Principle: Approximate \\[\\mathbb{E}_f[h(X)] = \\int h(x) f(x) dx \\approx \\frac{1}{n} \\sum_{i=1}^n h(X_i)\\]\nMonte Carlo is an unbiased estimator, but beware (and always report) the standard error \\(\\sigma_n = \\sigma_Y / \\sqrt{n}\\) or confidence intervals.\nMore advanced methods can reduce variance, but may be difficult to implement in practice."
+    "objectID": "slides/lecture02-1-eda.html#probability-fundamentals",
+    "href": "slides/lecture02-1-eda.html#probability-fundamentals",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Probability Fundamentals",
+    "text": "Probability Fundamentals\n\nBayesian vs. Frequentist Interpretations\nDistributions reflect assumptions on probability of data.\nNormal distributions: “least informative” distribution for a given mean/variance.\nFit distributions by maximizing likelihood.\nCommunicating uncertainty: confidence vs. predictive intervals."
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#uses-of-monte-carlo",
-    "href": "slides/lecture07-2-bootstrap.html#uses-of-monte-carlo",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Uses of Monte Carlo",
-    "text": "Uses of Monte Carlo\n\nEstimate expectations / quantiles;\nCalculate deterministic quantities (framed as stochastic expectations);\nOptimization (problem 3 on HW3)."
+    "objectID": "slides/lecture02-1-eda.html#you-can-always-fit-models",
+    "href": "slides/lecture02-1-eda.html#you-can-always-fit-models",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "You Can Always Fit Models…",
+    "text": "You Can Always Fit Models…\n\n\nBut not all models are theoretically justifiable.\n\n\n\n\nIan Malcolm meme"
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#so-far",
-    "href": "slides/lecture07-2-bootstrap.html#so-far",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "So Far…",
-    "text": "So Far…\nWe’re 7 weeks in and haven’t said anything about how to quantify uncertainties.\nLet’s talk about that."
+    "objectID": "slides/lecture02-1-eda.html#some-implications-of-mis-specification",
+    "href": "slides/lecture02-1-eda.html#some-implications-of-mis-specification",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Some Implications of Mis-Specification",
+    "text": "Some Implications of Mis-Specification\n\nBiased estimates (expected value from the model does not match “true” expected value);\nIncorrect inferences or inappropriate understandings of relationships/causality.\nOver/under-confident risk assessments."
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#sampling-distributions-1",
-    "href": "slides/lecture07-2-bootstrap.html#sampling-distributions-1",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Sampling Distributions",
-    "text": "Sampling Distributions\n\n\nThe sampling distribution of a statistic captures the uncertainty associated with random samples.\n\n\n\n\nSampling Distribution"
+    "objectID": "slides/lecture02-1-eda.html#data-generation-approximates-reality",
+    "href": "slides/lecture02-1-eda.html#data-generation-approximates-reality",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Data Generation Approximates Reality",
+    "text": "Data Generation Approximates Reality\n\n\n\n\n\nEstimand Estimator Cake\n\n\n\n\n\n\n\nEstimand Estimator Cake\n\n\n\n\n\n\n\n\nEstimate Cake\n\n\n\n\n\nSource: Richard McElreath\n\n\nGoal is to start with some “true” process, then apply a procedure (experimental/observational + statistical) and recover what is hopefully a good estimate.\nBut lots can go wrong in this process!"
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#estimating-sampling-distributions",
-    "href": "slides/lecture07-2-bootstrap.html#estimating-sampling-distributions",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Estimating Sampling Distributions",
-    "text": "Estimating Sampling Distributions\n\nSpecial Cases: can derive closed-form representations of sampling distributions (think statistical tests)\nAsymptotics: Central Limit Theorem or Fisher Information"
+    "objectID": "slides/lecture02-1-eda.html#how-do-we-choose-what-to-model",
+    "href": "slides/lecture02-1-eda.html#how-do-we-choose-what-to-model",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "How Do We Choose What To Model?",
+    "text": "How Do We Choose What To Model?\n\nXKCD 2620\nSource: XKCD 2620"
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#fisher-information",
-    "href": "slides/lecture07-2-bootstrap.html#fisher-information",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Fisher Information",
-    "text": "Fisher Information\n\n\nFisher Information: \\[\\mathcal{I}_x(\\theta) = -\\mathbb{E}\\left[\\frac{\\partial^2}{\\partial \\theta_i \\partial \\theta_j} \\log \\mathcal{L}(\\theta | x)\\right]\\]\nObserved Fisher Information (uses observed data and calculated at the MLE): \\[\\mathcal{I}_\\tilde{x}(\\hat{\\theta})\\]\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 1: Examples of Fisher Information"
+    "objectID": "slides/lecture02-1-eda.html#how-do-we-choose-what-to-model-1",
+    "href": "slides/lecture02-1-eda.html#how-do-we-choose-what-to-model-1",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "How Do We Choose What To Model?",
+    "text": "How Do We Choose What To Model?\nDeveloping suitable models often starts with both exploratory data analysis (EDA) and theoretical reasoning.\n\nEDA: examining patterns/relationships with visual (plots, clustering) or quantitative (correlations).\nTheory: Avoids “data dredging” or “mining,” which can find spurious correlations or patterns which are misleading without broader context about data-generating mechanisms."
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#fisher-information-and-standard-errors",
-    "href": "slides/lecture07-2-bootstrap.html#fisher-information-and-standard-errors",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Fisher Information and Standard Errors",
-    "text": "Fisher Information and Standard Errors\nAsymptotic result: \\[\\sqrt{n}(\\theta_\\text{MLE} - \\theta^*) \\to N(0, \\left(\\mathcal{I}_x(\\hat{\\theta^*})\\right)^{-1}\\]\nSampling distribution based on observed data: \\[\\theta \\sim N\\left(\\hat{\\theta}_\\text{MLE}, \\left(n\\mathcal{I}_\\tilde{x}(\\theta_\\text{MLE})\\right)^{-1}\\right)\\]"
+    "objectID": "slides/lecture02-1-eda.html#exploratory-data-analysis-1",
+    "href": "slides/lecture02-1-eda.html#exploratory-data-analysis-1",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Exploratory Data Analysis",
+    "text": "Exploratory Data Analysis\n\nWill see many examples of this throughout the semester.\nTry to impose as few assumptions as possible.\nGoal of exploratory analysis is to get a high-level view of the data and formulate hypotheses/check if data is fit for purpose."
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#estimating-fisher-information",
-    "href": "slides/lecture07-2-bootstrap.html#estimating-fisher-information",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Estimating Fisher Information",
-    "text": "Estimating Fisher Information\n\nCan be done with automatic differentiation or (sometimes hard) calculations;\nMay be singular (no inverse ; undefined standard errors) for complex models;\nMay not be a good approximation of the variance for finite samples!"
+    "objectID": "slides/lecture02-1-eda.html#common-eda-questions",
+    "href": "slides/lecture02-1-eda.html#common-eda-questions",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Common EDA Questions",
+    "text": "Common EDA Questions\n\nWhat is the range of the data?\nAre there missing data or strange outliers? What might explain them?\nIs a particular relationship or distribution supported by the data?"
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#the-bootstrap-principle",
-    "href": "slides/lecture07-2-bootstrap.html#the-bootstrap-principle",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "The Bootstrap Principle",
-    "text": "The Bootstrap Principle\n\n\nEfron (1979) suggested combining estimation with simulation: the bootstrap.\nKey idea: use the data to simulate a data-generating mechanism.\n\n\n\n\n\nXxibit Bootstrap Meme"
+    "objectID": "slides/lecture02-1-eda.html#common-eda-approaches",
+    "href": "slides/lecture02-1-eda.html#common-eda-approaches",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Common EDA Approaches",
+    "text": "Common EDA Approaches\n\nData summaries (quantiles, mean/median, max/min, etc.)\nCorrelations\nPlot data (from multiple perspectives)\nClustering (do you need multiple models?)"
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#bootstrap-principle",
-    "href": "slides/lecture07-2-bootstrap.html#bootstrap-principle",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Bootstrap Principle",
-    "text": "Bootstrap Principle\n\n\n\nAssume the existing data is representative of the “true” population,\nSimulate based on properties of the data itself\nRe-estimate statistics from re-samples.\n\n\n\n\n\nBootstrap Sampling Distribution"
+    "objectID": "slides/lecture02-1-eda.html#example-ny-air-quality-dataset",
+    "href": "slides/lecture02-1-eda.html#example-ny-air-quality-dataset",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Example: NY Air Quality Dataset",
+    "text": "Example: NY Air Quality Dataset\n\n\nCode\naq = DataFrame(CSV.File(\"data/airquality/airquality.csv\"))\nrename!(aq, :\"Solar.R\" =&gt; :Solar) # rename solar radiation column to get rid of period\naq[1:5, :]\n\n\n5×7 DataFrame\n\n\n\nRow\nrownames\nOzone\nSolar\nWind\nTemp\nMonth\nDay\n\n\n\nInt64\nInt64?\nInt64?\nFloat64\nInt64\nInt64\nInt64\n\n\n\n\n1\n1\n41\n190\n7.4\n67\n5\n1\n\n\n2\n2\n36\n118\n8.0\n72\n5\n2\n\n\n3\n3\n12\n149\n12.6\n74\n5\n3\n\n\n4\n4\n18\n313\n11.5\n62\n5\n4\n\n\n5\n5\nmissing\nmissing\n14.3\n56\n5\n5"
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#why-does-the-bootstrap-work",
-    "href": "slides/lecture07-2-bootstrap.html#why-does-the-bootstrap-work",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Why Does The Bootstrap Work?",
-    "text": "Why Does The Bootstrap Work?\nEfron’s key insight: due to the Central Limit Theorem, the bootstrap distribution \\(\\mathcal{D}(\\tilde{t}_i)\\) has the same relationship to the observed estimate \\(\\hat{t}\\) as the sampling distribution \\(\\mathcal{D}(\\hat{t})\\) has to the “true” value \\(t_0\\):\n\\[\\mathcal{D}(\\tilde{t} - \\hat{t}) \\approx \\mathcal{D}(\\hat{t} - t_0)\\]\nwhere \\(t_0\\) the “true” value of a statistic, \\(\\hat{t}\\) the sample estimate, and \\((\\tilde{t}_i)\\) the bootstrap estimates."
+    "objectID": "slides/lecture02-1-eda.html#quantitative-eda-summaries",
+    "href": "slides/lecture02-1-eda.html#quantitative-eda-summaries",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Quantitative EDA: Summaries",
+    "text": "Quantitative EDA: Summaries\n\n\nCode\naq_stack = stack(aq, 2:5)\naq_gp = @groupby(aq_stack, :variable)\n@combine(aq_gp, $AsTable = (\n        min=minimum(skipmissing(:value)), \n        median=median(skipmissing(:value)),\n        mean=mean(skipmissing(:value)),\n        max=maximum(skipmissing(:value)),\n        missings=sum(ismissing.(:value))\n    )\n)\n\n\n4×6 DataFrame\n\n\n\nRow\nvariable\nmin\nmedian\nmean\nmax\nmissings\n\n\n\nString\nFloat64\nFloat64\nFloat64\nFloat64\nInt64\n\n\n\n\n1\nOzone\n1.0\n31.5\n42.1293\n168.0\n37\n\n\n2\nSolar\n7.0\n205.0\n185.932\n334.0\n7\n\n\n3\nWind\n1.7\n9.7\n9.95752\n20.7\n0\n\n\n4\nTemp\n56.0\n79.0\n77.8824\n97.0\n0"
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#what-can-we-do-with-the-bootstrap",
-    "href": "slides/lecture07-2-bootstrap.html#what-can-we-do-with-the-bootstrap",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "What Can We Do With The Bootstrap?",
-    "text": "What Can We Do With The Bootstrap?\nLet \\(t_0\\) the “true” value of a statistic, \\(\\hat{t}\\) the estimate of the statistic from the sample, and \\((\\tilde{t}_i)\\) the bootstrap estimates.\n\nEstimate Variance: \\(\\text{Var}[\\hat{t}] \\approx \\text{Var}[\\tilde{t}]\\)\nBias Correction: \\(\\mathbb{E}[\\hat{t}] - t_0 \\approx \\mathbb{E}[\\tilde{t}] - \\hat{t}\\)\n\n\nNotice that bias correction “shifts” away from the bootstrapped samples."
+    "objectID": "slides/lecture02-1-eda.html#quantitative-eda-correlations",
+    "href": "slides/lecture02-1-eda.html#quantitative-eda-correlations",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Quantitative EDA: Correlations",
+    "text": "Quantitative EDA: Correlations\n\n\nCode\naq_cor = cor(Matrix(dropmissing(aq[:, 2:5])))\nDataFrame(aq_cor, names(aq[:, 2:5]))\n\n\n4×4 DataFrame\n\n\n\nRow\nOzone\nSolar\nWind\nTemp\n\n\n\nFloat64\nFloat64\nFloat64\nFloat64\n\n\n\n\n1\n1.0\n0.348342\n-0.612497\n0.698541\n\n\n2\n0.348342\n1.0\n-0.127183\n0.294088\n\n\n3\n-0.612497\n-0.127183\n1.0\n-0.49719\n\n\n4\n0.698541\n0.294088\n-0.49719\n1.0"
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#simple-bootstrap-confidence-intervals",
-    "href": "slides/lecture07-2-bootstrap.html#simple-bootstrap-confidence-intervals",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "“Simple” Bootstrap Confidence Intervals",
-    "text": "“Simple” Bootstrap Confidence Intervals\n\nBasic Bootstrap CIs (based on CLT for error distribution \\(\\tilde{t} - \\hat{t}\\)): \\[\\left(\\hat{t} - (Q_{\\tilde{t}}(1-\\alpha/2) - \\hat{t}), \\hat{t} - (Q_{\\tilde{t}}(\\alpha/2) - \\hat{t})\\right)\\]\nPercentile Bootstrap CIs (simplest, often wrong coverage): \\[(Q_{\\tilde{t}}(1-\\alpha/2), Q_{\\tilde{t}}(1-\\alpha/2))\\]"
+    "objectID": "slides/lecture02-1-eda.html#anscombes-quartet",
+    "href": "slides/lecture02-1-eda.html#anscombes-quartet",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Anscombe’s Quartet",
+    "text": "Anscombe’s Quartet\n\n\nFour datasets, all with the same means, variances, correlations, and regression lines.\nShows the importance of visualization!\n\n\n\n\nAnscombe’s Quartet\n\n\n\nSource: Wikipedia"
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#the-non-parametric-bootstrap-1",
-    "href": "slides/lecture07-2-bootstrap.html#the-non-parametric-bootstrap-1",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "The Non-Parametric Bootstrap",
-    "text": "The Non-Parametric Bootstrap\n\n\nThe non-parametric bootstrap is the most “naive” approach to the bootstrap: resample-then-estimate.\n\n\n\n\nNon-Parametric Bootstrap"
+    "objectID": "slides/lecture02-1-eda.html#visualizations-for-eda",
+    "href": "slides/lecture02-1-eda.html#visualizations-for-eda",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Visualizations for EDA",
+    "text": "Visualizations for EDA\n\nOften useful to start with scatterplots: one variable (typically independent) on the \\(x\\)-axis, another (typically dependent) on the \\(y\\)-axis.\nTime series: time always goes on the \\(x\\)-axis.\nBoxplots for comparison quantiles/ranges of variables or groups of data."
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#sources-of-non-parametric-bootstrap-error",
-    "href": "slides/lecture07-2-bootstrap.html#sources-of-non-parametric-bootstrap-error",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Sources of Non-Parametric Bootstrap Error",
-    "text": "Sources of Non-Parametric Bootstrap Error\n\nSampling error: error from using finitely many replications\nStatistical error: error in the bootstrap sampling distribution approximation"
+    "objectID": "slides/lecture02-1-eda.html#considerations-when-plotting",
+    "href": "slides/lecture02-1-eda.html#considerations-when-plotting",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Considerations When Plotting",
+    "text": "Considerations When Plotting\n\nWorry about the vertical scale\n\nAre you exaggerating small changes? Downplaying meaningful changes?\n“Adjust vertical scale of data” to reflect meaningful changes and “Vertical scale should always include zero” are conflicting advice.\n\nNeed to be thoughtful: there is no such thing as objectively “correct” visualizations, just honest visualizations."
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#simple-example-is-a-coin-fair",
-    "href": "slides/lecture07-2-bootstrap.html#simple-example-is-a-coin-fair",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Simple Example: Is A Coin Fair?",
-    "text": "Simple Example: Is A Coin Fair?\nSuppose we have observed twenty flips with a coin, and want to know if it is weighted.\n\n\nCode\n# define coin-flip model\np_true = 0.6\nn_flips = 20\ncoin_dist = Bernoulli(p_true)\n# generate data set\ndat = rand(coin_dist, n_flips)\nfreq_dat = sum(dat) / length(dat)\ndat'\n\n\n1×20 adjoint(::Vector{Bool}) with eltype Bool:\n 1  1  0  0  0  1  0  0  0  1  1  1  1  1  1  0  1  1  1  1\n\n\nThe frequency of heads is 0.65."
+    "objectID": "slides/lecture02-1-eda.html#avoid-using-two-vertical-axes",
+    "href": "slides/lecture02-1-eda.html#avoid-using-two-vertical-axes",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Avoid Using Two Vertical Axes",
+    "text": "Avoid Using Two Vertical Axes\n\nTwo axis plot\nSource: Datawrapper.de"
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#is-the-coin-fair",
-    "href": "slides/lecture07-2-bootstrap.html#is-the-coin-fair",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Is The Coin Fair?",
-    "text": "Is The Coin Fair?\n\n\nCode\n# bootstrap: draw new samples\nfunction coin_boot_sample(dat)\n    boot_sample = sample(dat, length(dat); replace=true)\n    return boot_sample\nend\n\nfunction coin_boot_freq(dat, nsamp)\n    boot_freq = [sum(coin_boot_sample(dat)) for _ in 1:nsamp]\n    return boot_freq / length(dat)\nend\n\nboot_out = coin_boot_freq(dat, 1000)\nq_boot = 2 * freq_dat .- quantile(boot_out, [0.975, 0.025])\n\np = histogram(boot_out, xlabel=\"Heads Frequency\", ylabel=\"Count\", title=\"1000 Bootstrap Samples\", label=false, right_margin=5mm)\nvline!(p, [p_true], linewidth=3, color=:orange, linestyle=:dash, label=\"True Probability\")\nvline!(p, [mean(boot_out) ], linewidth=3, color=:red, linestyle=:dash, label=\"Bootstrap Mean\")\nvline!(p, [freq_dat], linewidth=3, color=:purple, linestyle=:dot, label=\"Observed Frequency\")\nvspan!(p, q_boot, linecolor=:grey, fillcolor=:grey, alpha=0.3, fillalpha=0.3, label=\"95% CI\")\nplot!(p, size=(1000, 450))\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 2: Bootstrap heads frequencies for 20 resamples."
+    "objectID": "slides/lecture02-1-eda.html#avoid-using-two-vertical-axes-1",
+    "href": "slides/lecture02-1-eda.html#avoid-using-two-vertical-axes-1",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Avoid Using Two Vertical Axes",
+    "text": "Avoid Using Two Vertical Axes\n\n\n\n\n\nTwo axis plot\n\n\n\nSource: Datawrapper.de\n\n\n\n\n\nIllustration of how rescaling axes manipulates impression\n\n\n\n\nSource: Datawrapper.de"
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#larger-sample-example",
-    "href": "slides/lecture07-2-bootstrap.html#larger-sample-example",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Larger Sample Example",
-    "text": "Larger Sample Example\n\n\nCode\nn_flips = 50\ndat = rand(coin_dist, n_flips)\nfreq_dat = sum(dat) / length(dat)\n\nboot_out = coin_boot_freq(dat, 1000)\nq_boot = 2 * freq_dat .- quantile(boot_out, [0.975, 0.025])\n\np = histogram(boot_out, xlabel=\"Heads Frequency\", ylabel=\"Count\", title=\"1000 Bootstrap Samples\", titlefontsize=20, guidefontsize=18, tickfontsize=16, legendfontsize=16, label=false, bottom_margin=7mm, left_margin=5mm, right_margin=5mm)\nvline!(p, [p_true], linewidth=3, color=:orange, linestyle=:dash, label=\"True Probability\")\nvline!(p, [mean(boot_out) ], linewidth=3, color=:red, linestyle=:dash, label=\"Bootstrap Mean\")\nvline!(p, [freq_dat], linewidth=3, color=:purple, linestyle=:dot, label=\"Observed Frequency\")\nvspan!(p, q_boot, linecolor=:grey, fillcolor=:grey, alpha=0.3, fillalpha=0.3, label=\"95% CI\")\nplot!(p, size=(1000, 450))\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 3: Bootstrap heads frequencies for 1000 resamples."
+    "objectID": "slides/lecture02-1-eda.html#encode-information-with-marks-and-channels",
+    "href": "slides/lecture02-1-eda.html#encode-information-with-marks-and-channels",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Encode Information With Marks and Channels",
+    "text": "Encode Information With Marks and Channels\n\n\nMarks: Geometric primitives\n\nPoints\nSegments\nPaths\nPolygons\n\n\nChannels: Mark appearance\n\nColor (Hue/Saturation/Luminescence)\nPosition (1D/2D/3D)\nSize (Length/Area/Volume)\nAngle"
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#why-use-the-non-parametric-bootstrap",
-    "href": "slides/lecture07-2-bootstrap.html#why-use-the-non-parametric-bootstrap",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Why Use The Non-Parametric Bootstrap?",
-    "text": "Why Use The Non-Parametric Bootstrap?\n\nDo not need to rely on variance asymptotics;\nCan obtain non-symmetric CIs.\nEmbarrassingly parallel to simulate new replicates and generate statistics."
+    "objectID": "slides/lecture02-1-eda.html#ordered-vs.-categorical-attributes",
+    "href": "slides/lecture02-1-eda.html#ordered-vs.-categorical-attributes",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Ordered vs. Categorical Attributes",
+    "text": "Ordered vs. Categorical Attributes\nThe channels available depend on the type of attribute:\n\nOrdered attributes can be\n\nOrdinal: Ranking, no meaning to distance;\nQuantitative: Measure of magnitude which supports arithmetic comparison;\n\nCategorical attributes are unordered."
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#when-cant-you-use-the-non-parametric-bootstrap",
-    "href": "slides/lecture07-2-bootstrap.html#when-cant-you-use-the-non-parametric-bootstrap",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "When Can’t You Use The Non-Parametric Bootstrap",
-    "text": "When Can’t You Use The Non-Parametric Bootstrap\n\nMaxima/minima\nVery extreme values.\n\nGenerally, anything very sensitive to outliers which might not be re-sampled."
+    "objectID": "slides/lecture02-1-eda.html#channel-effectiveness-ordered-data",
+    "href": "slides/lecture02-1-eda.html#channel-effectiveness-ordered-data",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Channel Effectiveness: Ordered Data",
+    "text": "Channel Effectiveness: Ordered Data\n\n\n\n\n\n\n\n\n\nChannels for ordered data, arranged top-to-bottom from more to less effective (channels in the right column are less effective than those in the left). Modified from Healy (2018) after Munzner (2014)."
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#bootstrapping-with-structured-data",
-    "href": "slides/lecture07-2-bootstrap.html#bootstrapping-with-structured-data",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Bootstrapping with Structured Data",
-    "text": "Bootstrapping with Structured Data\nThe naive non-parametric bootstrap that we just saw doesn’t work if data has structure, e.g. spatial or temporal dependence."
+    "objectID": "slides/lecture02-1-eda.html#channel-effectiveness-categorical-data",
+    "href": "slides/lecture02-1-eda.html#channel-effectiveness-categorical-data",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Channel Effectiveness: Categorical Data",
+    "text": "Channel Effectiveness: Categorical Data\n\n\n\n\n\n\n\n\n\nChannels for categorical data, arranged top-to-bottom from more to less effective. Modified from Healy (2018) after Munzer (2014)."
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#simple-bootstrapping-fails-with-structured-data",
-    "href": "slides/lecture07-2-bootstrap.html#simple-bootstrapping-fails-with-structured-data",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Simple Bootstrapping Fails with Structured Data",
-    "text": "Simple Bootstrapping Fails with Structured Data\n\nCode\ntide_dat = CSV.read(joinpath(\"data\", \"surge\", \"norfolk-hourly-surge-2015.csv\"), DataFrame)\nsurge_resids = tide_dat[:, 5] - tide_dat[:, 3]\n\np1 = plot(surge_resids, xlabel=\"Hour\", ylabel=\"(m)\", title=\"Tide Gauge Residuals\", label=:false, linewidth=3)\nplot!(p1, size=(600, 450))\n\nresample_index = sample(1:length(surge_resids), length(surge_resids); replace=true)\np2 = plot(surge_resids[resample_index], xlabel=\"Hour\", ylabel=\"(m)\", title=\"Tide Gauge Resample\", label=:false, linewidth=3)\nplot!(p2, size=(600, 450))\n\ndisplay(p1)\ndisplay(p2)\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Simple bootstrap with time series data.\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b)\n\n\n\n\n\n\n\nFigure 4"
+    "objectID": "slides/lecture02-1-eda.html#preattentive-popout",
+    "href": "slides/lecture02-1-eda.html#preattentive-popout",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Preattentive Popout",
+    "text": "Preattentive Popout\n\n\nTry to make your key features “pop out” to the viewer during the pre-attentive scan.\n\nSearching for the blue circle becomes harder. Adapted from Healy (2018).\n\n\n\n\nCode\nnpt = 20\ndist = Distributions.Product(Uniform.([0, 0], [1, 1]))\npts = Tuple.(eachcol(rand(dist, npt)))\nblueidx = rand(1:npt)\np1 = scatter(pts[1:end .!= blueidx], color=:red, xticks=:false, yticks=:false, legend=:false, markersize=5, title=\"Color Only, N=20\", framestyle=:box)\nscatter!(p1, pts[blueidx, :], color=:blue, markersize=5)\n\nnpt = 100\npts = Tuple.(eachcol(rand(dist, npt)))\nblueidx = rand(1:npt)\np2 = scatter(pts[1:end .!= blueidx], color=:red, xticks=:false, yticks=:false, legend=:false, markersize=5, title=\"Color Only, N=100\", framestyle=:box)\nscatter!(p2, pts[blueidx, :], color=:blue, markersize=5)\n\nnpt = 20\npts = Tuple.(eachcol(rand(dist, npt)))\nblueidx = rand(1:npt)\np3 = scatter(pts[1:end .!= blueidx], color=:blue, markershape=:utriangle, xticks=:false, yticks=:false, legend=:false, markersize=5, title=\"Shape Only, N=20\", framestyle=:box)\nscatter!(p3, pts[blueidx, :], color=:blue, markersize=5, markershape=:circle)\n\nnpt = 100\npts = Tuple.(eachcol(rand(dist, npt)))\nblueidx = rand(1:npt)\np4 = scatter(pts[1:end .!= blueidx], color=:blue, markershape=:utriangle, xticks=:false, yticks=:false, legend=:false, markersize=5, title=\"Shape Only, N=100\", framestyle=:box)\nscatter!(p4, pts[blueidx, :], color=:blue, markersize=5, markershape=:circle)\n\nplot(p1, p2, p3, p4, layout=(2, 2), size=(800, 500))"
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#block-bootstraps",
-    "href": "slides/lecture07-2-bootstrap.html#block-bootstraps",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Block Bootstraps",
-    "text": "Block Bootstraps\nClever idea from Kunsch (1989): Divide time series \\(y_{1:T}\\) into overlapping blocks of length \\(k\\).\n\\[\\{y_{1:k}, y_{2:k+1}, \\ldots y_{n-k+1:n}\\}\\]\nThen draw \\(m = n / k\\) of these blocks with replacement and construct replicate time series:\n\\[\\hat{y}_{1:n} = (y_{b_1}, \\ldots, y_{b_m}) \\]\nNote: Your series must not have a trend!"
+    "objectID": "slides/lecture02-1-eda.html#principle-of-proportional-ink",
+    "href": "slides/lecture02-1-eda.html#principle-of-proportional-ink",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Principle of Proportional Ink",
+    "text": "Principle of Proportional Ink\n\n\nOn the left: 2014 quantity is ~1.1x 2010 value, but due to vertical scale the 2014 bar uses 2.7x the ink.\nCan mislead viewers into thinking the difference is larger than it truly is!\n\n\n\n\nIllustration of Non-Proportional Ink\n\n\n\nSource: Calling Bullshit"
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#block-bootstrap-example",
-    "href": "slides/lecture07-2-bootstrap.html#block-bootstrap-example",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Block Bootstrap Example",
-    "text": "Block Bootstrap Example\n\n\n\n\nCode\nk = 20\nn_blocks = length(surge_resids) - k + 1\nblocks = zeros(Float64, (k, n_blocks))\nfor i = 1:n_blocks\n    blocks[:, i] = surge_resids[i:(k+i-1)]\nend\nblocks[:, 1:5]\n\n\n20×5 Matrix{Float64}:\n  0.136   0.107   0.097   0.093   0.093\n  0.107   0.097   0.093   0.093   0.08\n  0.097   0.093   0.093   0.08    0.068\n  0.093   0.093   0.08    0.068   0.031\n  0.093   0.08    0.068   0.031   0.005\n  0.08    0.068   0.031   0.005   0.011\n  0.068   0.031   0.005   0.011   0.012\n  0.031   0.005   0.011   0.012   0.001\n  0.005   0.011   0.012   0.001  -0.002\n  0.011   0.012   0.001  -0.002  -0.014\n  0.012   0.001  -0.002  -0.014  -0.013\n  0.001  -0.002  -0.014  -0.013  -0.015\n -0.002  -0.014  -0.013  -0.015  -0.02\n -0.014  -0.013  -0.015  -0.02   -0.019\n -0.013  -0.015  -0.02   -0.019  -0.031\n -0.015  -0.02   -0.019  -0.031  -0.071\n -0.02   -0.019  -0.031  -0.071  -0.067\n -0.019  -0.031  -0.071  -0.067  -0.084\n -0.031  -0.071  -0.067  -0.084  -0.086\n -0.071  -0.067  -0.084  -0.086  -0.092\n\n\n\n\n\nCode\nm = Int64(ceil(length(surge_resids) / k))\nn_boot = 1_000\nsurge_bootstrap = zeros(length(surge_resids), n_boot)\nfor i = 1:n_boot\n    block_sample_idx = sample(1:n_blocks, m; replace=true)\n    surge_bootstrap[:, i] = reduce(vcat, blocks[:, block_sample_idx])\nend\n\np = plot(surge_resids, color=:black, lw=3, label=\"Data\", xlabel=\"Hour\", ylabel=\"(m)\", title=\"Tide Gauge Residuals\", alpha=0.5)\nplot!(p, surge_bootstrap[:, 1], color=:blue, lw=3, label=\"Replicate\", alpha=0.5)\nplot!(p, size=(600, 500))\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 5: Comparison of original data with block bootstrap replicate."
+    "objectID": "slides/lecture02-1-eda.html#color-schemes",
+    "href": "slides/lecture02-1-eda.html#color-schemes",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Color Schemes",
+    "text": "Color Schemes\nDifferent color schemes are appropriate depending on whether the data is sequential, divergent, or unordered.\n\n\n\n\n\n\nAppropriate Color Schemes\n\n\nColor schemes should be perceptually uniform to preserve a mapping between changes in perceived colors and changes in attribute values.\nTry to also choose color schemes which avoid confusing people who are color blind."
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#block-bootstrap-replicates",
-    "href": "slides/lecture07-2-bootstrap.html#block-bootstrap-replicates",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Block Bootstrap Replicates",
-    "text": "Block Bootstrap Replicates\n\n\nCode\np = plot(xlabel=\"Hour\", ylabel=\"(m)\", title=\"Tide Gauge Residuals\")\nfor i = 1:10\n    label = i == 1 ? \"Replicate\" : false\n    plot!(p, surge_bootstrap[:, i], label=label, color=:gray, alpha=0.2, lw=2)\nend\nplot!(p, surge_resids, label=\"Data\", color=:black, lw=3)\nplot!(p, size=(1200, 500))\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 6: Block bootstrap with time series data."
+    "objectID": "slides/lecture02-1-eda.html#color-schemes-1",
+    "href": "slides/lecture02-1-eda.html#color-schemes-1",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Color Schemes",
+    "text": "Color Schemes\nGood news: Most plotting libraries include a wide variety of perceptually uniform, color-blind safe color schemes.\nBad news: These are not usually the defaults (in particular, avoid “rainbow” color schemes)."
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#generalizing-the-block-bootstrap",
-    "href": "slides/lecture07-2-bootstrap.html#generalizing-the-block-bootstrap",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Generalizing the Block Bootstrap",
-    "text": "Generalizing the Block Bootstrap\n\nCircular Bootstrap: “Wrap” the time series in a circle, \\(y_1, y_2, \\ldots, y_n, y_1, y_2, \\ldots\\) then divide into blocks and resample.\nStationary Bootstrap: Use random block lengths to avoid systematic boundary transitions.\nBlock of Blocks Bootstrap: Divide series into blocks of length \\(k_2\\), then subdivide into blocks of length \\(k_1\\). Sample blocks with replacement then sample sub-blocks within each block with replacement."
+    "objectID": "slides/lecture02-1-eda.html#sequential-color-schemes",
+    "href": "slides/lecture02-1-eda.html#sequential-color-schemes",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Sequential Color Schemes",
+    "text": "Sequential Color Schemes\nSequential schemes change in intensity from low to high as the value changes."
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#key-points",
-    "href": "slides/lecture07-2-bootstrap.html#key-points",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Key Points",
-    "text": "Key Points\n\nBootstrap: Approximate sampling distribution by re-simulating data\nNon-Parametric Bootstrap: Treat data as representative of population and re-sample.\nMore complicated for structured data: block bootstrap for time series, analogues for spatial data."
+    "objectID": "slides/lecture02-1-eda.html#divergent-color-schemes",
+    "href": "slides/lecture02-1-eda.html#divergent-color-schemes",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Divergent Color Schemes",
+    "text": "Divergent Color Schemes\nDivergent schemes intensify in two directions from a zero or mean value."
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#sources-of-non-parametric-bootstrap-error-1",
-    "href": "slides/lecture07-2-bootstrap.html#sources-of-non-parametric-bootstrap-error-1",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "Sources of Non-Parametric Bootstrap Error",
-    "text": "Sources of Non-Parametric Bootstrap Error\n\nSampling error: error from using finitely many replications\nStatistical error: error in the bootstrap sampling distribution approximation"
+    "objectID": "slides/lecture02-1-eda.html#unordered-color-schemes",
+    "href": "slides/lecture02-1-eda.html#unordered-color-schemes",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Unordered Color Schemes",
+    "text": "Unordered Color Schemes\nUnordered schemes are appropriate for categorical data."
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#when-to-use-the-non-parametric-bootstrap",
-    "href": "slides/lecture07-2-bootstrap.html#when-to-use-the-non-parametric-bootstrap",
-    "title": "Uncertainty Quantification and The Bootstrap",
-    "section": "When To Use The Non-Parametric Bootstrap",
-    "text": "When To Use The Non-Parametric Bootstrap\n\nSample is representative of the sampling distribution\nDoesn’t work well for extreme values!\nDoes not work at all for max/mins (or any other case where the CLT fails)."
+    "objectID": "slides/lecture02-1-eda.html#some-caveats",
+    "href": "slides/lecture02-1-eda.html#some-caveats",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Some Caveats",
+    "text": "Some Caveats\n\nThere is no recipe to effective visualization. Everything depends on your data and the story you want to tell.\nThis also means that defaults from data visualization packages are usually bad.\nPrinciples are largely based on Western (American/European) norms and may not translate perfectly.\nA lot of these guidelines are based on average outcomes, there is likely to be a lot of individual variation."
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#next-classes",
-    "href": "slides/lecture07-2-bootstrap.html#next-classes",
-    "title": "Uncertainty Quantification and The Bootstrap",
+    "objectID": "slides/lecture02-1-eda.html#first-attempt-paired-scatterplots",
+    "href": "slides/lecture02-1-eda.html#first-attempt-paired-scatterplots",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "First Attempt: Paired Scatterplots",
+    "text": "First Attempt: Paired Scatterplots\n\n\nCode\n# this uses the dataframe plotting syntax from StatsPlots.jl\np1 = @df aq scatter(:Ozone, :Solar, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Solar Radiation (lang)\", leftmargin=10mm)\np2 = @df aq scatter(:Ozone, :Wind, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Wind Speed (mph)\", leftmargin=10mm)\np3 = @df aq scatter(:Ozone, :Temp, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Max Temperature (°F) \", leftmargin=10mm)\n\np = plot(p1, p2, p3, layout=(1, 3), size=(1100, 400))\n\n\n\n\nFigure 1: Paired plots of air quality dataset"
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#do-multiple-channels-help",
+    "href": "slides/lecture02-1-eda.html#do-multiple-channels-help",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Do Multiple Channels Help?",
+    "text": "Do Multiple Channels Help?\n\n\nCode\n# this uses the dataframe plotting syntax from StatsPlots.jl\naq2 = dropmissing(aq)\np = @df aq2 scatter(:Ozone, :Wind, marker_z=:Solar,\n    xlabel=\"Ozone (ppb)\", \n    ylabel=\"Wind Speed (mph)\", \n    colorbar_title=\"Solar Radiation (lang)\",\n    c=:reds,\n    markersize=5\n)\n\n\n\n\nFigure 2: Scatterplot of air quality dataset with solar color"
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#do-multiple-channels-help-1",
+    "href": "slides/lecture02-1-eda.html#do-multiple-channels-help-1",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Do Multiple Channels Help?",
+    "text": "Do Multiple Channels Help?\n\n\nCode\n# this uses the dataframe plotting syntax from StatsPlots.jl\naq2 = dropmissing(aq)\np = @df aq2 scatter(:Ozone, :Wind, marker_z=:Temp,\n    xlabel=\"Ozone (ppb)\", \n    ylabel=\"Wind Speed (mph)\", \n    colorbar_title=\"Max Temperature (°F)\",\n    c=:reds,\n    markersize=5\n)\n\n\n\n\nFigure 3: Scatterplot of air quality dataset with temperature color"
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#edadata-visualization",
+    "href": "slides/lecture02-1-eda.html#edadata-visualization",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "EDA/Data Visualization",
+    "text": "EDA/Data Visualization\n\nEDA: Understand structure of data while making as few assumptions as possible (e.g. look at the raw data, not “smoothed” versions).\nNo such thing as “objectively best” visualization.\nNeed to be thoughtful about the story you’re trying to tell.\nUsually involves a lot of experimentation to make important features of the data pop out."
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#data-visualization-suggestions",
+    "href": "slides/lecture02-1-eda.html#data-visualization-suggestions",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Data Visualization Suggestions",
+    "text": "Data Visualization Suggestions\n\nSome key degrees of freedom: vertical scale, information channels.\nDon’t add unnecessary artifacts! Easy to get “cute” and distract from core message.\nStart simple (scatterplots, boxplots, histograms)\nDon’t make 3D plots. Don’t use two vertical axes.\nAlways ask yourself: are you honestly presenting the data and is your visual consistent with your story?"
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#next-classes",
+    "href": "slides/lecture02-1-eda.html#next-classes",
+    "title": "Exploratory Data Analysis and Visualization",
     "section": "Next Classes",
-    "text": "Next Classes\nMonday: The Parametric Bootstrap\nWednesday: What is a Markov Chain?"
+    "text": "Next Classes\nWednesday: Probability Models and Linear Regression\nFriday: Data Visualization Lab (come prepared with a visualization and its underlying dataset)."
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#assessments",
-    "href": "slides/lecture07-2-bootstrap.html#assessments",
-    "title": "Uncertainty Quantification and The Bootstrap",
+    "objectID": "slides/lecture02-1-eda.html#assessments",
+    "href": "slides/lecture02-1-eda.html#assessments",
+    "title": "Exploratory Data Analysis and Visualization",
     "section": "Assessments",
-    "text": "Assessments\nHomework 3: Due next Friday (3/14)\nProject Proposals: Due 3/21."
+    "text": "Assessments\nHomework 1 Due Friday, 2/6."
   },
   {
-    "objectID": "slides/lecture07-2-bootstrap.html#references-scroll-for-full-list",
-    "href": "slides/lecture07-2-bootstrap.html#references-scroll-for-full-list",
-    "title": "Uncertainty Quantification and The Bootstrap",
+    "objectID": "slides/lecture02-1-eda.html#references-scroll-for-full-list",
+    "href": "slides/lecture02-1-eda.html#references-scroll-for-full-list",
+    "title": "Exploratory Data Analysis and Visualization",
     "section": "References (Scroll for Full List)",
-    "text": "References (Scroll for Full List)\n\n\n\n\nEfron, B. (1979). Bootstrap methods: Another look at the jackknife. Ann. Stat., 7, 1–26. https://doi.org/10.1214/aos/1176344552\n\n\nKunsch, H. R. (1989). The jackknife and the bootstrap for general stationary observations. Ann. Stat., 17, 1217–1241. https://doi.org/10.1214/aos/1176347265"
+    "text": "References (Scroll for Full List)\n\n\n\n\nHealy, K. (2018). Data visualization: A practical introduction. Princeton University Press.\n\n\nMunzner, T. (2014). Visualization analysis and design. CRC Press."
   },
   {
     "objectID": "slides/lecture10-2-information-models.html#what-makes-a-good-prediction",
@@ -6903,13 +6889,27 @@
     "href": "syllabus.html#course-policies",
     "title": "Syllabus",
     "section": "Course Policies",
-    "text": "Course Policies\nMany policies below (including grading policies) are broken out and discussed further on the course website. Lack of familiarity with any of these policies is not an excuse for violating any of them.\n\nAttendance\nAttendance is not required, but in general, students who attend class regularly will do better and get more out of the class than students who do not. Your class participation grade will reflect both the quantity and quality of your participation, only some of which can occur asynchronously. I will put as many course materials, such as lecture notes and announcements, as possible online, but viewing materials online is not the same as active participation and engagement. Life happens, of course, and this may lead you to miss class. Let me know if you need any appropriate arrangements ahead of time.\n\n\n\n\n\n\nImportantWhat If I’m Sick?\n\n\n\nPlease stay home if you’re feeling sick! This is beneficial for both for your own recovery and the health and safety of your classmates. We will also make any necessary arrangements for you to stay on top of the class material and if whatever is going on will negatively impact your grade, for example by causing you to be unable to submit an assignment on time.\n\n\n\n\nMask Policies\nPlease stay home and rest if you have symptoms of COVID-19 or any other respiratory illness. No masking will be required, but please be respectful of others who may wear masks or take other precautions to avoid illness. This policy may change if there is another outbreak of COVID-19 (or other illness), but will be kept consistent with broader Cornell mask policies.\n\n\nAcademic Integrity\n\n\n\n\n\n\nTL;DR: Don’t cheat, copy, or plagiarize!\n\n\n\nThis class is designed to encourage collaboration, and students are encouraged to discuss their work with other students. However, I expect students to abide by the Cornell University Code of Academic Integrity in all aspects of this class. All work submitted must represent the students’ own work and understanding, whether individually or as a group (depending on the particulars of the assignment). This includes analyses, code, software runs, and reports. Engineering as a profession relies upon the honesty and integrity of its practitioners (see e.g. the American Society for Civil Engineers’ Code of Ethics).\n\n\nExternal Resources\nThe collaborative environment in this class should not be viewed as an invitation for plagiarism. Plagiarism occurs when a writer intentionally misrepresents another’s words or ideas (including code!) as their own without acknowledging the source. All external resources which are consulted while working on an assignment should be referenced, including other students and faculty with whom the assignment is discussed. You will never be penalized for consulting an external source for help and referencing it, but plagiarism will result in a zero for that assignment as well as the potential for your case to be passed on for additional disciplinary action.\n\n\nAI/ML Resource Policy\nLarge language models (LLMs), such as GPT, and other generative AI models are powerful tools for predicting text and code patterns. However, while they can save time (though you’d be surprised at how little time their careful use saves), they often make mistakes that can be hard to detect or fail to communicate key ideas or insights at the expense of more general and banal text. As you are likely to encounter an ever-widening use of these tools when you leave Cornell, it is critical that you learn how to use these tools responsibly and effectively.\nHowever, this class will not focus on teaching you how to use LLMs responsibly; we assume that if you are using these tools, you are doing so in a way which benefits your learning and helps you communicate your already-existing understanding, rather than substituting for it. You are generally permitted to use these tools, but you are ultimately responsible for guaranteeing, understanding, and interpreting your results. If you submit work that was LLM generated, and this work receives a poor grade due to the LLM’s inability to demonstrate understanding, your grade will reflect that substantive assessment.\nGeneral guidelines for AI/ML use:\n\nAI tools for code: You may use LLM tools for code development and debugging, particularly for translating between other languages that you already have a better knowledge of (e.g. Python) and Julia. However, LLMs often make bad decisions about how to structure code, can introduce bugs (including suggesting packages that do not exist or outdated syntax), and can mislead you about what your code is doing. You are responsible for understanding and debugging any code involved in solving computational exercises. Notably, if you ask for help debugging LLM-generated code, this will not be possible unless you have already developed your own understanding of what each piece of the code does (or should do) and which parts work and don’t work.\nAI tools for writing: LLMs should not be used to generate text that you submit as your own work. The point of written assessments (including model derivations and interpretations) is to stimulate your own critical thinking and mathematical skills, and you short-cut this process by substituting LLM use for your own process of formulating and articulating ideas. Even using LLMs to do the initial writing and editing that output will result in shallower thinking. As we are not teaching you in this class to critically engage with LLMs, However, you may use LLMs or similar tools (e.g. Grammarly) to help you edit your writing. As mentioned before, you are ultimately responsible for the content of any work you turn in: if a tool used to edit grammar changed the substance of your writing, you will be responsible for the submission.\n\nTo distinguish between these permissible and impermissible uses, you are required to cite your use of the tool (as with any other external reference). In particular, you must disclose how you use the LLM and how you incorporated any output into your final submission. Failure to fully reference the interaction, as described above, will be treated as plagiarism and referred to the University accordingly. If you have any questions about whether your planned use of an AI/ML tool complies with the academic integrity policy, please consult a member of the course staff ahead of its use.\n\n\nLate Work Policy\nIn general, late work can be submitted up to 24 hours late at a 50% penalty, and will not be accepted after that point. This policy may seem strict, but allows for prompt release of solutions and discussion of assignments. Please reach out as soon as possible (ideally before the due date) if legitimate circumstances emerge which prevent you from submitting work within 24 hours of the due date; we will make accomodations for approved reasons, which might included a limited extension or dropping the assignment.\n\n\nRegrade Requests\nRegrade requests can be submitted up to one week after the graded work is released on Gradescope.\nAll regrade requests must include a brief justification for the request or they will not be considered. Good justifications include (but are not limited to): - My answer agrees with the posted solution, but I still lost points. - I lost 4 points for something, but the rubric says it should only be worth 2 points. - You took points off for something, but it’s right here. - My answer is correct, even though it does not match the posted solution; here is an explanation. - There is no explanation for my grade. - I got a perfect score, but my solution has a mistake (you will receive extra credit for this! see below!) - There is a major error in the posted solution; here is an explanation (full credit for everyone, but Prof. Srikrishnan will decide what constitutes a “major error”! see below!).\n\n\n\n\n\n\nImportantWe Can Only Grade What You Submitted\n\n\n\nAll regrades will be assessed based only on the submitted work. You cannot get a higher grade by explanating what you meant (either in person or online) or by adding information or reasoning to what is submitted after the fact. The goal of the regrade is to draw attention to a potential grading problem, not to supplement the submission.\n\n\nThe first regrade request for any submission will be handled by the person who graded that homework problem. The first regrade request for any exam submission will be handled by whoever graded that exam problem. If the submission was graded by the TA, additional regrade requests for the same submission will be handled directly by the instructor. Once Prof. Srikrishnan issues a final response to a regrade request, further requests for that submission will be ignored.\n\n\n\n\n\n\nWarningRegrade Requests Can Be A Gamble!\n\n\n\nWhile you should submit regrade requests for legitimate errors, using them for fishing expeditions can also result in lost points if the TA or Prof. Srikrishnan decide that your initial grade was too lenient or if additional errors are identified.\n\n\n\n\n\n\n\n\nTipWhat If I Find A Different Type of Mistake?\n\n\n\n\nIf you submit a regrade request correctly reporting that a problem was graded too leniently — that is, that your score was higher than it should be based on the rubric — your score will be increased by the difference. For example, if your original score on a problem was 8/10 and you successfully argue that your score should have been 3/10, your new score will be 13/10. However, don’t fish — your grade might be lowered if the TA finds an independent mistake while regrading.\nIf a significant error is discovered in a posted homework solution or in the exam solutions, everyone will in the class will receive full credit for the (sub)problem. Prof. Srikrishnan will decide what is “significant”.\n\n\n\n\n\nOffice Hours\nOffice hours with both Prof. Srikrishnan and the TA will be available each week at times specified at the top of this syllabus. Changes to the office hour schedule (cancellations/rescheduling) will be announced in class and on Ed Discussion.\nOffice hours are intended to help all students who attend. This time is limited, and is best spent on issues that are relevant to as many students as possible. While we will do our best to answer individual questions, students asking us to verify or debug homework solutions or help with syntax will have the lowest priority (but please do ask about how to verify or debug your own solutions!). However, we are happy to discuss conceptual approaches to solving homework problems, which may help to reveal bugs.\nSpace at office hours can be limited (we may shift to the conference room in 316 Riley-Robb if offices are full and it is available). If the room is crowded and you can find an alternative source of assistance, or if your question is low priority (e.g. debugging) please be kind and make room for others.\n\n\n\n\n\n\nTipWhat If I Can’t Make Office Hours?\n\n\n\nWhile we will try to select office hours that work for as much of the class as possible, both the course staff and students have busy schedules and no time will work for everyone. If you need help outside of office hours (e.g. office hours do not fit your schedule), please send an email to the TA or Prof. Srikrishnan as soon as possible. These requests may not be accepted on short notice (e.g. if you have a question about a homework due on Thursday and send a request on the immediately prior Wednesday; schedules for course staff may already be full). We recommend starting your homework promptly so you can take advantage of office hours or make an appointment over a longer period."
+    "text": "Course Policies\nMany policies below (including grading policies) are broken out and discussed further on the course website. Lack of familiarity with any of these policies is not an excuse for violating any of them.\n\nAttendance\nAttendance is not required, but in general, students who attend class regularly will do better and get more out of the class than students who do not. Your class participation grade will reflect both the quantity and quality of your participation, only some of which can occur asynchronously. I will put as many course materials, such as lecture notes and announcements, as possible online, but viewing materials online is not the same as active participation and engagement. Life happens, of course, and this may lead you to miss class. Let me know if you need any appropriate arrangements ahead of time.\n\n\n\n\n\n\nImportantWhat If I’m Sick?\n\n\n\nPlease stay home if you’re feeling sick! This is beneficial for both for your own recovery and the health and safety of your classmates. We will also make any necessary arrangements for you to stay on top of the class material and if whatever is going on will negatively impact your grade, for example by causing you to be unable to submit an assignment on time.\n\n\n\n\nMask Policies\nPlease stay home and rest if you have symptoms of COVID-19 or any other respiratory illness. No masking will be required, but please be respectful of others who may wear masks or take other precautions to avoid illness. This policy may change if there is another outbreak of COVID-19 (or other illness), but will be kept consistent with broader Cornell mask policies."
+  },
+  {
+    "objectID": "syllabus.html#academic-integrity",
+    "href": "syllabus.html#academic-integrity",
+    "title": "Syllabus",
+    "section": "Academic Integrity",
+    "text": "Academic Integrity\n\n\n\n\n\n\nTL;DR: Don’t cheat, copy, or plagiarize!\n\n\n\nThis class is designed to encourage collaboration, and students are encouraged to discuss their work with other students. However, I expect students to abide by the Cornell University Code of Academic Integrity in all aspects of this class. All work submitted must represent the students’ own work and understanding, whether individually or as a group (depending on the particulars of the assignment). This includes analyses, code, software runs, and reports. Engineering as a profession relies upon the honesty and integrity of its practitioners (see e.g. the American Society for Civil Engineers’ Code of Ethics).\nViolations of the academic integrity policies below\n\n\n\n\n\n\nTipWhat If I’m Unsure About The Policies?\n\n\n\nIf you are unsure about whether a particular action (such as a use of external resources) is permittable under this policy, please consult with Prof. Srikrishnan before using them and particularly before submitting anything. If you realize after the fact (but before submitting, ideally) that you may have unintentionally violated the policy, it is your responsibility to let Prof. Srikrishnan know ASAP so we can figure out a solution.\n\n\n\nExternal Resources\nThe collaborative environment in this class should not be viewed as an invitation for plagiarism. Plagiarism occurs when a writer intentionally misrepresents another’s words or ideas (including code!) as their own without acknowledging the source. All external resources1 which are consulted while working on an assignment should be referenced, including other students and faculty with whom the assignment is discussed. You will never be penalized for consulting an external source for help and referencing it, but plagiarism will result in a zero for that assignment as well as the potential for your case to be passed on for additional disciplinary action.\n1 An external resource is one which was not provided by the instructor as part of the course material; these policy does not apply to lecture notes, assignments, or readings from the current course offering.An exception is for homework, lab, or quiz solutions from previous offerings of this course. The use of these is strictly prohibited. You may not consult these solutions, read them, or ask students who took the course previously for help.\n\n\n\n\n\n\nWarningWhy Can’t I Consult Old Solutions?\n\n\n\nThe core problem is that relying on previous solutions (or prior knowledge of the course from others) does not allow you to practice the course material and makes feedback and assessment of your work meaningless. It also is unfair to others in the course who may not have access to these materials.\nThis is fundamentally different from working with your classmates, who are also trying out the problems for the first time.\n\n\n\n\nAI/ML Resource Policy\nLarge language models (LLMs), such as GPT, and other generative AI models are powerful tools for predicting text and code patterns. However, while they can save time (though you’d be surprised at how little time their careful use saves), they often make mistakes that can be hard to detect or fail to communicate key ideas or insights at the expense of more general and banal text. As you are likely to encounter an ever-widening use of these tools when you leave Cornell, it is critical that you learn how to use these tools responsibly and effectively.\nHowever, this class will not focus on teaching you how to use LLMs responsibly; we assume that if you are using these tools, you are doing so in a way which benefits your learning and helps you communicate your already-existing understanding, rather than substituting for it. You are generally permitted to use these tools, but you are ultimately responsible for guaranteeing, understanding, and interpreting your results. If you submit work that was LLM generated, and this work receives a poor grade due to the LLM’s inability to demonstrate understanding, your grade will reflect that substantive assessment.\nAs a result, use of these tools is highly discouraged. You will have to be honest with yourself about your ability to check and correct their output, whether that is code or writing. Moreover, using them to drafting initial code or text fundamentally inhibits the learning process; working through the friction of expressing and articulating your thoughts in code or text is an important part of learning!\nGeneral guidelines for AI/ML use:\n\nAI tools for code: You may use LLM tools for code development and debugging, particularly for translating between other languages that you already have a better knowledge of (e.g. Python) and Julia. However, LLMs often make bad decisions about how to structure code, can introduce bugs (including suggesting packages that do not exist or outdated syntax), and can mislead you about what your code is doing. You are responsible for understanding and debugging any code involved in solving computational exercises. Notably, if you ask for help debugging LLM-generated code, this will not be possible unless you have already developed your own understanding of what each piece of the code does (or should do) and which parts work and don’t work.\nAI tools for writing: LLMs should not be used to generate text that you submit as your own work. The point of written assessments (including model derivations and interpretations) is to stimulate your own critical thinking and mathematical skills, and you short-cut this process by substituting LLM use for your own process of formulating and articulating ideas. Even using LLMs to do the initial writing and editing that output will result in shallower thinking. As we are not teaching you in this class to critically engage with LLMs, However, you may use LLMs or similar tools (e.g. Grammarly) to help you edit your writing. As mentioned before, you are ultimately responsible for the content of any work you turn in: if a tool used to edit grammar changed the substance of your writing, you will be responsible for the submission.\n\nTo distinguish between these permissible and impermissible uses, you are required to cite your use of the tool (as with any other external reference). In particular, you must disclose how you use the LLM and how you incorporated any output into your final submission. Failure to fully reference the interaction, as described above, will be treated as plagiarism and referred to the University accordingly. If you have any questions about whether your planned use of an AI/ML tool complies with the academic integrity policy, please consult a member of the course staff ahead of its use."
+  },
+  {
+    "objectID": "syllabus.html#office-hours",
+    "href": "syllabus.html#office-hours",
+    "title": "Syllabus",
+    "section": "Office Hours",
+    "text": "Office Hours\nOffice hours with both Prof. Srikrishnan and the TA will be available each week at times specified at the top of this syllabus. Changes to the office hour schedule (cancellations/rescheduling) will be announced in class and on Ed Discussion.\nOffice hours are intended to help all students who attend. This time is limited, and is best spent on issues that are relevant to as many students as possible. While we will do our best to answer individual questions, students asking us to verify or debug homework solutions or help with syntax will have the lowest priority (but please do ask about how to verify or debug your own solutions!). However, we are happy to discuss conceptual approaches to solving homework problems, which may help to reveal bugs.\nSpace at office hours can be limited (we may shift to the conference room in 316 Riley-Robb if offices are full and it is available). If the room is crowded and you can find an alternative source of assistance, or if your question is low priority (e.g. debugging) please be kind and make room for others.\n\n\n\n\n\n\nTipWhat If I Can’t Make Office Hours?\n\n\n\nWhile we will try to select office hours that work for as much of the class as possible, both the course staff and students have busy schedules and no time will work for everyone. If you need help outside of office hours (e.g. office hours do not fit your schedule), please send an email to the TA or Prof. Srikrishnan as soon as possible. These requests may not be accepted on short notice (e.g. if you have a question about a homework due on Thursday and send a request on the immediately prior Wednesday; schedules for course staff may already be full). We recommend starting your homework promptly so you can take advantage of office hours or make an appointment over a longer period."
   },
   {
     "objectID": "syllabus.html#assessments",
     "href": "syllabus.html#assessments",
     "title": "Syllabus",
     "section": "Assessments",
-    "text": "Assessments\n\nTechnologies\nWe will use Canvas as a gradebook, and to distribute PDFs of readings (which also be made available through the website when possible, via the Cornell library). Ed Discussion will be used for course communications. Assignments will be submitted and graded in Gradescope.\nStudents can use any programming language they like to solve problems, though we will make notebooks and package environments available for Julia (which may help structure your assignments if you use a different language) via GitHub. If students use a language other than Julia, we may limited in the programming assistance we can provide (though we’re happy to try to help!).\nWe recommend students create a GitHub account and use GitHub to version control and share their code throughout the semester.\n\n\nGrading\nFinal grades will be computed based on the following assessment weights:\n\n\n\nAssessment\nWeight\n\n\n\n\nLabs\n10%\n\n\nQuizzes\n5%\n\n\nParticipation (4850)/Literature Critique (5850)\n10%\n\n\nReadings\n10%\n\n\nHomework Assignments\n15%\n\n\nPrelims\n30%\n\n\nTerm Project\n20%\n\n\n\nThe following grading scale will be used to convert the numerical weighted average to letter grades:\n\n\n\nGrade\nRange\n\n\n\n\nA+\n97–100\n\n\nA\n93–97\n\n\nA-\n90–93\n\n\nB+\n87–90\n\n\nB\n83–87\n\n\nB-\n80–83\n\n\nC+\n77–80\n\n\nC\n73–77\n\n\nC-\n70–73\n\n\nD+\n67–70\n\n\nD\n63–67\n\n\nD-\n60–63\n\n\nF\n&lt; 60\n\n\n\n\n\nParticipation\nParticipating fully in the class allows you to gain more from the class and contribute more to the learning of your classmates. Some ways to participate include:\n\nAsking questions in class or on Ed;\nAnswering questions in class or on Ed;\nActively engaging in in-class activities;\nComing to office hours.\n\nNote that just passively attending class will not yield full participation points. Participation points are not free: you are likely to lose points if you consistently skip class or do not ask or answer questions online or in person. At the end of the term, you will be asked to evaluate your own participation over the course of the semester, in addition to my documentation of your participation. Participation is a component of the grade for students enrolled in BEE 4850.\n\n\nQuizzes\nQuizzes will be assigned in Gradescope most weeks based on recently discussed content. These will be relatively short and are intended to consolidate material recently discussed in class. The quizzes will be released after Wednesday’s class and will be due prior to next Monday’s. Quizzes can be retaken as many times as are desired prior to the submission deadline. They may consist of multiple choice questions or questions involving small mathematical, computational, or open-ended problems. One quiz will be dropped automatically (this is intended to account for a week in which you forget or are too busy to submit).\n\n\nLabs\nSeveral class periods (typically on Fridays) will be dedicated to in-class labs. Students will be given worksheets and/or Jupyter notebooks aimed at getting hands-on practice with the prior lecture topic(s). Lab writeups will be due before the class meeting the following Monday after the lab period. They will be graded primarily on evidence of effort rather than correctness. One lab assignment will be automatically dropped.\n\n\nLiterature Critique\nStudents in BEE 5850 will select a peer-reviewed journal article related to an application of data analysis and will write a short discussion paper (2-3 pages) analyzing the hypotheses and statistical choices. Students should feel free to select their own paper or can work with Prof. Srikrishnan to identify one of interest, but in all cases should discuss with Prof. Srikrishnan to ensure that the article is appropriate. The discussion paper will be due towards at the end of the semester.\n\n\nReadings\nReadings will be assigned throughout the semester to help students engage with background or uses of the material for that week. These readings will be provided as PDFs on Canvas through Perusall and (when possible through open access or the Cornell library) links from the website. Students are expected to demonstrate engagement with the material through collaborative annotations, whether their own comments on parts of the reading they found interesting or had questions on or responses to other students’ annotations. Students should post overall reflections, synthesizing their takeaways from the reading with content from this or other classes or other experiences, on Ed Discussion. Both the annotations and the reflections should be completed by the start of the first lecture the next week. Students will not be graded on the quantity of annotations, but the degree to which their annotations reflect critical engagement with the reading. One reading assignment will be dropped automatically.\n\n\nHomework Assignments\nThere will be approximately 4 homework assignments assigned. Homework assignments are intended to be more in-depth applications of course material to data analysis problems.\nYou will generally have two class weeks to work on an assignment. This is intended to provide you enough time to work on the problem and debug and evaluate your code (including troubleshooting any technical problems); these are not reasons for late submission. Each homework assignment will build on material from the prior classes and possibly from the day the homework is assigned.\nStudents are encouraged to collaborate and learn from each other on homework assignments, but students must submit their own assignments which represent their own understanding of the material.\nConsulting and referencing external resources and your peers is encouraged (engineering is a collaborative discipline!), but plagiarism is a violation of academic integrity.\nSome notes on assignment and grading logistics:\n\nHomework assignments will be distributed using GitHub Classroom. While GitHub use is not required for the class aside from accepting and cloning assignments, students are encouraged to update their GitHub repositories as they work on the assignments; this helps with answering questions, keeping solutions synced across groups, and gives you a backstop in case something goes wrong and you can’t submit your assignment on time.\nHomeworks are due by 9:00pm Eastern Time on the designed due date (usually a Thursday). Your assignment writeup should be submitted to Gradescope as a PDF with the answers to each question tagged (a failure to do this will result in a non-negotiable 10% point deduction).\nA meta-rubric is provided on the website, under the Homework page. These are not customized for each assignment but the principles will apply generally.\nNo homework assignments will be dropped, but you can turn in assignments within 24 hours of the due date with a 50% penalty. If you need a further accomodation for a particular assignment, talk to Prof. Srikrishnan before the due date. Requests for extensions made after the due date will only be considered under extraordinary and unexpected circumstances. Technical challenges submitting assignments are not acceptable reasons for extensions to be granted, and late penalties will apply.\nYour submitted homework must stand on its own! We cannot grade you on the basis of information which was not included in the submitted assignment. While regrade requests should include a justification for why your grade is incorrect, we will not consider explanations or additional reasoning outside of the submission.\n\nNo homework assignments will be automatically dropped.\n\n\nPrelims\nOne in-class prelim will be given. The exam is closed-book and closed-note. As a result, the exam will emphasize conceptual material such as model derivations and interpretation of results; any calculations can be done with a pen(cil) and paper. Conflict and extended-time exams will be handled through SDS. Exams will be scanned into Gradescope for grading and feedback.\n\n\nTerm Project\nThroughout the semester, students will apply the concepts and methods from class to a data set of their choosing. If a student does not have a data set in mind, we will find one which aligns with their interests.\nThe term project can be completed individually or in groups of 2. There will be three deliverables throughout the semester:\n\nA proposal (no more than 2 pages with 11 point font, 1 inch margins, not including figures or references) including:\n\nThe underlying science question for your project and any associated hypotheses;\nThe dataset(s) you will analyze and use to test your hypotheses;\nStatistical model(s) for the hypotheses and your planned strategy for analysis.\n\nAn interim report (no more than 2 pages with 11 point font, 1 inch margins, not including figures or references) summarizing progress to date, including changes from the original proposal or challenges faced and plans to overcome them.\nA final report. The report should be no more than 5 pages (11 point font, 1 inch margins), not including references and figures. More details and rubrics will be provided later in the semester."
+    "text": "Assessments\n\nTechnologies\nWe will use Canvas as a gradebook, and to distribute PDFs of readings (which also be made available through the website when possible, via the Cornell library). Ed Discussion will be used for course communications. Assignments will be submitted and graded in Gradescope.\nStudents can use any programming language they like to solve problems, though we will make notebooks and package environments available for Julia (which may help structure your assignments if you use a different language) via GitHub. If students use a language other than Julia, we may limited in the programming assistance we can provide (though we’re happy to try to help!).\nWe recommend students create a GitHub account and use GitHub to version control and share their code throughout the semester.\n\n\nGrading\nFinal grades will be computed based on the following assessment weights:\n\n\n\nAssessment\nWeight\n\n\n\n\nLabs\n10%\n\n\nQuizzes\n5%\n\n\nParticipation (4850)/Literature Critique (5850)\n10%\n\n\nReadings\n10%\n\n\nHomework Assignments\n15%\n\n\nPrelims\n30%\n\n\nTerm Project\n20%\n\n\n\nThe following grading scale will be used to convert the numerical weighted average to letter grades:\n\n\n\nGrade\nRange\n\n\n\n\nA+\n97–100\n\n\nA\n93–97\n\n\nA-\n90–93\n\n\nB+\n87–90\n\n\nB\n83–87\n\n\nB-\n80–83\n\n\nC+\n77–80\n\n\nC\n73–77\n\n\nC-\n70–73\n\n\nD+\n67–70\n\n\nD\n63–67\n\n\nD-\n60–63\n\n\nF\n&lt; 60\n\n\n\n\n\nParticipation\nParticipating fully in the class allows you to gain more from the class and contribute more to the learning of your classmates. Some ways to participate include:\n\nAsking questions in class or on Ed;\nAnswering questions in class or on Ed;\nActively engaging in in-class activities;\nComing to office hours.\n\nNote that just passively attending class will not yield full participation points. Participation points are not free: you are likely to lose points if you consistently skip class or do not ask or answer questions online or in person. At the end of the term, you will be asked to evaluate your own participation over the course of the semester, in addition to my documentation of your participation. Participation is a component of the grade for students enrolled in BEE 4850.\n\n\nQuizzes\nQuizzes will be assigned in Gradescope most weeks based on recently discussed content. These will be relatively short and are intended to consolidate material recently discussed in class. The quizzes will be released after Wednesday’s class and will be due prior to next Monday’s. Quizzes can be retaken as many times as are desired prior to the submission deadline. They may consist of multiple choice questions or questions involving small mathematical, computational, or open-ended problems. One quiz will be dropped automatically (this is intended to account for a week in which you forget or are too busy to submit).\n\n\nLabs\nSeveral class periods (typically on Fridays) will be dedicated to in-class labs. Students will be given worksheets and/or Jupyter notebooks aimed at getting hands-on practice with the prior lecture topic(s). Lab writeups will be due before the class meeting the following Monday after the lab period. They will be graded primarily on evidence of effort rather than correctness. One lab assignment will be automatically dropped.\n\n\nLiterature Critique\nStudents in BEE 5850 will select a peer-reviewed journal article related to an application of data analysis and will write a short discussion paper (2-3 pages) analyzing the hypotheses and statistical choices. Students should feel free to select their own paper or can work with Prof. Srikrishnan to identify one of interest, but in all cases should discuss with Prof. Srikrishnan to ensure that the article is appropriate. The discussion paper will be due towards at the end of the semester.\n\n\nReadings\nReadings will be assigned throughout the semester to help students engage with background or uses of the material for that week. These readings will be provided as PDFs on Canvas through Perusall and (when possible through open access or the Cornell library) links from the website. Students are expected to demonstrate engagement with the material through collaborative annotations, whether their own comments on parts of the reading they found interesting or had questions on or responses to other students’ annotations. Students should post overall reflections, synthesizing their takeaways from the reading with content from this or other classes or other experiences, on Ed Discussion. Both the annotations and the reflections should be completed by the start of the first lecture the next week. Students will not be graded on the quantity of annotations, but the degree to which their annotations reflect critical engagement with the reading. One reading assignment will be dropped automatically.\n\n\nHomework Assignments\nThere will be approximately 4 homework assignments assigned. Homework assignments are intended to be more in-depth applications of course material to data analysis problems.\nYou will generally have two class weeks to work on an assignment. This is intended to provide you enough time to work on the problem and debug and evaluate your code (including troubleshooting any technical problems); these are not reasons for late submission. Each homework assignment will build on material from the prior classes and possibly from the day the homework is assigned.\nStudents are encouraged to collaborate and learn from each other on homework assignments, but students must submit their own assignments which represent their own understanding of the material.\nConsulting and referencing external resources and your peers is encouraged (engineering is a collaborative discipline!), but plagiarism is a violation of academic integrity.\nSome notes on assignment and grading logistics:\n\nHomework assignments will be distributed using GitHub Classroom. While GitHub use is not required for the class aside from accepting and cloning assignments, students are encouraged to update their GitHub repositories as they work on the assignments; this helps with answering questions, keeping solutions synced across groups, and gives you a backstop in case something goes wrong and you can’t submit your assignment on time.\nHomeworks are due by 9:00pm Eastern Time on the designed due date (usually a Thursday). Your assignment writeup should be submitted to Gradescope as a PDF with the answers to each question tagged (a failure to do this will result in a non-negotiable 10% point deduction).\nA meta-rubric is provided on the website, under the Homework page. These are not customized for each assignment but the principles will apply generally.\nNo homework assignments will be dropped, but you can turn in assignments within 24 hours of the due date with a 50% penalty. If you need a further accomodation for a particular assignment, talk to Prof. Srikrishnan before the due date. Requests for extensions made after the due date will only be considered under extraordinary and unexpected circumstances. Technical challenges submitting assignments are not acceptable reasons for extensions to be granted, and late penalties will apply.\nYour submitted homework must stand on its own! We cannot grade you on the basis of information which was not included in the submitted assignment. While regrade requests should include a justification for why your grade is incorrect, we will not consider explanations or additional reasoning outside of the submission.\n\nNo homework assignments will be automatically dropped.\n\n\nPrelims\nOne in-class prelim will be given. The exam is closed-book and closed-note. As a result, the exam will emphasize conceptual material such as model derivations and interpretation of results; any calculations can be done with a pen(cil) and paper. Conflict and extended-time exams will be handled through SDS. Exams will be scanned into Gradescope for grading and feedback.\n\n\nTerm Project\nThroughout the semester, students will apply the concepts and methods from class to a data set of their choosing. If a student does not have a data set in mind, we will find one which aligns with their interests.\nThe term project can be completed individually or in groups of 2. There will be three deliverables throughout the semester:\n\nA proposal (no more than 2 pages with 11 point font, 1 inch margins, not including figures or references) including:\n\nThe underlying science question for your project and any associated hypotheses;\nThe dataset(s) you will analyze and use to test your hypotheses;\nStatistical model(s) for the hypotheses and your planned strategy for analysis.\n\nAn interim report (no more than 2 pages with 11 point font, 1 inch margins, not including figures or references) summarizing progress to date, including changes from the original proposal or challenges faced and plans to overcome them.\nA final report. The report should be no more than 5 pages (11 point font, 1 inch margins), not including references and figures. More details and rubrics will be provided later in the semester.\n\n\n\nLate Work Policy\nIn general, late work can be submitted up to 24 hours late at a 50% penalty, and will not be accepted after that point. This policy may seem strict, but allows for prompt release of solutions and discussion of assignments. Please reach out as soon as possible (ideally before the due date) if legitimate circumstances emerge which prevent you from submitting work within 24 hours of the due date; we will make accomodations for approved reasons, which might included a limited extension or dropping the assignment.\n\n\nRegrade Requests\nRegrade requests can be submitted up to one week after the graded work is released on Gradescope.\nAll regrade requests must include a brief justification for the request or they will not be considered. Good justifications include (but are not limited to): - My answer agrees with the posted solution, but I still lost points. - I lost 4 points for something, but the rubric says it should only be worth 2 points. - You took points off for something, but it’s right here. - My answer is correct, even though it does not match the posted solution; here is an explanation. - There is no explanation for my grade. - I got a perfect score, but my solution has a mistake (you will receive extra credit for this! see below!) - There is a major error in the posted solution; here is an explanation (full credit for everyone, but Prof. Srikrishnan will decide what constitutes a “major error”! see below!).\n\n\n\n\n\n\nImportantWe Can Only Grade What You Submitted\n\n\n\nAll regrades will be assessed based only on the submitted work. You cannot get a higher grade by explanating what you meant (either in person or online) or by adding information or reasoning to what is submitted after the fact. The goal of the regrade is to draw attention to a potential grading problem, not to supplement the submission.\n\n\nThe first regrade request for any submission will be handled by the person who graded that homework problem. The first regrade request for any exam submission will be handled by whoever graded that exam problem. If the submission was graded by the TA, additional regrade requests for the same submission will be handled directly by the instructor. Once Prof. Srikrishnan issues a final response to a regrade request, further requests for that submission will be ignored.\n\n\n\n\n\n\nWarningRegrade Requests Can Be A Gamble!\n\n\n\nWhile you should submit regrade requests for legitimate errors, using them for fishing expeditions can also result in lost points if the TA or Prof. Srikrishnan decide that your initial grade was too lenient or if additional errors are identified.\n\n\n\n\n\n\n\n\nTipWhat If I Find A Different Type of Mistake?\n\n\n\n\nIf you submit a regrade request correctly reporting that a problem was graded too leniently — that is, that your score was higher than it should be based on the rubric — your score will be increased by the difference. For example, if your original score on a problem was 8/10 and you successfully argue that your score should have been 3/10, your new score will be 13/10. However, don’t fish — your grade might be lowered if the TA finds an independent mistake while regrading.\nIf a significant error is discovered in a posted homework solution or in the exam solutions, everyone will in the class will receive full credit for the (sub)problem. Prof. Srikrishnan will decide what is “significant”."
   }
 ]
