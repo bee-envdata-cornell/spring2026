@@ -192,12 +192,11 @@ Models are how we assess evidence for theories.
 
 | Assessment | Weight |
 |:-----------|-----------:|
-| Literature Critique/Participation | 5% |
-| Labs | 10% |
+| Exercises | 5% |
+| Quizzes| 25% |
 | Readings | 10% |
-| Homework Assignments | 20% |
-| Prelims | 30% |
-| Term Project | 25% |
+| Homework Assignments | 30% |
+| Term Project | 30% |
 
 
 ## Overall Guidelines
@@ -208,6 +207,27 @@ Models are how we assess evidence for theories.
 - Standard rubric available on website
 - **Always cite external references**
 
+## Exercises
+
+- On Gradescope
+- Simple, mostly multiple choice problems, autograded
+- Can submit as often as you want, intended to reinforce concepts.
+
+## Quizzes
+
+- 5 throughout the semester
+- Beginning of a Friday class, end of class will motivate/introduce new material.
+- Closed book, closed note, no calculators. 
+- Will be scanned into Gradescope for grading/returns.
+
+## Readings
+
+- Several readings assigned for discussion throughout the semester.
+- Annotation assignments on Canvas through Perusall: by start of next Monday's lecture.
+- Annotations can discuss aspects of the reading you think are interesting, had questions on, or can engage with other students' annotations.
+- Students should post overall reflections, synthesizing their takeaways from the reading with content from this or other classes or other experiences, on Ed Discussion, by the start of the first lecture the next week.
+- Will be graded on level of engagement, not quantity of annotations.
+
 ## Literature Critique
 
 - For 5850 students
@@ -216,30 +236,11 @@ Models are how we assess evidence for theories.
 - Submit a 2-3 page writeup at the end of the semester
 - If you're unsure where to look for a paper, talk to Prof. Srikrishnan
 
-## Readings
-
-- Several readings assigned for discussion throughout the semester.
-- Annotation assignments on Canvas: by end of the week.
-- Submit 1 page summary by next Monday, including description of key points and how they related to the course.
-- The more personal the reflections, the better.
-
-## Labs
-
-- In-class worksheets
-- Intended to get hands on or conceptual practice
-- Group collaboration encouraged, can submit jointly.
-- Should be able to do most of the work in class, due the next week.
-
 ## Homework Assignments
 
 - More in-depth problems, mostly computational
 - Roughly 2 weeks to complete
 - Regrade requests must be made within one week
-
-## Prelims
-
-- Two in-class (non-cumulative) prelims.
-- Will focus on conceptual/interpretative problems.
 
 ## Term Project
 

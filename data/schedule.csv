@@ -1,33 +1,33 @@
 week,group,subgroup,date,day,title,deadline
 1,Introduction,Introduction,2026-01-21,Wed,Class Overview,
 1,Introduction,Introduction,2026-01-23,Fri,Probability Review,
-2,Introduction,Probability Models,2026-01-26,Mon,Exploratory Data Analysis and Visualization,
-2,Introduction,Probability Models,2026-01-28,Wed,Probability Models,
-2,Introduction,Probability Models,2026-01-30,Fri,Lab 1: Data Visualization,
-3,Regression,Linear Regression,2026-02-02,Mon,(Multiple) Linear Regression,Lab 1 Due
+2,Introduction,Probability Models,2026-01-26,Mon,Exploratory Data Analysis,
+2,Introduction,Probability Models,2026-01-28,Wed,Principles of Data Visualization,
+2,Introduction,Probability Models,2026-01-30,Fri,Data Visualization Discussion,
+3,Regression,Linear Regression,2026-02-02,Mon,(Multiple) Linear Regression,
 3,Regression,Linear Regression,2026-02-04,Wed,Maximum Likelihood Estimation,
 3,Regression,Linear Regression,2026-02-06,Fri,MLE Uncertainty and Fisher Information,HW 1 Due
 4,Regression,Model Evaluation,2026-02-09,Mon,Graphical Checks,
 4,Regression,Model Evaluation,2026-02-11,Wed,Cross-Validation,
-4,Regression,Model Comparison,2026-02-13,Fri,Null Hypothesis Testing,
+4,Regression,Model Comparison,2026-02-13,Fri,Hypothesis Testing Introduction,Quiz 1
 5,Regression,February Break,2026-02-16,Mon,February Break,
-5,Regression,Model Comparison,2026-02-18,Wed,Information Criteria,Lab 2 Due
-5,Regression,Model Comparison,2026-02-20,Fri,Lab 2: Model Comparison,HW 2 Due
-6,Regression,Time Series,2026-02-23,Mon,Autocorrelations,Lab 2 Due
-6,Regression,Time Series,2026-02-25,Wed,Time Series Models and Examples,
-6,Regression,Time Series,2026-02-27,Fri,Lab 3: Time Series,
-7,Regression,Model Calibration,2026-03-02,Mon,Model-Data Discrepancy,Lab 3 Due
+5,Regression,Model Comparison,2026-02-18,Wed,Null Hypothesis Testing,
+5,Regression,Model Comparison,2026-02-20,Fri,Information Criteria,HW 2 Due
+6,Regression,Time Series,2026-02-23,Mon,Autocorrelations,
+6,Regression,Time Series,2026-02-25,Wed,Time Series Models,
+6,Regression,Time Series,2026-02-27,Fri,Time Series Examples,
+7,Regression,Model Calibration,2026-03-02,Mon,Model-Data Discrepancy,
 7,Regression,Model Calibration,2026-03-04,Wed,Model Calibration,
-7,Regression,Model Calibration,2026-03-06,Fri,Lab 4: Calibrating Numerical Models,HW 3 Due
-8,Simulation Methods,Monte Carlo,2026-03-09,Mon,Monte Carlo Simulation,Lab 4 Due
-8,Simulation Methods,Monte Carlo,2026-03-11,Wed,Monte Carlo: Convergence,
-8,Simulation Methods,Prelim,2026-03-13,Fri,Prelim 1,
+7,Simulation Methods,Introduction,2026-03-06,Fri,Simulation Introduction,Quiz 2
+8,Simulation Methods,Monte Carlo,2026-03-09,Mon,Random Variate Generation,Lab 4 Due
+8,Simulation Methods,Monte Carlo,2026-03-11,Wed,Monte Carlo: Examples and Theory,
+8,Simulation Methods,Monte Carlo,2026-03-13,Fri,Monte Carlo: Convergence and Advanced Methods,
 9,Simulation Methods,The Bootstrap,2026-03-16,Mon,The Bootstrap Principle,Lab 4 Due
 9,Simulation Methods,The Bootstrap,2026-03-18,Wed,Types of Bootstraps,
-9,Simulation Methods,The Bootstrap,2026-03-20,Fri,Lab 5: The Bootstrap,Project Proposal Due
-10,Simulation Methods,The Bootstrap,2026-03-23,Mon,Bootstraping Structured Data,Lab 5 Due
-10,Simulation Methods,Missing Data,2026-03-25,Wed,Mechanisms of Missingness,
-10,Simulation Methods,Missing Data,2026-03-27,Fri,Multiple Imputation,HW 4 Due
+9,Simulation Methods,The Bootstrap,2026-03-20,Fri,Bootstraping Structured Data,Project Proposal Due
+10,Simulation Methods,The Bootstrap,2026-03-23,Mon,Mechanisms of Missingness,Lab 5 Due
+10,Simulation Methods,Missing Data,2026-03-25,Wed,Multiple Imputation,
+10,Generalized Linear Models,Introduction,2026-03-27,Fri,Imputation Examples,Quiz 3
 11,Simulation Methods,Spring Break,2026-03-30,Mon,Spring Break,
 11,Simulation Methods,Spring Break,2026-04-01,Wed,Spring Break,
 11,Simulation Methods,Spring Break,2026-04-03,Fri,Spring Break,
@@ -36,11 +36,11 @@ week,group,subgroup,date,day,title,deadline
 12,Generalized Linear Models,Logistic Regression,2026-04-10,Fri,Logistic Regression As GLM,Interim Report Due
 13,Generalized Linear Models,Generalized Linear Models,2026-04-13,Mon,Modeling Counts,
 13,Generalized Linear Models,Generalized Linear Models,2026-04-15,Wed,Overdispersed and Zero-Inflated Models,
-13,Generalized Linear Models,Generalized Linear Models,2026-04-17,Fri,Lab 6: Generalized Linear Models,HW 5 Due
+13,Extreme Values,Introduction,2026-04-17,Fri,Extreme Values,HW 5 Due and Quiz 4
 14,Extreme Values,Block Maxima,2026-04-20,Mon,Block Maxima and GEVs,Lab 6 Due
-14,Extreme Values,Block Maxima,2026-04-22,Wed,Nonstationarity and Extremes,
-14,Extreme Values,Block Maxima,2026-04-24,Fri,Lab 6: Nonstationary Extreme Values,
+14,Extreme Values,Block Maxima,2026-04-22,Wed,Return Periods,
+14,Extreme Values,Block Maxima,2026-04-24,Fri,Nonstationary Extremes,
 15,Extreme Values,Peaks Over Thresholds,2026-04-27,Mon,Peaks Over Thresholds and GPDs,Lab 6 Due
-15,Extreme Values,Peaks Over Thresholds,2026-04-29,Wed,Clustering Peaks,
-15,Extreme Values,Prelim,2026-05-01,Fri,Prelim 2,
+15,Extreme Values,Peaks Over Thresholds,2026-04-29,Wed,Clustering Exceedances,
+15,Extreme Values,Peaks OVer Thresholds,2026-05-01,Fri,Nonstationary GPDs,Quiz 5,
 16,Class Wrap-Up,Class Wrap-Up,2026-05-04,Mon,Class Wrap-Up,HW 6 Due

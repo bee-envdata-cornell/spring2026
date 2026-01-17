@@ -280,6 +280,17 @@ Office hours are intended to help all students who attend. This time is limited,
 Space at office hours can be limited (we may shift to the conference room in 316 Riley-Robb if offices are full and it is available). If the room is crowded and you can find an alternative source of assistance, or if your question is low priority (*e.g.* debugging) please be kind and make room for others.
 
 
+### Participation
+
+Participating fully in the class allows you to gain more from the class and contribute more to the learning of your classmates. Some ways to participate include:
+
+* Asking questions in class or on Ed;
+* Answering questions in class or on Ed;
+* Actively engaging in in-class activities;
+* Coming to office hours.
+
+
+
 ::: {.callout-tip}
 ## What If I Can't Make Office Hours?
 
@@ -302,13 +313,11 @@ Final grades will be computed based on the following assessment weights:
 
 | Assessment | Weight |
 |:-----------|-----------:|
-| Labs | 10% |
-| Quizzes | 5% |
-| Participation (4850)/Literature Critique (5850) | 10% |
+| Exercises | 5% |
+| Quizzes| 25% |
 | Readings | 10% |
-| Homework Assignments | 15% |
-| Prelims | 30% |
-| Term Project | 20% |
+| Homework Assignments | 30% |
+| Term Project | 30% |
 
 The following grading scale will be used to convert the numerical weighted average to letter grades:
 
@@ -329,37 +338,24 @@ The following grading scale will be used to convert the numerical weighted avera
 | F | < 60 |
 
 
-### Participation
+### Exercises
 
-Participating fully in the class allows you to gain more from the class and contribute more to the learning of your classmates. Some ways to participate include:
-
-* Asking questions in class or on Ed;
-* Answering questions in class or on Ed;
-* Actively engaging in in-class activities;
-* Coming to office hours.
-
-Note that just passively attending class will not yield full participation points. Participation points are not free: you are likely to lose points if you consistently skip class or do not ask or answer questions online or in person. At the end of the term, you will be asked to evaluate your own participation over the course of the semester, in addition to my documentation of your participation. Participation is a component of the grade for students enrolled in BEE 4850.
-
+Exercises will be assigned in Gradescope most weeks based on recently discussed content. These will be relatively short and are intended to consolidate material recently discussed in class. The exercises will be released after Wednesday's class and will be due prior to next Monday's. Exercises can be retaken as many times as are desired prior to the submission deadline. They may consist of multiple choice questions or questions involving small mathematical, computational, or open-ended problems. One exercise will be dropped automatically (this is intended to account for a week in which you forget or are too busy to submit).
 
 ### Quizzes
 
-Quizzes will be assigned in Gradescope most weeks based on recently discussed content. These will be relatively short and are intended to consolidate material recently discussed in class. The quizzes will be released after Wednesday's class and will be due prior to next Monday's. Quizzes can be retaken as many times as are desired prior to the submission deadline. They may consist of multiple choice questions or questions involving small mathematical, computational, or open-ended problems. One quiz will be dropped automatically (this is intended to account for a week in which you forget or are too busy to submit).
+Quizzes will be given in-class at the end of several units. These will be in the first half of the relevant class, approximately 25 minutes long. No materials (books, notes, computers, or calculators) are allowed. Quizzes will be scanned into Gradescope for grading. The material which will be covered on the quiz will be specified ahead of time in class or on Ed Discussion. No quizzes will be dropped for students in BEE 5850, but one quiz will be dropped for students in 4850.
 
-### Labs
-
-Several class periods (typically on Fridays) will be dedicated to in-class labs. Students will be given worksheets and/or Jupyter notebooks aimed at getting hands-on practice with the prior lecture topic(s). Lab writeups will be due before the class meeting the following Monday after the lab period. They will be graded primarily on evidence of effort rather than correctness. One lab assignment will be automatically dropped.
-
-### Literature Critique
-
-Students in BEE 5850 will select a peer-reviewed journal article related to an application of data analysis and will write a short discussion paper (2-3 pages) analyzing the hypotheses and statistical choices. Students should feel free to select their own paper or can work with Prof. Srikrishnan to identify one of interest, but in all cases should discuss with Prof. Srikrishnan to ensure that the article is appropriate. The discussion paper will be due towards at the end of the semester.
 
 ### Readings
 
-Readings will be assigned throughout the semester to help students engage with background or uses of the material for that week. These readings will be provided as PDFs on Canvas through Perusall and (when possible through open access or the Cornell library) links from the website. Students are expected to demonstrate engagement with the material through collaborative annotations, whether their own comments on parts of the reading they found interesting or had questions on or responses to other students' annotations. Students should post overall reflections, synthesizing their takeaways from the reading with content from this or other classes or other experiences, on Ed Discussion. Both the annotations and the reflections should be completed by the start of the first lecture the next week. Students will not be graded on the quantity of annotations, but the degree to which their annotations reflect critical engagement with the reading. One reading assignment will be dropped automatically.
+Readings will be assigned throughout the semester to help students engage with background or uses of the material for that week. These readings will be provided as PDFs on Canvas through Perusall and (when possible through open access or the Cornell library) links from the website. Students are expected to demonstrate engagement with the material through collaborative annotations, whether their own comments on parts of the reading they found interesting or had questions on or responses to other students' annotations. Students should post overall reflections, synthesizing their takeaways from the reading with content from this or other classes or other experiences, on Ed Discussion. Both the annotations and the reflections should be completed by the start of the first lecture the next week. Students will not be graded on the quantity of annotations, but the degree to which their annotations reflect critical engagement with the reading. One reading assignment will be dropped automatically. 
+
+Students in BEE 5850 will additionally select a peer-reviewed journal article related to an application of data analysis and will write a short discussion paper (2-3 pages) analyzing the hypotheses and statistical choices. Students should feel free to select their own paper or can work with Prof. Srikrishnan to identify one of interest, but in all cases should discuss with Prof. Srikrishnan to ensure that the article is appropriate. The discussion paper will be due towards at the end of the semester.
 
 ### Homework Assignments
 
-There will be approximately 4 homework assignments assigned. Homework assignments are intended to be more in-depth applications of course material to data analysis problems. 
+There will be approximately 5 homework assignments assigned. Homework assignments are intended to be more in-depth applications of course material to data analysis problems. 
 
 You will generally have two class weeks to work on an assignment. This is intended to provide you enough time to work on the problem and debug and evaluate your code (including troubleshooting any technical problems); these are not reasons for late submission. Each homework assignment will build on material from the prior classes and possibly from the day the homework is assigned.
 
@@ -376,12 +372,6 @@ Some notes on assignment and grading logistics:
   * **Your submitted homework must stand on its own**! We cannot grade you on the basis of information which was not included in the submitted assignment. While regrade requests should include a justification for why your grade is incorrect, we will not consider explanations or additional reasoning outside of the submission.
 
 No homework assignments will be automatically dropped.  
-
-
-### Prelims
-
-One in-class prelim will be given. The exam is closed-book and closed-note. As a result, the exam will emphasize conceptual material such as model derivations and interpretation of results; any calculations can be done with a pen(cil) and paper. Conflict and extended-time exams will be handled through SDS. Exams will be scanned into Gradescope for grading and feedback.
-
 
 ### Term Project
 
@@ -576,21 +566,21 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "background-color: lightgrey; text-align: left;">Probability Models</td>
       <td style = "background-color: lightgrey; text-align: center;">January 26</td>
       <td style = "background-color: lightgrey; text-align: center;">Mon</td>
-      <td style = "background-color: lightgrey; text-align: left;">Exploratory Data Analysis and Visualization</td>
+      <td style = "background-color: lightgrey; text-align: left;">Exploratory Data Analysis</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;">Probability Models</td>
       <td style = "background-color: lightgrey; text-align: center;">January 28</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
-      <td style = "background-color: lightgrey; text-align: left;">Probability Models</td>
+      <td style = "background-color: lightgrey; text-align: left;">Principles of Data Visualization</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;">Probability Models</td>
       <td style = "background-color: lightgrey; text-align: center;">January 30</td>
       <td style = "background-color: lightgrey; text-align: center;">Fri</td>
-      <td style = "background-color: lightgrey; text-align: left;">Lab 1: Data Visualization</td>
+      <td style = "background-color: lightgrey; text-align: left;">Data Visualization Discussion</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "rowGroupLabel">
@@ -601,7 +591,7 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "text-align: center;">February 2</td>
       <td style = "text-align: center;">Mon</td>
       <td style = "text-align: left;">(Multiple) Linear Regression</td>
-      <td style = "text-align: left;">Lab 1 Due</td>
+      <td style = "text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;">Linear Regression</td>
@@ -635,8 +625,8 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "background-color: lightgrey; text-align: left;">Model Comparison</td>
       <td style = "background-color: lightgrey; text-align: center;">February 13</td>
       <td style = "background-color: lightgrey; text-align: center;">Fri</td>
-      <td style = "background-color: lightgrey; text-align: left;">Null Hypothesis Testing</td>
-      <td style = "background-color: lightgrey; text-align: left;"></td>
+      <td style = "background-color: lightgrey; text-align: left;">Hypothesis Testing Introduction</td>
+      <td style = "background-color: lightgrey; text-align: left;">Quiz 1</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;"></td>
@@ -649,14 +639,14 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "text-align: left;">Model Comparison</td>
       <td style = "text-align: center;">February 18</td>
       <td style = "text-align: center;">Wed</td>
-      <td style = "text-align: left;">Information Criteria</td>
-      <td style = "text-align: left;">Lab 2 Due</td>
+      <td style = "text-align: left;">Null Hypothesis Testing</td>
+      <td style = "text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;">Model Comparison</td>
       <td style = "text-align: center;">February 20</td>
       <td style = "text-align: center;">Fri</td>
-      <td style = "text-align: left;">Lab 2: Model Comparison</td>
+      <td style = "text-align: left;">Information Criteria</td>
       <td style = "text-align: left;">HW 2 Due</td>
     </tr>
     <tr class = "dataRow">
@@ -664,20 +654,20 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "background-color: lightgrey; text-align: center;">February 23</td>
       <td style = "background-color: lightgrey; text-align: center;">Mon</td>
       <td style = "background-color: lightgrey; text-align: left;">Autocorrelations</td>
-      <td style = "background-color: lightgrey; text-align: left;">Lab 2 Due</td>
+      <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;">Time Series</td>
       <td style = "background-color: lightgrey; text-align: center;">February 25</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
-      <td style = "background-color: lightgrey; text-align: left;">Time Series Models and Examples</td>
+      <td style = "background-color: lightgrey; text-align: left;">Time Series Models</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;">Time Series</td>
       <td style = "background-color: lightgrey; text-align: center;">February 27</td>
       <td style = "background-color: lightgrey; text-align: center;">Fri</td>
-      <td style = "background-color: lightgrey; text-align: left;">Lab 3: Time Series</td>
+      <td style = "background-color: lightgrey; text-align: left;">Time Series Examples</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
@@ -685,7 +675,7 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "text-align: center;">March 2</td>
       <td style = "text-align: center;">Mon</td>
       <td style = "text-align: left;">Model-Data Discrepancy</td>
-      <td style = "text-align: left;">Lab 3 Due</td>
+      <td style = "text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;">Model Calibration</td>
@@ -694,35 +684,35 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "text-align: left;">Model Calibration</td>
       <td style = "text-align: left;"></td>
     </tr>
-    <tr class = "dataRow">
-      <td style = "text-align: left;">Model Calibration</td>
-      <td style = "text-align: center;">March 6</td>
-      <td style = "text-align: center;">Fri</td>
-      <td style = "text-align: left;">Lab 4: Calibrating Numerical Models</td>
-      <td style = "text-align: left;">HW 3 Due</td>
-    </tr>
     <tr class = "rowGroupLabel">
       <td colspan = "5" style = "border-bottom: thick double black; font-weight: bold; text-align: left;">Simulation Methods</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">Introduction</td>
+      <td style = "text-align: center;">March 6</td>
+      <td style = "text-align: center;">Fri</td>
+      <td style = "text-align: left;">Simulation Introduction</td>
+      <td style = "text-align: left;">Quiz 2</td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;">Monte Carlo</td>
       <td style = "background-color: lightgrey; text-align: center;">March 9</td>
       <td style = "background-color: lightgrey; text-align: center;">Mon</td>
-      <td style = "background-color: lightgrey; text-align: left;">Monte Carlo Simulation</td>
+      <td style = "background-color: lightgrey; text-align: left;">Random Variate Generation</td>
       <td style = "background-color: lightgrey; text-align: left;">Lab 4 Due</td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;">Monte Carlo</td>
       <td style = "background-color: lightgrey; text-align: center;">March 11</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
-      <td style = "background-color: lightgrey; text-align: left;">Monte Carlo: Convergence</td>
+      <td style = "background-color: lightgrey; text-align: left;">Monte Carlo: Examples and Theory</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;">Prelim</td>
+      <td style = "background-color: lightgrey; text-align: left;">Monte Carlo</td>
       <td style = "background-color: lightgrey; text-align: center;">March 13</td>
       <td style = "background-color: lightgrey; text-align: center;">Fri</td>
-      <td style = "background-color: lightgrey; text-align: left;">Prelim 1</td>
+      <td style = "background-color: lightgrey; text-align: left;">Monte Carlo: Convergence and Advanced Methods</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
@@ -743,29 +733,32 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "text-align: left;">The Bootstrap</td>
       <td style = "text-align: center;">March 20</td>
       <td style = "text-align: center;">Fri</td>
-      <td style = "text-align: left;">Lab 5: The Bootstrap</td>
+      <td style = "text-align: left;">Bootstraping Structured Data</td>
       <td style = "text-align: left;">Project Proposal Due</td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;">The Bootstrap</td>
       <td style = "background-color: lightgrey; text-align: center;">March 23</td>
       <td style = "background-color: lightgrey; text-align: center;">Mon</td>
-      <td style = "background-color: lightgrey; text-align: left;">Bootstraping Structured Data</td>
+      <td style = "background-color: lightgrey; text-align: left;">Mechanisms of Missingness</td>
       <td style = "background-color: lightgrey; text-align: left;">Lab 5 Due</td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;">Missing Data</td>
       <td style = "background-color: lightgrey; text-align: center;">March 25</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
-      <td style = "background-color: lightgrey; text-align: left;">Mechanisms of Missingness</td>
+      <td style = "background-color: lightgrey; text-align: left;">Multiple Imputation</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
+    <tr class = "rowGroupLabel">
+      <td colspan = "5" style = "border-bottom: thick double black; font-weight: bold; text-align: left;">Generalized Linear Models</td>
+    </tr>
     <tr class = "dataRow">
-      <td style = "background-color: lightgrey; text-align: left;">Missing Data</td>
+      <td style = "background-color: lightgrey; text-align: left;">Introduction</td>
       <td style = "background-color: lightgrey; text-align: center;">March 27</td>
       <td style = "background-color: lightgrey; text-align: center;">Fri</td>
-      <td style = "background-color: lightgrey; text-align: left;">Multiple Imputation</td>
-      <td style = "background-color: lightgrey; text-align: left;">HW 4 Due</td>
+      <td style = "background-color: lightgrey; text-align: left;">Imputation Examples</td>
+      <td style = "background-color: lightgrey; text-align: left;">Quiz 3</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;"></td>
@@ -787,9 +780,6 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "text-align: center;">Fri</td>
       <td style = "text-align: left;">Spring Break</td>
       <td style = "text-align: left;"></td>
-    </tr>
-    <tr class = "rowGroupLabel">
-      <td colspan = "5" style = "border-bottom: thick double black; font-weight: bold; text-align: left;">Generalized Linear Models</td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;">Logistic Regression</td>
@@ -826,15 +816,15 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "text-align: left;">Overdispersed and Zero-Inflated Models</td>
       <td style = "text-align: left;"></td>
     </tr>
-    <tr class = "dataRow">
-      <td style = "text-align: left;">Generalized Linear Models</td>
-      <td style = "text-align: center;">April 17</td>
-      <td style = "text-align: center;">Fri</td>
-      <td style = "text-align: left;">Lab 6: Generalized Linear Models</td>
-      <td style = "text-align: left;">HW 5 Due</td>
-    </tr>
     <tr class = "rowGroupLabel">
       <td colspan = "5" style = "border-bottom: thick double black; font-weight: bold; text-align: left;">Extreme Values</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">Introduction</td>
+      <td style = "text-align: center;">April 17</td>
+      <td style = "text-align: center;">Fri</td>
+      <td style = "text-align: left;">Extreme Values</td>
+      <td style = "text-align: left;">HW 5 Due and Quiz 4</td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;">Block Maxima</td>
@@ -847,14 +837,14 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "background-color: lightgrey; text-align: left;">Block Maxima</td>
       <td style = "background-color: lightgrey; text-align: center;">April 22</td>
       <td style = "background-color: lightgrey; text-align: center;">Wed</td>
-      <td style = "background-color: lightgrey; text-align: left;">Nonstationarity and Extremes</td>
+      <td style = "background-color: lightgrey; text-align: left;">Return Periods</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
       <td style = "background-color: lightgrey; text-align: left;">Block Maxima</td>
       <td style = "background-color: lightgrey; text-align: center;">April 24</td>
       <td style = "background-color: lightgrey; text-align: center;">Fri</td>
-      <td style = "background-color: lightgrey; text-align: left;">Lab 6: Nonstationary Extreme Values</td>
+      <td style = "background-color: lightgrey; text-align: left;">Nonstationary Extremes</td>
       <td style = "background-color: lightgrey; text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
@@ -868,15 +858,15 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
       <td style = "text-align: left;">Peaks Over Thresholds</td>
       <td style = "text-align: center;">April 29</td>
       <td style = "text-align: center;">Wed</td>
-      <td style = "text-align: left;">Clustering Peaks</td>
+      <td style = "text-align: left;">Clustering Exceedances</td>
       <td style = "text-align: left;"></td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;">Prelim</td>
+      <td style = "text-align: left;">Peaks OVer Thresholds</td>
       <td style = "text-align: center;">May 1</td>
       <td style = "text-align: center;">Fri</td>
-      <td style = "text-align: left;">Prelim 2</td>
-      <td style = "text-align: left;"></td>
+      <td style = "text-align: left;">Nonstationary GPDs</td>
+      <td style = "text-align: left;">Quiz 5</td>
     </tr>
     <tr class = "rowGroupLabel">
       <td colspan = "5" style = "border-bottom: thick double black; font-weight: bold; text-align: left;">Class Wrap-Up</td>
@@ -890,6 +880,7 @@ pretty_table(Matrix(sched[:, [:subgroup, :date, :day, :title, :deadline]]), high
     </tr>
   </tbody>
 </table>
+
 
 
 ```
