@@ -2,6 +2,4 @@
 	path = hw/hw01
 	url = https://github.com/BEE4850/hw01
 	branch = Spring26
-[submodule "labs/lab01"]
-	path = labs/lab01
-	url = https://github.com/bee-envdata-cornell/lab01.git
+

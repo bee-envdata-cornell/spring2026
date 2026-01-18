@@ -1,0 +1,460 @@
+---
+title: "Data Visualization"
+subtitle: "Lecture 04"
+author: "Vivek Srikrishnan"
+course: "BEE 4850"
+institution: "Cornell University"
+date: "January 28, 2026"
+format:
+    revealjs:
+        slide-number: c/t
+        show-slide-number: all
+        center-title-slide: true
+        width: 1280
+        height: 720
+        transition: none
+        toc: true
+        toc-depth: 1
+        toc-title: "Overview"
+        history: false
+        link-external-newwindow: true
+        theme: ../sass/slides.scss
+        template-partials:
+            - title-slide.html
+        menu:
+            numbers: true
+        html-math-method: mathjax
+        include-in-header: mathjax-config.html
+        date-format: long
+        email-obfuscation: javascript
+        chalkboard:
+            theme: whiteboard
+            buttons: true
+        mermaid: 
+            theme: dark
+engine: julia
+filters:
+  - code-fullscreen
+---
+
+```{julia}
+#| output: false
+
+import Pkg
+Pkg.activate(@__DIR__)
+Pkg.instantiate()
+```
+
+```{julia}
+#| output: false
+
+using Random
+using DataFrames
+using DataFramesMeta
+using CSV
+using Dates
+using Distributions
+using ColorSchemes
+using Plots
+using StatsPlots
+using StatsBase
+using GLM
+using Optim
+using LaTeXStrings
+using Measures
+
+Random.seed!(1)
+
+plot_font = "Computer Modern"
+default(
+    fontfamily=plot_font,
+    linewidth=3, 
+    framestyle=:box, 
+    label=nothing, 
+    grid=false,
+    guidefontsize=18,
+    legendfontsize=16,
+    tickfontsize=16,
+    titlefontsize=20,
+    bottom_margin=10mm,
+    left_margin=5mm
+)
+```
+
+# Review
+
+## EDA
+
+- **EDA**: Understand structure of data while making as few assumptions as possible (e.g. look at the raw data, not "smoothed" versions).
+- Need to be willing to ask many questions of your data: most won't make sense once you look at the data.
+- You might be asking the "right" questions but have the "wrong" data: be open-minded and rely on domain knowledge.
+- Quantitative EDA can be a starting point, but EDA also requires visualization.
+
+# Data Visualization
+
+## Considerations When Plotting
+
+- Worry about the vertical scale
+    - Are you exaggerating small changes? Downplaying meaningful changes?
+    - "Adjust vertical scale of data" to reflect meaningful changes and "Vertical scale should always include zero" are conflicting advice.
+- Need to be thoughtful: **there is no such thing as objectively "correct" visualizations**, just **honest** visualizations. 
+
+## Avoid Using Two Vertical Axes
+
+![Two axis plot](https://datawrapper.de/cdn-cgi/image/quality=85,width=1920,f=auto,fit=cover/https://kirby.datawrapper.de/media/pages/blog/dualaxis/e402201aef-1740123107/full-180508_index6.png)
+
+::: {.caption}
+Source: [Datawrapper.de](https://www.datawrapper.de/blog/dualaxis)
+:::
+
+## Avoid Using Two Vertical Axes
+
+:::: {.columns}
+::: {.column width=50%}
+![Two axis plot](https://datawrapper.de/cdn-cgi/image/quality=85,width=1920,f=auto,fit=cover/https://kirby.datawrapper.de/media/pages/blog/dualaxis/e402201aef-1740123107/full-180508_index6.png)
+
+::: {.caption}
+Source: [Datawrapper.de](https://www.datawrapper.de/blog/dualaxis)
+:::
+
+:::
+::: {.column width=50%}
+![Illustration of how rescaling axes manipulates impression](https://datawrapper.de/cdn-cgi/image/quality=85,width=1920,f=auto,fit=cover/https://kirby.datawrapper.de/media/pages/blog/dualaxis/df214d6e10-1740123107/full-180508_index9.png)
+:::
+::::
+
+::: {.caption}
+Source: [Datawrapper.de](https://www.datawrapper.de/blog/dualaxis)
+:::
+
+## Example: Spurious Correlations
+
+![Spurious Correlation 5901](https://www.tylervigen.com/spurious/correlation/image/5901_annual-us-household-spending-on-fresh-fruits_correlates-with_canadian-national-railway-companys-stock-price-cni.png)
+
+
+::: {.caption}
+Source: [Spurious Correlations](https://www.tylervigen.com/spurious/correlation/5901_annual-us-household-spending-on-fresh-fruits_correlates-with_canadian-national-railway-companys-stock-price-cni)
+:::
+
+## Encode Information With Marks and Channels
+
+:::: {.columns}
+::: {.column width=50%}
+**Marks**: Geometric primitives
+
+- Points
+- Segments
+- Paths
+- Polygons
+
+:::
+::: {.column width=50%}
+**Channels**: Mark appearance
+
+- Color (Hue/Saturation/Luminescence)
+- Position (1D/2D/3D)
+- Size (Length/Area/Volume)
+- Angle
+
+:::
+::::
+
+## Ordered vs. Categorical Attributes
+
+The channels available depend on the type of attribute:
+
+- **Ordered** attributes can be 
+  - *Ordinal*: Ranking, no meaning to distance;
+  - *Quantitative*: Measure of magnitude which supports arithmetic comparison;
+- **Categorical** attributes are unordered.
+
+## Channel Effectiveness: Ordered Data
+
+:::: {.columns}
+::: {.column width=75%}
+![](figures/ordered-channels.png){fig-align=center}
+:::
+::: {.column width=25%}
+::: {.caption}
+Channels for ordered data, arranged top-to-bottom from more to less effective (channels in the right column are less effective than those in the left). Modified from @Healy2018-zx after @Munzner2014-pj.
+:::
+:::
+::::
+
+## Channel Effectiveness: Categorical Data
+
+:::: {.columns}
+::: {.column width=75%}
+![](figures/categorical-channels.png){fig-align=center width=5in}
+:::
+::: {.column width=25%}
+::: {.caption}
+Channels for categorical data, arranged top-to-bottom from more to less effective. Modified from Healy (2018) after Munzer (2014).
+:::
+:::
+::::
+
+## Preattentive Popout
+
+:::: {.columns}
+::: {.column width=30%}
+Try to make your key features "pop out" to the viewer during the pre-attentive scan.
+
+::: {.caption}
+Searching for the blue circle becomes harder. Adapted from @Healy2018-zx.
+:::
+:::
+::: {.column width=70%}
+
+```{julia}
+#| code-fold: true
+#| echo: true
+npt = 20
+dist = Distributions.Product(Uniform.([0, 0], [1, 1]))
+pts = Tuple.(eachcol(rand(dist, npt)))
+blueidx = rand(1:npt)
+p1 = scatter(pts[1:end .!= blueidx], color=:red, xticks=:false, yticks=:false, legend=:false, markersize=5, title="Color Only, N=20", framestyle=:box)
+scatter!(p1, pts[blueidx, :], color=:blue, markersize=5)
+
+npt = 100
+pts = Tuple.(eachcol(rand(dist, npt)))
+blueidx = rand(1:npt)
+p2 = scatter(pts[1:end .!= blueidx], color=:red, xticks=:false, yticks=:false, legend=:false, markersize=5, title="Color Only, N=100", framestyle=:box)
+scatter!(p2, pts[blueidx, :], color=:blue, markersize=5)
+
+npt = 20
+pts = Tuple.(eachcol(rand(dist, npt)))
+blueidx = rand(1:npt)
+p3 = scatter(pts[1:end .!= blueidx], color=:blue, markershape=:utriangle, xticks=:false, yticks=:false, legend=:false, markersize=5, title="Shape Only, N=20", framestyle=:box)
+scatter!(p3, pts[blueidx, :], color=:blue, markersize=5, markershape=:circle)
+
+npt = 100
+pts = Tuple.(eachcol(rand(dist, npt)))
+blueidx = rand(1:npt)
+p4 = scatter(pts[1:end .!= blueidx], color=:blue, markershape=:utriangle, xticks=:false, yticks=:false, legend=:false, markersize=5, title="Shape Only, N=100", framestyle=:box)
+scatter!(p4, pts[blueidx, :], color=:blue, markersize=5, markershape=:circle)
+
+plot(p1, p2, p3, p4, layout=(2, 2), size=(800, 500))
+```
+
+:::
+::::
+
+# Some Data Viz Principles
+
+## Gestalt Principles
+
+The Gestalt school of psychology identified several principles of perception.
+
+Core idea: **Humans are very good at finding structure.**
+
+::: {.fragment .fade-in}
+As a result, you need to evaluate the totality of a visual field, not just each component.
+:::
+
+## Gestalt Principles
+
+:::: {.columns}
+
+::: {.column width=40%}
+- Proximity
+- Similarity
+- Parallelism
+- Common Fate
+- Common Region
+- Continuity
+- Closure
+:::
+
+::: {.column width=60%}
+![Illustration of Gestalt principles](figures/gestalt-01.png)
+
+::: {.caption}
+Illustration of several Gestalt principles. Adapted from @Healy2018-zx.
+:::
+
+:::
+::::
+
+## Impact of Continuity
+
+```{julia}
+#| echo: false
+#| output: false
+
+# create trend for data
+x = rand(Uniform(0, 20), 10)
+y = 5 .+ 2 * x
+# sample and add noise
+ε = rand(Normal(0, 5), 10)
+y .+= ε
+
+p1 = scatter(x, y, xlabel=L"$x$", ylabel=L"$y$", color=:blue)
+p2 = plot(x, y, xlabel=L"$x$", ylabel=L"$y$", color=:blue)
+
+plot(p1, p2, layout=(2,1), size=(1200, 500))
+```
+
+## Principle of Proportional Ink
+
+:::: {.columns}
+::: {.column width=40%}
+**On the left**: 2014 quantity is **~1.1x** 2010 value, but due to vertical scale the 2014 bar uses **2.7x** the ink.
+
+Can mislead viewers into thinking the difference is larger than it truly is!
+:::
+::: {.column width=60%}
+![Illustration of Non-Proportional Ink](https://callingbullshit.org/tools/img/Tennessee_nonfarm_jobs.png)
+
+::: {.caption}
+Source: [Calling Bullshit](https://callingbullshit.org/tools/tools_proportional_ink.html)
+:::
+:::
+::::
+
+## Color Schemes
+
+Different color schemes are appropriate depending on whether the data is *sequential*, *divergent*, or *unordered*.
+
+::: {.callout-important}
+### Appropriate Color Schemes
+
+Color schemes should be *perceptually uniform* to preserve a mapping between changes in perceived colors and changes in attribute values. 
+
+Try to also choose color schemes which avoid confusing people who are color blind.
+:::
+
+
+## Color Schemes
+
+**Good news**: Most plotting libraries include a wide variety of perceptually uniform, color-blind safe color schemes.
+
+**Bad news**: These are not usually the defaults (in particular, avoid "rainbow" color schemes).
+
+## Sequential Color Schemes
+
+Sequential schemes change in intensity from low to high as the value changes. 
+
+```{julia}
+#| fig-align: center
+ColorSchemes.Blues_7
+```
+
+## Divergent Color Schemes
+
+Divergent schemes intensify in two directions from a zero or mean value.
+
+```{julia}
+reverse(ColorSchemes.PRGn_7)
+```
+
+## Unordered Color Schemes
+
+Unordered schemes are appropriate for categorical data. 
+
+```{julia}
+reverse(ColorSchemes.Dark2_7)
+```
+
+
+
+## Some Caveats
+
+::: {.incremental}
+- There is no recipe to effective visualization. Everything depends on your data and the story you want to tell.
+- This also means that defaults from data visualization packages are usually bad.
+- Principles are largely based on Western (American/European) norms and may not translate perfectly.
+- A lot of these guidelines are based on average outcomes, there is likely to be a lot of individual variation.
+:::
+
+
+# Visualization Example
+
+
+
+## First Attempt: Paired Scatterplots
+
+```{julia}
+#| code-fold: true
+#| echo: true
+#| label: fig-explore1
+#| fig-cap: Paired plots of air quality dataset
+
+aq = DataFrame(CSV.File("data/airquality/airquality.csv"))
+rename!(aq, :"Solar.R" => :Solar) # rename solar radiation column to get rid of period
+
+# this uses the dataframe plotting syntax from StatsPlots.jl
+p1 = @df aq scatter(:Ozone, :Solar, markersize=5, color=:blue, xlabel="Ozone (ppb)", ylabel="Solar Radiation (lang)", leftmargin=10mm)
+p2 = @df aq scatter(:Ozone, :Wind, markersize=5, color=:blue, xlabel="Ozone (ppb)", ylabel="Wind Speed (mph)", leftmargin=10mm)
+p3 = @df aq scatter(:Ozone, :Temp, markersize=5, color=:blue, xlabel="Ozone (ppb)", ylabel="Max Temperature (°F) ", leftmargin=10mm)
+
+p = plot(p1, p2, p3, layout=(1, 3), size=(1100, 400))
+
+```
+
+## Do Multiple Channels Help?
+
+```{julia}
+#| code-fold: true
+#| echo: true
+#| label: fig-explore2
+#| fig-cap: Scatterplot of air quality dataset with solar color
+
+# this uses the dataframe plotting syntax from StatsPlots.jl
+aq2 = dropmissing(aq)
+p = @df aq2 scatter(:Ozone, :Wind, marker_z=:Solar,
+    xlabel="Ozone (ppb)", 
+    ylabel="Wind Speed (mph)", 
+    colorbar_title="Solar Radiation (lang)",
+    c=:reds,
+    markersize=5
+)
+```
+
+## Do Multiple Channels Help?
+
+```{julia}
+#| code-fold: true
+#| echo: true
+#| label: fig-explore3
+#| fig-cap: Scatterplot of air quality dataset with temperature color
+
+# this uses the dataframe plotting syntax from StatsPlots.jl
+aq2 = dropmissing(aq)
+p = @df aq2 scatter(:Ozone, :Wind, marker_z=:Temp,
+    xlabel="Ozone (ppb)", 
+    ylabel="Wind Speed (mph)", 
+    colorbar_title="Max Temperature (°F)",
+    c=:reds,
+    markersize=5
+)
+```
+
+
+# Upcoming Schedule
+
+## Next Classes
+
+**Friday**: Data Visualization Discussion
+
+**Next Week**: Probability Models and Linear Regression
+
+## To Be Prepared for Friday
+
+1. Find a visualization and its underlying dataset you find interesting (article, web repository, news story).
+2. Critique the visualization: What story is it trying to tell? What does it do well? What's confusing or limited about it?
+3. Try reconstructing it to tell the story "better".
+4. Come to class with the original visual and your attempt at improving it.
+
+
+## Assessments
+
+**Homework 1** Due next Friday (2/6).
+
+**Exercises**: Due before Monday's class.
+
+**Reading**: Do annotation before next Monday.
+
+# References
+
+## References (Scroll for Full List)

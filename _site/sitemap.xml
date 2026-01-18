@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://envdata.viveks.me/spring2026/schedule.html</loc>
-    <lastmod>2025-12-29T14:51:55.319Z</lastmod>
+    <lastmod>2026-01-18T16:26:53.739Z</lastmod>
   </url>
   <url>
     <loc>https://envdata.viveks.me/spring2026/tutorials/julia-plots.html</loc>
@@ -21,20 +21,20 @@
     <lastmod>2025-10-25T18:16:36.979Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2026/slides/lecture11-1-information-criteria.html</loc>
-    <lastmod>2025-10-25T18:16:36.979Z</lastmod>
+    <loc>https://envdata.viveks.me/spring2026/slides/lecture04-1-diffeqmodels.html</loc>
+    <lastmod>2025-10-25T18:16:36.977Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2026/slides/lecture08-1-parametric-bootstrap.html</loc>
+    <loc>https://envdata.viveks.me/spring2026/slides/lecture09-1-mcmc.html</loc>
     <lastmod>2025-10-25T18:16:36.978Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2026/slides/lecture12-1-peaks-thresholds.html</loc>
-    <lastmod>2025-10-25T18:16:36.979Z</lastmod>
+    <loc>https://envdata.viveks.me/spring2026/slides/lecture05-1-bayes.html</loc>
+    <lastmod>2025-10-25T18:16:36.977Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2026/slides/lecture01-2-probreview.html</loc>
-    <lastmod>2025-12-28T16:46:22.871Z</lastmod>
+    <loc>https://envdata.viveks.me/spring2026/slides/lecture10-2-information-models.html</loc>
+    <lastmod>2025-10-25T18:16:36.979Z</lastmod>
   </url>
   <url>
     <loc>https://envdata.viveks.me/spring2026/slides/lecture06-2-random-simulation.html</loc>
@@ -78,7 +78,7 @@
   </url>
   <url>
     <loc>https://envdata.viveks.me/spring2026/policies/homework.html</loc>
-    <lastmod>2025-12-27T23:13:11.647Z</lastmod>
+    <lastmod>2026-01-18T15:38:06.853Z</lastmod>
   </url>
   <url>
     <loc>https://envdata.viveks.me/spring2026/index.html</loc>
@@ -117,14 +117,6 @@
     <lastmod>2025-12-27T23:16:05.610Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2026/labs/index.html</loc>
-    <lastmod>2025-12-29T13:29:59.113Z</lastmod>
-  </url>
-  <url>
-    <loc>https://envdata.viveks.me/spring2026/labs/lab01/lab01.html</loc>
-    <lastmod>2025-12-27T23:16:00.555Z</lastmod>
-  </url>
-  <url>
     <loc>https://envdata.viveks.me/spring2026/hw/index.html</loc>
     <lastmod>2025-12-27T23:16:31.360Z</lastmod>
   </url>
@@ -157,8 +149,8 @@
     <lastmod>2025-12-27T23:12:21.687Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2026/lit_critique/lit_critique.html</loc>
-    <lastmod>2025-12-27T23:44:31.186Z</lastmod>
+    <loc>https://envdata.viveks.me/spring2026/lit_critique/index.html</loc>
+    <lastmod>2026-01-18T15:21:01.823Z</lastmod>
   </url>
   <url>
     <loc>https://envdata.viveks.me/spring2026/policies/grading.html</loc>
@@ -202,27 +194,27 @@
   </url>
   <url>
     <loc>https://envdata.viveks.me/spring2026/slides/lecture02-1-eda.html</loc>
-    <lastmod>2026-01-05T15:56:39.567Z</lastmod>
+    <lastmod>2026-01-18T15:36:47.531Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2026/slides/lecture10-2-information-models.html</loc>
+    <loc>https://envdata.viveks.me/spring2026/slides/lecture02-2-data-viz.html</loc>
+    <lastmod>2026-01-18T15:41:28.081Z</lastmod>
+  </url>
+  <url>
+    <loc>https://envdata.viveks.me/spring2026/slides/lecture01-2-probreview.html</loc>
+    <lastmod>2025-12-28T16:46:22.871Z</lastmod>
+  </url>
+  <url>
+    <loc>https://envdata.viveks.me/spring2026/slides/lecture12-1-peaks-thresholds.html</loc>
     <lastmod>2025-10-25T18:16:36.979Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2026/slides/lecture05-1-bayes.html</loc>
-    <lastmod>2025-10-25T18:16:36.977Z</lastmod>
-  </url>
-  <url>
-    <loc>https://envdata.viveks.me/spring2026/slides/lecture09-1-mcmc.html</loc>
+    <loc>https://envdata.viveks.me/spring2026/slides/lecture08-1-parametric-bootstrap.html</loc>
     <lastmod>2025-10-25T18:16:36.978Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2026/slides/lecture04-1-diffeqmodels.html</loc>
-    <lastmod>2025-10-25T18:16:36.977Z</lastmod>
-  </url>
-  <url>
-    <loc>https://envdata.viveks.me/spring2026/slides/lecture02-2-linear-regression.html</loc>
-    <lastmod>2025-12-28T15:28:46.338Z</lastmod>
+    <loc>https://envdata.viveks.me/spring2026/slides/lecture11-1-information-criteria.html</loc>
+    <lastmod>2025-10-25T18:16:36.979Z</lastmod>
   </url>
   <url>
     <loc>https://envdata.viveks.me/spring2026/about.html</loc>

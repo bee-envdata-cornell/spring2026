@@ -1,9 +1,0 @@
----
-title: "Literature Critique Instructions"
-format:
-  html: default
----
-
-For the literature critique, you should pick a paper of your choice involving some aspect of data analysis and critically evaluate its statistical and scientific choices. Your critique should discuss how the statistical, data, and modeling choices support (or don't) the scientific conclusions of the paper and provide ideas for how these could be strengthened.
-
-You should submit a short written evaluation (2-3 pages, not including figures or references) on 5/5.

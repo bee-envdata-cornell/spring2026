@@ -97,24 +97,17 @@ website:
         - section: "Workflow"
           contents:
             - setup: setup/homework.qmd
-    - title: "Labs"
-      style: docked
-      search: false
-      background: "#f7f7f7"
-      contents:
-        - href: labs/index.qmd
-          text: "Lab Overview"
-        - href: labs/lab01/lab01.qmd
-          text: "Lab 1: Data Visualization"  
-    - title: "Homework"
+    - title: "Assignments"
       style: docked
       search: false
       background: "#f7f7f7"
       contents:
         - href: hw/index.qmd
-          text: "Homework Overview"
+          text: "Assignments Overview"
         - href: hw/hw01/hw01.qmd
           text: "Homework 1: Intro and EDA"
+    - title: "Literature Critique"
+      href: lit_critique/index.qmd      
     - title: "Project"
       style: docked
       search: false

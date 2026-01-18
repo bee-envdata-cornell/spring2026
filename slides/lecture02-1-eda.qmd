@@ -137,9 +137,19 @@ Developing suitable models often starts with both **exploratory data analysis (E
 - Try to impose as few assumptions as possible.
 - Goal of exploratory analysis is to **get a high-level view of the data** and **formulate hypotheses/check if data is fit for purpose**.
 
+## EDA Questions
+
+EDA is about generating questions and identifying if the data quality is sufficient to address them.
+
+Common questions to guide EDA:
+
+1. **What type of variability occurs within my variables?**
+2. **What type of covariation occurs between my variables?**
+
 ## Common EDA Questions
 
-- What is the range of the data?
+- What is the range of the data? What are "typical" values?
+- What values are rare? Do they make sense?
 - Are there missing data or strange outliers? What might explain them?
 - Is a particular relationship or distribution supported by the data?
 
@@ -194,7 +204,7 @@ aq_cor = cor(Matrix(dropmissing(aq[:, 2:5])))
 DataFrame(aq_cor, names(aq[:, 2:5]))
 ```
 
-# Visualization
+# Visual EDA
 
 ## Anscombe's Quartet
 
@@ -221,227 +231,37 @@ Source: [Wikipedia](https://en.wikipedia.org/wiki/Anscombe%27s_quartet)
 - Time series: **time always goes on the $x$-axis**.
 - Boxplots for comparison quantiles/ranges of variables or groups of data.
 
-## Considerations When Plotting
-
-- Worry about the vertical scale
-    - Are you exaggerating small changes? Downplaying meaningful changes?
-    - "Adjust vertical scale of data" to reflect meaningful changes and "Vertical scale should always include zero" are conflicting advice.
-- Need to be thoughtful: **there is no such thing as objectively "correct" visualizations**, just **honest** visualizations. 
-
-## Avoid Using Two Vertical Axes
-
-![Two axis plot](https://datawrapper.de/cdn-cgi/image/quality=85,width=1920,f=auto,fit=cover/https://kirby.datawrapper.de/media/pages/blog/dualaxis/e402201aef-1740123107/full-180508_index6.png)
-
-::: {.caption}
-Source: [Datawrapper.de](https://www.datawrapper.de/blog/dualaxis)
-:::
-
-## Avoid Using Two Vertical Axes
+## Boxplots vs Histograms
 
 :::: {.columns}
 ::: {.column width=50%}
-![Two axis plot](https://datawrapper.de/cdn-cgi/image/quality=85,width=1920,f=auto,fit=cover/https://kirby.datawrapper.de/media/pages/blog/dualaxis/e402201aef-1740123107/full-180508_index6.png)
+**Boxplots**: Show quantiles (usually median + 1.5 $\times IQR)
 
-::: {.caption}
-Source: [Datawrapper.de](https://www.datawrapper.de/blog/dualaxis)
-:::
-
+**Histogram**: See distribution of data.
 :::
 ::: {.column width=50%}
-![Illustration of how rescaling axes manipulates impression](https://datawrapper.de/cdn-cgi/image/quality=85,width=1920,f=auto,fit=cover/https://kirby.datawrapper.de/media/pages/blog/dualaxis/df214d6e10-1740123107/full-180508_index9.png)
-:::
-::::
-
-::: {.caption}
-Source: [Datawrapper.de](https://www.datawrapper.de/blog/dualaxis)
-:::
-
-
-## Encode Information With Marks and Channels
-
-:::: {.columns}
-::: {.column width=50%}
-**Marks**: Geometric primitives
-
-- Points
-- Segments
-- Paths
-- Polygons
-
-:::
-::: {.column width=50%}
-**Channels**: Mark appearance
-
-- Color (Hue/Saturation/Luminescence)
-- Position (1D/2D/3D)
-- Size (Length/Area/Volume)
-- Angle
-
-:::
-::::
-
-## Ordered vs. Categorical Attributes
-
-The channels available depend on the type of attribute:
-
-- **Ordered** attributes can be 
-  - *Ordinal*: Ranking, no meaning to distance;
-  - *Quantitative*: Measure of magnitude which supports arithmetic comparison;
-- **Categorical** attributes are unordered.
-
-## Channel Effectiveness: Ordered Data
-
-:::: {.columns}
-::: {.column width=75%}
-![](figures/ordered-channels.png){fig-align=center}
-:::
-::: {.column width=25%}
-::: {.caption}
-Channels for ordered data, arranged top-to-bottom from more to less effective (channels in the right column are less effective than those in the left). Modified from @Healy2018-zx after @Munzner2014-pj.
-:::
-:::
-::::
-
-## Channel Effectiveness: Categorical Data
-
-:::: {.columns}
-::: {.column width=75%}
-![](figures/categorical-channels.png){fig-align=center width=5in}
-:::
-::: {.column width=25%}
-::: {.caption}
-Channels for categorical data, arranged top-to-bottom from more to less effective. Modified from Healy (2018) after Munzer (2014).
-:::
-:::
-::::
-
-## Preattentive Popout
-
-:::: {.columns}
-::: {.column width=30%}
-Try to make your key features "pop out" to the viewer during the pre-attentive scan.
-
-::: {.caption}
-Searching for the blue circle becomes harder. Adapted from @Healy2018-zx.
-:::
-:::
-::: {.column width=70%}
-
-```{julia}
-#| code-fold: true
-#| echo: true
-npt = 20
-dist = Distributions.Product(Uniform.([0, 0], [1, 1]))
-pts = Tuple.(eachcol(rand(dist, npt)))
-blueidx = rand(1:npt)
-p1 = scatter(pts[1:end .!= blueidx], color=:red, xticks=:false, yticks=:false, legend=:false, markersize=5, title="Color Only, N=20", framestyle=:box)
-scatter!(p1, pts[blueidx, :], color=:blue, markersize=5)
-
-npt = 100
-pts = Tuple.(eachcol(rand(dist, npt)))
-blueidx = rand(1:npt)
-p2 = scatter(pts[1:end .!= blueidx], color=:red, xticks=:false, yticks=:false, legend=:false, markersize=5, title="Color Only, N=100", framestyle=:box)
-scatter!(p2, pts[blueidx, :], color=:blue, markersize=5)
-
-npt = 20
-pts = Tuple.(eachcol(rand(dist, npt)))
-blueidx = rand(1:npt)
-p3 = scatter(pts[1:end .!= blueidx], color=:blue, markershape=:utriangle, xticks=:false, yticks=:false, legend=:false, markersize=5, title="Shape Only, N=20", framestyle=:box)
-scatter!(p3, pts[blueidx, :], color=:blue, markersize=5, markershape=:circle)
-
-npt = 100
-pts = Tuple.(eachcol(rand(dist, npt)))
-blueidx = rand(1:npt)
-p4 = scatter(pts[1:end .!= blueidx], color=:blue, markershape=:utriangle, xticks=:false, yticks=:false, legend=:false, markersize=5, title="Shape Only, N=100", framestyle=:box)
-scatter!(p4, pts[blueidx, :], color=:blue, markersize=5, markershape=:circle)
-
-plot(p1, p2, p3, p4, layout=(2, 2), size=(800, 500))
-```
-
-:::
-::::
-
-## Principle of Proportional Ink
-
-:::: {.columns}
-::: {.column width=40%}
-**On the left**: 2014 quantity is **~1.1x** 2010 value, but due to vertical scale the 2014 bar uses **2.7x** the ink.
-
-Can mislead viewers into thinking the difference is larger than it truly is!
-:::
-::: {.column width=60%}
-![Illustration of Non-Proportional Ink](https://callingbullshit.org/tools/img/Tennessee_nonfarm_jobs.png)
-
-::: {.caption}
-Source: [Calling Bullshit](https://callingbullshit.org/tools/tools_proportional_ink.html)
-:::
-:::
-::::
-
-## Color Schemes
-
-Different color schemes are appropriate depending on whether the data is *sequential*, *divergent*, or *unordered*.
-
-::: {.callout-important}
-### Appropriate Color Schemes
-
-Color schemes should be *perceptually uniform* to preserve a mapping between changes in perceived colors and changes in attribute values. 
-
-Try to also choose color schemes which avoid confusing people who are color blind.
-:::
-
-
-## Color Schemes
-
-**Good news**: Most plotting libraries include a wide variety of perceptually uniform, color-blind safe color schemes.
-
-**Bad news**: These are not usually the defaults (in particular, avoid "rainbow" color schemes).
-
-## Sequential Color Schemes
-
-Sequential schemes change in intensity from low to high as the value changes. 
-
-```{julia}
-#| fig-align: center
-ColorSchemes.Blues_7
-```
-
-## Divergent Color Schemes
-
-Divergent schemes intensify in two directions from a zero or mean value.
-
-```{julia}
-reverse(ColorSchemes.PRGn_7)
-```
-
-## Unordered Color Schemes
-
-Unordered schemes are appropriate for categorical data. 
-
-```{julia}
-reverse(ColorSchemes.Dark2_7)
-```
-
-
-
-## Some Caveats
-
-::: {.incremental}
-- There is no recipe to effective visualization. Everything depends on your data and the story you want to tell.
-- This also means that defaults from data visualization packages are usually bad.
-- Principles are largely based on Western (American/European) norms and may not translate perfectly.
-- A lot of these guidelines are based on average outcomes, there is likely to be a lot of individual variation.
-:::
-
-
-# Visualization Example
-
-## First Attempt: Paired Scatterplots
-
 ```{julia}
 #| code-fold: true
 #| echo: true
 #| label: fig-explore1
+#| fig-cap: Paired plots of air quality dataset
+
+p1 = boxplot(skipmissing(aq[!, :Ozone]), ylabel="Ozone (ppb)")
+
+p2 = histogram(skipmissing(aq[!, :Ozone]), ylabel="Ozone (ppb)")
+
+p = plot(p1, p2, layout=(2, 1), size=(1100, 400))
+
+```
+:::
+::::
+
+## Scatterplots
+
+```{julia}
+#| code-fold: true
+#| echo: true
+#| label: fig-explore2
 #| fig-cap: Paired plots of air quality dataset
 
 # this uses the dataframe plotting syntax from StatsPlots.jl
@@ -453,70 +273,33 @@ p = plot(p1, p2, p3, layout=(1, 3), size=(1100, 400))
 
 ```
 
-## Do Multiple Channels Help?
-
-```{julia}
-#| code-fold: true
-#| echo: true
-#| label: fig-explore2
-#| fig-cap: Scatterplot of air quality dataset with solar color
-
-# this uses the dataframe plotting syntax from StatsPlots.jl
-aq2 = dropmissing(aq)
-p = @df aq2 scatter(:Ozone, :Wind, marker_z=:Solar,
-    xlabel="Ozone (ppb)", 
-    ylabel="Wind Speed (mph)", 
-    colorbar_title="Solar Radiation (lang)",
-    c=:reds,
-    markersize=5
-)
-```
-
-## Do Multiple Channels Help?
-
-```{julia}
-#| code-fold: true
-#| echo: true
-#| label: fig-explore3
-#| fig-cap: Scatterplot of air quality dataset with temperature color
-
-# this uses the dataframe plotting syntax from StatsPlots.jl
-aq2 = dropmissing(aq)
-p = @df aq2 scatter(:Ozone, :Wind, marker_z=:Temp,
-    xlabel="Ozone (ppb)", 
-    ylabel="Wind Speed (mph)", 
-    colorbar_title="Max Temperature (°F)",
-    c=:reds,
-    markersize=5
-)
-```
-
 
 # Key Points
 
 
-## EDA/Data Visualization
+## EDA
 
 - **EDA**: Understand structure of data while making as few assumptions as possible (e.g. look at the raw data, not "smoothed" versions).
-- No such thing as "objectively best" visualization.
-- Need to be thoughtful about the story you're trying to tell.
-- Usually involves a lot of experimentation to make important features of the data pop out.
+- Need to be willing to ask many questions of your data: most won't make sense once you look at the data.
+- You might be asking the "right" questions but have the "wrong" data: be open-minded and rely on domain knowledge.
+- Quantitative EDA can be a starting point, but EDA also requires visualization.
 
-## Data Visualization Suggestions
-
-- Some key degrees of freedom: vertical scale, information channels.
-- **Don't add unnecessary artifacts!** Easy to get "cute" and distract from core message.
-- Start simple (scatterplots, boxplots, histograms)
-- **Don't make 3D plots. Don't use two vertical axes.**
-- Always ask yourself: are you honestly presenting the data and is your visual consistent with your story?
 
 # Upcoming Schedule
 
 ## Next Classes
 
-**Wednesday**: Probability Models and Linear Regression 
+**Wednesday**: Data Visualization
 
-**Friday**: Data Visualization Lab (come prepared with a visualization and its underlying dataset).
+**Friday**: Data Visualization Discussion
+
+## To Be Prepared for Friday
+
+1. Find a visualization and its underlying dataset you find interesting (article, web repository, news story).
+2. Critique the visualization: What story is it trying to tell? What does it do well? What's confusing or limited about it?
+3. Try reconstructing it to tell the story "better".
+4. Come to class with the original visual and your attempt at improving it.
+
 
 ## Assessments
 
