@@ -129,6 +129,7 @@ Models are encodings of hypothesized **data-generating processes**.
 
 :::: {.columns}
 ::: {.column width=50%}
+- Statistics is a **rhetorical tool**: we use stats to tell a quantitative story about data.
 - Probability theory helps us deduce logical implications of theories **conditional on our assumptions**
 - Cannot use an "objective" procedure to avoid **subjective responsibility**
 :::
@@ -251,8 +252,6 @@ Models are how we assess evidence for theories.
 ## Attendance
 
 Not required, but students tend to do better when they're actively engaged in class.
-
-For 4850 students: hard to earn participation points if you're not attending!
 
 ## Office Hours
 
