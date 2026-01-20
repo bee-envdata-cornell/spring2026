@@ -11,8 +11,8 @@ instructor:
     Use the class's Ed Discussion board for any class-related queries.
 
 TA:
-  name: "TBD"
-  email: "TBD"
+  name: "Shikhar Prakash"
+  email: "sp868@cornell.edu"
   office: "TBD"
 
 course:
@@ -25,7 +25,7 @@ course:
   github: "https://github.com/bee-envdata-cornell/spring2026"
   url: "https://envdata.viveks.me/spring2026"
   copyright_year: "2025"
-  office_hours: "TBD"
+  office_hours: "MTh 10-11"
   ta_office_hours: "TBD"
 
 university:
