@@ -18,7 +18,7 @@ julia:
 
 **Instructor**: Prof. Vivek Srikrishnan, [viveks@cornell.edu](mailto:viveks@cornell.edu)
 
-**Interests**:
+**Research Interests**:
 
 - Bridging Earth science, data science, and decision science to improve climate risk management;
 - Unintended consequences which result from neglecting uncertainty or system dynamics.
@@ -30,6 +30,13 @@ julia:
 :::
 
 ## TA
+
+**TA**: [Shikhar Prakash](mailto:sp868@cornell.edu)
+
+**Research Interests**: Electric power systems
+
+**Other Interests**: Hiking in national parks, scuba diving, reading non fiction and sci-fi, learning local cuisines and history while traveling, and cooking 
+
 
 ## What Do You Hope To Get Out Of This Course?
 

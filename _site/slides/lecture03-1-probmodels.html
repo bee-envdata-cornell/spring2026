@@ -7,12 +7,15 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/quarto-contrib/jquery-3.6.3/jquery-3.6.3.min.js"></script>
+<script src="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.js" defer="true"></script>
+<link href="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.8.26">
 
   <meta name="author" content="Vivek Srikrishnan">
-  <meta name="dcterms.date" content="2026-01-21">
-  <title>Environmental Data Analysis &amp; Simulation – Welcome to BEE 4850/5850!</title>
+  <meta name="dcterms.date" content="2026-01-28">
+  <title>Environmental Data Analysis &amp; Simulation – Probability Models and EDA</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -30,7 +33,27 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
-  </style>
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-99469881743cb8bd1bf840c72478da80.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
@@ -133,8 +156,8 @@
       }
     };
   </script>
-<meta property="og:title" content="Welcome to BEE 4850/5850! – Environmental Data Analysis &amp; Simulation">
-<meta property="og:description" content="Lecture 01">
+<meta property="og:title" content="Probability Models and EDA – Environmental Data Analysis &amp; Simulation">
+<meta property="og:description" content="Lecture 03">
 <meta property="og:site_name" content="Environmental Data Analysis &amp; Simulation">
 </head>
 <body class="quarto-light">
@@ -142,178 +165,112 @@
     <div class="slides">
 
 <section id="title-slide" class="center">
-    <h1 class="title">Welcome to BEE 4850/5850!</h1>
+    <h1 class="title">Probability Models and EDA</h1>
   <hr>
-<p class="subtitle">Lecture 01</p>
-<p class="date">January 21, 2026</p>
+<p class="subtitle">Lecture 03</p>
+<p class="date">January 28, 2026</p>
 </section><section id="TOC">
 <nav role="doc-toc"> 
 <h2 id="toc-title">Overview</h2>
 <ul>
-<li><a href="#/course-introduction" id="/toc-course-introduction">Course Introduction</a></li>
-<li><a href="#/what-we-are-doing-this-semester" id="/toc-what-we-are-doing-this-semester">What We Are Doing This Semester?</a></li>
-<li><a href="#/course-policies" id="/toc-course-policies">Course Policies</a></li>
-<li><a href="#/class-tools" id="/toc-class-tools">Class Tools</a></li>
+<li><a href="#/review" id="/toc-review">Review</a></li>
+<li><a href="#/probability-models" id="/toc-probability-models">Probability Models</a></li>
+<li><a href="#/linear-regression" id="/toc-linear-regression">Linear Regression</a></li>
+<li><a href="#/linear-model-example" id="/toc-linear-model-example">Linear Model Example</a></li>
+<li><a href="#/key-points" id="/toc-key-points">Key Points</a></li>
 <li><a href="#/upcoming-schedule" id="/toc-upcoming-schedule">Upcoming Schedule</a></li>
 <li><a href="#/references" id="/toc-references">References</a></li>
 </ul>
 </nav>
 </section>
 <section>
-<section id="course-introduction" class="title-slide slide level1 center">
-<h1>Course Introduction</h1>
+<section id="review" class="title-slide slide level1 center">
+<h1>Review</h1>
 
 </section>
-<section id="about-me" class="slide level2">
-<h2>About Me</h2>
-<p><strong>Instructor</strong>: Prof.&nbsp;Vivek Srikrishnan, <script type="text/javascript">
-<!--
-h='&#x63;&#x6f;&#114;&#110;&#x65;&#108;&#108;&#46;&#x65;&#100;&#x75;';a='&#64;';n='&#118;&#x69;&#118;&#x65;&#x6b;&#x73;';e=n+a+h;
-document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\/'+'a'+'>');
-// -->
-</script><noscript>viveks at cornell dot edu</noscript></p>
-<p><strong>Research Interests</strong>:</p>
+<section id="statistics-as-decision-making-under-uncertainty" class="slide level2">
+<h2>Statistics as Decision-Making Under Uncertainty</h2>
 <ul>
-<li>Bridging Earth science, data science, and decision science to improve climate risk management;</li>
-<li>Unintended consequences which result from neglecting uncertainty or system dynamics.</li>
+<li>Went over “standard” null hypothesis significance approach.</li>
+<li>Null vs.&nbsp;alternative hypotheses</li>
+<li><span class="math inline">\(p\)</span>-values: (continuous) assessment of probability of seeing test statistic under null hypothesis.</li>
 </ul>
-</section>
-<section id="meet-my-supervisors" class="slide level2">
-<h2>Meet My Supervisors</h2>
-<div class="center">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="figures/cats.png" style="width:30.0%"></p>
-<figcaption>My Supervisors</figcaption>
-</figure>
-</div>
-</div>
-</section>
-<section id="ta" class="slide level2">
-<h2>TA</h2>
-<p><strong>TA</strong>: <script type="text/javascript">
-<!--
-h='&#x63;&#x6f;&#114;&#110;&#x65;&#108;&#108;&#46;&#x65;&#100;&#x75;';a='&#64;';n='&#x73;&#112;&#56;&#54;&#56;';e=n+a+h;
-document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x53;&#104;&#x69;&#x6b;&#104;&#x61;&#114;&#32;&#80;&#114;&#x61;&#x6b;&#x61;&#x73;&#104;'+'<\/'+'a'+'>');
-// -->
-</script><noscript>Shikhar Prakash (sp868 at cornell dot edu)</noscript></p>
-<p><strong>Research Interests</strong>: Electric power systems</p>
-<p><strong>Other Interests</strong>: Hiking in national parks, scuba diving, reading non fiction and sci-fi, learning local cuisines and history while traveling, and cooking</p>
-</section>
-<section id="what-do-you-hope-to-get-out-of-this-course" class="slide level2">
-<h2>What Do You Hope To Get Out Of This Course?</h2>
-<p>Take a moment, write it down, and we’ll share!</p>
 </section></section>
 <section>
-<section id="what-we-are-doing-this-semester" class="title-slide slide level1 center">
-<h1>What We Are Doing This Semester?</h1>
+<section id="probability-models" class="title-slide slide level1 center">
+<h1>Probability Models</h1>
 
 </section>
-<section id="why-does-data-analysis-matter" class="slide level2">
-<h2>Why Does Data Analysis Matter?</h2>
+<section id="why-do-we-need-models-for-data" class="slide level2">
+<h2>Why Do We Need Models For Data?</h2>
 <ul>
-<li>Scientific insight;</li>
-<li>Decision-making;</li>
-<li>Understanding uncertainty</li>
+<li><strong>Data are imperfect</strong>: Data <span class="math inline">\(X\)</span> are only one realization of the data that <strong>could</strong> have been observed and/or we can only measure indirect proxies of what we care about.</li>
+<li>Over time, statisticians learned to treat these imperfections as the results of <strong>random</strong> processes (for some of this history, see <span class="citation" data-cites="Hacking1990-yr">Hacking (<a href="#/references-scroll-for-full-list" role="doc-biblioref" onclick="">1990</a>)</span>), requiring probability models.</li>
 </ul>
 </section>
-<section id="examples-of-data-related-questions" class="slide level2">
-<h2>Examples of Data-Related Questions</h2>
-<ul>
-<li>How often will a particular (usually extreme) outcome occur?</li>
-<li>What causes differences between environmental conditions at different times/locations?</li>
-<li>What might the impacts be of environmental change?</li>
-<li>Does a new (treatment/management) method have a reliable impact?</li>
-</ul>
+<section id="predicting-random-variables" class="slide level2">
+<h2>Predicting Random Variables</h2>
+<p>Let’s say that we want to predict the value of a variable <span class="math inline">\(y \sim Y\)</span>. We need a criteria to define the “best” point prediction.</p>
+<p>Reasonable starting point:</p>
+<p><span class="math display">\[\text{MSE}(m) = \mathbb{E}\left[(Y - m)^2\right]\]</span></p>
 </section>
-<section id="the-ideal" class="slide level2">
-<h2>The Ideal</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p><strong>Goal</strong>: Obtain data that is so self-evident that you don’t need to do statistics!</p>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="https://imgs.xkcd.com/comics/statistics.png" style="width:60.0%"></p>
-<figcaption>XKCD 2400</figcaption>
-</figure>
-</div>
-<div class="caption">
-<p>Source: <a href="https://xkcd.com/2400/">XKCD 2400</a></p>
-</div>
-</div></div>
-</section>
-<section id="but-in-actuality" class="slide level2">
-<h2>But in Actuality</h2>
-<ul>
-<li>Except in the most controlled experiments, <strong>data are noisy</strong>;</li>
-<li>The <strong>causes</strong> of the data cannot be extracted from the data alone;</li>
-<li>The <strong>reasons</strong> for statistical analyses are not found in the data themselves.</li>
-</ul>
-</section>
-<section id="description-and-inference-are-connected" class="slide level2">
-<h2>Description and Inference are Connected</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p>Except for superficial tasks:</p>
-<ul>
-<li>Knowing what is important to describe requires a model;</li>
-<li>Understanding how the data might differ from the population requires a model.</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<div class="center">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="memes/spidermen-description-inference.jpg" style="width:100.0%"></p>
-<figcaption>Spidermen Meme</figcaption>
-</figure>
-</div>
-</div>
-</div></div>
-</section>
-<section id="some-problems-with-the-standard-data-analysis-toolkit" class="slide level2">
-<h2>Some Problems With The “Standard” Data Analysis Toolkit</h2>
-<ul>
-<li class="fragment">Statistical assumptions may not be valid;</li>
-<li class="fragment">“Null” vs “Alternative” hypotheses and tests may be chosen for computational convenience, not scientific relevance.</li>
-<li class="fragment">Many different <strong>substantive</strong> models can imply the same <strong>statistical</strong> model.</li>
-</ul>
+<section id="mse-as-squared-bias-variance" class="slide level2">
+<h2>MSE As (Squared) Bias + Variance</h2>
+<p><span class="math display">\[\begin{aligned}
+\mathbb{V}(Y) &amp;= \mathbb{E}\left[(Y - \mathbb{E}[Y])^2\right] \\
+&amp;= \mathbb{E}\left[Y^2 - 2Y\mathbb{E}[Y] + \mathbb{E}[Y]^2\right] \\
+&amp;= \mathbb{E}[Y^2] - 2\mathbb{E}[Y]^2 + \mathbb{E}[Y]^2 = \mathbb{E}[Y^2] - \mathbb{E}[Y]^2 .
+\end{aligned}\]</span></p>
 <div class="fragment fade-in">
-<p><strong>Important</strong>: “Big” data doesn’t solve the problem!</p>
+<p><span class="math display">\[\Rightarrow \text{MSE}(m) = \mathbb{E}\left[(Y - m)^2\right] = \mathbb{E}\left[(Y-m)\right]^2 + \mathbb{V}(Y - m).\]</span></p>
 </div>
 </section>
-<section id="model-based-data-analysis" class="slide level2">
-<h2>Model-Based Data Analysis</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p>Models are how we assess evidence for theories.</p>
-<p>Models are encodings of hypothesized <strong>data-generating processes</strong>.</p>
-</div><div class="column" style="width:50%;">
-<div class="center">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="memes/rock-paper-theory-model.jpg" style="width:100.0%"></p>
-<figcaption>Rock Paper Scissors meme</figcaption>
-</figure>
-</div>
-</div>
-</div></div>
+<section id="bias-variance-decomposition-of-mse" class="slide level2">
+<h2>Bias-Variance Decomposition of MSE</h2>
+<p>Then:</p>
+<p><span class="math display">\[\begin{aligned}
+\text{MSE}(m) &amp;= \mathbb{E}\left[(Y-m)\right]^2 + \mathbb{V}(Y - m)  \\
+&amp;= \mathbb{E}\left[(Y-m)\right]^2 + \mathbb{V}(Y) \\
+&amp;= \left(\mathbb{E}[Y] - m\right)^2 + \mathbb{V}(Y).
+\end{aligned}\]</span></p>
+<p>This is the source of the so-called “bias-variance tradeoff” (more on this later).</p>
 </section>
-<section id="what-can-we-do-with-models" class="slide level2">
-<h2>What Can We Do With Models?</h2>
-<ul>
-<li><strong>Inference</strong>: what are parameter values which explain data?</li>
-<li><strong>Simulation</strong>: what are alternative counterfactual observations?</li>
-<li><strong>Projection</strong>: what future data might be observed assuming this data-generating process?</li>
-<li><strong>Testing</strong>: which data-generating processes are most consistent with the data?</li>
-</ul>
+<section id="optimizing" class="slide level2">
+<h2>Optimizing…</h2>
+<p>We want to find the minimum value of <span class="math inline">\(\text{MSE}(m)\)</span> (denote the optimal prediction by <span class="math inline">\(\mu\)</span>):</p>
+<div class="fragment fade-in">
+<p><span class="math display">\[
+\begin{aligned}
+\frac{d\text{MSE}}{dm} &amp;= -2(\mathbb{E}[Y] - m) + 0 \\
+0 = \left.\frac{d\text{MSE}}{dm}\right|_{m = \mu} &amp;= -2(\mathbb{E}[Y] - \mu)
+\end{aligned}\]</span></p>
+<p><span class="math display">\[\Rightarrow \mu = \mathbb{E}[Y].\]</span></p>
+</div>
+</section>
+<section id="expected-value-as-best-prediction" class="slide level2">
+<h2>Expected Value As Best Prediction</h2>
+<p>In other words, <strong>the best predicted value of a random variable is its expectation</strong>.</p>
+<p>But:</p>
+<ol type="1">
+<li>We usually don’t have enough data to know what <span class="math inline">\(\mathbb{E}[Y]\)</span> is: need to make probabilistic assumptions;</li>
+<li>In many applications, we don’t just want a point estimate, we need some estimate of ranges of values <strong>we might observe</strong>.</li>
+</ol>
+</section>
+<section id="uses-of-models" class="slide level2">
+<h2>Uses of Models</h2>
+<p>What can we use a probability model for?</p>
+<ol type="1">
+<li><strong>Summaries</strong> of data: store <span class="math inline">\(y = f(\mathbf{x})\)</span> instead of all data points <span class="math inline">\((y, x_1, \ldots, x_n)\)</span></li>
+<li><strong>Smooth</strong> values by removing noise</li>
+<li><strong>Predict</strong> new data (interpolation/extrapolation): <span class="math inline">\(\hat{f} = f(\hat{\mathbf{x}})\)</span></li>
+<li><strong>Infer</strong> relationships between variables (interpret coefficients of <span class="math inline">\(f\)</span>)</li>
+</ol>
 </section>
 <section id="my-philosophical-position" class="slide level2">
 <h2>My Philosophical Position</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>Statistics is a <strong>rhetorical tool</strong>: we use stats to tell a quantitative story about data.</li>
 <li>Probability theory helps us deduce logical implications of theories <strong>conditional on our assumptions</strong></li>
 <li>Cannot use an “objective” procedure to avoid <strong>subjective responsibility</strong></li>
 </ul>
@@ -322,263 +279,109 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x5
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="memes/peter_parker_method_assumptions.png" style="width:90.0%"></p>
-<figcaption>Bart Statistics Meme</figcaption>
+<figcaption>Spiderman Meme</figcaption>
 </figure>
 </div>
 </div>
 </div></div>
+</section></section>
+<section>
+<section id="linear-regression" class="title-slide slide level1 center">
+<h1>Linear Regression</h1>
+
 </section>
-<section id="model-based-data-analysis-1" class="slide level2">
-<h2>Model-Based Data Analysis</h2>
-<p>We can (<strong>transparently</strong>):</p>
-<ul>
-<li>Examine logical implications of model assumptions (<strong>including interventions/out-of-sample generation</strong>).</li>
-<li>Assess evidence for multiple hypotheses by generating simulated data.</li>
-<li>Identify opportunities to design future experiments or observations to distinguish between competing hypotheses.</li>
-</ul>
-</section>
-<section id="model-based-data-analysis-2" class="slide level2">
-<h2>Model-Based Data Analysis</h2>
+<section id="linear-regression-1" class="slide level2">
+<h2>Linear Regression</h2>
+<p>The “simplest” model is <strong>linear</strong>:</p>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>Models are how we assess evidence for theories.</p>
+<p><span class="math display">\[\begin{aligned}
+y_i &amp;\sim N(\mu_i, \sigma^2) \\
+\mu_i &amp;= \sum_j \beta_j x^j_i
+\end{aligned}
+\]</span></p>
 </div><div class="column" style="width:50%;">
-<div class="center">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="memes/rock-paper-theory-model.jpg" style="width:100.0%"></p>
-<figcaption>Rock Paper Scissors meme</figcaption>
-</figure>
-</div>
-</div>
+<p><span class="math display">\[\begin{aligned}
+y_i &amp;= \sum_j \beta_j x^j_i + \varepsilon_i \\
+\varepsilon_i &amp;\sim N(0, \sigma^2)
+\end{aligned}
+\]</span></p>
 </div></div>
 </section>
-<section id="what-we-will-cover" class="slide level2">
-<h2>What We Will Cover</h2>
-<ul>
-<li>Exploratory Analysis</li>
-<li>Linear Models and GLMs</li>
-<li>Model Calibration, Evaluation, and Comparison</li>
-<li>Simulation (Monte Carlo, Bootstrap, Imputation)</li>
-<li>Extreme Value Analysis</li>
-</ul>
+<section id="why-linear-models" class="slide level2">
+<h2>Why Linear Models?</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>Two main reasons to use linear models/normal distributions:</p>
+<ol type="1">
+<li><strong>Inferential</strong>: “Least informative” distribution assuming only finite mean/variance;</li>
+<li><strong>Generative</strong>: Central Limit Theorem (summed fluctuations are asymptotically normal)</li>
+</ol>
+</div><div class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="https://i.redd.it/zl5mo1n45wyb1.jpg"></p>
+<figcaption>Weight stack Gaussian distribution</figcaption>
+</figure>
+</div>
+<div class="caption">
+<p>Source: r/GymMemes</p>
+</div>
+</div></div>
+<aside class="notes">
+<p>One key thing: normal distributions are the “least informative” distribution given constraints on mean and variance. So all else being equal, this is a useful machine if all we’re interested in are those two moments.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="linear-regression-as-probability-model" class="slide level2">
+<h2>Linear Regression As Probability Model</h2>
+<p><span class="math display">\[
+y &amp;= \underbrace{\sum_j \beta_j x^j_i)}_{\mathbb{E}[y | x^j]} + \underbrace{\varepsilon_i}_{\text{noise}}, \quad \varepsilon_i \sim N(0, \sigma^2)
+\]</span></p>
+<ol type="1">
+<li><span class="math inline">\(\mathbb{E}[y | x^j]\)</span>: Best linear prediction of <span class="math inline">\(y\)</span> conditional on choice of predictors <span class="math inline">\(x^j\)</span>.</li>
+<li>The noise defines the probability distribution (here: Gaussian) of the observations: <span class="math display">\[y \sim N(\sum_j \beta_j x^j_i), \sigma^2).\]</span></li>
+</ol>
+</section>
+<section id="implications-of-gaussian-noise" class="slide level2">
+<h2>Implications of Gaussian Noise</h2>
+<p>Without explicit modeling of sources of measurement uncertainty, in LR we can’t separate a noisy system state (due to <em>e.g.</em> omitted variables) from an uncertain measurement error (more on this later).</p>
+<p><span class="math display">\[
+\begin{array}{l}
+X \sim N(\mu_1, \sigma_1^2) \\
+Y \sim N(\mu_2, \sigma_2^2) \\
+Z = X + Y
+\end{array}
+\qquad \Rightarrow \qquad Z \sim N(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)
+\]</span></p>
 </section></section>
 <section>
-<section id="course-policies" class="title-slide slide level1 center">
-<h1>Course Policies</h1>
+<section id="linear-model-example" class="title-slide slide level1 center">
+<h1>Linear Model Example</h1>
 
 </section>
-<section id="background-knowledge-computing" class="slide level2">
-<h2>Background Knowledge: Computing</h2>
-<ul>
-<li>Basics (at the level of CS 111x)</li>
-<li>No specific language requirement.</li>
-<li>Some extra work/effort may be needed if you haven’t coded in a while.</li>
-<li>May need some additional familiarity with statistical packages (and “light” optimization)</li>
-</ul>
-</section>
-<section id="background-knowledge-probabilitystatistics" class="slide level2">
-<h2>Background Knowledge: Probability/Statistics</h2>
-<ul>
-<li>ENGRD 2700/CEE 3040</li>
-<li>Summary statistics of data</li>
-<li>Probability distributions</li>
-<li>Basic visualizations</li>
-<li>Monte Carlo basics</li>
-</ul>
-</section>
-<section id="grades" class="slide level2">
-<h2>Grades</h2>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Assessment</th>
-<th style="text-align: right;">Weight</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Exercises</td>
-<td style="text-align: right;">5%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Quizzes</td>
-<td style="text-align: right;">25%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Readings</td>
-<td style="text-align: right;">10%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Homework Assignments</td>
-<td style="text-align: right;">30%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Term Project</td>
-<td style="text-align: right;">30%</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="overall-guidelines" class="slide level2">
-<h2>Overall Guidelines</h2>
-<ul>
-<li>Collaboration <em>highly</em> encouraged, but <strong>all work must reflect your own understanding</strong></li>
-<li>Submit PDFs on Gradescope</li>
-<li>50% penalty for late submission (up to 24 hours)</li>
-<li>Standard rubric available on website</li>
-<li><strong>Always cite external references</strong></li>
-</ul>
-</section>
-<section id="exercises" class="slide level2">
-<h2>Exercises</h2>
-<ul>
-<li>On Gradescope</li>
-<li>Simple, mostly multiple choice problems, autograded</li>
-<li>Can submit as often as you want, intended to reinforce concepts.</li>
-</ul>
-</section>
-<section id="quizzes" class="slide level2">
-<h2>Quizzes</h2>
-<ul>
-<li>5 throughout the semester</li>
-<li>Beginning of a Friday class, end of class will motivate/introduce new material.</li>
-<li>Closed book, closed note, no calculators.</li>
-<li>Will be scanned into Gradescope for grading/returns.</li>
-</ul>
-</section>
-<section id="readings" class="slide level2">
-<h2>Readings</h2>
-<ul>
-<li>Several readings assigned for discussion throughout the semester.</li>
-<li>Annotation assignments on Canvas through Perusall: by start of next Monday’s lecture.</li>
-<li>Annotations can discuss aspects of the reading you think are interesting, had questions on, or can engage with other students’ annotations.</li>
-<li>Students should post overall reflections, synthesizing their takeaways from the reading with content from this or other classes or other experiences, on Ed Discussion, by the start of the first lecture the next week.</li>
-<li>Will be graded on level of engagement, not quantity of annotations.</li>
-</ul>
-</section>
-<section id="literature-critique" class="slide level2">
-<h2>Literature Critique</h2>
-<ul>
-<li>For 5850 students</li>
-<li>Select a paper which involves some type of statistical or data analysis</li>
-<li>Critique choices: do they support the scientific conclusions?</li>
-<li>Submit a 2-3 page writeup at the end of the semester</li>
-<li>If you’re unsure where to look for a paper, talk to Prof.&nbsp;Srikrishnan</li>
-</ul>
-</section>
-<section id="homework-assignments" class="slide level2">
-<h2>Homework Assignments</h2>
-<ul>
-<li>More in-depth problems, mostly computational</li>
-<li>Roughly 2 weeks to complete</li>
-<li>Regrade requests must be made within one week</li>
-</ul>
-</section>
-<section id="term-project" class="slide level2">
-<h2>Term Project</h2>
-<ul>
-<li>Analyze a question of interest using a data set of your choosing</li>
-<li>Can work individually or groups of 2</li>
-<li>Proposal due in March, interim update in April, final report during finals week.</li>
-</ul>
-</section>
-<section id="attendance" class="slide level2">
-<h2>Attendance</h2>
-<p>Not required, but students tend to do better when they’re actively engaged in class.</p>
-</section>
-<section id="office-hours" class="slide level2">
-<h2>Office Hours</h2>
-<ul>
-<li><strong>Instructor</strong>: MWTh 10-11 AM, 318 Riley-Robb</li>
-<li><strong>TA</strong>: TBD</li>
-<li>Almost impossible to find a time that works for all (or even most); please feel free to make appointments as/if needed. Usually also have time after class (perhaps not all Mondays).</li>
-</ul>
-</section>
-<section id="accomodations" class="slide level2">
-<h2>Accomodations</h2>
-<p>If you have any access barriers in this class, <em>please</em> seek out any helpful accomodations.</p>
-<ul>
-<li>Get an SDS letter.</li>
-<li>If you need an accomodation before you have an official letter, please reach out to me ASAP!</li>
-</ul>
-</section>
-<section id="academic-integrity" class="slide level2">
-<h2>Academic Integrity</h2>
-<p>Hopefully not a concern…</p>
-<ul>
-<li>Collaboration is great and is encouraged!</li>
-<li>Knowing how to find and use helpful resources is a skill we want to develop.</li>
-<li>Don’t just copy…learn from others and give credit.</li>
-<li>Submit your own original work.</li>
-</ul>
-</section>
-<section id="academic-integrity-1" class="slide level2">
-<h2>Academic Integrity</h2>
-<p>Obviously, just copying down answers from Chegg or ChatGPT and passing them off as your own is not ok.</p>
-</section>
-<section id="llms-bullshit-generators" class="slide level2">
-<h2>LLMs: Bullshit Generators</h2>
-<p>Think about ChatGPT as a drunk who tells stories for drinks.</p>
-<p>It will give you plausible-looking text or code on any topic, but it doesn’t know anything beyond what it “overheard.”</p>
-<p>ChatGPT can be useful for certain tasks (<em>e.g.</em> understanding code errors), but may neglect context for why/when certain information or solutions work.</p>
-</section>
-<section id="chatgpt-the-stochastic-parrot" class="slide level2">
-<h2>ChatGPT: The Stochastic Parrot</h2>
-<p>Must specifically call out where you used ChatGPT in your work (beyond simple referencing; see syllabus for details).</p>
+<section id="section" class="slide level2">
+<h2></h2>
 </section></section>
 <section>
-<section id="class-tools" class="title-slide slide level1 center">
-<h1>Class Tools</h1>
+<section id="key-points" class="title-slide slide level1 center">
+<h1>Key Points</h1>
 
 </section>
-<section id="communications" class="slide level2">
-<h2>Communications</h2>
-<p>Use <a href="https://us.edstem.org">Ed Discussion</a> for questions and discussions about class, homework assignments, etc.</p>
+<section id="probability-models-1" class="slide level2">
+<h2>Probability Models</h2>
 <ul>
-<li>Try to use public posts so others can benefit from questions and can weigh in.</li>
-<li><strong>I will make announcements through Ed</strong>.</li>
-</ul>
-</section>
-<section id="email" class="slide level2">
-<h2>Email</h2>
-<p>When urgency or privacy is required, email is ok.</p>
-<div class="callout callout-important callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Important</strong></p>
-</div>
-<div class="callout-content">
-<p>Please include <strong>BEE4850</strong> in your email subject line! This will ensure it doesn’t get lost in the shuffle.</p>
-<p>Better: Use Ed Discussion and reserve email for matters that are particular urgent and/or require privacy.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="course-website" class="slide level2">
-<h2>Course Website</h2>
-<p><a href="https://envdata.viveks.me/spring-2026/" class="uri">https://envdata.viveks.me/spring-2026/</a></p>
-<ul>
-<li>Central hub for information, schedule, and policies</li>
-<li>Will add link and some information to Canvas (assignment due dates, etc)</li>
-</ul>
-</section>
-<section id="computing-tools" class="slide level2">
-<h2>Computing Tools</h2>
-<ul>
-<li>Course is programming language-agnostic.</li>
-<li>Assignments will have notebooks set up for Julia (environments, etc) on GitHub.</li>
-</ul>
-</section>
-<section id="some-tips-for-success" class="slide level2">
-<h2>Some Tips For Success</h2>
-<ul>
-<li>Start the homeworks early; this gives time to sort out conceptual problems and debug.</li>
-<li>Ask questions (in class and online) and try to help each other.</li>
-<li>Give me feedback!</li>
+<li>Almost anything we want to use data for involves an assumption about the underlying probability model for the data.</li>
+<li>Our goal this semester is to develop a toolkit to specify, test, and use these probability models.</li>
 </ul>
 </section></section>
 <section>
@@ -588,22 +391,27 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x5
 </section>
 <section id="next-classes" class="slide level2">
 <h2>Next Classes</h2>
-<p><strong>Friday</strong>: Probability Review</p>
-<p><strong>Next Week</strong>: Exploratory analysis and intro to probability models.</p>
+<p><strong>Wednesday</strong>: Fitting models with maximum likelihood</p>
+<p><strong>Friday</strong>: Maximum likelihood uncertainty</p>
 </section>
 <section id="assessments" class="slide level2">
 <h2>Assessments</h2>
-<p><strong>Homework 1</strong> available; due Friday, 2/6.</p>
+<p><strong>Homework 1</strong> Due Friday, 2/6.</p>
 </section></section>
 <section>
 <section id="references" class="title-slide slide level1 center">
 <h1>References</h1>
 
 </section>
-<section id="references-scroll-for-full-list" class="slide level2">
+<section id="references-scroll-for-full-list" class="slide level2 smaller scrollable">
 <h2>References (Scroll for Full List)</h2>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-Hacking1990-yr" class="csl-entry" role="listitem">
+Hacking, I. (1990). <em><span class="nocase">The Taming of Chance</span></em>. Cambridge, England: Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511819766">https://doi.org/10.1017/CBO9780511819766</a>
+</div>
+</div>
 </section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">

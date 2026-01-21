@@ -1746,7 +1746,7 @@
     "href": "slides/lecture01-1-intro.html#about-me",
     "title": "Welcome to BEE 4850/5850!",
     "section": "About Me",
-    "text": "About Me\nInstructor: Prof. Vivek Srikrishnan, viveks at cornell dot edu\nInterests:\n\nBridging Earth science, data science, and decision science to improve climate risk management;\nUnintended consequences which result from neglecting uncertainty or system dynamics."
+    "text": "About Me\nInstructor: Prof. Vivek Srikrishnan, viveks at cornell dot edu\nResearch Interests:\n\nBridging Earth science, data science, and decision science to improve climate risk management;\nUnintended consequences which result from neglecting uncertainty or system dynamics."
   },
   {
     "objectID": "slides/lecture01-1-intro.html#meet-my-supervisors",
@@ -1760,7 +1760,7 @@
     "href": "slides/lecture01-1-intro.html#ta",
     "title": "Welcome to BEE 4850/5850!",
     "section": "TA",
-    "text": "TA"
+    "text": "TA\nTA: Shikhar Prakash (sp868 at cornell dot edu)\nResearch Interests: Electric power systems\nOther Interests: Hiking in national parks, scuba diving, reading non fiction and sci-fi, learning local cuisines and history while traveling, and cooking"
   },
   {
     "objectID": "slides/lecture01-1-intro.html#what-do-you-hope-to-get-out-of-this-course",
@@ -1830,7 +1830,7 @@
     "href": "slides/lecture01-1-intro.html#my-philosophical-position",
     "title": "Welcome to BEE 4850/5850!",
     "section": "My Philosophical Position",
-    "text": "My Philosophical Position\n\n\n\nProbability theory helps us deduce logical implications of theories conditional on our assumptions\nCannot use an “objective” procedure to avoid subjective responsibility\n\n\n\n\n\n\nBart Statistics Meme"
+    "text": "My Philosophical Position\n\n\n\nStatistics is a rhetorical tool: we use stats to tell a quantitative story about data.\nProbability theory helps us deduce logical implications of theories conditional on our assumptions\nCannot use an “objective” procedure to avoid subjective responsibility\n\n\n\n\n\n\nBart Statistics Meme"
   },
   {
     "objectID": "slides/lecture01-1-intro.html#model-based-data-analysis-1",
@@ -1928,7 +1928,7 @@
     "href": "slides/lecture01-1-intro.html#attendance",
     "title": "Welcome to BEE 4850/5850!",
     "section": "Attendance",
-    "text": "Attendance\nNot required, but students tend to do better when they’re actively engaged in class.\nFor 4850 students: hard to earn participation points if you’re not attending!"
+    "text": "Attendance\nNot required, but students tend to do better when they’re actively engaged in class."
   },
   {
     "objectID": "slides/lecture01-1-intro.html#office-hours",
@@ -2253,270 +2253,123 @@
     "text": "Refernences (Scroll for Full List)\n\n\n\n\nAnscombe, F. J. (1973). Graphs in Statistical Analysis. Am. Stat., 27, 17. https://doi.org/10.2307/2682899\n\n\nBelkin, M., Hsu, D., & Xu, J. (2019). Two models of double descent for weak features. arXiv [Cs.LG]. Retrieved from http://arxiv.org/abs/1903.07571\n\n\nGneiting, T., & Katzfuss, M. (2014). Probabilistic Forecasting. Annual Review of Statistics and Its Application, 1, 125–151. https://doi.org/10.1146/annurev-statistics-062713-085831\n\n\nMei, S., & Montanari, A. (2019). The generalization error of random features regression: Precise asymptotics and double descent curve. arXiv [Math.ST]. Retrieved from http://arxiv.org/abs/1908.05355"
   },
   {
-    "objectID": "slides/lecture02-2-probmodels.html#statistics-as-decision-making-under-uncertainty",
-    "href": "slides/lecture02-2-probmodels.html#statistics-as-decision-making-under-uncertainty",
+    "objectID": "slides/lecture03-1-probmodels.html#statistics-as-decision-making-under-uncertainty",
+    "href": "slides/lecture03-1-probmodels.html#statistics-as-decision-making-under-uncertainty",
     "title": "Probability Models and EDA",
     "section": "Statistics as Decision-Making Under Uncertainty",
     "text": "Statistics as Decision-Making Under Uncertainty\n\nWent over “standard” null hypothesis significance approach.\nNull vs. alternative hypotheses\n\\(p\\)-values: (continuous) assessment of probability of seeing test statistic under null hypothesis."
   },
   {
-    "objectID": "slides/lecture02-2-probmodels.html#why-do-we-need-models-for-data",
-    "href": "slides/lecture02-2-probmodels.html#why-do-we-need-models-for-data",
+    "objectID": "slides/lecture03-1-probmodels.html#why-do-we-need-models-for-data",
+    "href": "slides/lecture03-1-probmodels.html#why-do-we-need-models-for-data",
     "title": "Probability Models and EDA",
     "section": "Why Do We Need Models For Data?",
     "text": "Why Do We Need Models For Data?\n\nData are imperfect: Data \\(X\\) are only one realization of the data that could have been observed and/or we can only measure indirect proxies of what we care about.\nOver time, statisticians learned to treat these imperfections as the results of random processes (for some of this history, see Hacking (1990)), requiring probability models."
   },
   {
-    "objectID": "slides/lecture02-2-probmodels.html#predicting-random-variables",
-    "href": "slides/lecture02-2-probmodels.html#predicting-random-variables",
+    "objectID": "slides/lecture03-1-probmodels.html#predicting-random-variables",
+    "href": "slides/lecture03-1-probmodels.html#predicting-random-variables",
     "title": "Probability Models and EDA",
     "section": "Predicting Random Variables",
     "text": "Predicting Random Variables\nLet’s say that we want to predict the value of a variable \\(y \\sim Y\\). We need a criteria to define the “best” point prediction.\nReasonable starting point:\n\\[\\text{MSE}(m) = \\mathbb{E}\\left[(Y - m)^2\\right]\\]"
   },
   {
-    "objectID": "slides/lecture02-2-probmodels.html#mse-as-squared-bias-variance",
-    "href": "slides/lecture02-2-probmodels.html#mse-as-squared-bias-variance",
+    "objectID": "slides/lecture03-1-probmodels.html#mse-as-squared-bias-variance",
+    "href": "slides/lecture03-1-probmodels.html#mse-as-squared-bias-variance",
     "title": "Probability Models and EDA",
     "section": "MSE As (Squared) Bias + Variance",
     "text": "MSE As (Squared) Bias + Variance\n\\[\\begin{aligned}\n\\mathbb{V}(Y) &= \\mathbb{E}\\left[(Y - \\mathbb{E}[Y])^2\\right] \\\\\n&= \\mathbb{E}\\left[Y^2 - 2Y\\mathbb{E}[Y] + \\mathbb{E}[Y]^2\\right] \\\\\n&= \\mathbb{E}[Y^2] - 2\\mathbb{E}[Y]^2 + \\mathbb{E}[Y]^2 = \\mathbb{E}[Y^2] - \\mathbb{E}[Y]^2 .\n\\end{aligned}\\]\n\n\\[\\Rightarrow \\text{MSE}(m) = \\mathbb{E}\\left[(Y - m)^2\\right] = \\mathbb{E}\\left[(Y-m)\\right]^2 + \\mathbb{V}(Y - m).\\]"
   },
   {
-    "objectID": "slides/lecture02-2-probmodels.html#bias-variance-decomposition-of-mse",
-    "href": "slides/lecture02-2-probmodels.html#bias-variance-decomposition-of-mse",
+    "objectID": "slides/lecture03-1-probmodels.html#bias-variance-decomposition-of-mse",
+    "href": "slides/lecture03-1-probmodels.html#bias-variance-decomposition-of-mse",
     "title": "Probability Models and EDA",
     "section": "Bias-Variance Decomposition of MSE",
     "text": "Bias-Variance Decomposition of MSE\nThen:\n\\[\\begin{aligned}\n\\text{MSE}(m) &= \\mathbb{E}\\left[(Y-m)\\right]^2 + \\mathbb{V}(Y - m)  \\\\\n&= \\mathbb{E}\\left[(Y-m)\\right]^2 + \\mathbb{V}(Y) \\\\\n&= \\left(\\mathbb{E}[Y] - m\\right)^2 + \\mathbb{V}(Y).\n\\end{aligned}\\]\nThis is the source of the so-called “bias-variance tradeoff” (more on this later)."
   },
   {
-    "objectID": "slides/lecture02-2-probmodels.html#optimizing",
-    "href": "slides/lecture02-2-probmodels.html#optimizing",
+    "objectID": "slides/lecture03-1-probmodels.html#optimizing",
+    "href": "slides/lecture03-1-probmodels.html#optimizing",
     "title": "Probability Models and EDA",
     "section": "Optimizing…",
     "text": "Optimizing…\nWe want to find the minimum value of \\(\\text{MSE}(m)\\) (denote the optimal prediction by \\(\\mu\\)):\n\n\\[\n\\begin{aligned}\n\\frac{d\\text{MSE}}{dm} &= -2(\\mathbb{E}[Y] - m) + 0 \\\\\n0 = \\left.\\frac{d\\text{MSE}}{dm}\\right|_{m = \\mu} &= -2(\\mathbb{E}[Y] - \\mu)\n\\end{aligned}\\]\n\\[\\Rightarrow \\mu = \\mathbb{E}[Y].\\]"
   },
   {
-    "objectID": "slides/lecture02-2-probmodels.html#expected-value-as-best-prediction",
-    "href": "slides/lecture02-2-probmodels.html#expected-value-as-best-prediction",
+    "objectID": "slides/lecture03-1-probmodels.html#expected-value-as-best-prediction",
+    "href": "slides/lecture03-1-probmodels.html#expected-value-as-best-prediction",
     "title": "Probability Models and EDA",
     "section": "Expected Value As Best Prediction",
     "text": "Expected Value As Best Prediction\nIn other words, the best predicted value of a random variable is its expectation.\nBut:\n\nWe usually don’t have enough data to know what \\(\\mathbb{E}[Y]\\) is: need to make probabilistic assumptions;\nIn many applications, we don’t just want a point estimate, we need some estimate of ranges of values we might observe."
   },
   {
-    "objectID": "slides/lecture02-2-probmodels.html#uses-of-models",
-    "href": "slides/lecture02-2-probmodels.html#uses-of-models",
+    "objectID": "slides/lecture03-1-probmodels.html#uses-of-models",
+    "href": "slides/lecture03-1-probmodels.html#uses-of-models",
     "title": "Probability Models and EDA",
     "section": "Uses of Models",
     "text": "Uses of Models\nWhat can we use a probability model for?\n\nSummaries of data: store \\(y = f(\\mathbf{x})\\) instead of all data points \\((y, x_1, \\ldots, x_n)\\)\nSmooth values by removing noise\nPredict new data (interpolation/extrapolation): \\(\\hat{f} = f(\\hat{\\mathbf{x}})\\)\nInfer relationships between variables (interpret coefficients of \\(f\\))"
   },
   {
-    "objectID": "slides/lecture02-2-probmodels.html#linear-regression-as-a-probability-model",
-    "href": "slides/lecture02-2-probmodels.html#linear-regression-as-a-probability-model",
+    "objectID": "slides/lecture03-1-probmodels.html#my-philosophical-position",
+    "href": "slides/lecture03-1-probmodels.html#my-philosophical-position",
     "title": "Probability Models and EDA",
-    "section": "Linear Regression As A Probability Model",
-    "text": "Linear Regression As A Probability Model\nThe “simplest” model is linear:\n\n\n\\[\\begin{aligned}\ny_i &\\sim N(\\mu_i, \\sigma^2) \\\\\n\\mu_i &= \\sum_j \\beta_j x^j_i\n\\end{aligned}\n\\]\n\n\\[\\begin{aligned}\ny_i &= \\sum_j \\beta_j x^j_i + \\varepsilon_i \\\\\n\\varepsilon_i &\\sim N(0, \\sigma^2)\n\\end{aligned}\n\\]"
+    "section": "My Philosophical Position",
+    "text": "My Philosophical Position\n\n\n\nProbability theory helps us deduce logical implications of theories conditional on our assumptions\nCannot use an “objective” procedure to avoid subjective responsibility\n\n\n\n\n\n\nSpiderman Meme"
   },
   {
-    "objectID": "slides/lecture02-2-probmodels.html#why-linear-models",
-    "href": "slides/lecture02-2-probmodels.html#why-linear-models",
+    "objectID": "slides/lecture03-1-probmodels.html#linear-regression-1",
+    "href": "slides/lecture03-1-probmodels.html#linear-regression-1",
+    "title": "Probability Models and EDA",
+    "section": "Linear Regression",
+    "text": "Linear Regression\nThe “simplest” model is linear:\n\n\n\\[\\begin{aligned}\ny_i &\\sim N(\\mu_i, \\sigma^2) \\\\\n\\mu_i &= \\sum_j \\beta_j x^j_i\n\\end{aligned}\n\\]\n\n\\[\\begin{aligned}\ny_i &= \\sum_j \\beta_j x^j_i + \\varepsilon_i \\\\\n\\varepsilon_i &\\sim N(0, \\sigma^2)\n\\end{aligned}\n\\]"
+  },
+  {
+    "objectID": "slides/lecture03-1-probmodels.html#why-linear-models",
+    "href": "slides/lecture03-1-probmodels.html#why-linear-models",
     "title": "Probability Models and EDA",
     "section": "Why Linear Models?",
     "text": "Why Linear Models?\n\n\nTwo main reasons to use linear models/normal distributions:\n\nInferential: “Least informative” distribution assuming only finite mean/variance;\nGenerative: Central Limit Theorem (summed fluctuations are asymptotically normal)\n\n\n\n\n\nWeight stack Gaussian distribution\n\n\n\nSource: r/GymMemes\n\n\n\nOne key thing: normal distributions are the “least informative” distribution given constraints on mean and variance. So all else being equal, this is a useful machine if all we’re interested in are those two moments."
   },
   {
-    "objectID": "slides/lecture02-2-probmodels.html#linear-regression-as-probability-model",
-    "href": "slides/lecture02-2-probmodels.html#linear-regression-as-probability-model",
+    "objectID": "slides/lecture03-1-probmodels.html#linear-regression-as-probability-model",
+    "href": "slides/lecture03-1-probmodels.html#linear-regression-as-probability-model",
     "title": "Probability Models and EDA",
     "section": "Linear Regression As Probability Model",
-    "text": "Linear Regression As Probability Model\n\\[\ny = \\underbrace{\\sum_j \\beta_j x^j_i)}_{\\mathbb{E}[y | x^j]} + \\underbrace{\\varepsilon_i}_{\\text{noise}}, \\quad \\varepsilon_i \\sim N(0, \\sigma^2)\n\\]\n\n\\(\\mathbb{E}[y | x^j]\\): Best linear prediction of \\(y\\) conditional on choice of predictors \\(x^j\\).\nThe noise defines the probability distribution (here: Gaussian) of the observations."
+    "text": "Linear Regression As Probability Model\n\\[\ny &= \\underbrace{\\sum_j \\beta_j x^j_i)}_{\\mathbb{E}[y | x^j]} + \\underbrace{\\varepsilon_i}_{\\text{noise}}, \\quad \\varepsilon_i \\sim N(0, \\sigma^2)\n\\]\n\n\\(\\mathbb{E}[y | x^j]\\): Best linear prediction of \\(y\\) conditional on choice of predictors \\(x^j\\).\nThe noise defines the probability distribution (here: Gaussian) of the observations: \\[y \\sim N(\\sum_j \\beta_j x^j_i), \\sigma^2).\\]"
   },
   {
-    "objectID": "slides/lecture02-2-probmodels.html#implications-of-gaussian-noise",
-    "href": "slides/lecture02-2-probmodels.html#implications-of-gaussian-noise",
+    "objectID": "slides/lecture03-1-probmodels.html#implications-of-gaussian-noise",
+    "href": "slides/lecture03-1-probmodels.html#implications-of-gaussian-noise",
     "title": "Probability Models and EDA",
     "section": "Implications of Gaussian Noise",
-    "text": "Implications of Gaussian Noise\nWithout explicit modeling of sources of measurement uncertainty, in LR we can’t separate a noisy system state (due to e.g. omitted variables) from measurement error (more on this later).\n\\[\n\\begin{array}{l}\nX \\sim N(\\mu_1, \\sigma_1^2) \\\\\nY \\sim N(\\mu_2, \\sigma_2^2) \\\\\nZ = X + Y\n\\end{array}\n\\qquad \\Rightarrow \\qquad Z \\sim N(\\mu_1 + \\mu_2, \\sigma_1^2 + \\sigma_2^2)\n\\]"
+    "text": "Implications of Gaussian Noise\nWithout explicit modeling of sources of measurement uncertainty, in LR we can’t separate a noisy system state (due to e.g. omitted variables) from an uncertain measurement error (more on this later).\n\\[\n\\begin{array}{l}\nX \\sim N(\\mu_1, \\sigma_1^2) \\\\\nY \\sim N(\\mu_2, \\sigma_2^2) \\\\\nZ = X + Y\n\\end{array}\n\\qquad \\Rightarrow \\qquad Z \\sim N(\\mu_1 + \\mu_2, \\sigma_1^2 + \\sigma_2^2)\n\\]"
   },
   {
-    "objectID": "slides/lecture02-2-probmodels.html#you-can-always-fit-models",
-    "href": "slides/lecture02-2-probmodels.html#you-can-always-fit-models",
-    "title": "Probability Models and EDA",
-    "section": "You Can Always Fit Models…",
-    "text": "You Can Always Fit Models…\n\n\nBut not all models are theoretically justifiable.\n\n\n\n\nIan Malcolm meme"
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#some-implications-of-mis-specification",
-    "href": "slides/lecture02-2-probmodels.html#some-implications-of-mis-specification",
-    "title": "Probability Models and EDA",
-    "section": "Some Implications of Mis-Specification",
-    "text": "Some Implications of Mis-Specification\n\nBiased estimates (expected value from the model does not match “true” expected value);\nIncorrect inferences or inappropriate understandings of relationships/causality.\nOver/under-confident risk assessments."
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#how-do-we-choose-what-to-model",
-    "href": "slides/lecture02-2-probmodels.html#how-do-we-choose-what-to-model",
-    "title": "Probability Models and EDA",
-    "section": "How Do We Choose What To Model?",
-    "text": "How Do We Choose What To Model?\n\nXKCD 2620\nSource: XKCD 2620"
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#how-do-we-choose-what-to-model-1",
-    "href": "slides/lecture02-2-probmodels.html#how-do-we-choose-what-to-model-1",
-    "title": "Probability Models and EDA",
-    "section": "How Do We Choose What To Model?",
-    "text": "How Do We Choose What To Model?\nDeveloping suitable models often starts with both exploratory data analysis (EDA) and theoretical reasoning.\n\nEDA: examining patterns/relationships with visual (plots, clustering) or quantitative (correlations).\nTheory: Avoids “data dredging” or “mining,” which can find spurious correlations or patterns which are misleading without broader context about data-generating mechanisms."
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#exploratory-data-analysis-1",
-    "href": "slides/lecture02-2-probmodels.html#exploratory-data-analysis-1",
-    "title": "Probability Models and EDA",
-    "section": "Exploratory Data Analysis",
-    "text": "Exploratory Data Analysis\n\nWill see many examples of this throughout the semester.\nTry to impose as few assumptions as possible.\nOften useful to start with scatterplots: one variable (typically independent) on the \\(x\\)-axis, another (typically dependent) on the \\(y\\)-axis.\nTime series: time always goes on the \\(x\\)-axis.\nBoxplots for comparison quantiles/ranges of variables or groups of data."
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#common-eda-approaches",
-    "href": "slides/lecture02-2-probmodels.html#common-eda-approaches",
-    "title": "Probability Models and EDA",
-    "section": "Common EDA Approaches",
-    "text": "Common EDA Approaches\n\nData summaries (quantiles, mean/median, max/min, etc.)\nCorrelations\nPlot data (from multiple perspectives)\nClustering (do you need multiple models?)"
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#anscombes-quartet",
-    "href": "slides/lecture02-2-probmodels.html#anscombes-quartet",
-    "title": "Probability Models and EDA",
-    "section": "Anscombe’s Quartet",
-    "text": "Anscombe’s Quartet\n\n\nFour datasets, all with the same means, variances, correlations, and regression lines.\nShows the importance of visualization!\n\n\n\n\nAnscombe’s Quartet\n\n\n\nSource: Wikipedia"
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#considerations-when-plotting",
-    "href": "slides/lecture02-2-probmodels.html#considerations-when-plotting",
-    "title": "Probability Models and EDA",
-    "section": "Considerations When Plotting",
-    "text": "Considerations When Plotting\n\nWorry about the vertical scale\n\nAre you exaggerating small changes? Downplaying meaningful changes?\n“Adjust vertical scale of data” to reflect meaningful changes and “Vertical scale should always include zero” are conflicting advice.\n\nNeed to be thoughtful: there is no such thing as objectively “correct” visualizations, just honest visualizations."
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#information-channels",
-    "href": "slides/lecture02-2-probmodels.html#information-channels",
-    "title": "Probability Models and EDA",
-    "section": "Information Channels",
-    "text": "Information Channels\nA channel is a mechanism for encoding information.\n\nExamples:\n\nColor (Hue/Saturation/Luminescence)\nPosition (1D/2D/3D)\nSize (Length/Area/Volume)\nAngle"
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#ordered-vs.-categorical-attributes",
-    "href": "slides/lecture02-2-probmodels.html#ordered-vs.-categorical-attributes",
-    "title": "Probability Models and EDA",
-    "section": "Ordered vs. Categorical Attributes",
-    "text": "Ordered vs. Categorical Attributes\nThe channels available depend on the type of attribute:\n\nOrdered attributes can be\n\nOrdinal: Ranking, no meaning to distance;\nQuantitative: Measure of magnitude which supports arithmetic comparison;\n\nCategorical attributes are unordered."
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#channel-effectiveness-ordered-data",
-    "href": "slides/lecture02-2-probmodels.html#channel-effectiveness-ordered-data",
-    "title": "Probability Models and EDA",
-    "section": "Channel Effectiveness: Ordered Data",
-    "text": "Channel Effectiveness: Ordered Data\n\n\n\n\n\n\n\n\n\nChannels for ordered data, arranged top-to-bottom from more to less effective (channels in the right column are less effective than those in the left). Modified from Healy (2018) after Munzner (2014)."
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#channel-effectiveness-categorical-data",
-    "href": "slides/lecture02-2-probmodels.html#channel-effectiveness-categorical-data",
-    "title": "Probability Models and EDA",
-    "section": "Channel Effectiveness: Categorical Data",
-    "text": "Channel Effectiveness: Categorical Data\n\n\n\n\n\n\n\n\n\nChannels for categorical data, arranged top-to-bottom from more to less effective. Modified from Healy (2018) after Munzer (2014)."
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#preattentive-popout",
-    "href": "slides/lecture02-2-probmodels.html#preattentive-popout",
-    "title": "Probability Models and EDA",
-    "section": "Preattentive Popout",
-    "text": "Preattentive Popout\n\n\nTry to make your key features “pop out” to the viewer during the pre-attentive scan.\n\nSearching for the blue circle becomes harder. Adapted from Healy (2018).\n\n\n\n\nCode\nnpt = 20\ndist = Distributions.Product(Uniform.([0, 0], [1, 1]))\npts = Tuple.(eachcol(rand(dist, npt)))\nblueidx = rand(1:npt)\np1 = scatter(pts[1:end .!= blueidx], color=:red, xticks=:false, yticks=:false, legend=:false, markersize=5, title=\"Color Only, N=20\", framestyle=:box)\nscatter!(p1, pts[blueidx, :], color=:blue, markersize=5)\n\nnpt = 100\npts = Tuple.(eachcol(rand(dist, npt)))\nblueidx = rand(1:npt)\np2 = scatter(pts[1:end .!= blueidx], color=:red, xticks=:false, yticks=:false, legend=:false, markersize=5, title=\"Color Only, N=100\", framestyle=:box)\nscatter!(p2, pts[blueidx, :], color=:blue, markersize=5)\n\nnpt = 20\npts = Tuple.(eachcol(rand(dist, npt)))\nblueidx = rand(1:npt)\np3 = scatter(pts[1:end .!= blueidx], color=:blue, markershape=:utriangle, xticks=:false, yticks=:false, legend=:false, markersize=5, title=\"Shape Only, N=20\", framestyle=:box)\nscatter!(p3, pts[blueidx, :], color=:blue, markersize=5, markershape=:circle)\n\nnpt = 100\npts = Tuple.(eachcol(rand(dist, npt)))\nblueidx = rand(1:npt)\np4 = scatter(pts[1:end .!= blueidx], color=:blue, markershape=:utriangle, xticks=:false, yticks=:false, legend=:false, markersize=5, title=\"Shape Only, N=100\", framestyle=:box)\nscatter!(p4, pts[blueidx, :], color=:blue, markersize=5, markershape=:circle)\n\nplot(p1, p2, p3, p4, layout=(2, 2), size=(800, 500))"
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#color-schemes",
-    "href": "slides/lecture02-2-probmodels.html#color-schemes",
-    "title": "Probability Models and EDA",
-    "section": "Color Schemes",
-    "text": "Color Schemes\nDifferent color schemes are appropriate depending on whether the data is sequential, divergent, or unordered.\n\n\n\n\n\n\nAppropriate Color Schemes\n\n\nColor schemes should be perceptually uniform to preserve a mapping between changes in perceived colors and changes in attribute values.\nTry to also choose color schemes which avoid confusing people who are color blind."
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#color-schemes-1",
-    "href": "slides/lecture02-2-probmodels.html#color-schemes-1",
-    "title": "Probability Models and EDA",
-    "section": "Color Schemes",
-    "text": "Color Schemes\nGood news: Most plotting libraries include a wide variety of perceptually uniform, color-blind safe color schemes.\nBad news: These are not usually the defaults (in particular, avoid “rainbow” color schemes)."
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#sequential-color-schemes",
-    "href": "slides/lecture02-2-probmodels.html#sequential-color-schemes",
-    "title": "Probability Models and EDA",
-    "section": "Sequential Color Schemes",
-    "text": "Sequential Color Schemes\nSequential schemes change in intensity from low to high as the value changes."
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#divergent-color-schemes",
-    "href": "slides/lecture02-2-probmodels.html#divergent-color-schemes",
-    "title": "Probability Models and EDA",
-    "section": "Divergent Color Schemes",
-    "text": "Divergent Color Schemes\nDivergent schemes intensify in two directions from a zero or mean value."
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#unordered-color-schemes",
-    "href": "slides/lecture02-2-probmodels.html#unordered-color-schemes",
-    "title": "Probability Models and EDA",
-    "section": "Unordered Color Schemes",
-    "text": "Unordered Color Schemes\nUnordered schemes are appropriate for categorical data."
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#some-caveats",
-    "href": "slides/lecture02-2-probmodels.html#some-caveats",
-    "title": "Probability Models and EDA",
-    "section": "Some Caveats",
-    "text": "Some Caveats\n\nThere is no recipe to effective visualization. Everything depends on your data and the story you want to tell.\nThis also means that defaults from data visualization packages are usually bad.\nPrinciples are largely based on Western (American/European) norms and may not translate perfectly.\nA lot of these guidelines are based on average outcomes, there is likely to be a lot of individual variation."
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#probability-models-1",
-    "href": "slides/lecture02-2-probmodels.html#probability-models-1",
+    "objectID": "slides/lecture03-1-probmodels.html#probability-models-1",
+    "href": "slides/lecture03-1-probmodels.html#probability-models-1",
     "title": "Probability Models and EDA",
     "section": "Probability Models",
     "text": "Probability Models\n\nAlmost anything we want to use data for involves an assumption about the underlying probability model for the data.\nOur goal this semester is to develop a toolkit to specify, test, and use these probability models."
   },
   {
-    "objectID": "slides/lecture02-2-probmodels.html#edadata-visualization",
-    "href": "slides/lecture02-2-probmodels.html#edadata-visualization",
-    "title": "Probability Models and EDA",
-    "section": "EDA/Data Visualization",
-    "text": "EDA/Data Visualization\n\nNo such thing as “objectively best” visualization.\nNeed to be thoughtful about the story you’re trying to tell.\nUsually involves a lot of experimentation to make important features of the data pop out.\nEDA: Try to make as few assumptions as possible (e.g. look at the raw data, not “smoothed” versions)."
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#data-visualization-suggestions",
-    "href": "slides/lecture02-2-probmodels.html#data-visualization-suggestions",
-    "title": "Probability Models and EDA",
-    "section": "Data Visualization Suggestions",
-    "text": "Data Visualization Suggestions\n\nSome key degrees of freedom: vertical scale, information channels.\nDon’t add unnecessary artifacts! Easy to get “cute” and distract from core message.\nStart simple (scatterplots, boxplots, histograms)"
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#next-classes",
-    "href": "slides/lecture02-2-probmodels.html#next-classes",
+    "objectID": "slides/lecture03-1-probmodels.html#next-classes",
+    "href": "slides/lecture03-1-probmodels.html#next-classes",
     "title": "Probability Models and EDA",
     "section": "Next Classes",
-    "text": "Next Classes\nFriday: Linear Regression\nFor Next Friday: Data Visualization Lab."
+    "text": "Next Classes\nWednesday: Fitting models with maximum likelihood\nFriday: Maximum likelihood uncertainty"
   },
   {
-    "objectID": "slides/lecture02-2-probmodels.html#preparation-for-lab",
-    "href": "slides/lecture02-2-probmodels.html#preparation-for-lab",
-    "title": "Probability Models and EDA",
-    "section": "Preparation for Lab",
-    "text": "Preparation for Lab\n\nFind a visualization and its underlying dataset you think could be improved.\nDeconstruct what the weaknesses are and reconstruct it to be more effective.\nCome to class with critique of original visual and new visual (plus documentation of what you changed and why); will form small groups and discuss."
-  },
-  {
-    "objectID": "slides/lecture02-2-probmodels.html#assessments",
-    "href": "slides/lecture02-2-probmodels.html#assessments",
+    "objectID": "slides/lecture03-1-probmodels.html#assessments",
+    "href": "slides/lecture03-1-probmodels.html#assessments",
     "title": "Probability Models and EDA",
     "section": "Assessments",
     "text": "Assessments\nHomework 1 Due Friday, 2/6."
   },
   {
-    "objectID": "slides/lecture02-2-probmodels.html#references-scroll-for-full-list",
-    "href": "slides/lecture02-2-probmodels.html#references-scroll-for-full-list",
+    "objectID": "slides/lecture03-1-probmodels.html#references-scroll-for-full-list",
+    "href": "slides/lecture03-1-probmodels.html#references-scroll-for-full-list",
     "title": "Probability Models and EDA",
     "section": "References (Scroll for Full List)",
-    "text": "References (Scroll for Full List)\n\n\n\n\nHacking, I. (1990). The Taming of Chance. Cambridge, England: Cambridge University Press. https://doi.org/10.1017/CBO9780511819766\n\n\nHealy, K. (2018). Data visualization: A practical introduction. Princeton University Press.\n\n\nMunzner, T. (2014). Visualization analysis and design. CRC Press."
+    "text": "References (Scroll for Full List)\n\n\n\n\nHacking, I. (1990). The Taming of Chance. Cambridge, England: Cambridge University Press. https://doi.org/10.1017/CBO9780511819766"
   },
   {
     "objectID": "slides/lecture12-2-missing-data.html#extreme-values",
@@ -6417,14 +6270,14 @@
     "href": "syllabus.html",
     "title": "Syllabus",
     "section": "",
-    "text": "This is a 3 credit course offered as an elective.\n\n\n\n\n\n Vivek Srikrishnan\n vs498@cornell.edu\n 318 Riley-Robb Hall\n\n\n\n\n\n\n TBD\n TBD\n TBD\n\n\n\n\n\n\n MWF\n 11:15-12:05\n 401 Riley-Robb Hall\n\n\n\n\n\n\nUnderstanding data is an increasingly integral part of working with environmental systems. Data analysis is a critical part of understanding system dynamics and projecting future conditions and outcomes. This course will provide an overview of a generative approach to environmental data analysis, which uses simulation and assessments of predictive performance to provide insight into the structure of data and its data-generating process. We will discuss exploratory analysis and visualization, model development and fitting, uncertainty quantification, and model assessment. The goal is to provide students with a framework and an initial toolkit of methods that they can use to formulate and update hypotheses about data and models. Students will actively analyze and use real data from a variety of environmental systems.\nIn particular, over the course of the semester, we will:\n\nconduct exploratory analyses of environmental datasets;\ndiscuss best practices for and complexities of data visualization;\ncalibrate statistical and process-based numerical models using environmental data;\nuse simulations from calibrated models to identify key sources of uncertainty and model error;\nassess model fit and adequacy through predictive ability."
+    "text": "This is a 3 credit course offered as an elective.\n\n\n\n\n\n Vivek Srikrishnan\n vs498@cornell.edu\n 318 Riley-Robb Hall\n\n\n\n\n\n\n Shikhar Prakash\n sp868@cornell.edu\n TBD\n\n\n\n\n\n\n MWF\n 11:15-12:05\n 401 Riley-Robb Hall\n\n\n\n\n\n\nUnderstanding data is an increasingly integral part of working with environmental systems. Data analysis is a critical part of understanding system dynamics and projecting future conditions and outcomes. This course will provide an overview of a generative approach to environmental data analysis, which uses simulation and assessments of predictive performance to provide insight into the structure of data and its data-generating process. We will discuss exploratory analysis and visualization, model development and fitting, uncertainty quantification, and model assessment. The goal is to provide students with a framework and an initial toolkit of methods that they can use to formulate and update hypotheses about data and models. Students will actively analyze and use real data from a variety of environmental systems.\nIn particular, over the course of the semester, we will:\n\nconduct exploratory analyses of environmental datasets;\ndiscuss best practices for and complexities of data visualization;\ncalibrate statistical and process-based numerical models using environmental data;\nuse simulations from calibrated models to identify key sources of uncertainty and model error;\nassess model fit and adequacy through predictive ability."
   },
   {
     "objectID": "syllabus.html#course-overview",
     "href": "syllabus.html#course-overview",
     "title": "Syllabus",
     "section": "",
-    "text": "This is a 3 credit course offered as an elective.\n\n\n\n\n\n Vivek Srikrishnan\n vs498@cornell.edu\n 318 Riley-Robb Hall\n\n\n\n\n\n\n TBD\n TBD\n TBD\n\n\n\n\n\n\n MWF\n 11:15-12:05\n 401 Riley-Robb Hall\n\n\n\n\n\n\nUnderstanding data is an increasingly integral part of working with environmental systems. Data analysis is a critical part of understanding system dynamics and projecting future conditions and outcomes. This course will provide an overview of a generative approach to environmental data analysis, which uses simulation and assessments of predictive performance to provide insight into the structure of data and its data-generating process. We will discuss exploratory analysis and visualization, model development and fitting, uncertainty quantification, and model assessment. The goal is to provide students with a framework and an initial toolkit of methods that they can use to formulate and update hypotheses about data and models. Students will actively analyze and use real data from a variety of environmental systems.\nIn particular, over the course of the semester, we will:\n\nconduct exploratory analyses of environmental datasets;\ndiscuss best practices for and complexities of data visualization;\ncalibrate statistical and process-based numerical models using environmental data;\nuse simulations from calibrated models to identify key sources of uncertainty and model error;\nassess model fit and adequacy through predictive ability."
+    "text": "This is a 3 credit course offered as an elective.\n\n\n\n\n\n Vivek Srikrishnan\n vs498@cornell.edu\n 318 Riley-Robb Hall\n\n\n\n\n\n\n Shikhar Prakash\n sp868@cornell.edu\n TBD\n\n\n\n\n\n\n MWF\n 11:15-12:05\n 401 Riley-Robb Hall\n\n\n\n\n\n\nUnderstanding data is an increasingly integral part of working with environmental systems. Data analysis is a critical part of understanding system dynamics and projecting future conditions and outcomes. This course will provide an overview of a generative approach to environmental data analysis, which uses simulation and assessments of predictive performance to provide insight into the structure of data and its data-generating process. We will discuss exploratory analysis and visualization, model development and fitting, uncertainty quantification, and model assessment. The goal is to provide students with a framework and an initial toolkit of methods that they can use to formulate and update hypotheses about data and models. Students will actively analyze and use real data from a variety of environmental systems.\nIn particular, over the course of the semester, we will:\n\nconduct exploratory analyses of environmental datasets;\ndiscuss best practices for and complexities of data visualization;\ncalibrate statistical and process-based numerical models using environmental data;\nuse simulations from calibrated models to identify key sources of uncertainty and model error;\nassess model fit and adequacy through predictive ability."
   },
   {
     "objectID": "syllabus.html#learning-outcomes",
