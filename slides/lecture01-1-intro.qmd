@@ -233,7 +233,6 @@ Models are how we assess evidence for theories.
 - Several readings assigned for discussion throughout the semester.
 - Annotation assignments on Canvas through Perusall: by start of next Monday's lecture.
 - Annotations can discuss aspects of the reading you think are interesting, had questions on, or can engage with other students' annotations.
-- Students should post overall reflections, synthesizing their takeaways from the reading with content from this or other classes or other experiences, on Ed Discussion, by the start of the first lecture the next week.
 - Will be graded on level of engagement, not quantity of annotations.
 
 ## Literature Critique
@@ -322,7 +321,7 @@ Better: Use Ed Discussion and reserve email for matters that are particular urge
 
 ## Course Website
 
-<https://envdata.viveks.me/spring-2026/>
+<https://envdata.viveks.me/spring2026/>
 
 - Central hub for information, schedule, and policies
 - Will add link and some information to Canvas (assignment due dates, etc)
@@ -344,7 +343,7 @@ Better: Use Ed Discussion and reserve email for matters that are particular urge
 
 **Friday**: Probability Review
 
-**Next Week**: Exploratory analysis and intro to probability models.
+**Next Week**: Exploratory analysis and visualization.
 
 ## Assessments
 

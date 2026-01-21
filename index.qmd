@@ -27,8 +27,8 @@ format:
 ### TA
 
 
-- {{< fa sharp user title="Name" >}} [TBD]{.ms-1}
-- {{< fa sharp envelope title="Email" >}} [TBD]{.ms-1}
+- {{< fa sharp user title="Name" >}} [{{< var TA.name >}}]{.ms-1}
+- {{< fa sharp envelope title="Email" >}} [[{{< var TA.email >}}](mailto:{{< var TA.email >}})]{.ms-1}
 - {{< fa sharp building title="TA Office" >}} [TBD]{.ms-2}
 :::
 
@@ -43,8 +43,8 @@ format:
 ::: {.g-col-12 .g-col-sm-6 .g-col-md-3 .contact-policy}
 ### Contacting staff
 
-- {{< fa sharp door-open title="Office Hours" >}}[(Instructor) M 1-2, T 4-5]{.ms-1}
-- {{< fa sharp door-open title="TA Office Hours" >}}[(TA) MW 4:15-5:15]{.ms-1}
+- {{< fa sharp door-open title="Office Hours" >}}[(Instructor) MTh 10-11]{.ms-1}
+- {{< fa sharp door-open title="TA Office Hours" >}}[(TA) TBD]{.ms-1}
 - [{{< fa sharp comments title="Ed Discussion" >}}[Ed Discussion]{.ms-1}](https://edstem.org)
 
 :::
