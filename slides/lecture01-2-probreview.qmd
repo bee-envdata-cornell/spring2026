@@ -81,7 +81,6 @@ default(
 
 ## Types of Uncertainty
 
-::: {.fragment .fade-in}
 :::: {.columns}
 ::: {.column width=60%}
 
@@ -97,7 +96,6 @@ default(
 
 :::
 ::::
-:::
 
 ::: {.notes}
 Note that the distinction between aleatory and epistemic uncertainty is somewhat arbitrary (aside from maybe some quantum effects). For example, we often think of coin tosses as aleatory, but if we had perfect information about the toss, we might be able to predict the outcome with less uncertainty. There's a famous paper by Persi Diaconis where he collaborated with engineers to build a device which could arbitrary bias a "fair" coin toss.
@@ -107,11 +105,9 @@ But in practice, this doesn't really matter: the key thing is whether for a give
 
 ## Sources of Uncertainty
 
-::: {.fragment .fade-in}
 - Model structures
 - Parameters
 - **Data collection** (measurement/observation errors)
-:::
 
 ## Probability
 
@@ -127,44 +123,6 @@ The **axioms of probability** are straightforward:
 The third is a generalization of the definition of independent events to sets of outcomes.
 :::
 
-## Frequentist vs Bayesian Probability
-
-:::: {.columns}
-::: {.column width=50%}
-**Frequentist**:
-
-- Probability as frequency over repeated observations.
-- Data are random, but parameters are not.
-- How consistent are estimates for different data?
-:::
-
-::: {.column width=50%}
-::: {.fragment .fade-in}
-**Bayesian**:
-
-- Probability as degree of belief/betting odds.
-- Data and parameters are random variables;
-- Emphasis on **conditional probability**.
-
-:::
-:::
-::::
-
-
-## But What, Like, **Is** Probability?
-
-:::: {.columns}
-::: {.column width=50%}
-Frequentist vs. Bayesian: different interpretations with some different methods and formalisms.
-
-We will freely borrow from each school depending on the purpose and goal of an analysis.
-:::
-
-::: {.column width=50%}
-![Definitions of Probability Meme](memes/probability_definitions.png)
-
-:::
-::::
 
 ## Probability Distributions
 
@@ -294,7 +252,7 @@ Common measures of "typical" values of a function $f$ of a random variable $Y \s
 
 **Specifying a distribution is making an assumption about observations and any applicable constraints.**
 
-Examples: If your observations are...
+Examples: If your observations are, then the most common choices are:
 
 - Continuous and fat-tailed? **Cauchy distribution**
 - Continuous and bounded? **Beta distribution**
@@ -323,7 +281,7 @@ If
 - and $\text{Var}(X_i) = \sigma^2 < \infty$, 
 
 $$\begin{aligned}
-\lim_{n \to \infty} \sqrt{n}(\bar{X}_n - \mu ) &= \mathcal{N}(0, \sigma^2)} \\
+\lim_{n \to \infty} \sqrt{n}(\bar{X}_n - \mu ) &= \mathcal{N}(0, \sigma^2) \\
 \Rightarrow & \bar{X}_n \overset{\text{approx}}{\sim} \mathcal{N}(\mu, \sigma^2/n)
 \end{aligned}$$
 
@@ -331,7 +289,9 @@ $$\begin{aligned}
 
 :::: {.columns}
 ::: {.column width=50%}
-For **a large enough set of samples**, the sampling distribution of a sum or mean of random variables is approximately a normal distribution, even if the random variables themselves are not.
+For **a large enough set of samples**: 
+
+The sampling distribution of a sum or mean of random variables is approximately normal distribution, **even if the random variables themselves are not**.
 :::
 ::: {.column width=50%}
 ![Small n Meme](memes/sampling_distribution_small_n.jpg)
@@ -462,7 +422,7 @@ This is a computational problem due to **underflow**.
 We use logarithms to avoid these issues: compute $\log \mathcal{L}(\theta | x)$.
 :::
 ::: {.column width=50%}
-![Logarithms for probability calculations](memes/floating_point_logs.png){width=90%}
+![Logarithms for probability calculations](memes/floating_point_logs.png){width=80%}
 
 :::
 ::::

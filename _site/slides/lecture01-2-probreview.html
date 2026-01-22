@@ -285,7 +285,6 @@
 </section>
 <section id="types-of-uncertainty" class="slide level2">
 <h2>Types of Uncertainty</h2>
-<div class="fragment fade-in">
 <div class="columns">
 <div class="column" style="width:60%;">
 <table class="caption-top" style="width:100%;">
@@ -322,7 +321,6 @@
 </figure>
 </div>
 </div></div>
-</div>
 <aside class="notes">
 <p>Note that the distinction between aleatory and epistemic uncertainty is somewhat arbitrary (aside from maybe some quantum effects). For example, we often think of coin tosses as aleatory, but if we had perfect information about the toss, we might be able to predict the outcome with less uncertainty. There’s a famous paper by Persi Diaconis where he collaborated with engineers to build a device which could arbitrary bias a “fair” coin toss.</p>
 <p>But in practice, this doesn’t really matter: the key thing is whether for a given model we’re treating the uncertainty as entirely random (e.g.&nbsp;white noise) versus being interested in the impacts of that uncertainty on the outcome of interest. And there’s a representation theorem by the Bayesian actuary Bruno de Finetti which shows that, under a condition called <em>exchangeability</em>, we can think of any random sequence as arising from an independent and identically distributed process, so the practical difference can collapse further.</p>
@@ -340,13 +338,11 @@
 </section>
 <section id="sources-of-uncertainty" class="slide level2">
 <h2>Sources of Uncertainty</h2>
-<div class="fragment fade-in">
 <ul>
 <li>Model structures</li>
 <li>Parameters</li>
 <li><strong>Data collection</strong> (measurement/observation errors)</li>
 </ul>
-</div>
 </section>
 <section id="probability" class="slide level2">
 <h2>Probability</h2>
@@ -370,42 +366,6 @@
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
-<section id="frequentist-vs-bayesian-probability" class="slide level2">
-<h2>Frequentist vs Bayesian Probability</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p><strong>Frequentist</strong>:</p>
-<ul>
-<li>Probability as frequency over repeated observations.</li>
-<li>Data are random, but parameters are not.</li>
-<li>How consistent are estimates for different data?</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<div class="fragment fade-in">
-<p><strong>Bayesian</strong>:</p>
-<ul>
-<li>Probability as degree of belief/betting odds.</li>
-<li>Data and parameters are random variables;</li>
-<li>Emphasis on <strong>conditional probability</strong>.</li>
-</ul>
-</div>
-</div></div>
-</section>
-<section id="but-what-like-is-probability" class="slide level2">
-<h2>But What, Like, <strong>Is</strong> Probability?</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p>Frequentist vs.&nbsp;Bayesian: different interpretations with some different methods and formalisms.</p>
-<p>We will freely borrow from each school depending on the purpose and goal of an analysis.</p>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="memes/probability_definitions.png"></p>
-<figcaption>Definitions of Probability Meme</figcaption>
-</figure>
-</div>
-</div></div>
 </section>
 <section id="probability-distributions" class="slide level2">
 <h2>Probability Distributions</h2>
@@ -589,7 +549,7 @@ Figure&nbsp;2
 <section id="distributions-are-assumptions" class="slide level2">
 <h2>Distributions Are Assumptions</h2>
 <p><strong>Specifying a distribution is making an assumption about observations and any applicable constraints.</strong></p>
-<p>Examples: If your observations are…</p>
+<p>Examples: If your observations are, then the most common choices are:</p>
 <ul>
 <li>Continuous and fat-tailed? <strong>Cauchy distribution</strong></li>
 <li>Continuous and bounded? <strong>Beta distribution</strong></li>
@@ -616,7 +576,7 @@ Figure&nbsp;2
 <li>and <span class="math inline">\(\text{Var}(X_i) = \sigma^2 &lt; \infty\)</span>,</li>
 </ul>
 <p><span class="math display">\[\begin{aligned}
-\lim_{n \to \infty} \sqrt{n}(\bar{X}_n - \mu ) &amp;= \mathcal{N}(0, \sigma^2)} \\
+\lim_{n \to \infty} \sqrt{n}(\bar{X}_n - \mu ) &amp;= \mathcal{N}(0, \sigma^2) \\
 \Rightarrow &amp; \bar{X}_n \overset{\text{approx}}{\sim} \mathcal{N}(\mu, \sigma^2/n)
 \end{aligned}\]</span></p>
 </section>
@@ -624,7 +584,8 @@ Figure&nbsp;2
 <h2>Central Limit Theorem (More Intuitive)</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>For <strong>a large enough set of samples</strong>, the sampling distribution of a sum or mean of random variables is approximately a normal distribution, even if the random variables themselves are not.</p>
+<p>For <strong>a large enough set of samples</strong>:</p>
+<p>The sampling distribution of a sum or mean of random variables is approximately normal distribution, <strong>even if the random variables themselves are not</strong>.</p>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -786,7 +747,7 @@ Figure&nbsp;3
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="memes/floating_point_logs.png" style="width:90.0%"></p>
+<p><img data-src="memes/floating_point_logs.png" style="width:80.0%"></p>
 <figcaption>Logarithms for probability calculations</figcaption>
 </figure>
 </div>

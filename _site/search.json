@@ -5309,14 +5309,14 @@
     "href": "slides/lecture01-2-probreview.html#types-of-uncertainty",
     "title": "Probability Review",
     "section": "Types of Uncertainty",
-    "text": "Types of Uncertainty\n\n\n\n\n\n\n\n\n\n\n\nUncertainty Type\nSource\nExample(s)\n\n\n\n\nAleatory uncertainty\nRandomness\nDice rolls, Instrument imprecision\n\n\nEpistemic uncertainty\nLack of knowledge\nClimate sensitivity, Premier League champion\n\n\n\n\n\n\n\nWhich Uncertainty Type Meme\n\n\n\n\n\nNote that the distinction between aleatory and epistemic uncertainty is somewhat arbitrary (aside from maybe some quantum effects). For example, we often think of coin tosses as aleatory, but if we had perfect information about the toss, we might be able to predict the outcome with less uncertainty. There’s a famous paper by Persi Diaconis where he collaborated with engineers to build a device which could arbitrary bias a “fair” coin toss.\nBut in practice, this doesn’t really matter: the key thing is whether for a given model we’re treating the uncertainty as entirely random (e.g. white noise) versus being interested in the impacts of that uncertainty on the outcome of interest. And there’s a representation theorem by the Bayesian actuary Bruno de Finetti which shows that, under a condition called exchangeability, we can think of any random sequence as arising from an independent and identically distributed process, so the practical difference can collapse further."
+    "text": "Types of Uncertainty\n\n\n\n\n\n\n\n\n\n\nUncertainty Type\nSource\nExample(s)\n\n\n\n\nAleatory uncertainty\nRandomness\nDice rolls, Instrument imprecision\n\n\nEpistemic uncertainty\nLack of knowledge\nClimate sensitivity, Premier League champion\n\n\n\n\n\n\n\nWhich Uncertainty Type Meme\n\n\n\n\nNote that the distinction between aleatory and epistemic uncertainty is somewhat arbitrary (aside from maybe some quantum effects). For example, we often think of coin tosses as aleatory, but if we had perfect information about the toss, we might be able to predict the outcome with less uncertainty. There’s a famous paper by Persi Diaconis where he collaborated with engineers to build a device which could arbitrary bias a “fair” coin toss.\nBut in practice, this doesn’t really matter: the key thing is whether for a given model we’re treating the uncertainty as entirely random (e.g. white noise) versus being interested in the impacts of that uncertainty on the outcome of interest. And there’s a representation theorem by the Bayesian actuary Bruno de Finetti which shows that, under a condition called exchangeability, we can think of any random sequence as arising from an independent and identically distributed process, so the practical difference can collapse further."
   },
   {
     "objectID": "slides/lecture01-2-probreview.html#sources-of-uncertainty",
     "href": "slides/lecture01-2-probreview.html#sources-of-uncertainty",
     "title": "Probability Review",
     "section": "Sources of Uncertainty",
-    "text": "Sources of Uncertainty\n\n\nModel structures\nParameters\nData collection (measurement/observation errors)"
+    "text": "Sources of Uncertainty\n\nModel structures\nParameters\nData collection (measurement/observation errors)"
   },
   {
     "objectID": "slides/lecture01-2-probreview.html#probability",
@@ -5324,20 +5324,6 @@
     "title": "Probability Review",
     "section": "Probability",
     "text": "Probability\nProbability is a language for expressing uncertainty.\nThe axioms of probability are straightforward:\n\n\\(\\mathcal{P}(E) \\geq 0\\);\n\\(\\mathcal{P}(\\Omega) = 1\\);\n\\(\\mathcal{P}(\\cup_{i=1}^\\infty E_i) = \\sum_{i=1}^\\infty \\mathcal{P}(E_i)\\) for disjoint \\(E_i\\).\n\n\nThe third is a generalization of the definition of independent events to sets of outcomes."
-  },
-  {
-    "objectID": "slides/lecture01-2-probreview.html#frequentist-vs-bayesian-probability",
-    "href": "slides/lecture01-2-probreview.html#frequentist-vs-bayesian-probability",
-    "title": "Probability Review",
-    "section": "Frequentist vs Bayesian Probability",
-    "text": "Frequentist vs Bayesian Probability\n\n\nFrequentist:\n\nProbability as frequency over repeated observations.\nData are random, but parameters are not.\nHow consistent are estimates for different data?\n\n\n\nBayesian:\n\nProbability as degree of belief/betting odds.\nData and parameters are random variables;\nEmphasis on conditional probability."
-  },
-  {
-    "objectID": "slides/lecture01-2-probreview.html#but-what-like-is-probability",
-    "href": "slides/lecture01-2-probreview.html#but-what-like-is-probability",
-    "title": "Probability Review",
-    "section": "But What, Like, Is Probability?",
-    "text": "But What, Like, Is Probability?\n\n\nFrequentist vs. Bayesian: different interpretations with some different methods and formalisms.\nWe will freely borrow from each school depending on the purpose and goal of an analysis.\n\n\n\n\nDefinitions of Probability Meme"
   },
   {
     "objectID": "slides/lecture01-2-probreview.html#probability-distributions",
@@ -5400,7 +5386,7 @@
     "href": "slides/lecture01-2-probreview.html#distributions-are-assumptions",
     "title": "Probability Review",
     "section": "Distributions Are Assumptions",
-    "text": "Distributions Are Assumptions\nSpecifying a distribution is making an assumption about observations and any applicable constraints.\nExamples: If your observations are…\n\nContinuous and fat-tailed? Cauchy distribution\nContinuous and bounded? Beta distribution\nSums of positive random variables? Gamma or Normal distribution."
+    "text": "Distributions Are Assumptions\nSpecifying a distribution is making an assumption about observations and any applicable constraints.\nExamples: If your observations are, then the most common choices are:\n\nContinuous and fat-tailed? Cauchy distribution\nContinuous and bounded? Beta distribution\nSums of positive random variables? Gamma or Normal distribution."
   },
   {
     "objectID": "slides/lecture01-2-probreview.html#statistics-of-random-variables-are-random-variables",
@@ -5421,14 +5407,14 @@
     "href": "slides/lecture01-2-probreview.html#central-limit-theorem",
     "title": "Probability Review",
     "section": "Central Limit Theorem",
-    "text": "Central Limit Theorem\nIf\n\n\\(\\mathbb{E}[X_i] = \\mu\\)\nand \\(\\text{Var}(X_i) = \\sigma^2 &lt; \\infty\\),\n\n\\[\\begin{aligned}\n\\lim_{n \\to \\infty} \\sqrt{n}(\\bar{X}_n - \\mu ) &= \\mathcal{N}(0, \\sigma^2)} \\\\\n\\Rightarrow & \\bar{X}_n \\overset{\\text{approx}}{\\sim} \\mathcal{N}(\\mu, \\sigma^2/n)\n\\end{aligned}\\]"
+    "text": "Central Limit Theorem\nIf\n\n\\(\\mathbb{E}[X_i] = \\mu\\)\nand \\(\\text{Var}(X_i) = \\sigma^2 &lt; \\infty\\),\n\n\\[\\begin{aligned}\n\\lim_{n \\to \\infty} \\sqrt{n}(\\bar{X}_n - \\mu ) &= \\mathcal{N}(0, \\sigma^2) \\\\\n\\Rightarrow & \\bar{X}_n \\overset{\\text{approx}}{\\sim} \\mathcal{N}(\\mu, \\sigma^2/n)\n\\end{aligned}\\]"
   },
   {
     "objectID": "slides/lecture01-2-probreview.html#central-limit-theorem-more-intuitive",
     "href": "slides/lecture01-2-probreview.html#central-limit-theorem-more-intuitive",
     "title": "Probability Review",
     "section": "Central Limit Theorem (More Intuitive)",
-    "text": "Central Limit Theorem (More Intuitive)\n\n\nFor a large enough set of samples, the sampling distribution of a sum or mean of random variables is approximately a normal distribution, even if the random variables themselves are not.\n\n\n\n\nSmall n Meme\n\n\n\nSource: Unknown"
+    "text": "Central Limit Theorem (More Intuitive)\n\n\nFor a large enough set of samples:\nThe sampling distribution of a sum or mean of random variables is approximately normal distribution, even if the random variables themselves are not.\n\n\n\n\nSmall n Meme\n\n\n\nSource: Unknown"
   },
   {
     "objectID": "slides/lecture01-2-probreview.html#likelihood-1",
