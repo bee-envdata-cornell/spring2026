@@ -230,6 +230,104 @@ Source: [Wikipedia](https://en.wikipedia.org/wiki/Anscombe%27s_quartet)
 - Often useful to start with **scatterplots**: one variable (typically independent) on the $x$-axis, another (typically dependent) on the $y$-axis.
 - Time series: **time always goes on the $x$-axis**.
 - Boxplots for comparison quantiles/ranges of variables or groups of data.
+- Q-Q Plots to look for mismatches between distributions and data.
+
+## Q-Q Plots
+
+::: {.columns}
+::: {.column width=50%}
+One exploratory method to see if your data is reasonably described by a theoretical distribution is a **Q-Q plot**.
+:::
+::: {.column width=50%}
+```{julia}
+#| label: fig-norm-qq
+#| code-fold: true
+#| code-overflow: wrap
+#| echo: true
+
+samps = rand(Normal(0, 3), 20)
+qqplot(Normal, samps, tickfontsize=16, guidefontsize=18, linewidth=3, markersize=6)
+xlabel!("Theoretical Quantiles")
+ylabel!("Empirical Quantiles")
+plot!(size=(500, 450))
+```
+:::
+::::
+
+
+## Fat-Tailed Data and Q-Q Plots
+
+```{julia}
+#| label: fig-cauchy-qq
+#| echo: false
+#| layout-nrow: 2
+#| fig-cap: "Q-Q Plot for Cauchy Data and Normal Distribution"
+#| fig-subcap: 
+#|  - "Normal vs Cauchy Distribution"
+#|  - "Q-Q Plot"
+
+## generate fat-tailed residuals
+cauchy_samps = rand(Cauchy(0, 0.05), 50)
+
+# make plots
+# scatterplot of observations
+p1 = plot(fit(Normal, cauchy_samps), linewidth=3, color=:green, label="Normal Distribution", yaxis=false, legend=:outerright)
+plot!(p1, fit(Cauchy, cauchy_samps), linewidth=3, color=:orange, linestyle=:dash, label="Cauchy Distribution")
+scatter!(p1, cauchy_samps, zeros(length(cauchy_samps)), markersize=3, color=:black, label="Data")
+xlims!(p1, (-2, 2))
+xlabel!("Value")
+plot!(p1, size=(1000, 250))
+
+# densities of residual distributions
+p2 = qqplot(Normal, cauchy_samps, tickfontsize=16, guidefontsize=18, linewidth=3, markersize=6, title="Normal Q-Q Plot")
+xlabel!(p2, "Theoretical Values")
+ylabel!(p2, "Empirical Values")
+p3 = qqplot(Cauchy, cauchy_samps, tickfontsize=16, guidefontsize=18, linewidth=3, markersize=6, title="Cauchy Q-Q Plot")
+xlabel!(p3, "Theoretical Values")
+ylabel!(p3, "Empirical Values")
+p = plot(p2, p3, layout=(1, 2), size=(900, 350))
+
+display(p1)
+display(p)
+```
+
+## Multi-Modal Data and Q-Q Plots
+
+```{julia}
+#| label: fig-mixture-qq
+#| echo: false
+#| layout-nrow: 2
+#| fig-cap: "Q-Q Plot for Cauchy Data and Normal Distribution"
+#| fig-subcap: 
+#|  - "Normal vs Cauchy Distribution"
+#|  - "Q-Q Plot"
+
+## generate fat-tailed residuals
+mm_samps = rand(MixtureModel(Normal,
+    [(-1, 0.25), (1, 0.25)]), 
+50)
+
+
+# make plots
+# scatterplot of observations
+p1 = plot(fit(Normal, mm_samps), linewidth=3, color=:green, label="Normal Distribution", yaxis=false, legend=:outerright)
+scatter!(p1, mm_samps, zeros(length(mm_samps)), markersize=3, color=:black, label="Data")
+xlims!(p1, (-2, 2))
+xlabel!("Value")
+plot!(p1, size=(1000, 250))
+plot!(p1, Normal(-1, 0.25), linewidth=3, color=:orange, linestyle=:dash, label="Mixture Distribution")
+plot!(p1, Normal(1, 0.25), linewidth=3, color=:orange, linestyle=:dash, label=false)
+
+# densities of residual distributions
+p2 = qqplot(Normal, mm_samps, tickfontsize=16, guidefontsize=18, linewidth=3, markersize=6, title="Normal Q-Q Plot")
+xlabel!(p2, "Theoretical Values")
+ylabel!(p2, "Empirical Values")
+p = plot!(p2, size=(900, 350))
+
+display(p1)
+display(p)
+```
+
 
 ## Boxplots vs Histograms
 
