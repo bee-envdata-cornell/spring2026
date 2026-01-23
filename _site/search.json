@@ -2344,6 +2344,20 @@
     "text": "Implications of Gaussian Noise\nWithout explicit modeling of sources of measurement uncertainty, in LR we can’t separate a noisy system state (due to e.g. omitted variables) from an uncertain measurement error (more on this later).\n\\[\n\\begin{array}{l}\nX \\sim N(\\mu_1, \\sigma_1^2) \\\\\nY \\sim N(\\mu_2, \\sigma_2^2) \\\\\nZ = X + Y\n\\end{array}\n\\qquad \\Rightarrow \\qquad Z \\sim N(\\mu_1 + \\mu_2, \\sigma_1^2 + \\sigma_2^2)\n\\]"
   },
   {
+    "objectID": "slides/lecture03-1-probmodels.html#central-limit-theorem",
+    "href": "slides/lecture03-1-probmodels.html#central-limit-theorem",
+    "title": "Probability Models and EDA",
+    "section": "Central Limit Theorem",
+    "text": "Central Limit Theorem\nIf\n\n\\(\\mathbb{E}[X_i] = \\mu\\)\nand \\(\\text{Var}(X_i) = \\sigma^2 &lt; \\infty\\),\n\n\\[\\begin{aligned}\n\\lim_{n \\to \\infty} \\sqrt{n}(\\bar{X}_n - \\mu ) &= \\mathcal{N}(0, \\sigma^2) \\\\\n\\Rightarrow & \\bar{X}_n \\overset{\\text{approx}}{\\sim} \\mathcal{N}(\\mu, \\sigma^2/n)\n\\end{aligned}\\]"
+  },
+  {
+    "objectID": "slides/lecture03-1-probmodels.html#central-limit-theorem-more-intuitive",
+    "href": "slides/lecture03-1-probmodels.html#central-limit-theorem-more-intuitive",
+    "title": "Probability Models and EDA",
+    "section": "Central Limit Theorem (More Intuitive)",
+    "text": "Central Limit Theorem (More Intuitive)\n\n\nFor a large enough set of samples:\nThe sampling distribution of a sum or mean of random variables is approximately normal distribution, even if the random variables themselves are not.\n\n\n\n\nSmall n Meme\n\n\n\nSource: Unknown"
+  },
+  {
     "objectID": "slides/lecture03-1-probmodels.html#probability-models-1",
     "href": "slides/lecture03-1-probmodels.html#probability-models-1",
     "title": "Probability Models and EDA",
@@ -5050,21 +5064,42 @@
     "href": "slides/lecture02-1-eda.html#visualizations-for-eda",
     "title": "Exploratory Data Analysis and Visualization",
     "section": "Visualizations for EDA",
-    "text": "Visualizations for EDA\n\nOften useful to start with scatterplots: one variable (typically independent) on the \\(x\\)-axis, another (typically dependent) on the \\(y\\)-axis.\nTime series: time always goes on the \\(x\\)-axis.\nBoxplots for comparison quantiles/ranges of variables or groups of data."
+    "text": "Visualizations for EDA\n\nOften useful to start with scatterplots: one variable (typically independent) on the \\(x\\)-axis, another (typically dependent) on the \\(y\\)-axis.\nTime series: time always goes on the \\(x\\)-axis.\nBoxplots for comparison quantiles/ranges of variables or groups of data.\nQ-Q Plots to look for mismatches between distributions and data."
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#q-q-plots",
+    "href": "slides/lecture02-1-eda.html#q-q-plots",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Q-Q Plots",
+    "text": "Q-Q Plots\n\n\nOne exploratory method to see if your data is reasonably described by a theoretical distribution is a Q-Q plot.\n\n\n\nCode\nsamps = rand(Normal(0, 3), 20)\nqqplot(Normal, samps, tickfontsize=16, guidefontsize=18, linewidth=3, markersize=6)\nxlabel!(\"Theoretical Quantiles\")\nylabel!(\"Empirical Quantiles\")\nplot!(size=(500, 450))\n\n\n\n\n\n\n\nFigure 1"
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#fat-tailed-data-and-q-q-plots",
+    "href": "slides/lecture02-1-eda.html#fat-tailed-data-and-q-q-plots",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Fat-Tailed Data and Q-Q Plots",
+    "text": "Fat-Tailed Data and Q-Q Plots\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Normal vs Cauchy Distribution\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b) Q-Q Plot\n\n\n\n\n\n\n\nFigure 2: Q-Q Plot for Cauchy Data and Normal Distribution"
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#multi-modal-data-and-q-q-plots",
+    "href": "slides/lecture02-1-eda.html#multi-modal-data-and-q-q-plots",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Multi-Modal Data and Q-Q Plots",
+    "text": "Multi-Modal Data and Q-Q Plots\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Normal vs Cauchy Distribution\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b) Q-Q Plot\n\n\n\n\n\n\n\nFigure 3: Q-Q Plot for Cauchy Data and Normal Distribution"
   },
   {
     "objectID": "slides/lecture02-1-eda.html#boxplots-vs-histograms",
     "href": "slides/lecture02-1-eda.html#boxplots-vs-histograms",
     "title": "Exploratory Data Analysis and Visualization",
     "section": "Boxplots vs Histograms",
-    "text": "Boxplots vs Histograms\n\n\nBoxplots: Show quantiles (usually median + 1.5 $IQR)\nHistogram: See distribution of data.\n\n\n\nCode\np1 = boxplot(skipmissing(aq[!, :Ozone]), ylabel=\"Ozone (ppb)\")\n\np2 = histogram(skipmissing(aq[!, :Ozone]), ylabel=\"Ozone (ppb)\")\n\np = plot(p1, p2, layout=(2, 1), size=(1100, 400))\n\n\n\n\n\n\n\nFigure 1: Paired plots of air quality dataset"
+    "text": "Boxplots vs Histograms\n\n\nBoxplots: Show quantiles (usually median + 1.5 $IQR)\nHistogram: See distribution of data.\n\n\n\nCode\np1 = boxplot(skipmissing(aq[!, :Ozone]), ylabel=\"Ozone (ppb)\")\n\np2 = histogram(skipmissing(aq[!, :Ozone]), ylabel=\"Ozone (ppb)\")\n\np = plot(p1, p2, layout=(2, 1), size=(1100, 400))\n\n\n\n\n\n\n\nFigure 4: Paired plots of air quality dataset"
   },
   {
     "objectID": "slides/lecture02-1-eda.html#scatterplots",
     "href": "slides/lecture02-1-eda.html#scatterplots",
     "title": "Exploratory Data Analysis and Visualization",
     "section": "Scatterplots",
-    "text": "Scatterplots\n\n\nCode\n# this uses the dataframe plotting syntax from StatsPlots.jl\np1 = @df aq scatter(:Ozone, :Solar, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Solar Radiation (lang)\", leftmargin=10mm)\np2 = @df aq scatter(:Ozone, :Wind, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Wind Speed (mph)\", leftmargin=10mm)\np3 = @df aq scatter(:Ozone, :Temp, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Max Temperature (°F) \", leftmargin=10mm)\n\np = plot(p1, p2, p3, layout=(1, 3), size=(1100, 400))\n\n\n\n\nFigure 2: Paired plots of air quality dataset"
+    "text": "Scatterplots\n\n\nCode\n# this uses the dataframe plotting syntax from StatsPlots.jl\np1 = @df aq scatter(:Ozone, :Solar, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Solar Radiation (lang)\", leftmargin=10mm)\np2 = @df aq scatter(:Ozone, :Wind, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Wind Speed (mph)\", leftmargin=10mm)\np3 = @df aq scatter(:Ozone, :Temp, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Max Temperature (°F) \", leftmargin=10mm)\n\np = plot(p1, p2, p3, layout=(1, 3), size=(1100, 400))\n\n\n\n\nFigure 5: Paired plots of air quality dataset"
   },
   {
     "objectID": "slides/lecture02-1-eda.html#eda",
@@ -5401,20 +5436,6 @@
     "title": "Probability Review",
     "section": "Sampling Distributions",
     "text": "Sampling Distributions\n\nIllustration of the Sampling Distribution"
-  },
-  {
-    "objectID": "slides/lecture01-2-probreview.html#central-limit-theorem",
-    "href": "slides/lecture01-2-probreview.html#central-limit-theorem",
-    "title": "Probability Review",
-    "section": "Central Limit Theorem",
-    "text": "Central Limit Theorem\nIf\n\n\\(\\mathbb{E}[X_i] = \\mu\\)\nand \\(\\text{Var}(X_i) = \\sigma^2 &lt; \\infty\\),\n\n\\[\\begin{aligned}\n\\lim_{n \\to \\infty} \\sqrt{n}(\\bar{X}_n - \\mu ) &= \\mathcal{N}(0, \\sigma^2) \\\\\n\\Rightarrow & \\bar{X}_n \\overset{\\text{approx}}{\\sim} \\mathcal{N}(\\mu, \\sigma^2/n)\n\\end{aligned}\\]"
-  },
-  {
-    "objectID": "slides/lecture01-2-probreview.html#central-limit-theorem-more-intuitive",
-    "href": "slides/lecture01-2-probreview.html#central-limit-theorem-more-intuitive",
-    "title": "Probability Review",
-    "section": "Central Limit Theorem (More Intuitive)",
-    "text": "Central Limit Theorem (More Intuitive)\n\n\nFor a large enough set of samples:\nThe sampling distribution of a sum or mean of random variables is approximately normal distribution, even if the random variables themselves are not.\n\n\n\n\nSmall n Meme\n\n\n\nSource: Unknown"
   },
   {
     "objectID": "slides/lecture01-2-probreview.html#likelihood-1",

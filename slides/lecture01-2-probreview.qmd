@@ -258,7 +258,6 @@ Examples: If your observations are, then the most common choices are:
 - Continuous and bounded? **Beta distribution**
 - Sums of positive random variables? **Gamma or Normal distribution**.
 
-
 ## Statistics of Random Variables are Random Variables
 
 **The sum or mean of a random sample is itself a random variable**:
@@ -272,35 +271,6 @@ $\mathcal{D}_n$: The ***sampling distribution*** of the mean (or sum, or other e
 ## Sampling Distributions
 
 ![Illustration of the Sampling Distribution](figures/true-sampling.png)
-
-## Central Limit Theorem 
-
-If 
-
-- $\mathbb{E}[X_i] = \mu$ 
-- and $\text{Var}(X_i) = \sigma^2 < \infty$, 
-
-$$\begin{aligned}
-\lim_{n \to \infty} \sqrt{n}(\bar{X}_n - \mu ) &= \mathcal{N}(0, \sigma^2) \\
-\Rightarrow & \bar{X}_n \overset{\text{approx}}{\sim} \mathcal{N}(\mu, \sigma^2/n)
-\end{aligned}$$
-
-## Central Limit Theorem (More Intuitive)
-
-:::: {.columns}
-::: {.column width=50%}
-For **a large enough set of samples**: 
-
-The sampling distribution of a sum or mean of random variables is approximately normal distribution, **even if the random variables themselves are not**.
-:::
-::: {.column width=50%}
-![Small n Meme](memes/sampling_distribution_small_n.jpg)
-
-::: {.caption}
-Source: Unknown
-:::
-:::
-::::
 
 
 # Likelihood

@@ -371,6 +371,36 @@ Z = X + Y
 </section>
 <section id="section" class="slide level2">
 <h2></h2>
+</section>
+<section id="central-limit-theorem" class="slide level2">
+<h2>Central Limit Theorem</h2>
+<p>If</p>
+<ul>
+<li><span class="math inline">\(\mathbb{E}[X_i] = \mu\)</span></li>
+<li>and <span class="math inline">\(\text{Var}(X_i) = \sigma^2 &lt; \infty\)</span>,</li>
+</ul>
+<p><span class="math display">\[\begin{aligned}
+\lim_{n \to \infty} \sqrt{n}(\bar{X}_n - \mu ) &amp;= \mathcal{N}(0, \sigma^2) \\
+\Rightarrow &amp; \bar{X}_n \overset{\text{approx}}{\sim} \mathcal{N}(\mu, \sigma^2/n)
+\end{aligned}\]</span></p>
+</section>
+<section id="central-limit-theorem-more-intuitive" class="slide level2">
+<h2>Central Limit Theorem (More Intuitive)</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>For <strong>a large enough set of samples</strong>:</p>
+<p>The sampling distribution of a sum or mean of random variables is approximately normal distribution, <strong>even if the random variables themselves are not</strong>.</p>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="memes/sampling_distribution_small_n.jpg"></p>
+<figcaption>Small n Meme</figcaption>
+</figure>
+</div>
+<div class="caption">
+<p>Source: Unknown</p>
+</div>
+</div></div>
 </section></section>
 <section>
 <section id="key-points" class="title-slide slide level1 center">
