@@ -220,6 +220,178 @@ $$
 ## 
 
 
+## Central Limit Theorem 
+
+If 
+
+- $\mathbb{E}[X_i] = \mu$ 
+- and $\text{Var}(X_i) = \sigma^2 < \infty$, 
+
+$$\begin{aligned}
+\lim_{n \to \infty} \sqrt{n}(\bar{X}_n - \mu ) &= \mathcal{N}(0, \sigma^2) \\
+\Rightarrow & \bar{X}_n \overset{\text{approx}}{\sim} \mathcal{N}(\mu, \sigma^2/n)
+\end{aligned}$$
+
+## Central Limit Theorem (More Intuitive)
+
+:::: {.columns}
+::: {.column width=50%}
+For **a large enough set of samples**: 
+
+The sampling distribution of a sum or mean of random variables is approximately normal distribution, **even if the random variables themselves are not**.
+:::
+::: {.column width=50%}
+![Small n Meme](memes/sampling_distribution_small_n.jpg)
+
+::: {.caption}
+Source: Unknown
+:::
+:::
+::::
+
+# Describing Uncertainty
+
+## Confidence Intervals
+
+:::: {.columns}
+::: {.column width=50%}
+Frequentist estimates have **confidence intervals**, which will contain the "true" parameter value for $\alpha$% of data samples.
+
+No guarantee that an individual CI contains the true value (with any "probability")!
+:::
+
+::: {.column width=50%}
+
+![Horseshoe Illustration](https://www.wikihow.com/images/thumb/2/20/Throw-a-Horseshoe-Step-4-Version-4.jpg/aid448076-v4-728px-Throw-a-Horseshoe-Step-4-Version-4.jpg){width=90%}
+
+::: {.caption}
+Source: <https://www.wikihow.com/Throw-a-Horseshoe>
+:::
+
+:::
+::::
+
+::: {.notes}
+Confidence intervals only capture uncertainty in **parameter inferences** due to data uncertainty, though this language sometimes gets misused to also refer to data/estimand uncertainty. 
+
+:::
+
+
+## Example: 95% CIs for N(0.4, 2)
+
+```{julia}
+#| label: fig-cis
+#| code-fold: true
+#| code-overflow: wrap
+#| echo: true
+#| layout-ncol: 2
+#| fig-cap: "Display of 95% confidence intervals"
+#| fig-subcap: 
+#|  - "Sample Size 100"
+#|  - "Sample Size 1,000"
+
+# set up distribution
+mean_true = 0.4
+n_cis = 100 # number of CIs to compute
+dist = Normal(mean_true, 2)
+
+# use sample size of 100
+samples = rand(dist, (100, n_cis))
+# mapslices broadcasts over a matrix dimension, could also use a loop
+sample_means = mapslices(mean, samples; dims=1)
+sample_sd = mapslices(std, samples; dims=1) 
+mc_sd = 1.96 * sample_sd / sqrt(100)
+mc_ci = zeros(n_cis, 2) # preallocate
+for i = 1:n_cis
+    mc_ci[i, 1] = sample_means[i] - mc_sd[i]
+    mc_ci[i, 2] = sample_means[i] + mc_sd[i]
+end
+# find which CIs contain the true value
+ci_true = (mc_ci[:, 1] .< mean_true) .&& (mc_ci[:, 2] .> mean_true)
+# compute percentage of CIs which contain the true value
+ci_frac1 = 100 * sum(ci_true) ./ n_cis
+
+# plot CIs
+p1 = plot([mc_ci[1, :]], [1, 1], linewidth=3, color=:deepskyblue, label="95% Confidence Interval", title="Sample Size 100", yticks=:false, legend=:false)
+for i = 2:n_cis
+    if ci_true[i]
+        plot!(p1, [mc_ci[i, :]], [i, i], linewidth=2, color=:deepskyblue, label=:false)
+    else
+        plot!(p1, [mc_ci[i, :]], [i, i], linewidth=2, color=:red, label=:false)
+    end
+end
+vline!(p1, [mean_true], color=:black, linewidth=2, linestyle=:dash, label="True Value") # plot true value as a vertical line
+xaxis!(p1, "Estimate")
+plot!(p1, size=(500, 350)) # resize to fit slide
+
+# use sample size of 1000
+samples = rand(dist, (1000, n_cis))
+# mapslices broadcasts over a matrix dimension, could also use a loop
+sample_means = mapslices(mean, samples; dims=1)
+sample_sd = mapslices(std, samples; dims=1) 
+mc_sd = 1.96 * sample_sd / sqrt(1000)
+mc_ci = zeros(n_cis, 2) # preallocate
+for i = 1:n_cis
+    mc_ci[i, 1] = sample_means[i] - mc_sd[i]
+    mc_ci[i, 2] = sample_means[i] + mc_sd[i]
+end
+# find which CIs contain the true value
+ci_true = (mc_ci[:, 1] .< mean_true) .&& (mc_ci[:, 2] .> mean_true)
+# compute percentage of CIs which contain the true value
+ci_frac2 = 100 * sum(ci_true) ./ n_cis
+
+# plot CIs
+p2 = plot([mc_ci[1, :]], [1, 1], linewidth=3, color=:deepskyblue, label="95% Confidence Interval", title="Sample Size 1,000", yticks=:false, legend=:false)
+for i = 2:n_cis
+    if ci_true[i]
+        plot!(p2, [mc_ci[i, :]], [i, i], linewidth=2, color=:deepskyblue, label=:false)
+    else
+        plot!(p2, [mc_ci[i, :]], [i, i], linewidth=2, color=:red, label=:false)
+    end
+end
+vline!(p2, [mean_true], color=:black, linewidth=2, linestyle=:dash, label="True Value") # plot true value as a vertical line
+xaxis!(p2, "Estimate")
+plot!(p2, size=(500, 350)) # resize to fit slide
+
+display(p1)
+display(p2)
+```
+
+`{julia} Int64(round(ci_frac1))`% of the CIs contain the true value (left) vs. `{julia} Int64(round(ci_frac2))`% (right)
+
+## Predictive Intervals
+
+:::: {.columns}
+::: {.column width=50%}
+**Predictive intervals** capture uncertainty in an estimand.
+
+**With what probability would I see a particular outcome in the future?**
+
+Often need to construct these using **simulation**.
+:::
+::: {.column width=50%}
+```{julia}
+#| label: fig-credible-interval
+#| fig-cap: Two different 95% credible intervals.
+
+plot(Gamma(7.5), linewidth=3, xlabel="Data/Parameter", label=:false, legend=:outerbottom)
+q1 = quantile(Gamma(7.5), [0.05, 0.95])
+q2 = quantile(Gamma(7.5), [0.01, 0.91])
+q3 = quantile(Gamma(7.5), [0.09, 0.99])
+gamma_pdf(x) = pdf(Gamma(7.5), x)
+plot!(q1[1]:0.01:q1[2], gamma_pdf(q1[1]:0.01:q1[2]), fillrange=zero(q1[1]:0.01:q1[2]), alpha=0.2, label="90% Interval 1")
+plot!(q2[1]:0.01:q2[2], gamma_pdf(q2[1]:0.01:q2[2]), fillrange=zero(q2[1]:0.01:q2[2]), alpha=0.2, label="90% Interval 2")
+plot!(q3[1]:0.01:q3[2], gamma_pdf(q3[1]:0.01:q3[2]), fillrange=zero(q3[1]:0.01:q3[2]), alpha=0.2, label="90% Interval 3")
+plot!(size=(600, 650))
+```
+:::
+::::
+
+::: {.notes}
+Due to this non-uniqueness, the typical convention is to use the "equal tailed" interval based on quantiles.
+:::
+
+
 
 # Key Points
 
