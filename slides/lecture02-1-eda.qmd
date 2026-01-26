@@ -4,7 +4,7 @@ subtitle: "Lecture 03"
 author: "Vivek Srikrishnan"
 course: "BEE 4850"
 institution: "Cornell University"
-date: "January 26, 2026"
+date: "January 28, 2026"
 format:
     revealjs: default
 engine: julia
@@ -246,7 +246,7 @@ One exploratory method to see if your data is reasonably described by a theoreti
 #| echo: true
 
 samps = rand(Normal(0, 3), 20)
-qqplot(Normal, samps, tickfontsize=16, guidefontsize=18, linewidth=3, markersize=6)
+qqplot(Normal, samps, linewidth=3, markersize=6)
 xlabel!("Theoretical Quantiles")
 ylabel!("Empirical Quantiles")
 plot!(size=(500, 450))
@@ -255,7 +255,68 @@ plot!(size=(500, 450))
 ::::
 
 
-## Fat-Tailed Data and Q-Q Plots
+## Q-Q Plots: Data Overdispersed
+
+```{julia}
+#| label: fig-qq-1
+#| echo: false
+#| fig-cap: "Diagnosing Problems With Q-Q Plots"
+
+# plot 1: data is more spread out
+samps = rand(Normal(0, 3), 50)
+p1 = qqplot(Normal(0, 1), samps, xlabel="Theoretical Quantiles", ylabel="Empirical Quantiles", linewidth=3, markersize=6)
+p2 = plot(Normal(0, 1), linewidth=3, color=:blue, label="Reference Distribution")
+scatter!(p2, samps, zeros(length(samps)), markersize=3, color=:black, label="Data")
+plot(p1, p2, layout=(1, 2), size=(1200, 450))
+```
+
+## Q-Q Plots: Data Underdispersed
+
+```{julia}
+#| label: fig-qq-2
+#| echo: false
+#| fig-cap: "Diagnosing Problems With Q-Q Plots"
+
+# plot 1: data is more spread out
+samps = rand(Normal(0, 0.25), 50)
+p1 = qqplot(Normal(0, 1), samps, xlabel="Theoretical Quantiles", ylabel="Empirical Quantiles", linewidth=3, markersize=6)
+p2 = plot(Normal(0, 1), linewidth=3, color=:blue, label="Reference Distribution")
+scatter!(p2, samps, zeros(length(samps)), markersize=3, color=:black, label="Data")
+plot(p1, p2, layout=(1, 2), size=(1200, 450))
+```
+
+## Q-Q Plots: Data Skewed
+
+```{julia}
+#| label: fig-qq-3
+#| echo: false
+#| fig-cap: "Diagnosing Problems With Q-Q Plots"
+
+# plot 1: data is more spread out
+samps = rand(SkewNormal(0, 1, 0.5), 50)
+p1 = qqplot(Normal(0, 1), samps, xlabel="Theoretical Quantiles", ylabel="Empirical Quantiles", linewidth=3, markersize=6)
+p2 = plot(Normal(0, 1), linewidth=3, color=:blue, label="Reference Distribution")
+scatter!(p2, samps, zeros(length(samps)), markersize=3, color=:black, label="Data")
+plot(p1, p2, layout=(1, 2), size=(1200, 450))
+```
+
+## Q-Q Plots: Data Biased
+
+```{julia}
+#| label: fig-qq-4
+#| echo: false
+#| fig-cap: "Diagnosing Problems With Q-Q Plots"
+
+# plot 1: data is more spread out
+samps = rand(Normal(0.5, 1), 50)
+p1 = qqplot(Normal(0, 1), samps, xlabel="Theoretical Quantiles", ylabel="Empirical Quantiles", linewidth=3, markersize=6)
+p2 = plot(Normal(0, 1), linewidth=3, color=:blue, label="Reference Distribution")
+scatter!(p2, samps, zeros(length(samps)), markersize=3, color=:black, label="Data")
+plot(p1, p2, layout=(1, 2), size=(1200, 450))
+```
+
+
+## Q-Q Plots With Fitted Distributions
 
 ```{julia}
 #| label: fig-cauchy-qq
@@ -279,10 +340,10 @@ xlabel!("Value")
 plot!(p1, size=(1000, 250))
 
 # densities of residual distributions
-p2 = qqplot(Normal, cauchy_samps, tickfontsize=16, guidefontsize=18, linewidth=3, markersize=6, title="Normal Q-Q Plot")
+p2 = qqplot(Normal, cauchy_samps, linewidth=3, markersize=6, title="Normal Q-Q Plot")
 xlabel!(p2, "Theoretical Values")
 ylabel!(p2, "Empirical Values")
-p3 = qqplot(Cauchy, cauchy_samps, tickfontsize=16, guidefontsize=18, linewidth=3, markersize=6, title="Cauchy Q-Q Plot")
+p3 = qqplot(Cauchy, cauchy_samps, linewidth=3, markersize=6, title="Cauchy Q-Q Plot")
 xlabel!(p3, "Theoretical Values")
 ylabel!(p3, "Empirical Values")
 p = plot(p2, p3, layout=(1, 2), size=(900, 350))
@@ -333,7 +394,7 @@ display(p)
 
 :::: {.columns}
 ::: {.column width=50%}
-**Boxplots**: Show quantiles (usually median + 1.5 $\times IQR)
+**Boxplots**: Show quantiles (usually median + 1.5 $\times$ IQR)
 
 **Histogram**: See distribution of data.
 :::
@@ -348,7 +409,7 @@ p1 = boxplot(skipmissing(aq[!, :Ozone]), ylabel="Ozone (ppb)")
 
 p2 = histogram(skipmissing(aq[!, :Ozone]), ylabel="Ozone (ppb)")
 
-p = plot(p1, p2, layout=(2, 1), size=(1100, 400))
+p = plot(p1, p2, layout=(2, 1), size=(550, 500))
 
 ```
 :::
@@ -380,28 +441,30 @@ p = plot(p1, p2, p3, layout=(1, 3), size=(1100, 400))
 - **EDA**: Understand structure of data while making as few assumptions as possible (e.g. look at the raw data, not "smoothed" versions).
 - Need to be willing to ask many questions of your data: most won't make sense once you look at the data.
 - You might be asking the "right" questions but have the "wrong" data: be open-minded and rely on domain knowledge.
-- Quantitative EDA can be a starting point, but EDA also requires visualization.
+
+## Visual EDA
+
+- Need to experiment with different visualizations.
+- Q-Q plots can help explore consistency with distribution assumptions.
+- Think about whether you think the distribution of the data is meaningful.
 
 
 # Upcoming Schedule
 
 ## Next Classes
 
-**Wednesday**: Data Visualization
+**Friday**: Data Visualization
 
-**Friday**: Data Visualization Discussion
-
-## To Be Prepared for Friday
-
-1. Find a visualization and its underlying dataset you find interesting (article, web repository, news story).
-2. Critique the visualization: What story is it trying to tell? What does it do well? What's confusing or limited about it?
-3. Try reconstructing it to tell the story "better".
-4. Come to class with the original visual and your attempt at improving it.
+**Next Week**: Linear Regression and Fitting Models
 
 
 ## Assessments
 
 **Homework 1** Due Friday, 2/6.
+
+**Exercises**: This week's involves some simple computations.
+
+**Reading**: Franconeri et al (2024): long review, recommend starting early!
 
 # References
 

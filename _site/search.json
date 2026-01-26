@@ -4,7 +4,7 @@
     "href": "schedule.html",
     "title": "Class Schedule",
     "section": "",
-    "text": "This page contains a schedule of the topics, content, and assignments for the semester. Note that this schedule will be updated as necessary the semester progresses, with all changes documented here.\nInstructions to save the slides as PDFs can be found here. The key is to hit E when the slides are open in your browser (ideally Chrome, but it may work in others) to toggle into PDF print mode.\nReadings can be accessed using the link (when needed, through the Cornell library with a Cornell login) or on Canvas.\n\n\n\n\n\n\n\n\n\n\n\n\nWeek\nDate\nTopic\nSlides\nReading\nHomework\nQuiz\n\n\n\n\n1\n1/21\nClass Introduction\n\nO’Hagan (2004)\n\n\n\n\n\n1/23\nProbability Review\n\n\n\n\n\n\n2\n1/26\nExploratory Data Analysis\n\n\n\n\n\n\n\n1/28\nData Visualization\n\n\n\n\n\n\n\n1/30\nVisualization Discussion"
+    "text": "This page contains a schedule of the topics, content, and assignments for the semester. Note that this schedule will be updated as necessary the semester progresses, with all changes documented here.\nInstructions to save the slides as PDFs can be found here. The key is to hit E when the slides are open in your browser (ideally Chrome, but it may work in others) to toggle into PDF print mode.\nReadings can be accessed using the link (when needed, through the Cornell library with a Cornell login) or on Canvas.\n\n\n\n\n\n\n\n\n\n\n\n\nWeek\nDate\nTopic\nSlides\nReading\nHomework\nQuiz\n\n\n\n\n1\n1/21\nClass Introduction\n\nO’Hagan (2004)\n\n\n\n\n\n1/23\nProbability Review\n\n\n\n\n\n\n2\n1/26\nClass Canceled Due To Snow\n\n\n\n\n\n\n\n1/28\nExploratory Data Analysis\n\n\n\n\n\n\n\n1/30\nData Visualization"
   },
   {
     "objectID": "tutorials/julia-plots.html",
@@ -5071,63 +5071,91 @@
     "href": "slides/lecture02-1-eda.html#q-q-plots",
     "title": "Exploratory Data Analysis and Visualization",
     "section": "Q-Q Plots",
-    "text": "Q-Q Plots\n\n\nOne exploratory method to see if your data is reasonably described by a theoretical distribution is a Q-Q plot.\n\n\n\nCode\nsamps = rand(Normal(0, 3), 20)\nqqplot(Normal, samps, tickfontsize=16, guidefontsize=18, linewidth=3, markersize=6)\nxlabel!(\"Theoretical Quantiles\")\nylabel!(\"Empirical Quantiles\")\nplot!(size=(500, 450))\n\n\n\n\n\n\n\nFigure 1"
+    "text": "Q-Q Plots\n\n\nOne exploratory method to see if your data is reasonably described by a theoretical distribution is a Q-Q plot.\n\n\n\nCode\nsamps = rand(Normal(0, 3), 20)\nqqplot(Normal, samps, linewidth=3, markersize=6)\nxlabel!(\"Theoretical Quantiles\")\nylabel!(\"Empirical Quantiles\")\nplot!(size=(500, 450))\n\n\n\n\n\n\n\nFigure 1"
   },
   {
-    "objectID": "slides/lecture02-1-eda.html#fat-tailed-data-and-q-q-plots",
-    "href": "slides/lecture02-1-eda.html#fat-tailed-data-and-q-q-plots",
+    "objectID": "slides/lecture02-1-eda.html#q-q-plots-data-overdispersed",
+    "href": "slides/lecture02-1-eda.html#q-q-plots-data-overdispersed",
     "title": "Exploratory Data Analysis and Visualization",
-    "section": "Fat-Tailed Data and Q-Q Plots",
-    "text": "Fat-Tailed Data and Q-Q Plots\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Normal vs Cauchy Distribution\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b) Q-Q Plot\n\n\n\n\n\n\n\nFigure 2: Q-Q Plot for Cauchy Data and Normal Distribution"
+    "section": "Q-Q Plots: Data Overdispersed",
+    "text": "Q-Q Plots: Data Overdispersed\n\n\nFigure 2: Diagnosing Problems With Q-Q Plots"
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#q-q-plots-data-underdispersed",
+    "href": "slides/lecture02-1-eda.html#q-q-plots-data-underdispersed",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Q-Q Plots: Data Underdispersed",
+    "text": "Q-Q Plots: Data Underdispersed\n\n\nFigure 3: Diagnosing Problems With Q-Q Plots"
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#q-q-plots-data-skewed",
+    "href": "slides/lecture02-1-eda.html#q-q-plots-data-skewed",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Q-Q Plots: Data Skewed",
+    "text": "Q-Q Plots: Data Skewed\n\n\nFigure 4: Diagnosing Problems With Q-Q Plots"
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#q-q-plots-data-biased",
+    "href": "slides/lecture02-1-eda.html#q-q-plots-data-biased",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Q-Q Plots: Data Biased",
+    "text": "Q-Q Plots: Data Biased\n\n\nFigure 5: Diagnosing Problems With Q-Q Plots"
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#q-q-plots-with-fitted-distributions",
+    "href": "slides/lecture02-1-eda.html#q-q-plots-with-fitted-distributions",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Q-Q Plots With Fitted Distributions",
+    "text": "Q-Q Plots With Fitted Distributions\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Normal vs Cauchy Distribution\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b) Q-Q Plot\n\n\n\n\n\n\n\nFigure 6: Q-Q Plot for Cauchy Data and Normal Distribution"
   },
   {
     "objectID": "slides/lecture02-1-eda.html#multi-modal-data-and-q-q-plots",
     "href": "slides/lecture02-1-eda.html#multi-modal-data-and-q-q-plots",
     "title": "Exploratory Data Analysis and Visualization",
     "section": "Multi-Modal Data and Q-Q Plots",
-    "text": "Multi-Modal Data and Q-Q Plots\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Normal vs Cauchy Distribution\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b) Q-Q Plot\n\n\n\n\n\n\n\nFigure 3: Q-Q Plot for Cauchy Data and Normal Distribution"
+    "text": "Multi-Modal Data and Q-Q Plots\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Normal vs Cauchy Distribution\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b) Q-Q Plot\n\n\n\n\n\n\n\nFigure 7: Q-Q Plot for Cauchy Data and Normal Distribution"
   },
   {
     "objectID": "slides/lecture02-1-eda.html#boxplots-vs-histograms",
     "href": "slides/lecture02-1-eda.html#boxplots-vs-histograms",
     "title": "Exploratory Data Analysis and Visualization",
     "section": "Boxplots vs Histograms",
-    "text": "Boxplots vs Histograms\n\n\nBoxplots: Show quantiles (usually median + 1.5 $IQR)\nHistogram: See distribution of data.\n\n\n\nCode\np1 = boxplot(skipmissing(aq[!, :Ozone]), ylabel=\"Ozone (ppb)\")\n\np2 = histogram(skipmissing(aq[!, :Ozone]), ylabel=\"Ozone (ppb)\")\n\np = plot(p1, p2, layout=(2, 1), size=(1100, 400))\n\n\n\n\n\n\n\nFigure 4: Paired plots of air quality dataset"
+    "text": "Boxplots vs Histograms\n\n\nBoxplots: Show quantiles (usually median + 1.5 \\(\\times\\) IQR)\nHistogram: See distribution of data.\n\n\n\nCode\np1 = boxplot(skipmissing(aq[!, :Ozone]), ylabel=\"Ozone (ppb)\")\n\np2 = histogram(skipmissing(aq[!, :Ozone]), ylabel=\"Ozone (ppb)\")\n\np = plot(p1, p2, layout=(2, 1), size=(550, 500))\n\n\n\n\n\n\n\nFigure 8: Paired plots of air quality dataset"
   },
   {
     "objectID": "slides/lecture02-1-eda.html#scatterplots",
     "href": "slides/lecture02-1-eda.html#scatterplots",
     "title": "Exploratory Data Analysis and Visualization",
     "section": "Scatterplots",
-    "text": "Scatterplots\n\n\nCode\n# this uses the dataframe plotting syntax from StatsPlots.jl\np1 = @df aq scatter(:Ozone, :Solar, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Solar Radiation (lang)\", leftmargin=10mm)\np2 = @df aq scatter(:Ozone, :Wind, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Wind Speed (mph)\", leftmargin=10mm)\np3 = @df aq scatter(:Ozone, :Temp, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Max Temperature (°F) \", leftmargin=10mm)\n\np = plot(p1, p2, p3, layout=(1, 3), size=(1100, 400))\n\n\n\n\nFigure 5: Paired plots of air quality dataset"
+    "text": "Scatterplots\n\n\nCode\n# this uses the dataframe plotting syntax from StatsPlots.jl\np1 = @df aq scatter(:Ozone, :Solar, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Solar Radiation (lang)\", leftmargin=10mm)\np2 = @df aq scatter(:Ozone, :Wind, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Wind Speed (mph)\", leftmargin=10mm)\np3 = @df aq scatter(:Ozone, :Temp, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Max Temperature (°F) \", leftmargin=10mm)\n\np = plot(p1, p2, p3, layout=(1, 3), size=(1100, 400))\n\n\n\n\nFigure 9: Paired plots of air quality dataset"
   },
   {
     "objectID": "slides/lecture02-1-eda.html#eda",
     "href": "slides/lecture02-1-eda.html#eda",
     "title": "Exploratory Data Analysis and Visualization",
     "section": "EDA",
-    "text": "EDA\n\nEDA: Understand structure of data while making as few assumptions as possible (e.g. look at the raw data, not “smoothed” versions).\nNeed to be willing to ask many questions of your data: most won’t make sense once you look at the data.\nYou might be asking the “right” questions but have the “wrong” data: be open-minded and rely on domain knowledge.\nQuantitative EDA can be a starting point, but EDA also requires visualization."
+    "text": "EDA\n\nEDA: Understand structure of data while making as few assumptions as possible (e.g. look at the raw data, not “smoothed” versions).\nNeed to be willing to ask many questions of your data: most won’t make sense once you look at the data.\nYou might be asking the “right” questions but have the “wrong” data: be open-minded and rely on domain knowledge."
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#visual-eda-1",
+    "href": "slides/lecture02-1-eda.html#visual-eda-1",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Visual EDA",
+    "text": "Visual EDA\n\nNeed to experiment with different visualizations.\nQ-Q plots can help explore consistency with distribution assumptions.\nThink about whether you think the distribution of the data is meaningful."
   },
   {
     "objectID": "slides/lecture02-1-eda.html#next-classes",
     "href": "slides/lecture02-1-eda.html#next-classes",
     "title": "Exploratory Data Analysis and Visualization",
     "section": "Next Classes",
-    "text": "Next Classes\nWednesday: Data Visualization\nFriday: Data Visualization Discussion"
-  },
-  {
-    "objectID": "slides/lecture02-1-eda.html#to-be-prepared-for-friday",
-    "href": "slides/lecture02-1-eda.html#to-be-prepared-for-friday",
-    "title": "Exploratory Data Analysis and Visualization",
-    "section": "To Be Prepared for Friday",
-    "text": "To Be Prepared for Friday\n\nFind a visualization and its underlying dataset you find interesting (article, web repository, news story).\nCritique the visualization: What story is it trying to tell? What does it do well? What’s confusing or limited about it?\nTry reconstructing it to tell the story “better”.\nCome to class with the original visual and your attempt at improving it."
+    "text": "Next Classes\nFriday: Data Visualization\nNext Week: Linear Regression and Fitting Models"
   },
   {
     "objectID": "slides/lecture02-1-eda.html#assessments",
     "href": "slides/lecture02-1-eda.html#assessments",
     "title": "Exploratory Data Analysis and Visualization",
     "section": "Assessments",
-    "text": "Assessments\nHomework 1 Due Friday, 2/6."
+    "text": "Assessments\nHomework 1 Due Friday, 2/6.\nExercises: This week’s involves some simple computations.\nReading: Franconeri et al (2024): long review, recommend starting early!"
   },
   {
     "objectID": "slides/lecture02-1-eda.html#references-scroll-for-full-list",
@@ -5141,7 +5169,7 @@
     "href": "slides/lecture02-2-data-viz.html#eda",
     "title": "Data Visualization",
     "section": "EDA",
-    "text": "EDA\n\nEDA: Understand structure of data while making as few assumptions as possible (e.g. look at the raw data, not “smoothed” versions).\nNeed to be willing to ask many questions of your data: most won’t make sense once you look at the data.\nYou might be asking the “right” questions but have the “wrong” data: be open-minded and rely on domain knowledge.\nQuantitative EDA can be a starting point, but EDA also requires visualization."
+    "text": "EDA\n\nEDA: Understand structure of data while making as few assumptions as possible (e.g. look at the raw data, not “smoothed” versions).\nYou might be asking the “right” questions but have the “wrong” data: be open-minded and rely on domain knowledge.\nQuantitative EDA can be a starting point, but EDA also requires visualization."
   },
   {
     "objectID": "slides/lecture02-2-data-viz.html#considerations-when-plotting",
@@ -5225,7 +5253,7 @@
     "href": "slides/lecture02-2-data-viz.html#impact-of-continuity",
     "title": "Data Visualization",
     "section": "Impact of Continuity",
-    "text": "Impact of Continuity"
+    "text": "Impact of Continuity\n\n\nCode\n# create trend for data\nx = rand(Uniform(0, 20), 10)\ny = 5 .+ 2 * x\n# sample and add noise\nε = rand(Normal(0, 5), 10)\ny .+= ε\n\np1 = scatter(x, y, xlabel=L\"$x$\", ylabel=L\"$y$\", color=:blue, markersize=8)\np2 = plot(sort(x), sort(y), xlabel=L\"$x$\", ylabel=L\"$y$\", color=:blue, marker=:circle, markersize=8)\n\nplot(p1, p2, layout=(1,2), size=(1100, 500))\n\n\n\n\nFigure 1: Illustrating impact of connected points."
   },
   {
     "objectID": "slides/lecture02-2-data-viz.html#principle-of-proportional-ink",
@@ -5281,42 +5309,35 @@
     "href": "slides/lecture02-2-data-viz.html#first-attempt-paired-scatterplots",
     "title": "Data Visualization",
     "section": "First Attempt: Paired Scatterplots",
-    "text": "First Attempt: Paired Scatterplots\n\n\nCode\naq = DataFrame(CSV.File(\"data/airquality/airquality.csv\"))\nrename!(aq, :\"Solar.R\" =&gt; :Solar) # rename solar radiation column to get rid of period\n\n# this uses the dataframe plotting syntax from StatsPlots.jl\np1 = @df aq scatter(:Ozone, :Solar, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Solar Radiation (lang)\", leftmargin=10mm)\np2 = @df aq scatter(:Ozone, :Wind, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Wind Speed (mph)\", leftmargin=10mm)\np3 = @df aq scatter(:Ozone, :Temp, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Max Temperature (°F) \", leftmargin=10mm)\n\np = plot(p1, p2, p3, layout=(1, 3), size=(1100, 400))\n\n\n\n\nFigure 1: Paired plots of air quality dataset"
+    "text": "First Attempt: Paired Scatterplots\n\n\nCode\naq = DataFrame(CSV.File(\"data/airquality/airquality.csv\"))\nrename!(aq, :\"Solar.R\" =&gt; :Solar) # rename solar radiation column to get rid of period\n\n# this uses the dataframe plotting syntax from StatsPlots.jl\np1 = @df aq scatter(:Ozone, :Solar, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Solar Radiation (lang)\", leftmargin=10mm)\np2 = @df aq scatter(:Ozone, :Wind, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Wind Speed (mph)\", leftmargin=10mm)\np3 = @df aq scatter(:Ozone, :Temp, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Max Temperature (°F) \", leftmargin=10mm)\n\np = plot(p1, p2, p3, layout=(1, 3), size=(1100, 400))\n\n\n\n\nFigure 2: Paired plots of air quality dataset"
   },
   {
     "objectID": "slides/lecture02-2-data-viz.html#do-multiple-channels-help",
     "href": "slides/lecture02-2-data-viz.html#do-multiple-channels-help",
     "title": "Data Visualization",
     "section": "Do Multiple Channels Help?",
-    "text": "Do Multiple Channels Help?\n\n\nCode\n# this uses the dataframe plotting syntax from StatsPlots.jl\naq2 = dropmissing(aq)\np = @df aq2 scatter(:Ozone, :Wind, marker_z=:Solar,\n    xlabel=\"Ozone (ppb)\", \n    ylabel=\"Wind Speed (mph)\", \n    colorbar_title=\"Solar Radiation (lang)\",\n    c=:reds,\n    markersize=5\n)\n\n\n\n\nFigure 2: Scatterplot of air quality dataset with solar color"
+    "text": "Do Multiple Channels Help?\n\n\nCode\n# this uses the dataframe plotting syntax from StatsPlots.jl\naq2 = dropmissing(aq)\np = @df aq2 scatter(:Ozone, :Wind, marker_z=:Solar,\n    xlabel=\"Ozone (ppb)\", \n    ylabel=\"Wind Speed (mph)\", \n    colorbar_title=\"Solar Radiation (lang)\",\n    c=:reds,\n    markersize=5\n)\n\n\n\n\nFigure 3: Scatterplot of air quality dataset with solar color"
   },
   {
     "objectID": "slides/lecture02-2-data-viz.html#do-multiple-channels-help-1",
     "href": "slides/lecture02-2-data-viz.html#do-multiple-channels-help-1",
     "title": "Data Visualization",
     "section": "Do Multiple Channels Help?",
-    "text": "Do Multiple Channels Help?\n\n\nCode\n# this uses the dataframe plotting syntax from StatsPlots.jl\naq2 = dropmissing(aq)\np = @df aq2 scatter(:Ozone, :Wind, marker_z=:Temp,\n    xlabel=\"Ozone (ppb)\", \n    ylabel=\"Wind Speed (mph)\", \n    colorbar_title=\"Max Temperature (°F)\",\n    c=:reds,\n    markersize=5\n)\n\n\n\n\nFigure 3: Scatterplot of air quality dataset with temperature color"
+    "text": "Do Multiple Channels Help?\n\n\nCode\n# this uses the dataframe plotting syntax from StatsPlots.jl\naq2 = dropmissing(aq)\np = @df aq2 scatter(:Ozone, :Wind, marker_z=:Temp,\n    xlabel=\"Ozone (ppb)\", \n    ylabel=\"Wind Speed (mph)\", \n    colorbar_title=\"Max Temperature (°F)\",\n    c=:reds,\n    markersize=5\n)\n\n\n\n\nFigure 4: Scatterplot of air quality dataset with temperature color"
   },
   {
     "objectID": "slides/lecture02-2-data-viz.html#next-classes",
     "href": "slides/lecture02-2-data-viz.html#next-classes",
     "title": "Data Visualization",
     "section": "Next Classes",
-    "text": "Next Classes\nFriday: Data Visualization Discussion\nNext Week: Probability Models and Linear Regression"
-  },
-  {
-    "objectID": "slides/lecture02-2-data-viz.html#to-be-prepared-for-friday",
-    "href": "slides/lecture02-2-data-viz.html#to-be-prepared-for-friday",
-    "title": "Data Visualization",
-    "section": "To Be Prepared for Friday",
-    "text": "To Be Prepared for Friday\n\nFind a visualization and its underlying dataset you find interesting (article, web repository, news story).\nCritique the visualization: What story is it trying to tell? What does it do well? What’s confusing or limited about it?\nTry reconstructing it to tell the story “better”.\nCome to class with the original visual and your attempt at improving it."
+    "text": "Next Classes\nMonday: Probability Models and Linear Regression\nRest of Week: Maximum Likelihood and Fitting Models"
   },
   {
     "objectID": "slides/lecture02-2-data-viz.html#assessments",
     "href": "slides/lecture02-2-data-viz.html#assessments",
     "title": "Data Visualization",
     "section": "Assessments",
-    "text": "Assessments\nHomework 1 Due next Friday (2/6).\nExercises: Due before Monday’s class.\nReading: Do annotation before next Monday."
+    "text": "Assessments\nHomework 1 Due Friday, 2/6.\nExercises: This week’s involves some simple computations.\nReading: Franconeri et al (2024)"
   },
   {
     "objectID": "slides/lecture02-2-data-viz.html#references-scroll-for-full-list",

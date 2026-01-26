@@ -4,7 +4,7 @@ subtitle: "Lecture 04"
 author: "Vivek Srikrishnan"
 course: "BEE 4850"
 institution: "Cornell University"
-date: "January 28, 2026"
+date: "January 30, 2026"
 format:
     revealjs:
         slide-number: c/t
@@ -86,7 +86,6 @@ default(
 ## EDA
 
 - **EDA**: Understand structure of data while making as few assumptions as possible (e.g. look at the raw data, not "smoothed" versions).
-- Need to be willing to ask many questions of your data: most won't make sense once you look at the data.
 - You might be asking the "right" questions but have the "wrong" data: be open-minded and rely on domain knowledge.
 - Quantitative EDA can be a starting point, but EDA also requires visualization.
 
@@ -279,8 +278,11 @@ Illustration of several Gestalt principles. Adapted from @Healy2018-zx.
 ## Impact of Continuity
 
 ```{julia}
-#| echo: false
-#| output: false
+#| label: fig-continuity
+#| code-fold: true
+#| echo: true
+#| fig-cap: Illustrating impact of connected points.
+
 
 # create trend for data
 x = rand(Uniform(0, 20), 10)
@@ -289,10 +291,10 @@ y = 5 .+ 2 * x
 ε = rand(Normal(0, 5), 10)
 y .+= ε
 
-p1 = scatter(x, y, xlabel=L"$x$", ylabel=L"$y$", color=:blue)
-p2 = plot(x, y, xlabel=L"$x$", ylabel=L"$y$", color=:blue)
+p1 = scatter(x, y, xlabel=L"$x$", ylabel=L"$y$", color=:blue, markersize=8)
+p2 = plot(sort(x), sort(y), xlabel=L"$x$", ylabel=L"$y$", color=:blue, marker=:circle, markersize=8)
 
-plot(p1, p2, layout=(2,1), size=(1200, 500))
+plot(p1, p2, layout=(1,2), size=(1100, 500))
 ```
 
 ## Principle of Proportional Ink
@@ -435,25 +437,18 @@ p = @df aq2 scatter(:Ozone, :Wind, marker_z=:Temp,
 
 ## Next Classes
 
-**Friday**: Data Visualization Discussion
+**Monday**: Probability Models and Linear Regression
 
-**Next Week**: Probability Models and Linear Regression
-
-## To Be Prepared for Friday
-
-1. Find a visualization and its underlying dataset you find interesting (article, web repository, news story).
-2. Critique the visualization: What story is it trying to tell? What does it do well? What's confusing or limited about it?
-3. Try reconstructing it to tell the story "better".
-4. Come to class with the original visual and your attempt at improving it.
+**Rest of Week**: Maximum Likelihood and Fitting Models
 
 
 ## Assessments
 
-**Homework 1** Due next Friday (2/6).
+**Homework 1** Due Friday, 2/6.
 
-**Exercises**: Due before Monday's class.
+**Exercises**: This week's involves some simple computations.
 
-**Reading**: Do annotation before next Monday.
+**Reading**: Franconeri et al (2024)
 
 # References
 
