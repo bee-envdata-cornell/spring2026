@@ -232,6 +232,98 @@ Source: [Wikipedia](https://en.wikipedia.org/wiki/Anscombe%27s_quartet)
 - Boxplots for comparison quantiles/ranges of variables or groups of data.
 - Q-Q Plots to look for mismatches between distributions and data.
 
+
+## Boxplots vs Histograms
+
+:::: {.columns}
+::: {.column width=50%}
+**Boxplots**: Show quantiles (usually median + 1.5 $\times$ IQR)
+
+**Histogram**: See distribution of data.
+:::
+::: {.column width=50%}
+```{julia}
+#| code-fold: true
+#| echo: true
+#| label: fig-explore1
+#| fig-cap: Paired plots of air quality dataset
+
+p1 = boxplot(skipmissing(aq[!, :Ozone]), ylabel="Ozone (ppb)")
+
+p2 = histogram(skipmissing(aq[!, :Ozone]), xlabel="Ozone (ppb)", ylabel="Count")
+
+p = plot(p1, p2, layout=(2, 1), size=(550, 500))
+
+```
+:::
+::::
+
+## Scatterplots
+
+```{julia}
+#| code-fold: true
+#| echo: true
+#| label: fig-explore2
+#| fig-cap: Paired plots of air quality dataset
+
+# this uses the dataframe plotting syntax from StatsPlots.jl
+p1 = @df aq scatter(:Ozone, :Solar, markersize=5, color=:blue, xlabel="Ozone (ppb)", ylabel="Solar Radiation (lang)", leftmargin=10mm)
+p2 = @df aq scatter(:Ozone, :Wind, markersize=5, color=:blue, xlabel="Ozone (ppb)", ylabel="Wind Speed (mph)", leftmargin=10mm)
+p3 = @df aq scatter(:Ozone, :Temp, markersize=5, color=:blue, xlabel="Ozone (ppb)", ylabel="Max Temperature (°F) ", leftmargin=10mm)
+
+p = plot(p1, p2, p3, layout=(1, 3), size=(1100, 400))
+
+```
+
+## Fit Distributions and Compare to Histograms
+
+:::: {.columns}
+::: {.column width=50%}
+If we have a candidate distribution, we can try to fit it to the data and visually compare to a histogram.
+
+:::
+::: {.column with=50%}
+```{julia}
+#| code-fold: true
+#| echo: true
+#| label: fig-ozone-hist
+#| fig-cap: Histogram of Ozone measurements in Air Quality Dataset
+
+# normalize=:pdf turns the y-axis from a raw count to a density to make more comparable with a PDF
+pozone = histogram(skipmissing(aq[!, :Ozone]), xlabel="Ozone (ppb)", ylabel="Density", normalize=:pdf, label="Data")
+```
+:::
+::::
+
+## Fit Distributions and Compare to Histograms
+
+:::: {.columns}
+::: {.column width=50%}
+Here we might try a Log-Normal distribution.
+
+```{julia}
+#| echo: true
+#| output: true
+
+d = fit(LogNormal, collect(skipmissing(aq[!, :Ozone])))
+```
+
+
+:::
+::: {.column with=50%}
+```{julia}
+#| code-fold: true
+#| echo: true
+#| label: fig-hist-compare
+#| fig-cap: Histogram of Ozone measurements in Air Quality Dataset
+
+ln_samps = rand(d, 5_000)
+density!(pozone, ln_samps, linewidth=3, color=:red, label="LogNormal Density")
+```
+:::
+::::
+
+
 ## Q-Q Plots
 
 ::: {.columns}
@@ -380,7 +472,7 @@ plot!(p1, Normal(-1, 0.25), linewidth=3, color=:orange, linestyle=:dash, label="
 plot!(p1, Normal(1, 0.25), linewidth=3, color=:orange, linestyle=:dash, label=false)
 
 # densities of residual distributions
-p2 = qqplot(Normal, mm_samps, tickfontsize=16, guidefontsize=18, linewidth=3, markersize=6, title="Normal Q-Q Plot")
+p2 = qqplot(Normal, mm_samps, linewidth=3, markersize=6, title="Normal Q-Q Plot")
 xlabel!(p2, "Theoretical Values")
 ylabel!(p2, "Empirical Values")
 p = plot!(p2, size=(900, 350))
@@ -389,48 +481,21 @@ display(p1)
 display(p)
 ```
 
-
-## Boxplots vs Histograms
-
-:::: {.columns}
-::: {.column width=50%}
-**Boxplots**: Show quantiles (usually median + 1.5 $\times$ IQR)
-
-**Histogram**: See distribution of data.
-:::
-::: {.column width=50%}
-```{julia}
-#| code-fold: true
-#| echo: true
-#| label: fig-explore1
-#| fig-cap: Paired plots of air quality dataset
-
-p1 = boxplot(skipmissing(aq[!, :Ozone]), ylabel="Ozone (ppb)")
-
-p2 = histogram(skipmissing(aq[!, :Ozone]), ylabel="Ozone (ppb)")
-
-p = plot(p1, p2, layout=(2, 1), size=(550, 500))
-
-```
-:::
-::::
-
-## Scatterplots
+## Q-Q Plot for Ozone Data
 
 ```{julia}
-#| code-fold: true
+#| label: fig-qq-ozone
+#| fig-cap: QQ Plot comparing ozone data with LogNormal distribution
 #| echo: true
-#| label: fig-explore2
-#| fig-cap: Paired plots of air quality dataset
+#| code-fold: true
 
-# this uses the dataframe plotting syntax from StatsPlots.jl
-p1 = @df aq scatter(:Ozone, :Solar, markersize=5, color=:blue, xlabel="Ozone (ppb)", ylabel="Solar Radiation (lang)", leftmargin=10mm)
-p2 = @df aq scatter(:Ozone, :Wind, markersize=5, color=:blue, xlabel="Ozone (ppb)", ylabel="Wind Speed (mph)", leftmargin=10mm)
-p3 = @df aq scatter(:Ozone, :Temp, markersize=5, color=:blue, xlabel="Ozone (ppb)", ylabel="Max Temperature (°F) ", leftmargin=10mm)
-
-p = plot(p1, p2, p3, layout=(1, 3), size=(1100, 400))
-
+p1 = qqplot(LogNormal, collect(skipmissing(aq[!, :Ozone])), linewidth=3, markersize=6, title="Log-Normal Q-Q Plot", leftmargin=5mm)
+xlabel!(p1, "Theoretical Values")
+ylabel!(p1, "Empirical Values")
+plot!(pozone, xlims=(0, 300), rightmargin=5mm)
+plot(p1, pozone, size=(1200, 525))
 ```
+
 
 
 # Key Points

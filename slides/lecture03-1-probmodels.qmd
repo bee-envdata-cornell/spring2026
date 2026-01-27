@@ -1,10 +1,10 @@
 ---
-title: "Probability Models and EDA"
-subtitle: "Lecture 03"
+title: "Probability Models and Linear Regression"
+subtitle: "Lecture 05"
 author: "Vivek Srikrishnan"
 course: "BEE 4850"
 institution: "Cornell University"
-date: "January 28, 2026"
+date: "February 02, 2026"
 format:
     revealjs: default
 engine: julia
@@ -31,6 +31,8 @@ using StatsPlots
 using StatsBase
 using LaTeXStrings
 using Measures
+using DataFrames
+using CSV   
 
 Random.seed!(1)
 
@@ -52,11 +54,11 @@ default(
 
 # Review
 
-## Statistics as Decision-Making Under Uncertainty
+## EDA and Data Visualization
 
-- Went over "standard" null hypothesis significance approach.
-- Null vs. alternative hypotheses
-- $p$-values: (continuous) assessment of probability of seeing test statistic under null hypothesis.
+- Is my data fit for purpose?
+- What are features of data?
+- EDA methods are valuable even once we start to fit models, to check appropriateness of assumptions.
 
 # Probability Models
 
@@ -169,6 +171,16 @@ $$
 ::::
 
 
+## Linear Regression As Probability Model
+
+$$
+y &= \underbrace{\sum_j \beta_j x^j_i)}_{\mathbb{E}[y | x^j]} + \underbrace{\varepsilon_i}_{\text{noise}}, \quad \varepsilon_i \sim N(0, \sigma^2) 
+$$
+
+1. $\mathbb{E}[y | x^j]$: Best linear prediction of $y$ conditional on choice of predictors $x^j$.
+2. The noise defines the probability distribution (here: Gaussian) of the observations: $$y \sim N(\sum_j \beta_j x^j_i), \sigma^2).$$
+
+
 ## Why Linear Models?
 
 :::: {.columns}
@@ -191,34 +203,6 @@ Source: r/GymMemes
 ::: {.notes}
 One key thing: normal distributions are the "least informative" distribution given constraints on mean and variance. So all else being equal, this is a useful machine if all we're interested in are those two moments.
 :::
-
-## Linear Regression As Probability Model
-
-$$
-y &= \underbrace{\sum_j \beta_j x^j_i)}_{\mathbb{E}[y | x^j]} + \underbrace{\varepsilon_i}_{\text{noise}}, \quad \varepsilon_i \sim N(0, \sigma^2) 
-$$
-
-1. $\mathbb{E}[y | x^j]$: Best linear prediction of $y$ conditional on choice of predictors $x^j$.
-2. The noise defines the probability distribution (here: Gaussian) of the observations: $$y \sim N(\sum_j \beta_j x^j_i), \sigma^2).$$
-
-
-## Implications of Gaussian Noise
-
-Without explicit modeling of sources of measurement uncertainty, in LR we can't separate a noisy system state (due to *e.g.* omitted variables) from an uncertain measurement error (more on this later).
-
-$$
-\begin{array}{l}
-X \sim N(\mu_1, \sigma_1^2) \\
-Y \sim N(\mu_2, \sigma_2^2) \\
-Z = X + Y
-\end{array}
-\qquad \Rightarrow \qquad Z \sim N(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)
-$$
-
-# Linear Model Example
-
-## 
-
 
 ## Central Limit Theorem 
 
@@ -250,6 +234,90 @@ Source: Unknown
 ::::
 
 
+
+
+## Implications of Gaussian Noise
+
+Without explicit modeling of sources of measurement uncertainty, in LR we can't separate a noisy system state (due to *e.g.* omitted variables) from an uncertain measurement error (more on this later).
+
+$$
+\begin{array}{l}
+X \sim N(\mu_1, \sigma_1^2) \\
+Y \sim N(\mu_2, \sigma_2^2) \\
+Z = X + Y
+\end{array}
+\qquad \Rightarrow \qquad Z \sim N(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)
+$$
+
+# Linear Model Example
+
+## How Does River Flow Affect TDS?
+
+:::: {.columns}
+::: {.column width=50%}
+
+**Question**: Does river flow affect the concentration of total dissolved solids?
+
+**Data**: Cuyahoga River (1969 -- 1973), from @Helsel2020-nq [Chapter 9].
+
+:::
+::: {.column width=50%}
+```{julia}
+tds = let
+    fname = "data/tds/cuyaTDS.csv" # CHANGE THIS!
+    tds = DataFrame(CSV.File(fname))
+    tds[!, [:date, :discharge_cms, :tds_mgL]]
+end
+p = scatter(
+    tds.discharge_cms,
+    tds.tds_mgL,
+    xlabel=L"Discharge (m$^3$/s)",
+    ylabel="Total dissolved solids (mg/L)",
+    markersize=5,
+    label="Observations"
+)
+plot!(p, size=(600, 600))
+```
+:::
+::::
+
+## How Does River Flow Affect TDS?
+
+:::: {.columns}
+
+::: {.column width=50%}
+**Question**: Does river flow affect the concentration of total dissolved solids?
+
+**Model**: 
+$$D \rightarrow S \ {\color{purple}\leftarrow U}$$
+$$S = f(D, U)$$
+:::
+::: {.column width=50%}
+```{julia}
+p
+```
+:::
+::::
+
+## Transforming Data
+
+:::: {.columns}
+::: {.column width=50%}
+$$
+\begin{align*}
+S &= \beta_0 + \beta_1 \log(D) + U\\
+U &\sim \mathcal{N}(0, \sigma^2)
+\end{align*}
+$$
+
+:::
+::: {.column width=50%}
+```{julia}
+xx = [2, 5, 10, 20, 50, 100]
+p1 = plot(p, xaxis=:log, xticks=(xx, string.(xx)))
+```
+:::
+::::
 
 # Key Points
 

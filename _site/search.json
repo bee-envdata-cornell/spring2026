@@ -2253,137 +2253,158 @@
     "text": "Refernences (Scroll for Full List)\n\n\n\n\nAnscombe, F. J. (1973). Graphs in Statistical Analysis. Am. Stat., 27, 17. https://doi.org/10.2307/2682899\n\n\nBelkin, M., Hsu, D., & Xu, J. (2019). Two models of double descent for weak features. arXiv [Cs.LG]. Retrieved from http://arxiv.org/abs/1903.07571\n\n\nGneiting, T., & Katzfuss, M. (2014). Probabilistic Forecasting. Annual Review of Statistics and Its Application, 1, 125–151. https://doi.org/10.1146/annurev-statistics-062713-085831\n\n\nMei, S., & Montanari, A. (2019). The generalization error of random features regression: Precise asymptotics and double descent curve. arXiv [Math.ST]. Retrieved from http://arxiv.org/abs/1908.05355"
   },
   {
-    "objectID": "slides/lecture03-1-probmodels.html#statistics-as-decision-making-under-uncertainty",
-    "href": "slides/lecture03-1-probmodels.html#statistics-as-decision-making-under-uncertainty",
-    "title": "Probability Models and EDA",
-    "section": "Statistics as Decision-Making Under Uncertainty",
-    "text": "Statistics as Decision-Making Under Uncertainty\n\nWent over “standard” null hypothesis significance approach.\nNull vs. alternative hypotheses\n\\(p\\)-values: (continuous) assessment of probability of seeing test statistic under null hypothesis."
+    "objectID": "slides/lecture03-1-probmodels.html#eda-and-data-visualization",
+    "href": "slides/lecture03-1-probmodels.html#eda-and-data-visualization",
+    "title": "Probability Models and Linear Regression",
+    "section": "EDA and Data Visualization",
+    "text": "EDA and Data Visualization\n\nIs my data fit for purpose?\nWhat are features of data?\nEDA methods are valuable even once we start to fit models, to check appropriateness of assumptions."
   },
   {
     "objectID": "slides/lecture03-1-probmodels.html#why-do-we-need-models-for-data",
     "href": "slides/lecture03-1-probmodels.html#why-do-we-need-models-for-data",
-    "title": "Probability Models and EDA",
+    "title": "Probability Models and Linear Regression",
     "section": "Why Do We Need Models For Data?",
     "text": "Why Do We Need Models For Data?\n\nData are imperfect: Data \\(X\\) are only one realization of the data that could have been observed and/or we can only measure indirect proxies of what we care about.\nOver time, statisticians learned to treat these imperfections as the results of random processes (for some of this history, see Hacking (1990)), requiring probability models."
   },
   {
     "objectID": "slides/lecture03-1-probmodels.html#predicting-random-variables",
     "href": "slides/lecture03-1-probmodels.html#predicting-random-variables",
-    "title": "Probability Models and EDA",
+    "title": "Probability Models and Linear Regression",
     "section": "Predicting Random Variables",
     "text": "Predicting Random Variables\nLet’s say that we want to predict the value of a variable \\(y \\sim Y\\). We need a criteria to define the “best” point prediction.\nReasonable starting point:\n\\[\\text{MSE}(m) = \\mathbb{E}\\left[(Y - m)^2\\right]\\]"
   },
   {
     "objectID": "slides/lecture03-1-probmodels.html#mse-as-squared-bias-variance",
     "href": "slides/lecture03-1-probmodels.html#mse-as-squared-bias-variance",
-    "title": "Probability Models and EDA",
+    "title": "Probability Models and Linear Regression",
     "section": "MSE As (Squared) Bias + Variance",
     "text": "MSE As (Squared) Bias + Variance\n\\[\\begin{aligned}\n\\mathbb{V}(Y) &= \\mathbb{E}\\left[(Y - \\mathbb{E}[Y])^2\\right] \\\\\n&= \\mathbb{E}\\left[Y^2 - 2Y\\mathbb{E}[Y] + \\mathbb{E}[Y]^2\\right] \\\\\n&= \\mathbb{E}[Y^2] - 2\\mathbb{E}[Y]^2 + \\mathbb{E}[Y]^2 = \\mathbb{E}[Y^2] - \\mathbb{E}[Y]^2 .\n\\end{aligned}\\]\n\n\\[\\Rightarrow \\text{MSE}(m) = \\mathbb{E}\\left[(Y - m)^2\\right] = \\mathbb{E}\\left[(Y-m)\\right]^2 + \\mathbb{V}(Y - m).\\]"
   },
   {
     "objectID": "slides/lecture03-1-probmodels.html#bias-variance-decomposition-of-mse",
     "href": "slides/lecture03-1-probmodels.html#bias-variance-decomposition-of-mse",
-    "title": "Probability Models and EDA",
+    "title": "Probability Models and Linear Regression",
     "section": "Bias-Variance Decomposition of MSE",
     "text": "Bias-Variance Decomposition of MSE\nThen:\n\\[\\begin{aligned}\n\\text{MSE}(m) &= \\mathbb{E}\\left[(Y-m)\\right]^2 + \\mathbb{V}(Y - m)  \\\\\n&= \\mathbb{E}\\left[(Y-m)\\right]^2 + \\mathbb{V}(Y) \\\\\n&= \\left(\\mathbb{E}[Y] - m\\right)^2 + \\mathbb{V}(Y).\n\\end{aligned}\\]\nThis is the source of the so-called “bias-variance tradeoff” (more on this later)."
   },
   {
     "objectID": "slides/lecture03-1-probmodels.html#optimizing",
     "href": "slides/lecture03-1-probmodels.html#optimizing",
-    "title": "Probability Models and EDA",
+    "title": "Probability Models and Linear Regression",
     "section": "Optimizing…",
     "text": "Optimizing…\nWe want to find the minimum value of \\(\\text{MSE}(m)\\) (denote the optimal prediction by \\(\\mu\\)):\n\n\\[\n\\begin{aligned}\n\\frac{d\\text{MSE}}{dm} &= -2(\\mathbb{E}[Y] - m) + 0 \\\\\n0 = \\left.\\frac{d\\text{MSE}}{dm}\\right|_{m = \\mu} &= -2(\\mathbb{E}[Y] - \\mu)\n\\end{aligned}\\]\n\\[\\Rightarrow \\mu = \\mathbb{E}[Y].\\]"
   },
   {
     "objectID": "slides/lecture03-1-probmodels.html#expected-value-as-best-prediction",
     "href": "slides/lecture03-1-probmodels.html#expected-value-as-best-prediction",
-    "title": "Probability Models and EDA",
+    "title": "Probability Models and Linear Regression",
     "section": "Expected Value As Best Prediction",
     "text": "Expected Value As Best Prediction\nIn other words, the best predicted value of a random variable is its expectation.\nBut:\n\nWe usually don’t have enough data to know what \\(\\mathbb{E}[Y]\\) is: need to make probabilistic assumptions;\nIn many applications, we don’t just want a point estimate, we need some estimate of ranges of values we might observe."
   },
   {
     "objectID": "slides/lecture03-1-probmodels.html#uses-of-models",
     "href": "slides/lecture03-1-probmodels.html#uses-of-models",
-    "title": "Probability Models and EDA",
+    "title": "Probability Models and Linear Regression",
     "section": "Uses of Models",
     "text": "Uses of Models\nWhat can we use a probability model for?\n\nSummaries of data: store \\(y = f(\\mathbf{x})\\) instead of all data points \\((y, x_1, \\ldots, x_n)\\)\nSmooth values by removing noise\nPredict new data (interpolation/extrapolation): \\(\\hat{f} = f(\\hat{\\mathbf{x}})\\)\nInfer relationships between variables (interpret coefficients of \\(f\\))"
   },
   {
     "objectID": "slides/lecture03-1-probmodels.html#my-philosophical-position",
     "href": "slides/lecture03-1-probmodels.html#my-philosophical-position",
-    "title": "Probability Models and EDA",
+    "title": "Probability Models and Linear Regression",
     "section": "My Philosophical Position",
     "text": "My Philosophical Position\n\n\n\nProbability theory helps us deduce logical implications of theories conditional on our assumptions\nCannot use an “objective” procedure to avoid subjective responsibility\n\n\n\n\n\n\nSpiderman Meme"
   },
   {
     "objectID": "slides/lecture03-1-probmodels.html#linear-regression-1",
     "href": "slides/lecture03-1-probmodels.html#linear-regression-1",
-    "title": "Probability Models and EDA",
+    "title": "Probability Models and Linear Regression",
     "section": "Linear Regression",
     "text": "Linear Regression\nThe “simplest” model is linear:\n\n\n\\[\\begin{aligned}\ny_i &\\sim N(\\mu_i, \\sigma^2) \\\\\n\\mu_i &= \\sum_j \\beta_j x^j_i\n\\end{aligned}\n\\]\n\n\\[\\begin{aligned}\ny_i &= \\sum_j \\beta_j x^j_i + \\varepsilon_i \\\\\n\\varepsilon_i &\\sim N(0, \\sigma^2)\n\\end{aligned}\n\\]"
   },
   {
-    "objectID": "slides/lecture03-1-probmodels.html#why-linear-models",
-    "href": "slides/lecture03-1-probmodels.html#why-linear-models",
-    "title": "Probability Models and EDA",
-    "section": "Why Linear Models?",
-    "text": "Why Linear Models?\n\n\nTwo main reasons to use linear models/normal distributions:\n\nInferential: “Least informative” distribution assuming only finite mean/variance;\nGenerative: Central Limit Theorem (summed fluctuations are asymptotically normal)\n\n\n\n\n\nWeight stack Gaussian distribution\n\n\n\nSource: r/GymMemes\n\n\n\nOne key thing: normal distributions are the “least informative” distribution given constraints on mean and variance. So all else being equal, this is a useful machine if all we’re interested in are those two moments."
-  },
-  {
     "objectID": "slides/lecture03-1-probmodels.html#linear-regression-as-probability-model",
     "href": "slides/lecture03-1-probmodels.html#linear-regression-as-probability-model",
-    "title": "Probability Models and EDA",
+    "title": "Probability Models and Linear Regression",
     "section": "Linear Regression As Probability Model",
     "text": "Linear Regression As Probability Model\n\\[\ny &= \\underbrace{\\sum_j \\beta_j x^j_i)}_{\\mathbb{E}[y | x^j]} + \\underbrace{\\varepsilon_i}_{\\text{noise}}, \\quad \\varepsilon_i \\sim N(0, \\sigma^2)\n\\]\n\n\\(\\mathbb{E}[y | x^j]\\): Best linear prediction of \\(y\\) conditional on choice of predictors \\(x^j\\).\nThe noise defines the probability distribution (here: Gaussian) of the observations: \\[y \\sim N(\\sum_j \\beta_j x^j_i), \\sigma^2).\\]"
   },
   {
-    "objectID": "slides/lecture03-1-probmodels.html#implications-of-gaussian-noise",
-    "href": "slides/lecture03-1-probmodels.html#implications-of-gaussian-noise",
-    "title": "Probability Models and EDA",
-    "section": "Implications of Gaussian Noise",
-    "text": "Implications of Gaussian Noise\nWithout explicit modeling of sources of measurement uncertainty, in LR we can’t separate a noisy system state (due to e.g. omitted variables) from an uncertain measurement error (more on this later).\n\\[\n\\begin{array}{l}\nX \\sim N(\\mu_1, \\sigma_1^2) \\\\\nY \\sim N(\\mu_2, \\sigma_2^2) \\\\\nZ = X + Y\n\\end{array}\n\\qquad \\Rightarrow \\qquad Z \\sim N(\\mu_1 + \\mu_2, \\sigma_1^2 + \\sigma_2^2)\n\\]"
+    "objectID": "slides/lecture03-1-probmodels.html#why-linear-models",
+    "href": "slides/lecture03-1-probmodels.html#why-linear-models",
+    "title": "Probability Models and Linear Regression",
+    "section": "Why Linear Models?",
+    "text": "Why Linear Models?\n\n\nTwo main reasons to use linear models/normal distributions:\n\nInferential: “Least informative” distribution assuming only finite mean/variance;\nGenerative: Central Limit Theorem (summed fluctuations are asymptotically normal)\n\n\n\n\n\nWeight stack Gaussian distribution\n\n\n\nSource: r/GymMemes\n\n\n\nOne key thing: normal distributions are the “least informative” distribution given constraints on mean and variance. So all else being equal, this is a useful machine if all we’re interested in are those two moments."
   },
   {
     "objectID": "slides/lecture03-1-probmodels.html#central-limit-theorem",
     "href": "slides/lecture03-1-probmodels.html#central-limit-theorem",
-    "title": "Probability Models and EDA",
+    "title": "Probability Models and Linear Regression",
     "section": "Central Limit Theorem",
     "text": "Central Limit Theorem\nIf\n\n\\(\\mathbb{E}[X_i] = \\mu\\)\nand \\(\\text{Var}(X_i) = \\sigma^2 &lt; \\infty\\),\n\n\\[\\begin{aligned}\n\\lim_{n \\to \\infty} \\sqrt{n}(\\bar{X}_n - \\mu ) &= \\mathcal{N}(0, \\sigma^2) \\\\\n\\Rightarrow & \\bar{X}_n \\overset{\\text{approx}}{\\sim} \\mathcal{N}(\\mu, \\sigma^2/n)\n\\end{aligned}\\]"
   },
   {
     "objectID": "slides/lecture03-1-probmodels.html#central-limit-theorem-more-intuitive",
     "href": "slides/lecture03-1-probmodels.html#central-limit-theorem-more-intuitive",
-    "title": "Probability Models and EDA",
+    "title": "Probability Models and Linear Regression",
     "section": "Central Limit Theorem (More Intuitive)",
     "text": "Central Limit Theorem (More Intuitive)\n\n\nFor a large enough set of samples:\nThe sampling distribution of a sum or mean of random variables is approximately normal distribution, even if the random variables themselves are not.\n\n\n\n\nSmall n Meme\n\n\n\nSource: Unknown"
   },
   {
+    "objectID": "slides/lecture03-1-probmodels.html#implications-of-gaussian-noise",
+    "href": "slides/lecture03-1-probmodels.html#implications-of-gaussian-noise",
+    "title": "Probability Models and Linear Regression",
+    "section": "Implications of Gaussian Noise",
+    "text": "Implications of Gaussian Noise\nWithout explicit modeling of sources of measurement uncertainty, in LR we can’t separate a noisy system state (due to e.g. omitted variables) from an uncertain measurement error (more on this later).\n\\[\n\\begin{array}{l}\nX \\sim N(\\mu_1, \\sigma_1^2) \\\\\nY \\sim N(\\mu_2, \\sigma_2^2) \\\\\nZ = X + Y\n\\end{array}\n\\qquad \\Rightarrow \\qquad Z \\sim N(\\mu_1 + \\mu_2, \\sigma_1^2 + \\sigma_2^2)\n\\]"
+  },
+  {
+    "objectID": "slides/lecture03-1-probmodels.html#how-does-river-flow-affect-tds",
+    "href": "slides/lecture03-1-probmodels.html#how-does-river-flow-affect-tds",
+    "title": "Probability Models and Linear Regression",
+    "section": "How Does River Flow Affect TDS?",
+    "text": "How Does River Flow Affect TDS?\n\n\nQuestion: Does river flow affect the concentration of total dissolved solids?\nData: Cuyahoga River (1969 – 1973), from Helsel et al. (2020, Chapter 9)."
+  },
+  {
+    "objectID": "slides/lecture03-1-probmodels.html#how-does-river-flow-affect-tds-1",
+    "href": "slides/lecture03-1-probmodels.html#how-does-river-flow-affect-tds-1",
+    "title": "Probability Models and Linear Regression",
+    "section": "How Does River Flow Affect TDS?",
+    "text": "How Does River Flow Affect TDS?\n\n\nQuestion: Does river flow affect the concentration of total dissolved solids?\nModel: \\[D \\rightarrow S \\ {\\color{purple}\\leftarrow U}\\] \\[S = f(D, U)\\]"
+  },
+  {
+    "objectID": "slides/lecture03-1-probmodels.html#transforming-data",
+    "href": "slides/lecture03-1-probmodels.html#transforming-data",
+    "title": "Probability Models and Linear Regression",
+    "section": "Transforming Data",
+    "text": "Transforming Data\n\n\n\\[\n\\begin{align*}\nS &= \\beta_0 + \\beta_1 \\log(D) + U\\\\\nU &\\sim \\mathcal{N}(0, \\sigma^2)\n\\end{align*}\n\\]"
+  },
+  {
     "objectID": "slides/lecture03-1-probmodels.html#probability-models-1",
     "href": "slides/lecture03-1-probmodels.html#probability-models-1",
-    "title": "Probability Models and EDA",
+    "title": "Probability Models and Linear Regression",
     "section": "Probability Models",
     "text": "Probability Models\n\nAlmost anything we want to use data for involves an assumption about the underlying probability model for the data.\nOur goal this semester is to develop a toolkit to specify, test, and use these probability models."
   },
   {
     "objectID": "slides/lecture03-1-probmodels.html#next-classes",
     "href": "slides/lecture03-1-probmodels.html#next-classes",
-    "title": "Probability Models and EDA",
+    "title": "Probability Models and Linear Regression",
     "section": "Next Classes",
     "text": "Next Classes\nWednesday: Fitting models with maximum likelihood\nFriday: Maximum likelihood uncertainty"
   },
   {
     "objectID": "slides/lecture03-1-probmodels.html#assessments",
     "href": "slides/lecture03-1-probmodels.html#assessments",
-    "title": "Probability Models and EDA",
+    "title": "Probability Models and Linear Regression",
     "section": "Assessments",
     "text": "Assessments\nHomework 1 Due Friday, 2/6."
   },
   {
     "objectID": "slides/lecture03-1-probmodels.html#references-scroll-for-full-list",
     "href": "slides/lecture03-1-probmodels.html#references-scroll-for-full-list",
-    "title": "Probability Models and EDA",
+    "title": "Probability Models and Linear Regression",
     "section": "References (Scroll for Full List)",
-    "text": "References (Scroll for Full List)\n\n\n\n\nHacking, I. (1990). The Taming of Chance. Cambridge, England: Cambridge University Press. https://doi.org/10.1017/CBO9780511819766"
+    "text": "References (Scroll for Full List)\n\n\n\n\nHacking, I. (1990). The Taming of Chance. Cambridge, England: Cambridge University Press. https://doi.org/10.1017/CBO9780511819766\n\n\nHelsel, D. R., Hirsch, R. M., Ryberg, K. R., Archfield, S. A., & Gilroy, E. J. (2020). Statistical methods in water resources (research report No. 4-A3) (p. 484). Reston, VA: U.S. Geological Survey. Retrieved from http://pubs.er.usgs.gov/publication/tm4A3"
   },
   {
     "objectID": "slides/lecture12-2-missing-data.html#extreme-values",
@@ -5067,67 +5088,88 @@
     "text": "Visualizations for EDA\n\nOften useful to start with scatterplots: one variable (typically independent) on the \\(x\\)-axis, another (typically dependent) on the \\(y\\)-axis.\nTime series: time always goes on the \\(x\\)-axis.\nBoxplots for comparison quantiles/ranges of variables or groups of data.\nQ-Q Plots to look for mismatches between distributions and data."
   },
   {
-    "objectID": "slides/lecture02-1-eda.html#q-q-plots",
-    "href": "slides/lecture02-1-eda.html#q-q-plots",
-    "title": "Exploratory Data Analysis and Visualization",
-    "section": "Q-Q Plots",
-    "text": "Q-Q Plots\n\n\nOne exploratory method to see if your data is reasonably described by a theoretical distribution is a Q-Q plot.\n\n\n\nCode\nsamps = rand(Normal(0, 3), 20)\nqqplot(Normal, samps, linewidth=3, markersize=6)\nxlabel!(\"Theoretical Quantiles\")\nylabel!(\"Empirical Quantiles\")\nplot!(size=(500, 450))\n\n\n\n\n\n\n\nFigure 1"
-  },
-  {
-    "objectID": "slides/lecture02-1-eda.html#q-q-plots-data-overdispersed",
-    "href": "slides/lecture02-1-eda.html#q-q-plots-data-overdispersed",
-    "title": "Exploratory Data Analysis and Visualization",
-    "section": "Q-Q Plots: Data Overdispersed",
-    "text": "Q-Q Plots: Data Overdispersed\n\n\nFigure 2: Diagnosing Problems With Q-Q Plots"
-  },
-  {
-    "objectID": "slides/lecture02-1-eda.html#q-q-plots-data-underdispersed",
-    "href": "slides/lecture02-1-eda.html#q-q-plots-data-underdispersed",
-    "title": "Exploratory Data Analysis and Visualization",
-    "section": "Q-Q Plots: Data Underdispersed",
-    "text": "Q-Q Plots: Data Underdispersed\n\n\nFigure 3: Diagnosing Problems With Q-Q Plots"
-  },
-  {
-    "objectID": "slides/lecture02-1-eda.html#q-q-plots-data-skewed",
-    "href": "slides/lecture02-1-eda.html#q-q-plots-data-skewed",
-    "title": "Exploratory Data Analysis and Visualization",
-    "section": "Q-Q Plots: Data Skewed",
-    "text": "Q-Q Plots: Data Skewed\n\n\nFigure 4: Diagnosing Problems With Q-Q Plots"
-  },
-  {
-    "objectID": "slides/lecture02-1-eda.html#q-q-plots-data-biased",
-    "href": "slides/lecture02-1-eda.html#q-q-plots-data-biased",
-    "title": "Exploratory Data Analysis and Visualization",
-    "section": "Q-Q Plots: Data Biased",
-    "text": "Q-Q Plots: Data Biased\n\n\nFigure 5: Diagnosing Problems With Q-Q Plots"
-  },
-  {
-    "objectID": "slides/lecture02-1-eda.html#q-q-plots-with-fitted-distributions",
-    "href": "slides/lecture02-1-eda.html#q-q-plots-with-fitted-distributions",
-    "title": "Exploratory Data Analysis and Visualization",
-    "section": "Q-Q Plots With Fitted Distributions",
-    "text": "Q-Q Plots With Fitted Distributions\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Normal vs Cauchy Distribution\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b) Q-Q Plot\n\n\n\n\n\n\n\nFigure 6: Q-Q Plot for Cauchy Data and Normal Distribution"
-  },
-  {
-    "objectID": "slides/lecture02-1-eda.html#multi-modal-data-and-q-q-plots",
-    "href": "slides/lecture02-1-eda.html#multi-modal-data-and-q-q-plots",
-    "title": "Exploratory Data Analysis and Visualization",
-    "section": "Multi-Modal Data and Q-Q Plots",
-    "text": "Multi-Modal Data and Q-Q Plots\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Normal vs Cauchy Distribution\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b) Q-Q Plot\n\n\n\n\n\n\n\nFigure 7: Q-Q Plot for Cauchy Data and Normal Distribution"
-  },
-  {
     "objectID": "slides/lecture02-1-eda.html#boxplots-vs-histograms",
     "href": "slides/lecture02-1-eda.html#boxplots-vs-histograms",
     "title": "Exploratory Data Analysis and Visualization",
     "section": "Boxplots vs Histograms",
-    "text": "Boxplots vs Histograms\n\n\nBoxplots: Show quantiles (usually median + 1.5 \\(\\times\\) IQR)\nHistogram: See distribution of data.\n\n\n\nCode\np1 = boxplot(skipmissing(aq[!, :Ozone]), ylabel=\"Ozone (ppb)\")\n\np2 = histogram(skipmissing(aq[!, :Ozone]), ylabel=\"Ozone (ppb)\")\n\np = plot(p1, p2, layout=(2, 1), size=(550, 500))\n\n\n\n\n\n\n\nFigure 8: Paired plots of air quality dataset"
+    "text": "Boxplots vs Histograms\n\n\nBoxplots: Show quantiles (usually median + 1.5 \\(\\times\\) IQR)\nHistogram: See distribution of data.\n\n\n\nCode\np1 = boxplot(skipmissing(aq[!, :Ozone]), ylabel=\"Ozone (ppb)\")\n\np2 = histogram(skipmissing(aq[!, :Ozone]), xlabel=\"Ozone (ppb)\", ylabel=\"Count\")\n\np = plot(p1, p2, layout=(2, 1), size=(550, 500))\n\n\n\n\n\n\n\nFigure 1: Paired plots of air quality dataset"
   },
   {
     "objectID": "slides/lecture02-1-eda.html#scatterplots",
     "href": "slides/lecture02-1-eda.html#scatterplots",
     "title": "Exploratory Data Analysis and Visualization",
     "section": "Scatterplots",
-    "text": "Scatterplots\n\n\nCode\n# this uses the dataframe plotting syntax from StatsPlots.jl\np1 = @df aq scatter(:Ozone, :Solar, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Solar Radiation (lang)\", leftmargin=10mm)\np2 = @df aq scatter(:Ozone, :Wind, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Wind Speed (mph)\", leftmargin=10mm)\np3 = @df aq scatter(:Ozone, :Temp, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Max Temperature (°F) \", leftmargin=10mm)\n\np = plot(p1, p2, p3, layout=(1, 3), size=(1100, 400))\n\n\n\n\nFigure 9: Paired plots of air quality dataset"
+    "text": "Scatterplots\n\n\nCode\n# this uses the dataframe plotting syntax from StatsPlots.jl\np1 = @df aq scatter(:Ozone, :Solar, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Solar Radiation (lang)\", leftmargin=10mm)\np2 = @df aq scatter(:Ozone, :Wind, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Wind Speed (mph)\", leftmargin=10mm)\np3 = @df aq scatter(:Ozone, :Temp, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Max Temperature (°F) \", leftmargin=10mm)\n\np = plot(p1, p2, p3, layout=(1, 3), size=(1100, 400))\n\n\n\n\nFigure 2: Paired plots of air quality dataset"
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#fit-distributions-and-compare-to-histograms",
+    "href": "slides/lecture02-1-eda.html#fit-distributions-and-compare-to-histograms",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Fit Distributions and Compare to Histograms",
+    "text": "Fit Distributions and Compare to Histograms\n\n\nIf we have a candidate distribution, we can try to fit it to the data and visually compare to a histogram.\n\n\n\nCode\n# normalize=:pdf turns the y-axis from a raw count to a density to make more comparable with a PDF\npozone = histogram(skipmissing(aq[!, :Ozone]), xlabel=\"Ozone (ppb)\", ylabel=\"Density\", normalize=:pdf, label=\"Data\")\n\n\n\n\n\n\n\nFigure 3: Histogram of Ozone measurements in Air Quality Dataset"
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#fit-distributions-and-compare-to-histograms-1",
+    "href": "slides/lecture02-1-eda.html#fit-distributions-and-compare-to-histograms-1",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Fit Distributions and Compare to Histograms",
+    "text": "Fit Distributions and Compare to Histograms\n\n\nHere we might try a Log-Normal distribution.\n\n\nCode\nd = fit(LogNormal, collect(skipmissing(aq[!, :Ozone])))\n\n\nDistributions.LogNormal{Float64}(μ=3.418515100812007, σ=0.8654745374223664)\n\n\n\n\n\nCode\nln_samps = rand(d, 5_000)\ndensity!(pozone, ln_samps, linewidth=3, color=:red, label=\"LogNormal Density\")\n\n\n\n\n\n\n\nFigure 4: Histogram of Ozone measurements in Air Quality Dataset"
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#q-q-plots",
+    "href": "slides/lecture02-1-eda.html#q-q-plots",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Q-Q Plots",
+    "text": "Q-Q Plots\n\n\nOne exploratory method to see if your data is reasonably described by a theoretical distribution is a Q-Q plot.\n\n\n\nCode\nsamps = rand(Normal(0, 3), 20)\nqqplot(Normal, samps, linewidth=3, markersize=6)\nxlabel!(\"Theoretical Quantiles\")\nylabel!(\"Empirical Quantiles\")\nplot!(size=(500, 450))\n\n\n\n\n\n\n\nFigure 5"
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#q-q-plots-data-overdispersed",
+    "href": "slides/lecture02-1-eda.html#q-q-plots-data-overdispersed",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Q-Q Plots: Data Overdispersed",
+    "text": "Q-Q Plots: Data Overdispersed\n\n\nFigure 6: Diagnosing Problems With Q-Q Plots"
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#q-q-plots-data-underdispersed",
+    "href": "slides/lecture02-1-eda.html#q-q-plots-data-underdispersed",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Q-Q Plots: Data Underdispersed",
+    "text": "Q-Q Plots: Data Underdispersed\n\n\nFigure 7: Diagnosing Problems With Q-Q Plots"
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#q-q-plots-data-skewed",
+    "href": "slides/lecture02-1-eda.html#q-q-plots-data-skewed",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Q-Q Plots: Data Skewed",
+    "text": "Q-Q Plots: Data Skewed\n\n\nFigure 8: Diagnosing Problems With Q-Q Plots"
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#q-q-plots-data-biased",
+    "href": "slides/lecture02-1-eda.html#q-q-plots-data-biased",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Q-Q Plots: Data Biased",
+    "text": "Q-Q Plots: Data Biased\n\n\nFigure 9: Diagnosing Problems With Q-Q Plots"
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#q-q-plots-with-fitted-distributions",
+    "href": "slides/lecture02-1-eda.html#q-q-plots-with-fitted-distributions",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Q-Q Plots With Fitted Distributions",
+    "text": "Q-Q Plots With Fitted Distributions\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Normal vs Cauchy Distribution\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b) Q-Q Plot\n\n\n\n\n\n\n\nFigure 10: Q-Q Plot for Cauchy Data and Normal Distribution"
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#multi-modal-data-and-q-q-plots",
+    "href": "slides/lecture02-1-eda.html#multi-modal-data-and-q-q-plots",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Multi-Modal Data and Q-Q Plots",
+    "text": "Multi-Modal Data and Q-Q Plots\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Normal vs Cauchy Distribution\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b) Q-Q Plot\n\n\n\n\n\n\n\nFigure 11: Q-Q Plot for Cauchy Data and Normal Distribution"
+  },
+  {
+    "objectID": "slides/lecture02-1-eda.html#q-q-plot-for-ozone-data",
+    "href": "slides/lecture02-1-eda.html#q-q-plot-for-ozone-data",
+    "title": "Exploratory Data Analysis and Visualization",
+    "section": "Q-Q Plot for Ozone Data",
+    "text": "Q-Q Plot for Ozone Data\n\n\nCode\np1 = qqplot(LogNormal, collect(skipmissing(aq[!, :Ozone])), linewidth=3, markersize=6, title=\"Log-Normal Q-Q Plot\", leftmargin=5mm)\nxlabel!(p1, \"Theoretical Values\")\nylabel!(p1, \"Empirical Values\")\nplot!(pozone, xlims=(0, 300), rightmargin=5mm)\nplot(p1, pozone, size=(1200, 525))\n\n\n\n\nFigure 12: QQ Plot comparing ozone data with LogNormal distribution"
   },
   {
     "objectID": "slides/lecture02-1-eda.html#eda",
