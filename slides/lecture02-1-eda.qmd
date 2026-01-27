@@ -290,7 +290,8 @@ If we have a candidate distribution, we can try to fit it to the data and visual
 #| fig-cap: Histogram of Ozone measurements in Air Quality Dataset
 
 # normalize=:pdf turns the y-axis from a raw count to a density to make more comparable with a PDF
-pozone = histogram(skipmissing(aq[!, :Ozone]), xlabel="Ozone (ppb)", ylabel="Density", normalize=:pdf, label="Data")
+pozone = histogram(skipmissing(aq[!, :Ozone]), xlabel="Ozone (ppb)", ylabel="Density", normalize=:pdf, label="Data", size=(600, 450), rightmargin=5mm)
+xlims!(pozone, (0, 300))
 ```
 :::
 ::::
@@ -481,7 +482,7 @@ display(p1)
 display(p)
 ```
 
-## Q-Q Plot for Ozone Data
+## Ozone Data: LogNormal Fit
 
 ```{julia}
 #| label: fig-qq-ozone
@@ -492,8 +493,10 @@ display(p)
 p1 = qqplot(LogNormal, collect(skipmissing(aq[!, :Ozone])), linewidth=3, markersize=6, title="Log-Normal Q-Q Plot", leftmargin=5mm)
 xlabel!(p1, "Theoretical Values")
 ylabel!(p1, "Empirical Values")
-plot!(pozone, xlims=(0, 300), rightmargin=5mm)
-plot(p1, pozone, size=(1200, 525))
+plot!(pozone, xlims=(0, 300))
+p3 = boxplot([ln_samps[1:116] collect(skipmissing(aq[!, :Ozone]))])
+xticks!(p3, [1, 2], ["LogNormal", "Ozone Data"])
+plot(p1, pozone, p3, layout=(1, 3), size=(1250, 525), rightmargin=5mm, leftmargin=5mm)
 ```
 
 
@@ -510,8 +513,10 @@ plot(p1, pozone, size=(1200, 525))
 ## Visual EDA
 
 - Need to experiment with different visualizations.
-- Q-Q plots can help explore consistency with distribution assumptions.
-- Think about whether you think the distribution of the data is meaningful.
+- Think about whether you think the distribution of the data is meaningful at this stage.
+- Can draw samples from a fitted distribution and compare (boxplots, histograms, etc).
+- **Look at multiple plots: they each reveal different features!**
+
 
 
 # Upcoming Schedule

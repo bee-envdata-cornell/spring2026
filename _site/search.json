@@ -5106,7 +5106,7 @@
     "href": "slides/lecture02-1-eda.html#fit-distributions-and-compare-to-histograms",
     "title": "Exploratory Data Analysis and Visualization",
     "section": "Fit Distributions and Compare to Histograms",
-    "text": "Fit Distributions and Compare to Histograms\n\n\nIf we have a candidate distribution, we can try to fit it to the data and visually compare to a histogram.\n\n\n\nCode\n# normalize=:pdf turns the y-axis from a raw count to a density to make more comparable with a PDF\npozone = histogram(skipmissing(aq[!, :Ozone]), xlabel=\"Ozone (ppb)\", ylabel=\"Density\", normalize=:pdf, label=\"Data\")\n\n\n\n\n\n\n\nFigure 3: Histogram of Ozone measurements in Air Quality Dataset"
+    "text": "Fit Distributions and Compare to Histograms\n\n\nIf we have a candidate distribution, we can try to fit it to the data and visually compare to a histogram.\n\n\n\nCode\n# normalize=:pdf turns the y-axis from a raw count to a density to make more comparable with a PDF\npozone = histogram(skipmissing(aq[!, :Ozone]), xlabel=\"Ozone (ppb)\", ylabel=\"Density\", normalize=:pdf, label=\"Data\", size=(600, 450), rightmargin=5mm)\nxlims!(pozone, (0, 300))\n\n\n\n\n\n\n\nFigure 3: Histogram of Ozone measurements in Air Quality Dataset"
   },
   {
     "objectID": "slides/lecture02-1-eda.html#fit-distributions-and-compare-to-histograms-1",
@@ -5165,11 +5165,11 @@
     "text": "Multi-Modal Data and Q-Q Plots\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Normal vs Cauchy Distribution\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b) Q-Q Plot\n\n\n\n\n\n\n\nFigure 11: Q-Q Plot for Cauchy Data and Normal Distribution"
   },
   {
-    "objectID": "slides/lecture02-1-eda.html#q-q-plot-for-ozone-data",
-    "href": "slides/lecture02-1-eda.html#q-q-plot-for-ozone-data",
+    "objectID": "slides/lecture02-1-eda.html#ozone-data-lognormal-fit",
+    "href": "slides/lecture02-1-eda.html#ozone-data-lognormal-fit",
     "title": "Exploratory Data Analysis and Visualization",
-    "section": "Q-Q Plot for Ozone Data",
-    "text": "Q-Q Plot for Ozone Data\n\n\nCode\np1 = qqplot(LogNormal, collect(skipmissing(aq[!, :Ozone])), linewidth=3, markersize=6, title=\"Log-Normal Q-Q Plot\", leftmargin=5mm)\nxlabel!(p1, \"Theoretical Values\")\nylabel!(p1, \"Empirical Values\")\nplot!(pozone, xlims=(0, 300), rightmargin=5mm)\nplot(p1, pozone, size=(1200, 525))\n\n\n\n\nFigure 12: QQ Plot comparing ozone data with LogNormal distribution"
+    "section": "Ozone Data: LogNormal Fit",
+    "text": "Ozone Data: LogNormal Fit\n\n\nCode\np1 = qqplot(LogNormal, collect(skipmissing(aq[!, :Ozone])), linewidth=3, markersize=6, title=\"Log-Normal Q-Q Plot\", leftmargin=5mm)\nxlabel!(p1, \"Theoretical Values\")\nylabel!(p1, \"Empirical Values\")\nplot!(pozone, xlims=(0, 300))\np3 = boxplot([ln_samps[1:116] collect(skipmissing(aq[!, :Ozone]))])\nxticks!(p3, [1, 2], [\"LogNormal\", \"Ozone Data\"])\nplot(p1, pozone, p3, layout=(1, 3), size=(1250, 525), rightmargin=5mm, leftmargin=5mm)\n\n\n\n\nFigure 12: QQ Plot comparing ozone data with LogNormal distribution"
   },
   {
     "objectID": "slides/lecture02-1-eda.html#eda",
@@ -5183,7 +5183,7 @@
     "href": "slides/lecture02-1-eda.html#visual-eda-1",
     "title": "Exploratory Data Analysis and Visualization",
     "section": "Visual EDA",
-    "text": "Visual EDA\n\nNeed to experiment with different visualizations.\nQ-Q plots can help explore consistency with distribution assumptions.\nThink about whether you think the distribution of the data is meaningful."
+    "text": "Visual EDA\n\nNeed to experiment with different visualizations.\nThink about whether you think the distribution of the data is meaningful at this stage.\nCan draw samples from a fitted distribution and compare (boxplots, histograms, etc).\nLook at multiple plots: they each reveal different features!"
   },
   {
     "objectID": "slides/lecture02-1-eda.html#next-classes",
