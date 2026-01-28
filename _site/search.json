@@ -2323,18 +2323,74 @@
     "text": "Linear Regression\nThe “simplest” model is linear:\n\n\n\\[\\begin{aligned}\ny_i &\\sim N(\\mu_i, \\sigma^2) \\\\\n\\mu_i &= \\sum_j \\beta_j x^j_i\n\\end{aligned}\n\\]\n\n\\[\\begin{aligned}\ny_i &= \\sum_j \\beta_j x^j_i + \\varepsilon_i \\\\\n\\varepsilon_i &\\sim N(0, \\sigma^2)\n\\end{aligned}\n\\]"
   },
   {
-    "objectID": "slides/lecture03-1-probmodels.html#linear-regression-as-probability-model",
-    "href": "slides/lecture03-1-probmodels.html#linear-regression-as-probability-model",
+    "objectID": "slides/lecture03-1-probmodels.html#how-does-river-flow-affect-tds",
+    "href": "slides/lecture03-1-probmodels.html#how-does-river-flow-affect-tds",
     "title": "Probability Models and Linear Regression",
-    "section": "Linear Regression As Probability Model",
-    "text": "Linear Regression As Probability Model\n\\[\ny &= \\underbrace{\\sum_j \\beta_j x^j_i)}_{\\mathbb{E}[y | x^j]} + \\underbrace{\\varepsilon_i}_{\\text{noise}}, \\quad \\varepsilon_i \\sim N(0, \\sigma^2)\n\\]\n\n\\(\\mathbb{E}[y | x^j]\\): Best linear prediction of \\(y\\) conditional on choice of predictors \\(x^j\\).\nThe noise defines the probability distribution (here: Gaussian) of the observations: \\[y \\sim N(\\sum_j \\beta_j x^j_i), \\sigma^2).\\]"
+    "section": "How Does River Flow Affect TDS?",
+    "text": "How Does River Flow Affect TDS?\n\n\nQuestion: Does river flow affect the concentration of total dissolved solids?\nData: Cuyahoga River (1969 – 1973), from Helsel et al. (2020, Chapter 9)."
+  },
+  {
+    "objectID": "slides/lecture03-1-probmodels.html#how-does-river-flow-affect-tds-1",
+    "href": "slides/lecture03-1-probmodels.html#how-does-river-flow-affect-tds-1",
+    "title": "Probability Models and Linear Regression",
+    "section": "How Does River Flow Affect TDS?",
+    "text": "How Does River Flow Affect TDS?\n\n\nQuestion: Does river flow affect the concentration of total dissolved solids?\nModel: \\[D \\rightarrow S \\ {\\color{purple}\\leftarrow U}\\] \\[S = f(D, U)\\]"
+  },
+  {
+    "objectID": "slides/lecture03-1-probmodels.html#transforming-data",
+    "href": "slides/lecture03-1-probmodels.html#transforming-data",
+    "title": "Probability Models and Linear Regression",
+    "section": "Transforming Data",
+    "text": "Transforming Data\n\n\nCan address non-linear relationship in this case with a transformation.\nBetter in general to transform \\(S\\): \\(\\mathbb{E}[f(Y)] \\neq f(\\mathbb{E}[Y])\\) (and these may be very different).\n\\[\n\\begin{align*}\nS &= \\beta_0 + \\beta_1 \\log(D) + U\\\\\nU &\\sim \\mathcal{N}(0, \\sigma^2)\n\\end{align*}\n\\]"
+  },
+  {
+    "objectID": "slides/lecture03-1-probmodels.html#ordinary-least-squares",
+    "href": "slides/lecture03-1-probmodels.html#ordinary-least-squares",
+    "title": "Probability Models and Linear Regression",
+    "section": "Ordinary Least Squares",
+    "text": "Ordinary Least Squares\nIdea (from Gauss and others): \\(S &= \\beta_0 + \\beta_1 \\log(D)\\) is an overdetermined system of equations.\nSince we can’t solve, use minimization of sum of squared residuals as heuristic for a “good fit”.\n\\[S(b) = \\sum_{i=1}^n (Y_i - X_i \\beta)^2\\]\nIf the columns of \\(X\\) are linearly independent, this has a unique solution: \\[\\hat{\\beta} = \\left(X^TX)^{-1}X^TY\\]"
+  },
+  {
+    "objectID": "slides/lecture03-1-probmodels.html#variance-of-errors",
+    "href": "slides/lecture03-1-probmodels.html#variance-of-errors",
+    "title": "Probability Models and Linear Regression",
+    "section": "Variance of Errors",
+    "text": "Variance of Errors\nTo get an estimate of the error variance \\(\\hat{\\sigma}^2\\):\n\\[\\hat{\\sigma}^2 = \\frac{(Y-X\\hat{\\beta})^T(Y-X\\hat{\\beta})}{n-p},\\]\nwhere \\(n\\) is the number of data points and \\(p\\) is the number of terms (here p=2)."
+  },
+  {
+    "objectID": "slides/lecture03-1-probmodels.html#linear-model-fitting-ols",
+    "href": "slides/lecture03-1-probmodels.html#linear-model-fitting-ols",
+    "title": "Probability Models and Linear Regression",
+    "section": "Linear Model Fitting: OLS",
+    "text": "Linear Model Fitting: OLS\nIn this case:\n\n\nβ = inv(X' * X) * X' * Y = [609.5487272461871, -111.63106902057211]\ns² = (ε' * ε) / (nrow(tds) - 2) = 5266.230284046526\n\n\n5266.230284046526"
+  },
+  {
+    "objectID": "slides/lecture03-1-probmodels.html#properties-of-ols-solution",
+    "href": "slides/lecture03-1-probmodels.html#properties-of-ols-solution",
+    "title": "Probability Models and Linear Regression",
+    "section": "Properties of OLS Solution",
+    "text": "Properties of OLS Solution\nThe OLS solution is the optimal linear predictor given the least-squares criterion.\nIf you insist on a linear model, this is the best you can do.\nThis property does not require any assumptions on the distribution of \\(\\varepsilon\\)."
+  },
+  {
+    "objectID": "slides/lecture03-1-probmodels.html#linear-models-can-be-bad",
+    "href": "slides/lecture03-1-probmodels.html#linear-models-can-be-bad",
+    "title": "Probability Models and Linear Regression",
+    "section": "Linear Models Can Be Bad",
+    "text": "Linear Models Can Be Bad\n\n\nWhile the linear predictor has no bias (averaged over all \\(X\\)), \\(\\mathbb{E}[Y - X \\hat{\\beta}] = 0\\)…\nThe conditional expected error is usually non-zero: \\(\\mathbb{E}[Y - X \\hat{\\beta} | X = x] = 0\\)\n\n\n\nCode\n# get predictions\nx_pred = log.(0.1:0.1:60)\ny_pred = β[1] .+ β[2] * x_pred\nplot(x_pred, y_pred, label=\"OLS Fit\", color=:black, linewidth=3,\n    xlabel=L\"Log-Discharge (log(m$^3$/s))\",\n    ylabel=\"Total dissolved solids (mg/L)\",\n    size=(600, 600))\nscatter!(\n    log.(tds.discharge_cms),\n    tds.tds_mgL,\n    markersize=5,\n    label=\"Observations\"\n)\n\n\n\n\n\n\n\nFigure 1: Linear regression fit to the TDS data."
+  },
+  {
+    "objectID": "slides/lecture03-1-probmodels.html#probabilistic-assumptions-for-lr",
+    "href": "slides/lecture03-1-probmodels.html#probabilistic-assumptions-for-lr",
+    "title": "Probability Models and Linear Regression",
+    "section": "Probabilistic Assumptions for LR",
+    "text": "Probabilistic Assumptions for LR\n\\[\ny &= \\underbrace{\\sum_j \\beta_j x^j_i)}_{\\mathbb{E}[y | x^j]} + \\underbrace{\\varepsilon_i}_{\\text{noise}}, \\quad \\varepsilon_i \\sim N(0, \\sigma^2)\n\\]\n\n\\(\\mathbb{E}[y | x^j]\\): Best linear prediction of \\(y\\) conditional on choice of predictors \\(x^j\\).\nThe noise defines the probability distribution (here: Gaussian) of the observations: \\[y \\sim N(\\sum_j \\beta_j x^j_i), \\sigma^2).\\]"
   },
   {
     "objectID": "slides/lecture03-1-probmodels.html#why-linear-models",
     "href": "slides/lecture03-1-probmodels.html#why-linear-models",
     "title": "Probability Models and Linear Regression",
     "section": "Why Linear Models?",
-    "text": "Why Linear Models?\n\n\nTwo main reasons to use linear models/normal distributions:\n\nInferential: “Least informative” distribution assuming only finite mean/variance;\nGenerative: Central Limit Theorem (summed fluctuations are asymptotically normal)\n\n\n\n\n\nWeight stack Gaussian distribution\n\n\n\nSource: r/GymMemes\n\n\n\nOne key thing: normal distributions are the “least informative” distribution given constraints on mean and variance. So all else being equal, this is a useful machine if all we’re interested in are those two moments."
+    "text": "Why Linear Models?\n\n\nTwo main reasons to use linear models/normal distributions:\n\nInferential: “Least informative” distribution assuming only finite mean/variance;\nGenerative: Central Limit Theorem (summed fluctuations are asymptotically normal)\nApproximation: Taylor expand “true” nonlinear model: maybe the higher order terms are small?\n\n\n\n\n\nWeight stack Gaussian distribution\n\n\n\nSource: r/GymMemes\n\n\n\nOne key thing: normal distributions are the “least informative” distribution given constraints on mean and variance. So all else being equal, this is a useful machine if all we’re interested in are those two moments."
   },
   {
     "objectID": "slides/lecture03-1-probmodels.html#central-limit-theorem",
@@ -2358,25 +2414,11 @@
     "text": "Implications of Gaussian Noise\nWithout explicit modeling of sources of measurement uncertainty, in LR we can’t separate a noisy system state (due to e.g. omitted variables) from an uncertain measurement error (more on this later).\n\\[\n\\begin{array}{l}\nX \\sim N(\\mu_1, \\sigma_1^2) \\\\\nY \\sim N(\\mu_2, \\sigma_2^2) \\\\\nZ = X + Y\n\\end{array}\n\\qquad \\Rightarrow \\qquad Z \\sim N(\\mu_1 + \\mu_2, \\sigma_1^2 + \\sigma_2^2)\n\\]"
   },
   {
-    "objectID": "slides/lecture03-1-probmodels.html#how-does-river-flow-affect-tds",
-    "href": "slides/lecture03-1-probmodels.html#how-does-river-flow-affect-tds",
+    "objectID": "slides/lecture03-1-probmodels.html#why-add-distributional-assumptions",
+    "href": "slides/lecture03-1-probmodels.html#why-add-distributional-assumptions",
     "title": "Probability Models and Linear Regression",
-    "section": "How Does River Flow Affect TDS?",
-    "text": "How Does River Flow Affect TDS?\n\n\nQuestion: Does river flow affect the concentration of total dissolved solids?\nData: Cuyahoga River (1969 – 1973), from Helsel et al. (2020, Chapter 9)."
-  },
-  {
-    "objectID": "slides/lecture03-1-probmodels.html#how-does-river-flow-affect-tds-1",
-    "href": "slides/lecture03-1-probmodels.html#how-does-river-flow-affect-tds-1",
-    "title": "Probability Models and Linear Regression",
-    "section": "How Does River Flow Affect TDS?",
-    "text": "How Does River Flow Affect TDS?\n\n\nQuestion: Does river flow affect the concentration of total dissolved solids?\nModel: \\[D \\rightarrow S \\ {\\color{purple}\\leftarrow U}\\] \\[S = f(D, U)\\]"
-  },
-  {
-    "objectID": "slides/lecture03-1-probmodels.html#transforming-data",
-    "href": "slides/lecture03-1-probmodels.html#transforming-data",
-    "title": "Probability Models and Linear Regression",
-    "section": "Transforming Data",
-    "text": "Transforming Data\n\n\n\\[\n\\begin{align*}\nS &= \\beta_0 + \\beta_1 \\log(D) + U\\\\\nU &\\sim \\mathcal{N}(0, \\sigma^2)\n\\end{align*}\n\\]"
+    "section": "Why Add Distributional Assumptions?",
+    "text": "Why Add Distributional Assumptions?\nThe distributional assumption of independent Gaussian residuals is strong.\nOne main benefit: we can obtain \\(\\hat{\\beta}\\) and \\(\\hat{\\sigma}\\) through maximum likelihood and can gener"
   },
   {
     "objectID": "slides/lecture03-1-probmodels.html#probability-models-1",
@@ -5158,18 +5200,11 @@
     "text": "Q-Q Plots With Fitted Distributions\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Normal vs Cauchy Distribution\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b) Q-Q Plot\n\n\n\n\n\n\n\nFigure 10: Q-Q Plot for Cauchy Data and Normal Distribution"
   },
   {
-    "objectID": "slides/lecture02-1-eda.html#multi-modal-data-and-q-q-plots",
-    "href": "slides/lecture02-1-eda.html#multi-modal-data-and-q-q-plots",
-    "title": "Exploratory Data Analysis and Visualization",
-    "section": "Multi-Modal Data and Q-Q Plots",
-    "text": "Multi-Modal Data and Q-Q Plots\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Normal vs Cauchy Distribution\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b) Q-Q Plot\n\n\n\n\n\n\n\nFigure 11: Q-Q Plot for Cauchy Data and Normal Distribution"
-  },
-  {
     "objectID": "slides/lecture02-1-eda.html#ozone-data-lognormal-fit",
     "href": "slides/lecture02-1-eda.html#ozone-data-lognormal-fit",
     "title": "Exploratory Data Analysis and Visualization",
     "section": "Ozone Data: LogNormal Fit",
-    "text": "Ozone Data: LogNormal Fit\n\n\nCode\np1 = qqplot(LogNormal, collect(skipmissing(aq[!, :Ozone])), linewidth=3, markersize=6, title=\"Log-Normal Q-Q Plot\", leftmargin=5mm)\nxlabel!(p1, \"Theoretical Values\")\nylabel!(p1, \"Empirical Values\")\nplot!(pozone, xlims=(0, 300))\np3 = boxplot([ln_samps[1:116] collect(skipmissing(aq[!, :Ozone]))])\nxticks!(p3, [1, 2], [\"LogNormal\", \"Ozone Data\"])\nplot(p1, pozone, p3, layout=(1, 3), size=(1250, 525), rightmargin=5mm, leftmargin=5mm)\n\n\n\n\nFigure 12: QQ Plot comparing ozone data with LogNormal distribution"
+    "text": "Ozone Data: LogNormal Fit\n\n\nCode\np1 = qqplot(LogNormal, collect(skipmissing(aq[!, :Ozone])), linewidth=3, markersize=6, title=\"Log-Normal Q-Q Plot\", leftmargin=5mm)\nxlabel!(p1, \"Theoretical Values\")\nylabel!(p1, \"Empirical Values\")\nplot!(pozone, xlims=(0, 300))\np3 = boxplot([ln_samps[1:116] collect(skipmissing(aq[!, :Ozone]))], xlabel=\"Ozone (ppb)\")\nxticks!(p3, [1, 2], [\"LogNormal\", \"Ozone Data\"])\nplot(p1, pozone, p3, layout=(1, 3), size=(1250, 525), rightmargin=5mm, leftmargin=5mm)\n\n\n\n\nFigure 11: QQ Plot comparing ozone data with LogNormal distribution"
   },
   {
     "objectID": "slides/lecture02-1-eda.html#eda",
@@ -5183,7 +5218,7 @@
     "href": "slides/lecture02-1-eda.html#visual-eda-1",
     "title": "Exploratory Data Analysis and Visualization",
     "section": "Visual EDA",
-    "text": "Visual EDA\n\nNeed to experiment with different visualizations.\nThink about whether you think the distribution of the data is meaningful at this stage.\nCan draw samples from a fitted distribution and compare (boxplots, histograms, etc).\nLook at multiple plots: they each reveal different features!"
+    "text": "Visual EDA\n\nNeed to experiment with different visualizations.\nThink about whether you think the distribution of the data is meaningful at this stage.\nCan draw samples from a fitted distribution and compare (Q-Q plots, boxplots, histograms, etc).\nLook at multiple plots: they each reveal different features!"
   },
   {
     "objectID": "slides/lecture02-1-eda.html#next-classes",
