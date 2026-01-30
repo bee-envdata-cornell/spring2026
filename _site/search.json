@@ -5249,11 +5249,102 @@
     "text": "EDA\n\nEDA: Understand structure of data while making as few assumptions as possible (e.g. look at the raw data, not “smoothed” versions).\nYou might be asking the “right” questions but have the “wrong” data: be open-minded and rely on domain knowledge.\nQuantitative EDA can be a starting point, but EDA also requires visualization."
   },
   {
-    "objectID": "slides/lecture02-2-data-viz.html#considerations-when-plotting",
-    "href": "slides/lecture02-2-data-viz.html#considerations-when-plotting",
+    "objectID": "slides/lecture02-2-data-viz.html#challenges-for-effective-visualization",
+    "href": "slides/lecture02-2-data-viz.html#challenges-for-effective-visualization",
     "title": "Data Visualization",
-    "section": "Considerations When Plotting",
-    "text": "Considerations When Plotting\n\nWorry about the vertical scale\n\nAre you exaggerating small changes? Downplaying meaningful changes?\n“Adjust vertical scale of data” to reflect meaningful changes and “Vertical scale should always include zero” are conflicting advice.\n\nNeed to be thoughtful: there is no such thing as objectively “correct” visualizations, just honest visualizations."
+    "section": "Challenges for Effective Visualization",
+    "text": "Challenges for Effective Visualization\n\nLimits From Cognitive Processes\nNo “Optimal” Visualization\nTemptation To Overload Figures\nEasy to “Lie” About The Data"
+  },
+  {
+    "objectID": "slides/lecture02-2-data-viz.html#further-challenges",
+    "href": "slides/lecture02-2-data-viz.html#further-challenges",
+    "title": "Data Visualization",
+    "section": "Further Challenges",
+    "text": "Further Challenges\nFollowing Munzner (2014):\n\nPossible designs are a bad match with human perceptual and cognitive systems;\nPossible designs are a bad match with the intended task;\nOnly a small number of possibilities are reasonable choices;\n“Randomly choosing possibilities is a bad idea because the odds of finding a very good solution are very low.”"
+  },
+  {
+    "objectID": "slides/lecture02-2-data-viz.html#remember-data-never-speaks-for-itself",
+    "href": "slides/lecture02-2-data-viz.html#remember-data-never-speaks-for-itself",
+    "title": "Data Visualization",
+    "section": "Remember: Data Never Speaks For Itself",
+    "text": "Remember: Data Never Speaks For Itself\nData must be understood in a particular context. You need to understand your data and what it says (or does not say!) based on your hypotheses.\n\nWhat question(s) does your data address?\nWhat transformations make the representation of the data as salient as possible?\nWhat scales or channels are most appropriate?"
+  },
+  {
+    "objectID": "slides/lecture02-2-data-viz.html#some-caveats",
+    "href": "slides/lecture02-2-data-viz.html#some-caveats",
+    "title": "Data Visualization",
+    "section": "Some Caveats",
+    "text": "Some Caveats\n\nThere is no recipe to effective visualization. Everything depends on your data and the story you want to tell.\nThis also means that defaults from data visualization packages are usually bad.\nPrinciples are largely based on Western (American/European) norms and may not translate perfectly.\nA lot of these guidelines are based on average outcomes, there is likely to be a lot of individual variation."
+  },
+  {
+    "objectID": "slides/lecture02-2-data-viz.html#gestalt-principles",
+    "href": "slides/lecture02-2-data-viz.html#gestalt-principles",
+    "title": "Data Visualization",
+    "section": "Gestalt Principles",
+    "text": "Gestalt Principles\nThe Gestalt school of psychology identified several principles of perception.\nCore idea: Humans are very good at finding structure.\n\nAs a result, you need to evaluate the totality of a visual field, not just each component."
+  },
+  {
+    "objectID": "slides/lecture02-2-data-viz.html#gestalt-principles-1",
+    "href": "slides/lecture02-2-data-viz.html#gestalt-principles-1",
+    "title": "Data Visualization",
+    "section": "Gestalt Principles",
+    "text": "Gestalt Principles\n\n\n\nProximity\nSimilarity\nConnection\nCommon Fate\nContinuity\nClosure\n\n\n\n\n\nIllustration of Gestalt principles\n\n\n\nIllustration of several Gestalt principles. Adapted from Healy (2018)."
+  },
+  {
+    "objectID": "slides/lecture02-2-data-viz.html#impact-of-continuity",
+    "href": "slides/lecture02-2-data-viz.html#impact-of-continuity",
+    "title": "Data Visualization",
+    "section": "Impact of Continuity",
+    "text": "Impact of Continuity\n\n\nCode\n# create trend for data\nx = rand(Uniform(0, 20), 10)\ny = 5 .+ 2 * x\n# sample and add noise\nε = rand(Normal(0, 5), 10)\ny .+= ε\n\np1 = scatter(x, y, xlabel=L\"$x$\", ylabel=L\"$y$\", color=:blue, markersize=8)\np2 = plot(sort(x), sort(y), xlabel=L\"$x$\", ylabel=L\"$y$\", color=:blue, marker=:circle, markersize=8)\n\nplot(p1, p2, layout=(1,2), size=(1100, 500))\n\n\n\n\nFigure 1: Illustrating impact of connected points."
+  },
+  {
+    "objectID": "slides/lecture02-2-data-viz.html#vertical-scales",
+    "href": "slides/lecture02-2-data-viz.html#vertical-scales",
+    "title": "Data Visualization",
+    "section": "Vertical Scales",
+    "text": "Vertical Scales\n\nWorry about the vertical scale\n\nAre you exaggerating small changes? Downplaying meaningful changes?\n“Adjust vertical scale of data” to reflect meaningful changes and “Vertical scale should always include zero” are conflicting advice."
+  },
+  {
+    "objectID": "slides/lecture02-2-data-viz.html#principle-of-proportional-ink",
+    "href": "slides/lecture02-2-data-viz.html#principle-of-proportional-ink",
+    "title": "Data Visualization",
+    "section": "Principle of Proportional Ink",
+    "text": "Principle of Proportional Ink\n\n\nOn the left: 2014 quantity is ~1.1x 2010 value, but due to vertical scale the 2014 bar uses 2.7x the ink.\nCan mislead viewers into thinking the difference is larger than it truly is!\n\n\n\n\nIllustration of Non-Proportional Ink\n\n\n\nSource: Calling Bullshit"
+  },
+  {
+    "objectID": "slides/lecture02-2-data-viz.html#what-makes-a-good-color-scheme",
+    "href": "slides/lecture02-2-data-viz.html#what-makes-a-good-color-scheme",
+    "title": "Data Visualization",
+    "section": "What Makes A Good Color Scheme?",
+    "text": "What Makes A Good Color Scheme?\n\nPerceptually uniformity: preserve a mapping between changes in perceived colors and changes in attribute values.\nColor-blind safe!"
+  },
+  {
+    "objectID": "slides/lecture02-2-data-viz.html#color-schemes",
+    "href": "slides/lecture02-2-data-viz.html#color-schemes",
+    "title": "Data Visualization",
+    "section": "Color Schemes",
+    "text": "Color Schemes\nGood news: Most plotting libraries include a wide variety of perceptually uniform, color-blind safe color schemes.\nBad news: These are not usually the defaults (in particular, avoid “rainbow” color schemes).\nGood site: Paul Tol’s color schemes."
+  },
+  {
+    "objectID": "slides/lecture02-2-data-viz.html#sequential-color-schemes",
+    "href": "slides/lecture02-2-data-viz.html#sequential-color-schemes",
+    "title": "Data Visualization",
+    "section": "Sequential Color Schemes",
+    "text": "Sequential Color Schemes\nSequential schemes change in intensity from low to high as the value changes."
+  },
+  {
+    "objectID": "slides/lecture02-2-data-viz.html#divergent-color-schemes",
+    "href": "slides/lecture02-2-data-viz.html#divergent-color-schemes",
+    "title": "Data Visualization",
+    "section": "Divergent Color Schemes",
+    "text": "Divergent Color Schemes\nDivergent schemes intensify in two directions from a zero or mean value."
+  },
+  {
+    "objectID": "slides/lecture02-2-data-viz.html#unordered-color-schemes",
+    "href": "slides/lecture02-2-data-viz.html#unordered-color-schemes",
+    "title": "Data Visualization",
+    "section": "Unordered Color Schemes",
+    "text": "Unordered Color Schemes\nUnordered schemes are appropriate for categorical data."
   },
   {
     "objectID": "slides/lecture02-2-data-viz.html#avoid-using-two-vertical-axes",
@@ -5267,7 +5358,7 @@
     "href": "slides/lecture02-2-data-viz.html#avoid-using-two-vertical-axes-1",
     "title": "Data Visualization",
     "section": "Avoid Using Two Vertical Axes",
-    "text": "Avoid Using Two Vertical Axes\n\n\n\n\n\nTwo axis plot\n\n\n\nSource: Datawrapper.de\n\n\n\n\n\nIllustration of how rescaling axes manipulates impression\n\n\n\n\nSource: Datawrapper.de"
+    "text": "Avoid Using Two Vertical Axes\n\n\n\n\n\nTwo axis plot\n\n\n\n\n\n\nIllustration of how rescaling axes manipulates impression\n\n\n\n\nSource: Datawrapper.de"
   },
   {
     "objectID": "slides/lecture02-2-data-viz.html#example-spurious-correlations",
@@ -5312,76 +5403,6 @@
     "text": "Preattentive Popout\n\n\nTry to make your key features “pop out” to the viewer during the pre-attentive scan.\n\nSearching for the blue circle becomes harder. Adapted from Healy (2018).\n\n\n\n\nCode\nnpt = 20\ndist = Distributions.Product(Uniform.([0, 0], [1, 1]))\npts = Tuple.(eachcol(rand(dist, npt)))\nblueidx = rand(1:npt)\np1 = scatter(pts[1:end .!= blueidx], color=:red, xticks=:false, yticks=:false, legend=:false, markersize=5, title=\"Color Only, N=20\", framestyle=:box)\nscatter!(p1, pts[blueidx, :], color=:blue, markersize=5)\n\nnpt = 100\npts = Tuple.(eachcol(rand(dist, npt)))\nblueidx = rand(1:npt)\np2 = scatter(pts[1:end .!= blueidx], color=:red, xticks=:false, yticks=:false, legend=:false, markersize=5, title=\"Color Only, N=100\", framestyle=:box)\nscatter!(p2, pts[blueidx, :], color=:blue, markersize=5)\n\nnpt = 20\npts = Tuple.(eachcol(rand(dist, npt)))\nblueidx = rand(1:npt)\np3 = scatter(pts[1:end .!= blueidx], color=:blue, markershape=:utriangle, xticks=:false, yticks=:false, legend=:false, markersize=5, title=\"Shape Only, N=20\", framestyle=:box)\nscatter!(p3, pts[blueidx, :], color=:blue, markersize=5, markershape=:circle)\n\nnpt = 100\npts = Tuple.(eachcol(rand(dist, npt)))\nblueidx = rand(1:npt)\np4 = scatter(pts[1:end .!= blueidx], color=:blue, markershape=:utriangle, xticks=:false, yticks=:false, legend=:false, markersize=5, title=\"Shape Only, N=100\", framestyle=:box)\nscatter!(p4, pts[blueidx, :], color=:blue, markersize=5, markershape=:circle)\n\nplot(p1, p2, p3, p4, layout=(2, 2), size=(800, 500))"
   },
   {
-    "objectID": "slides/lecture02-2-data-viz.html#gestalt-principles",
-    "href": "slides/lecture02-2-data-viz.html#gestalt-principles",
-    "title": "Data Visualization",
-    "section": "Gestalt Principles",
-    "text": "Gestalt Principles\nThe Gestalt school of psychology identified several principles of perception.\nCore idea: Humans are very good at finding structure.\n\nAs a result, you need to evaluate the totality of a visual field, not just each component."
-  },
-  {
-    "objectID": "slides/lecture02-2-data-viz.html#gestalt-principles-1",
-    "href": "slides/lecture02-2-data-viz.html#gestalt-principles-1",
-    "title": "Data Visualization",
-    "section": "Gestalt Principles",
-    "text": "Gestalt Principles\n\n\n\nProximity\nSimilarity\nParallelism\nCommon Fate\nCommon Region\nContinuity\nClosure\n\n\n\n\n\nIllustration of Gestalt principles\n\n\n\nIllustration of several Gestalt principles. Adapted from Healy (2018)."
-  },
-  {
-    "objectID": "slides/lecture02-2-data-viz.html#impact-of-continuity",
-    "href": "slides/lecture02-2-data-viz.html#impact-of-continuity",
-    "title": "Data Visualization",
-    "section": "Impact of Continuity",
-    "text": "Impact of Continuity\n\n\nCode\n# create trend for data\nx = rand(Uniform(0, 20), 10)\ny = 5 .+ 2 * x\n# sample and add noise\nε = rand(Normal(0, 5), 10)\ny .+= ε\n\np1 = scatter(x, y, xlabel=L\"$x$\", ylabel=L\"$y$\", color=:blue, markersize=8)\np2 = plot(sort(x), sort(y), xlabel=L\"$x$\", ylabel=L\"$y$\", color=:blue, marker=:circle, markersize=8)\n\nplot(p1, p2, layout=(1,2), size=(1100, 500))\n\n\n\n\nFigure 1: Illustrating impact of connected points."
-  },
-  {
-    "objectID": "slides/lecture02-2-data-viz.html#principle-of-proportional-ink",
-    "href": "slides/lecture02-2-data-viz.html#principle-of-proportional-ink",
-    "title": "Data Visualization",
-    "section": "Principle of Proportional Ink",
-    "text": "Principle of Proportional Ink\n\n\nOn the left: 2014 quantity is ~1.1x 2010 value, but due to vertical scale the 2014 bar uses 2.7x the ink.\nCan mislead viewers into thinking the difference is larger than it truly is!\n\n\n\n\nIllustration of Non-Proportional Ink\n\n\n\nSource: Calling Bullshit"
-  },
-  {
-    "objectID": "slides/lecture02-2-data-viz.html#color-schemes",
-    "href": "slides/lecture02-2-data-viz.html#color-schemes",
-    "title": "Data Visualization",
-    "section": "Color Schemes",
-    "text": "Color Schemes\nDifferent color schemes are appropriate depending on whether the data is sequential, divergent, or unordered.\n\n\n\n\n\n\nAppropriate Color Schemes\n\n\nColor schemes should be perceptually uniform to preserve a mapping between changes in perceived colors and changes in attribute values.\nTry to also choose color schemes which avoid confusing people who are color blind."
-  },
-  {
-    "objectID": "slides/lecture02-2-data-viz.html#color-schemes-1",
-    "href": "slides/lecture02-2-data-viz.html#color-schemes-1",
-    "title": "Data Visualization",
-    "section": "Color Schemes",
-    "text": "Color Schemes\nGood news: Most plotting libraries include a wide variety of perceptually uniform, color-blind safe color schemes.\nBad news: These are not usually the defaults (in particular, avoid “rainbow” color schemes)."
-  },
-  {
-    "objectID": "slides/lecture02-2-data-viz.html#sequential-color-schemes",
-    "href": "slides/lecture02-2-data-viz.html#sequential-color-schemes",
-    "title": "Data Visualization",
-    "section": "Sequential Color Schemes",
-    "text": "Sequential Color Schemes\nSequential schemes change in intensity from low to high as the value changes."
-  },
-  {
-    "objectID": "slides/lecture02-2-data-viz.html#divergent-color-schemes",
-    "href": "slides/lecture02-2-data-viz.html#divergent-color-schemes",
-    "title": "Data Visualization",
-    "section": "Divergent Color Schemes",
-    "text": "Divergent Color Schemes\nDivergent schemes intensify in two directions from a zero or mean value."
-  },
-  {
-    "objectID": "slides/lecture02-2-data-viz.html#unordered-color-schemes",
-    "href": "slides/lecture02-2-data-viz.html#unordered-color-schemes",
-    "title": "Data Visualization",
-    "section": "Unordered Color Schemes",
-    "text": "Unordered Color Schemes\nUnordered schemes are appropriate for categorical data."
-  },
-  {
-    "objectID": "slides/lecture02-2-data-viz.html#some-caveats",
-    "href": "slides/lecture02-2-data-viz.html#some-caveats",
-    "title": "Data Visualization",
-    "section": "Some Caveats",
-    "text": "Some Caveats\n\nThere is no recipe to effective visualization. Everything depends on your data and the story you want to tell.\nThis also means that defaults from data visualization packages are usually bad.\nPrinciples are largely based on Western (American/European) norms and may not translate perfectly.\nA lot of these guidelines are based on average outcomes, there is likely to be a lot of individual variation."
-  },
-  {
     "objectID": "slides/lecture02-2-data-viz.html#first-attempt-paired-scatterplots",
     "href": "slides/lecture02-2-data-viz.html#first-attempt-paired-scatterplots",
     "title": "Data Visualization",
@@ -5403,18 +5424,25 @@
     "text": "Do Multiple Channels Help?\n\n\nCode\n# this uses the dataframe plotting syntax from StatsPlots.jl\naq2 = dropmissing(aq)\np = @df aq2 scatter(:Ozone, :Wind, marker_z=:Temp,\n    xlabel=\"Ozone (ppb)\", \n    ylabel=\"Wind Speed (mph)\", \n    colorbar_title=\"Max Temperature (°F)\",\n    c=:reds,\n    markersize=5\n)\n\n\n\n\nFigure 4: Scatterplot of air quality dataset with temperature color"
   },
   {
+    "objectID": "slides/lecture02-2-data-viz.html#data-visualization-1",
+    "href": "slides/lecture02-2-data-viz.html#data-visualization-1",
+    "title": "Data Visualization",
+    "section": "Data Visualization",
+    "text": "Data Visualization\n\nNo “cookbook”: be thoughtful and honest with your data.\nDefaults from software packages (scales, colors, etc.) are usually bad.\nThink carefully about if you’re creating artifacts which might mislead others, even if unintentional."
+  },
+  {
     "objectID": "slides/lecture02-2-data-viz.html#next-classes",
     "href": "slides/lecture02-2-data-viz.html#next-classes",
     "title": "Data Visualization",
     "section": "Next Classes",
-    "text": "Next Classes\nMonday: Probability Models and Linear Regression\nRest of Week: Maximum Likelihood and Fitting Models"
+    "text": "Next Classes\nNext Week: Probability Models and Linear Regression"
   },
   {
     "objectID": "slides/lecture02-2-data-viz.html#assessments",
     "href": "slides/lecture02-2-data-viz.html#assessments",
     "title": "Data Visualization",
     "section": "Assessments",
-    "text": "Assessments\nHomework 1 Due Friday, 2/6.\nExercises: This week’s involves some simple computations.\nReading: Franconeri et al (2024)"
+    "text": "Assessments\nHomework 1 Due Friday, 2/6.\nExercises: This week’s involves some simple computations.\nReading: Franconeri et al (2024)\nQuiz 1: Friday, 2/13."
   },
   {
     "objectID": "slides/lecture02-2-data-viz.html#references-scroll-for-full-list",

@@ -91,12 +91,166 @@ default(
 
 # Data Visualization
 
-## Considerations When Plotting
+## Challenges for Effective Visualization
+
+::: {.incremental}
+- Limits From Cognitive Processes
+- No "Optimal" Visualization
+- Temptation To Overload Figures
+- Easy to "Lie" About The Data
+:::
+
+## Further Challenges
+
+Following @Munzner2014-pj:
+
+::: {.incremental}
+- Possible designs are a bad match with human perceptual and cognitive systems;
+- Possible designs are a bad match with the intended task;
+- Only a small number of possibilities are reasonable choices;
+- "**Randomly choosing possibilities is a bad idea because the odds of finding a very good solution are very low**."
+:::
+
+## Remember: Data Never Speaks For Itself
+
+Data must be understood in a particular context. You need to understand your data and what it says (or does not say!) based on your hypotheses.
+
+::: {.incremental}
+- What question(s) does your data address?
+- What transformations make the representation of the data as salient as possible?
+- What scales or channels are most appropriate?
+:::
+
+## Some Caveats
+
+::: {.incremental}
+- There is no recipe to effective visualization. Everything depends on your data and the story you want to tell.
+- This also means that defaults from data visualization packages are usually bad.
+- Principles are largely based on Western (American/European) norms and may not translate perfectly.
+- A lot of these guidelines are based on average outcomes, there is likely to be a lot of individual variation.
+:::
+
+# Some Data Viz Principles
+
+## Gestalt Principles
+
+The Gestalt school of psychology identified several principles of perception.
+
+Core idea: **Humans are very good at finding structure.**
+
+::: {.fragment .fade-in}
+As a result, you need to evaluate the totality of a visual field, not just each component.
+:::
+
+## Gestalt Principles
+
+:::: {.columns}
+
+::: {.column width=40%}
+- Proximity
+- Similarity
+- Connection
+- Common Fate
+- Continuity
+- Closure
+:::
+
+::: {.column width=60%}
+![Illustration of Gestalt principles](figures/gestalt-01.png)
+
+::: {.caption}
+Illustration of several Gestalt principles. Adapted from @Healy2018-zx.
+:::
+
+:::
+::::
+
+## Impact of Continuity
+
+```{julia}
+#| label: fig-continuity
+#| code-fold: true
+#| echo: true
+#| fig-cap: Illustrating impact of connected points.
+
+
+# create trend for data
+x = rand(Uniform(0, 20), 10)
+y = 5 .+ 2 * x
+# sample and add noise
+ε = rand(Normal(0, 5), 10)
+y .+= ε
+
+p1 = scatter(x, y, xlabel=L"$x$", ylabel=L"$y$", color=:blue, markersize=8)
+p2 = plot(sort(x), sort(y), xlabel=L"$x$", ylabel=L"$y$", color=:blue, marker=:circle, markersize=8)
+
+plot(p1, p2, layout=(1,2), size=(1100, 500))
+```
+
+
+## Vertical Scales
 
 - Worry about the vertical scale
     - Are you exaggerating small changes? Downplaying meaningful changes?
     - "Adjust vertical scale of data" to reflect meaningful changes and "Vertical scale should always include zero" are conflicting advice.
-- Need to be thoughtful: **there is no such thing as objectively "correct" visualizations**, just **honest** visualizations. 
+
+
+## Principle of Proportional Ink
+
+:::: {.columns}
+::: {.column width=40%}
+**On the left**: 2014 quantity is **~1.1x** 2010 value, but due to vertical scale the 2014 bar uses **2.7x** the ink.
+
+Can mislead viewers into thinking the difference is larger than it truly is!
+:::
+::: {.column width=60%}
+![Illustration of Non-Proportional Ink](https://callingbullshit.org/tools/img/Tennessee_nonfarm_jobs.png)
+
+::: {.caption}
+Source: [Calling Bullshit](https://callingbullshit.org/tools/tools_proportional_ink.html)
+:::
+:::
+::::
+
+## What Makes A Good Color Scheme?
+
+- *Perceptually uniformity*: preserve a mapping between changes in perceived colors and changes in attribute values. 
+- *Color-blind safe!* 
+
+
+
+## Color Schemes
+
+**Good news**: Most plotting libraries include a wide variety of perceptually uniform, color-blind safe color schemes.
+
+**Bad news**: These are not usually the defaults (in particular, avoid "rainbow" color schemes).
+
+Good site: [Paul Tol's color schemes](https://sronpersonalpages.nl/~pault/). 
+
+## Sequential Color Schemes
+
+Sequential schemes change in intensity from low to high as the value changes. 
+
+```{julia}
+#| fig-align: center
+ColorSchemes.Blues_7
+```
+
+## Divergent Color Schemes
+
+Divergent schemes intensify in two directions from a zero or mean value.
+
+```{julia}
+reverse(ColorSchemes.PRGn_7)
+```
+
+## Unordered Color Schemes
+
+Unordered schemes are appropriate for categorical data. 
+
+```{julia}
+reverse(ColorSchemes.Dark2_7)
+```
 
 ## Avoid Using Two Vertical Axes
 
@@ -112,9 +266,6 @@ Source: [Datawrapper.de](https://www.datawrapper.de/blog/dualaxis)
 ::: {.column width=50%}
 ![Two axis plot](https://datawrapper.de/cdn-cgi/image/quality=85,width=1920,f=auto,fit=cover/https://kirby.datawrapper.de/media/pages/blog/dualaxis/e402201aef-1740123107/full-180508_index6.png)
 
-::: {.caption}
-Source: [Datawrapper.de](https://www.datawrapper.de/blog/dualaxis)
-:::
 
 :::
 ::: {.column width=50%}
@@ -239,139 +390,9 @@ plot(p1, p2, p3, p4, layout=(2, 2), size=(800, 500))
 :::
 ::::
 
-# Some Data Viz Principles
-
-## Gestalt Principles
-
-The Gestalt school of psychology identified several principles of perception.
-
-Core idea: **Humans are very good at finding structure.**
-
-::: {.fragment .fade-in}
-As a result, you need to evaluate the totality of a visual field, not just each component.
-:::
-
-## Gestalt Principles
-
-:::: {.columns}
-
-::: {.column width=40%}
-- Proximity
-- Similarity
-- Parallelism
-- Common Fate
-- Common Region
-- Continuity
-- Closure
-:::
-
-::: {.column width=60%}
-![Illustration of Gestalt principles](figures/gestalt-01.png)
-
-::: {.caption}
-Illustration of several Gestalt principles. Adapted from @Healy2018-zx.
-:::
-
-:::
-::::
-
-## Impact of Continuity
-
-```{julia}
-#| label: fig-continuity
-#| code-fold: true
-#| echo: true
-#| fig-cap: Illustrating impact of connected points.
-
-
-# create trend for data
-x = rand(Uniform(0, 20), 10)
-y = 5 .+ 2 * x
-# sample and add noise
-ε = rand(Normal(0, 5), 10)
-y .+= ε
-
-p1 = scatter(x, y, xlabel=L"$x$", ylabel=L"$y$", color=:blue, markersize=8)
-p2 = plot(sort(x), sort(y), xlabel=L"$x$", ylabel=L"$y$", color=:blue, marker=:circle, markersize=8)
-
-plot(p1, p2, layout=(1,2), size=(1100, 500))
-```
-
-## Principle of Proportional Ink
-
-:::: {.columns}
-::: {.column width=40%}
-**On the left**: 2014 quantity is **~1.1x** 2010 value, but due to vertical scale the 2014 bar uses **2.7x** the ink.
-
-Can mislead viewers into thinking the difference is larger than it truly is!
-:::
-::: {.column width=60%}
-![Illustration of Non-Proportional Ink](https://callingbullshit.org/tools/img/Tennessee_nonfarm_jobs.png)
-
-::: {.caption}
-Source: [Calling Bullshit](https://callingbullshit.org/tools/tools_proportional_ink.html)
-:::
-:::
-::::
-
-## Color Schemes
-
-Different color schemes are appropriate depending on whether the data is *sequential*, *divergent*, or *unordered*.
-
-::: {.callout-important}
-### Appropriate Color Schemes
-
-Color schemes should be *perceptually uniform* to preserve a mapping between changes in perceived colors and changes in attribute values. 
-
-Try to also choose color schemes which avoid confusing people who are color blind.
-:::
-
-
-## Color Schemes
-
-**Good news**: Most plotting libraries include a wide variety of perceptually uniform, color-blind safe color schemes.
-
-**Bad news**: These are not usually the defaults (in particular, avoid "rainbow" color schemes).
-
-## Sequential Color Schemes
-
-Sequential schemes change in intensity from low to high as the value changes. 
-
-```{julia}
-#| fig-align: center
-ColorSchemes.Blues_7
-```
-
-## Divergent Color Schemes
-
-Divergent schemes intensify in two directions from a zero or mean value.
-
-```{julia}
-reverse(ColorSchemes.PRGn_7)
-```
-
-## Unordered Color Schemes
-
-Unordered schemes are appropriate for categorical data. 
-
-```{julia}
-reverse(ColorSchemes.Dark2_7)
-```
-
-
-
-## Some Caveats
-
-::: {.incremental}
-- There is no recipe to effective visualization. Everything depends on your data and the story you want to tell.
-- This also means that defaults from data visualization packages are usually bad.
-- Principles are largely based on Western (American/European) norms and may not translate perfectly.
-- A lot of these guidelines are based on average outcomes, there is likely to be a lot of individual variation.
-:::
 
 
 # Visualization Example
-
 
 
 ## First Attempt: Paired Scatterplots
@@ -432,14 +453,20 @@ p = @df aq2 scatter(:Ozone, :Wind, marker_z=:Temp,
 )
 ```
 
+# Key Points
+
+## Data Visualization
+
+- No "cookbook": be thoughtful and honest with your data.
+- Defaults from software packages (scales, colors, etc.) are usually bad.
+- Think carefully about if you're creating artifacts which might mislead others, even if unintentional.
+
 
 # Upcoming Schedule
 
 ## Next Classes
 
-**Monday**: Probability Models and Linear Regression
-
-**Rest of Week**: Maximum Likelihood and Fitting Models
+**Next Week**: Probability Models and Linear Regression
 
 
 ## Assessments
@@ -449,6 +476,8 @@ p = @df aq2 scatter(:Ozone, :Wind, marker_z=:Temp,
 **Exercises**: This week's involves some simple computations.
 
 **Reading**: Franconeri et al (2024)
+
+**Quiz 1**: Friday, 2/13.
 
 # References
 

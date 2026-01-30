@@ -5,11 +5,11 @@
      width="175mm" height="25mm"
      viewBox="0 0 7 1" preserveAspectRatio="none"
      shape-rendering="crispEdges" stroke="none">
-<rect width=".96" height=".96" x="0" y="0" fill="#EFF3FF" />
-<rect width=".96" height=".96" x="1" y="0" fill="#C6DBEF" />
-<rect width=".96" height=".96" x="2" y="0" fill="#9ECAE1" />
-<rect width=".96" height=".96" x="3" y="0" fill="#6BAED6" />
-<rect width=".96" height=".96" x="4" y="0" fill="#4292C6" />
-<rect width=".96" height=".96" x="5" y="0" fill="#2171B5" />
-<rect width=".96" height=".96" x="6" y="0" fill="#084594" />
+<rect width=".96" height=".96" x="0" y="0" fill="#1B7837" />
+<rect width=".96" height=".96" x="1" y="0" fill="#7FBF7B" />
+<rect width=".96" height=".96" x="2" y="0" fill="#D9F0D3" />
+<rect width=".96" height=".96" x="3" y="0" fill="#F7F7F7" />
+<rect width=".96" height=".96" x="4" y="0" fill="#E7D4E8" />
+<rect width=".96" height=".96" x="5" y="0" fill="#AF8DC3" />
+<rect width=".96" height=".96" x="6" y="0" fill="#762A83" />
 </svg>
