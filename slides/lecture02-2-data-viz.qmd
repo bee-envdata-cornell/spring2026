@@ -392,66 +392,60 @@ plot(p1, p2, p3, p4, layout=(2, 2), size=(800, 500))
 
 
 
-# Visualization Example
+# Visualization Examples
 
 
-## First Attempt: Paired Scatterplots
+## Thoughts On This Plot?
 
-```{julia}
-#| code-fold: true
-#| echo: true
-#| label: fig-explore1
-#| fig-cap: Paired plots of air quality dataset
+::: {.center}
+![First Street Foundation Return Period Trends](figures/shu-etal-returnperiods.png)
+:::
 
-aq = DataFrame(CSV.File("data/airquality/airquality.csv"))
-rename!(aq, :"Solar.R" => :Solar) # rename solar radiation column to get rid of period
+::: {.caption}
+Source: @Shu2023-ht
+:::
 
-# this uses the dataframe plotting syntax from StatsPlots.jl
-p1 = @df aq scatter(:Ozone, :Solar, markersize=5, color=:blue, xlabel="Ozone (ppb)", ylabel="Solar Radiation (lang)", leftmargin=10mm)
-p2 = @df aq scatter(:Ozone, :Wind, markersize=5, color=:blue, xlabel="Ozone (ppb)", ylabel="Wind Speed (mph)", leftmargin=10mm)
-p3 = @df aq scatter(:Ozone, :Temp, markersize=5, color=:blue, xlabel="Ozone (ppb)", ylabel="Max Temperature (°F) ", leftmargin=10mm)
+## How About This One?
 
-p = plot(p1, p2, p3, layout=(1, 3), size=(1100, 400))
+::: {.center}
+![Trump Polling Average vs. Employment in Swing States](figures/swingstate-morgan.jpeg)
+:::
 
-```
+::: {.caption}
+Source: [Joe Weisenthal](https://twitter.com/TheStalwart/status/1309582619290595328)
+:::
 
-## Do Multiple Channels Help?
+## Or This One?
 
-```{julia}
-#| code-fold: true
-#| echo: true
-#| label: fig-explore2
-#| fig-cap: Scatterplot of air quality dataset with solar color
+::: {.center}
+![Impacts of Climate Mitigation on Air Pollution](figures/huang_air_pollution.png)
+:::
 
-# this uses the dataframe plotting syntax from StatsPlots.jl
-aq2 = dropmissing(aq)
-p = @df aq2 scatter(:Ozone, :Wind, marker_z=:Solar,
-    xlabel="Ozone (ppb)", 
-    ylabel="Wind Speed (mph)", 
-    colorbar_title="Solar Radiation (lang)",
-    c=:reds,
-    markersize=5
-)
-```
+::: {.caption}
+Source: @Huang2023-nm
+:::
 
-## Do Multiple Channels Help?
 
-```{julia}
-#| code-fold: true
-#| echo: true
-#| label: fig-explore3
-#| fig-cap: Scatterplot of air quality dataset with temperature color
+## Or...
 
-# this uses the dataframe plotting syntax from StatsPlots.jl
-aq2 = dropmissing(aq)
-p = @df aq2 scatter(:Ozone, :Wind, marker_z=:Temp,
-    xlabel="Ozone (ppb)", 
-    ylabel="Wind Speed (mph)", 
-    colorbar_title="Max Temperature (°F)",
-    c=:reds,
-    markersize=5
-)
-```
+::: {.center}
+![Relationship Between Climate Variables](figures/errickson-2021_correlations.png)
+:::
+
+::: {.caption}
+Source: @Errickson2021-kr
+:::
+
+## Last One!
+
+::: {.center}
+![Modeled Flood Risk vs. Perception](figures/bakkensen-floodrisk.jpeg){width=55%}
+:::
+
+::: {.caption}
+Source: @Bakkensen2022-xj
+:::
+
 
 # Key Points
 

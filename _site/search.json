@@ -5403,25 +5403,39 @@
     "text": "Preattentive Popout\n\n\nTry to make your key features “pop out” to the viewer during the pre-attentive scan.\n\nSearching for the blue circle becomes harder. Adapted from Healy (2018).\n\n\n\n\nCode\nnpt = 20\ndist = Distributions.Product(Uniform.([0, 0], [1, 1]))\npts = Tuple.(eachcol(rand(dist, npt)))\nblueidx = rand(1:npt)\np1 = scatter(pts[1:end .!= blueidx], color=:red, xticks=:false, yticks=:false, legend=:false, markersize=5, title=\"Color Only, N=20\", framestyle=:box)\nscatter!(p1, pts[blueidx, :], color=:blue, markersize=5)\n\nnpt = 100\npts = Tuple.(eachcol(rand(dist, npt)))\nblueidx = rand(1:npt)\np2 = scatter(pts[1:end .!= blueidx], color=:red, xticks=:false, yticks=:false, legend=:false, markersize=5, title=\"Color Only, N=100\", framestyle=:box)\nscatter!(p2, pts[blueidx, :], color=:blue, markersize=5)\n\nnpt = 20\npts = Tuple.(eachcol(rand(dist, npt)))\nblueidx = rand(1:npt)\np3 = scatter(pts[1:end .!= blueidx], color=:blue, markershape=:utriangle, xticks=:false, yticks=:false, legend=:false, markersize=5, title=\"Shape Only, N=20\", framestyle=:box)\nscatter!(p3, pts[blueidx, :], color=:blue, markersize=5, markershape=:circle)\n\nnpt = 100\npts = Tuple.(eachcol(rand(dist, npt)))\nblueidx = rand(1:npt)\np4 = scatter(pts[1:end .!= blueidx], color=:blue, markershape=:utriangle, xticks=:false, yticks=:false, legend=:false, markersize=5, title=\"Shape Only, N=100\", framestyle=:box)\nscatter!(p4, pts[blueidx, :], color=:blue, markersize=5, markershape=:circle)\n\nplot(p1, p2, p3, p4, layout=(2, 2), size=(800, 500))"
   },
   {
-    "objectID": "slides/lecture02-2-data-viz.html#first-attempt-paired-scatterplots",
-    "href": "slides/lecture02-2-data-viz.html#first-attempt-paired-scatterplots",
+    "objectID": "slides/lecture02-2-data-viz.html#thoughts-on-this-plot",
+    "href": "slides/lecture02-2-data-viz.html#thoughts-on-this-plot",
     "title": "Data Visualization",
-    "section": "First Attempt: Paired Scatterplots",
-    "text": "First Attempt: Paired Scatterplots\n\n\nCode\naq = DataFrame(CSV.File(\"data/airquality/airquality.csv\"))\nrename!(aq, :\"Solar.R\" =&gt; :Solar) # rename solar radiation column to get rid of period\n\n# this uses the dataframe plotting syntax from StatsPlots.jl\np1 = @df aq scatter(:Ozone, :Solar, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Solar Radiation (lang)\", leftmargin=10mm)\np2 = @df aq scatter(:Ozone, :Wind, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Wind Speed (mph)\", leftmargin=10mm)\np3 = @df aq scatter(:Ozone, :Temp, markersize=5, color=:blue, xlabel=\"Ozone (ppb)\", ylabel=\"Max Temperature (°F) \", leftmargin=10mm)\n\np = plot(p1, p2, p3, layout=(1, 3), size=(1100, 400))\n\n\n\n\nFigure 2: Paired plots of air quality dataset"
+    "section": "Thoughts On This Plot?",
+    "text": "Thoughts On This Plot?\n\n\n\n\nFirst Street Foundation Return Period Trends\n\n\n\n\nSource: Shu et al. (2023)"
   },
   {
-    "objectID": "slides/lecture02-2-data-viz.html#do-multiple-channels-help",
-    "href": "slides/lecture02-2-data-viz.html#do-multiple-channels-help",
+    "objectID": "slides/lecture02-2-data-viz.html#how-about-this-one",
+    "href": "slides/lecture02-2-data-viz.html#how-about-this-one",
     "title": "Data Visualization",
-    "section": "Do Multiple Channels Help?",
-    "text": "Do Multiple Channels Help?\n\n\nCode\n# this uses the dataframe plotting syntax from StatsPlots.jl\naq2 = dropmissing(aq)\np = @df aq2 scatter(:Ozone, :Wind, marker_z=:Solar,\n    xlabel=\"Ozone (ppb)\", \n    ylabel=\"Wind Speed (mph)\", \n    colorbar_title=\"Solar Radiation (lang)\",\n    c=:reds,\n    markersize=5\n)\n\n\n\n\nFigure 3: Scatterplot of air quality dataset with solar color"
+    "section": "How About This One?",
+    "text": "How About This One?\n\n\n\n\nTrump Polling Average vs. Employment in Swing States\n\n\n\n\nSource: Joe Weisenthal"
   },
   {
-    "objectID": "slides/lecture02-2-data-viz.html#do-multiple-channels-help-1",
-    "href": "slides/lecture02-2-data-viz.html#do-multiple-channels-help-1",
+    "objectID": "slides/lecture02-2-data-viz.html#or-this-one",
+    "href": "slides/lecture02-2-data-viz.html#or-this-one",
     "title": "Data Visualization",
-    "section": "Do Multiple Channels Help?",
-    "text": "Do Multiple Channels Help?\n\n\nCode\n# this uses the dataframe plotting syntax from StatsPlots.jl\naq2 = dropmissing(aq)\np = @df aq2 scatter(:Ozone, :Wind, marker_z=:Temp,\n    xlabel=\"Ozone (ppb)\", \n    ylabel=\"Wind Speed (mph)\", \n    colorbar_title=\"Max Temperature (°F)\",\n    c=:reds,\n    markersize=5\n)\n\n\n\n\nFigure 4: Scatterplot of air quality dataset with temperature color"
+    "section": "Or This One?",
+    "text": "Or This One?\n\n\n\n\nImpacts of Climate Mitigation on Air Pollution\n\n\n\n\nSource: (Huang2023-nm?)"
+  },
+  {
+    "objectID": "slides/lecture02-2-data-viz.html#or",
+    "href": "slides/lecture02-2-data-viz.html#or",
+    "title": "Data Visualization",
+    "section": "Or…",
+    "text": "Or…\n\n\n\n\nRelationship Between Climate Variables\n\n\n\n\nSource: Errickson et al. (2021)"
+  },
+  {
+    "objectID": "slides/lecture02-2-data-viz.html#last-one",
+    "href": "slides/lecture02-2-data-viz.html#last-one",
+    "title": "Data Visualization",
+    "section": "Last One!",
+    "text": "Last One!\n\n\n\n\nModeled Flood Risk vs. Perception\n\n\n\n\nSource: Bakkensen & Barrage (2022)"
   },
   {
     "objectID": "slides/lecture02-2-data-viz.html#data-visualization-1",
@@ -5449,7 +5463,7 @@
     "href": "slides/lecture02-2-data-viz.html#references-scroll-for-full-list",
     "title": "Data Visualization",
     "section": "References (Scroll for Full List)",
-    "text": "References (Scroll for Full List)\n\n\n\n\nHealy, K. (2018). Data visualization: A practical introduction. Princeton University Press.\n\n\nMunzner, T. (2014). Visualization analysis and design. CRC Press."
+    "text": "References (Scroll for Full List)\n\n\n\n\nBakkensen, L. A., & Barrage, L. (2022). Going Underwater? Flood Risk Belief Heterogeneity and Coastal Home Price Dynamics. Rev. Financ. Stud., 35, 3666–3709. https://doi.org/10.1093/rfs/hhab122\n\n\nErrickson, F. C., Keller, K., Collins, W. D., Srikrishnan, V., & Anthoff, D. (2021). Equity is more important for the social cost of methane than climate uncertainty. Nature, 592, 564–570. https://doi.org/10.1038/s41586-021-03386-6\n\n\nHealy, K. (2018). Data visualization: A practical introduction. Princeton University Press.\n\n\nMunzner, T. (2014). Visualization analysis and design. CRC Press.\n\n\nShu, E., Hauer, M., & Porter, J. (2023, November). Future population exposure to flood risk: A decomposition approach across Shared-Socioeconomic pathways (SSPs). Research Square. https://doi.org/10.21203/rs.3.rs-3628132/v1"
   },
   {
     "objectID": "slides/lecture01-2-probreview.html#last-class",
