@@ -1,0 +1,416 @@
+---
+title: "More on Linear Regression"
+subtitle: "Lecture 05"
+author: "Vivek Srikrishnan"
+course: "BEE 4850"
+institution: "Cornell University"
+date: "February 04, 2026"
+format:
+    revealjs: default
+engine: julia
+filters:
+  - code-fullscreen
+---
+
+```{julia}
+#| output: false
+
+import Pkg
+Pkg.activate(@__DIR__)
+Pkg.instantiate()
+```
+
+```{julia}
+#| output: false
+
+using Random
+using Distributions
+using ColorSchemes
+using Plots
+using StatsPlots
+using StatsBase
+using LaTeXStrings
+using Measures
+using DataFrames
+using CSV   
+using GLM
+using Optim
+
+Random.seed!(1)
+
+plot_font = "Computer Modern"
+default(
+    fontfamily=plot_font,
+    linewidth=3, 
+    framestyle=:box, 
+    label=nothing, 
+    grid=false,
+    guidefontsize=18,
+    legendfontsize=16,
+    tickfontsize=16,
+    titlefontsize=20,
+    bottom_margin=10mm,
+    left_margin=5mm
+)
+```
+
+# Review
+
+## Linear Regression
+
+The "simplest" model is **linear**:
+
+1. The distribution of $X$ is arbitrary.
+2. If $X = \mathbf{x}, Y = \sum_{i=1}^n \beta_i x_i + \varepsilon$.
+3. $\mathbf{E}[\varepsilon | X = x] = 0, \text{Var}[\varepsilon | X = x] = \sigma^2$.
+4. $\varepsilon$ is uncorrelated across observations.
+
+## Ordinary Least Squares
+
+Fit model by minimizing MSE:
+
+$$
+\begin{aligned}
+\hat{\beta}_0 &= \bar{y} - \hat{\beta}_1 \bar{x} \\
+\hat{\beta}_1 &= \text{Cov}(X,Y) / \text{Var}(X) \\
+\hat{\sigma}^2 &= \frac{1}{n-2}\sum_{i=1}^n \left(y_i - \hat{m}(x)\right)^2
+\end{aligned}
+$$
+
+# Properties of OLS Solutions
+
+## Conditional Bias of Estimator: $\hat{\beta}_1$
+
+An estimator $\hat{\beta}$ of parameter $\beta$ is **unbiased** if $\mathbb{E}[\hat{\beta}] = \beta$.
+
+With some algebra (replace $\text{Cov}(X,Y) = \bar{xy} - \bar{x}\bar{y}$ and use the linear model), can rewrite $\hat{\beta}_1$ as:
+
+$$\hat{\beta}_1 = \beta_1 + \frac{\frac{1}{n}\sum_{i=1}^n x_i \varepsilon_i - \bar{x}\bar{\varepsilon}}{\text{Var(X)}}.$$
+
+## Conditional Bias of Estimator: $\hat{\beta}_1$
+
+Since $\mathbb{E}\left[\varepsilon_i | X = \mathbf{x}\right] = 0$, 
+
+$$\mathbf{E}\left[\hat{\beta}_1 | X = \mathbf{x}\right] = \beta_1.$$
+
+## Conditional Bias of Estimator: $\hat{\beta}_0$
+
+$$
+\begin{aligned}
+\mathbb{E}\left[\hat{\beta}_0 | X = \mathbf{x}\right] &= \mathbb{E}\left[\bar{y} - \hat{\beta}_1\bar{x}\right] \\
+&= \beta_0 + \beta_1 \bar{x} - \mathbb{E}\left[\hat{\beta}_1\right] \bar{x} \\
+&= \beta_0 + \beta_1 \bar{x} - \beta_1 \bar{x} \\
+&= \beta_0.
+\end{aligned}
+$$
+
+## Unconditional Bias
+
+It turns out these estimators are also unbiased unconditionally as a result of the **law of total expectation**.
+
+For example:
+
+$$
+\begin{aligned}
+\mathbb{E}\left[\hat{\beta}_1\right] &= \mathbb{E}_X\left[\mathbb{E}\left[\hat{\beta}_1 | X = \mathbf{x}\right]\right] \\
+&= \mathbb{E}\left[\hat{\beta}_1\right] = \beta_1.
+\end{aligned}
+$$
+
+## Interpretation of Parameters
+
+:::: {.columns}
+::: {.column width=50%}
+- People often interpret $\hat{\beta}_1$ as the "effect" of changing $x$ by a unit amount.
+- **Can we think of why this is wrong**?
+
+::: {.fragment .fade-in}
+- Safer interpretation: $\hat{\beta}_1$ is the expected **difference** if the predictors differ by 1.
+:::
+
+:::
+::: {.column width=50%}
+::: {.fragment .fade-in}
+![Causation Meme](memes/causation_not_correlation.jpg){width=60%}
+
+::: {.caption}
+Source: Richard McElreath
+:::
+:::
+:::
+::::
+
+## Properties of OLS Solution
+
+:::: {.columns}
+::: {.column width=50%}
+The OLS solution always exists unless $\text{Var}(X) = 0$. This doesn't mean it's good if the model is wrong!
+
+**Pernicious**: In this case, the fit depends on the distribution of the data. 
+
+:::
+::: {.column width=50%}
+```{julia}
+#| output: true
+#| echo: true
+#| code-fold: true
+
+X1 = rand(Uniform(0, 1), 50)
+X2 = rand(Normal(0.5, 0.1), 50)
+X3 = rand(Uniform(2, 3), 50)
+Xall = [X1; X2; X3]
+Y1 = sqrt.(X1) .+ rand(Normal(0, 0.05), 50)
+Y2 = sqrt.(X2) .+ rand(Normal(0, 0.05), 50)
+Y3 = sqrt.(X3) .+ rand(Normal(0, 0.05), 50)
+Yall = [Y1; Y2; Y3]
+
+# set range for prediction/plotting
+Xpred = 0:0.01:3
+
+# use GLM.jl to fit the regressions just to clean things up
+# this uses MLE but as we will see is equivalent to OLS for linear models
+lm1 = lm([ones(length(X1)) X1], Y1)
+pred1 = predict(lm1, [ones(length(Xpred)) Xpred]) 
+lm2 = lm([ones(length(X2)) X2], Y2)
+pred2 = predict(lm2, [ones(length(Xpred)) Xpred])
+lm3 = lm([ones(length(X3)) X3], Y3)
+pred3 = predict(lm3, [ones(length(Xpred)) Xpred])
+lmall = lm([ones(length(Xall)) Xall], Yall)
+predall = predict(lmall, [ones(length(Xpred)) Xpred])
+
+# plot true regression line, data points, and OLS predictions
+p_demo = plot(Xpred, sqrt.(Xpred), color="#444444", linewidth=2, label="True Regression Line")
+scatter!(X1, Y1, color="#4477AA", markershape=:circle, markersize=4, alpha=0.6, label="U(0, 1)")
+scatter!(X2, Y2, color="#228833", markershape=:square, markersize=4, alpha=0.6, label=false)
+scatter!(X3, Y3, color="#EE6677", markershape=:utriangle, markersize=4, alpha=0.6, label=false)
+plot!(Xpred, pred1, color="#4477AA", linewidth=2, linestyle=:dash, label="U(0, 1)")
+plot!(Xpred, pred2, color="#228833", linewidth=2, linestyle=:dash, label="N(0.5, 0.1)")
+plot!(Xpred, pred3, color="#EE6677", linewidth=2, linestyle=:dash, label="U(2, 3)")
+plot!(Xpred, predall, color=:black, linewidth=2, linestyle=:dot, label="Union Of All")
+xlabel!(L"$X$")
+ylabel!(L"$Y$")
+plot!(size=(650, 600))
+```
+:::
+::::
+
+
+## $R^2$
+
+$$R^2 = \frac{s^2_\hat{m}}{s^2_Y}$$
+
+- Extemely common metric due to ease of computing.
+- **Common claim**: This represents "goodness of fit" or "amount of variance explained by the model."
+
+## $R^2$: Alternative Defintions
+
+**For linear models estimated through least squares**:
+$$
+\begin{aligned}
+R^2 &= \frac{s^2_{\hat{m}}}{s^2_Y} = \frac{c_{Y, \hat{m}}}{s^2_Y} = \hat{\beta}_1^2\frac{s_X^2}{s_Y^2} \\
+&= \left(\frac{c_{X,Y}}{s_Xs_Y}\right)^2 \\
+&= \frac{s_Y^2 - \hat{\sigma}^2}{s_Y^2}
+\end{aligned}
+$$
+
+## Why $R^2$ is A Distraction
+
+1.  It doesn't measure goodness of fit! 
+
+## Why $R^2$ is A Distraction
+
+If we knew the "true" regression slope $\beta_1$, not hard to derive $$R^2 = \frac{\beta_1^2 \text{Var}(X)}{\beta_1^2 \text{Var}(X) + \sigma^2}.$$ 
+
+This can be made arbitrarily small if $\text{Var}(X)$ is small or $\sigma^2$ is large **even if the model is true**. And when the model is wrong, $R^2$ can be made arbitrarily large. As a result, $R^2$ is **not a stable property**. 
+
+## Why $R^2$ is A Distraction
+
+For example, in our previous simulation:
+
+- the blue line has $R^2 = 0.92$,
+- the green line has $R^2=0.66$,
+- the red line has $R^2 = 0.83$, 
+- and the black line $R^2=0.96$.
+
+We could get very high $R^2$ even for fits that are not great anywhere!
+
+## Why $R^2$ is A Distraction
+
+2.  It says nothing about prediction error (changing $\Var(X)$ can change everything about $R^2$).
+3.  Cannot be compared across different datasets (since it's impacted by $\text{Var}(x)$).
+4.  Is not preserved under transformations.
+5.  It doesn't **explain** anything about variance: $x$ regressed on $y$ gives the same $R^2$ as $y$ regressed on $x$.
+
+
+# Prediction
+
+## Predicting Values
+
+We don't know the "true" $\beta_0$ and $\beta_1$, just our estimates $\hat{\beta}_0$ and $\hat{\beta}_1$.
+
+At an arbitrary value of $x$, we predict a value $\hat{m}(x) = \hat{\beta}_0 + \hat{\beta}_1 x.$
+
+$\hat{m}(x)$ is an **estimate** of $\mathbb{E}[Y | X = x]$ under the assumption of the model and our estimate (which is a random variable).
+
+## Linear Predictions Are Biased Conditionally
+
+:::: {.columns}
+::: {.column width=50%}
+While the linear predictor has no bias (averaged over all $X$), $\mathbb{E}[Y - X \hat{\beta}] = 0$...
+
+The conditional expected error is usually non-zero: $\mathbb{E}[Y - X \hat{\beta} | X = x] = 0$
+
+:::
+::: {.column width=50%}
+```{julia}
+#| code-fold: true
+#| echo: true
+#| label: fig-lr-fit
+#| fig-cap: Linear regression fit to the TDS data.
+tds = let
+    fname = "data/tds/cuyaTDS.csv" # CHANGE THIS!
+    tds = DataFrame(CSV.File(fname))
+    tds[!, [:date, :discharge_cms, :tds_mgL]]
+end
+X = log.(tds.discharge_cms) # predictors
+Y = tds.tds_mgL # predicands
+β = zeros(2)
+β[2] = cov(X, Y) / var(X)
+β[1] = mean(Y) - β[2] * mean(X)
+ε = Y - [ones(length(X)) X] * β
+s² = (ε' * ε) / (nrow(tds) - 2)  # error estimate
+
+# get predictions
+x_pred = log.(0.1:0.1:60)
+y_pred = β[1] .+ β[2] * x_pred
+plot(x_pred, y_pred, label="OLS Fit", color=:black, linewidth=3,
+    xlabel=L"Log-Discharge (log(m$^3$/s))",
+    ylabel="Total dissolved solids (mg/L)",
+    size=(600, 550),
+    xlims = (0, 4.5))
+scatter!(
+    log.(tds.discharge_cms),
+    tds.tds_mgL,
+    markersize=5,
+    label="Observations", color=:blue
+)
+```
+:::
+::::
+
+## What If The Model Is Wrong?
+
+:::: {.columns}
+::: {.column width=50%}
+And as noted, if the model is wrong, none of this is true anyway: the model will be biased and so will its predictions.
+
+:::
+::: {.column width=50%}
+![Brain on Regression meme](memes/brain_on_regression.jpg){width=40%}
+
+::: {.caption}
+Source: Richard McElreath
+:::
+:::
+::::
+
+# Multiple Linear Regression
+
+## OLS for Multiple Linear Regression
+
+To generalize to multiple predictors: let $\mathbf{x}$ be the $n \times p$ matrix of predictors and $\mathbf{y} = \sum_{i=1}^n \beta_i x_i.$
+
+Then $$MSE = \frac{1}{n}\left(\mathbf{y} - \mathbf{x}\beta\right)^T\left(\mathbf{y} - \mathbf{x}\beta\right)$$ and
+
+## OLS for Multiple Linear Regression
+
+If the columns of $X$ are linearly independent, then the unique solution to minimizing least squares: $$\hat{\mathbf{\beta}} = \left(X^TX\right)^{-1}X^TY$$
+
+## Multiple Regression Error Variance
+
+To get an estimate of the error variance $\hat{\sigma}^2$:
+
+$$\hat{\sigma}^2 = \frac{(Y-X\hat{\beta})^T(Y-X\hat{\beta})}{n-p},$$
+
+where $n$ is the number of data points and $p$ is the number of terms.
+
+## Linear Algebra Model Fitting Example
+
+For our River Flow-TDS example:
+
+```{julia}
+#| echo: true
+#| output: true
+#| code-fold: false
+
+X = [ones(nrow(tds)) log.(tds.discharge_cms)] # predictors
+Y = tds.tds_mgL # predicands
+β = inv(X' * X) * X' * Y # OLS formula
+@show β;
+ε = Y - X * β 
+s² = (ε' * ε) / (nrow(tds) - 2)  # error estimate
+@show s²;
+```
+
+## Interpretation of Predictors
+
+Multiple linear regression assumes each predictor variable makes a **separate, additive, and linear** contribution to the expected response.
+
+So $\beta_i$ is the rate at which $Y$ changes if **only** $X_i$ changes.
+
+## Multiple Regression Is Not Many Simple Regressions
+
+In general, you **will not** get the same coefficients for a multiple regression that you get if you treat each predictor individually.
+
+**Why not**?
+
+## Multiple Regression Is Not Many Simple Regressions
+
+Intuitively: in a simple regression of $Y$ on $X_1$, the predicted difference of $Y$ with respect to a change in $X_1$ combines
+
+1. the **direct** contribution of $X_1$ to $Y$ 
+2. the indirect contributions of $X_1$ through the other predictors $X_{i \neq 1}$. 
+
+This also illustrates the danger of **omitted variable bias**.
+
+## Interpreting Predictors or Predictions?
+
+- I generally find it less useful to try to interpret predictors, since these only make sense in the context of the included predictors.
+- Better to interpret predictions or varying summary statistics instead ("effect sizes").
+
+
+## Collinearity
+
+$$\hat{\mathbf{\beta}} = \left(X^TX\right)^{-1}X^TY$$
+
+What happens if some predictors are linear combinations of the others?
+
+::: {.fragment .fade-in}
+$X^TX$ is not invertible, so there is no unique solution. 
+
+This doesn't matter for **prediction** (you get the same value) but does for inference: you can only identify the total contribution $\beta_i x_i + \beta_j x_j$.
+:::
+
+
+# Key Points
+
+## Probability Models
+
+- Almost anything we want to use data for involves an assumption about the underlying probability model for the data.
+- Our goal this semester is to develop a toolkit to specify, test, and use these probability models.
+
+# Upcoming Schedule
+
+## Next Classes
+
+**Wednesday**: Fitting models with maximum likelihood
+
+**Friday**: Maximum likelihood uncertainty
+
+## Assessments
+
+**Homework 1** Due Friday, 2/6.
+
+# References
+
+## References (Scroll for Full List)

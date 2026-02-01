@@ -1,0 +1,633 @@
+---
+title: "Linear Regression As Probability Model"
+subtitle: "Lecture 07"
+author: "Vivek Srikrishnan"
+course: "BEE 4850"
+institution: "Cornell University"
+date: "February 06, 2026"
+format:
+    revealjs: default
+engine: julia
+filters:
+  - code-fullscreen
+---
+
+```{julia}
+#| output: false
+
+import Pkg
+Pkg.activate(@__DIR__)
+Pkg.instantiate()
+```
+
+```{julia}
+#| output: false
+
+using Random
+using Distributions
+using ColorSchemes
+using Plots
+using StatsPlots
+using StatsBase
+using LaTeXStrings
+using Measures
+using DataFrames
+using CSV   
+using GLM
+using Optim
+
+Random.seed!(1)
+
+plot_font = "Computer Modern"
+default(
+    fontfamily=plot_font,
+    linewidth=3, 
+    framestyle=:box, 
+    label=nothing, 
+    grid=false,
+    guidefontsize=18,
+    legendfontsize=16,
+    tickfontsize=16,
+    titlefontsize=20,
+    bottom_margin=10mm,
+    left_margin=5mm
+)
+```
+
+# Review
+
+## OLS Estimates
+
+- **If the linear model is true**, OLS gives unbiased parameter estimates and (unconditionally) unbiased predictions.
+- **Linear regression is often treated as magic**. It is not: estimates are sensitive to data distributions and included variables.
+
+# Linear Regression As A Probability Model
+
+
+## Probabilistic Assumptions for LR
+
+$$
+y = \underbrace{\sum_j \beta_j x^j_i}_{\mathbb{E}[y | x^j]} + \underbrace{\varepsilon_i}_{\text{noise}}, \quad \varepsilon_i \sim N(0, \sigma^2) 
+$$
+
+1. $\mathbb{E}[y | x^j]$: Best linear prediction of $y$ conditional on choice of predictors $x^j$.
+2. The noise defines the probability distribution (here: Gaussian) of the observations: $y \sim N(\sum_j \beta_j x^j_i), \sigma^2).$
+
+## Why Add Distributional Assumptions?
+
+The distributional assumption of independent Gaussian residuals is **strong**. Why would we add this?
+
+1. We can obtain $\hat{\beta}$ and $\hat{\sigma}$ through **maximum likelihood**. Maximum likelihood works for most probability models and is **asymptotically efficient**.
+2. Can estimate sampling distributions, distributions of predictions, other statistical quantities.
+
+
+## Why Linear Models?
+
+:::: {.columns}
+::: {.column width=60%}
+Two main reasons to use Gaussian noise:
+
+1. **Inferential**: "Least informative" distribution assuming only finite mean/variance;
+2. **Generative**: Central Limit Theorem (summed fluctuations are asymptotically normal)
+
+:::
+::: {.column width=40%}
+![Weight stack Gaussian distribution](https://i.redd.it/zl5mo1n45wyb1.jpg)
+
+::: {.caption}
+Source: r/GymMemes
+:::
+:::
+::::
+
+::: {.notes}
+One key thing: normal distributions are the "least informative" distribution given constraints on mean and variance. So all else being equal, this is a useful machine if all we're interested in are those two moments.
+:::
+
+## Central Limit Theorem 
+
+If 
+
+- $\mathbb{E}[X_i] = \mu$ 
+- and $\text{Var}(X_i) = \sigma^2 < \infty$, 
+
+$$\begin{aligned}
+\lim_{n \to \infty} \sqrt{n}(\bar{X}_n - \mu ) &= \mathcal{N}(0, \sigma^2) \\
+\Rightarrow & \bar{X}_n \overset{\text{approx}}{\sim} \mathcal{N}(\mu, \sigma^2/n)
+\end{aligned}$$
+
+## Central Limit Theorem (More Intuitive)
+
+:::: {.columns}
+::: {.column width=50%}
+For **a large enough set of samples**: 
+
+The sampling distribution of a sum or mean of random variables is approximately normal distribution, **even if the random variables themselves are not**.
+:::
+::: {.column width=50%}
+![Small n Meme](memes/sampling_distribution_small_n.jpg)
+
+::: {.caption}
+Source: Unknown
+:::
+:::
+::::
+
+
+## Implications of Gaussian Noise
+
+Without explicit modeling of sources of measurement uncertainty, in LR we can't separate a noisy system state (due to *e.g.* omitted variables) from an uncertain measurement error (more on this later).
+
+$$
+\begin{array}{l}
+X \sim N(\mu_1, \sigma_1^2) \\
+Y \sim N(\mu_2, \sigma_2^2) \\
+Z = X + Y
+\end{array}
+\qquad \Rightarrow \qquad Z \sim N(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)
+$$
+
+# Maximum Likelihood
+
+## Example
+
+:::: {.columns}
+::: {.column width=50%}
+$$
+\begin{align*}
+S &= \beta_0 + \beta_1 \log(D) + U\\
+U &\sim \mathcal{N}(0, \sigma^2)
+\end{align*}
+$$
+
+:::
+::: {.column width=50%}
+```{julia}
+tds = let
+    fname = "data/tds/cuyaTDS.csv" # CHANGE THIS!
+    tds = DataFrame(CSV.File(fname))
+    tds[!, [:date, :discharge_cms, :tds_mgL]]
+end
+    
+
+p = scatter(
+    tds.discharge_cms,
+    tds.tds_mgL,
+    xlabel=L"Discharge (m$^3$/s)",
+    ylabel="Total dissolved solids (mg/L)",
+    markersize=5,
+    label="Observations",
+    size = (600, 550)
+)
+xx = [2, 5, 10, 20, 50, 100]
+p1 = plot(p, xaxis=:log, xticks=(xx, string.(xx)))
+```
+:::
+::::
+
+## Likelihood
+
+How do we find $\beta_i$ and $\sigma$?
+
+**Likelihood** of data to have come from distribution $f(\mathbf{x} | \theta)$:
+$$\mathcal{L}(\theta | \mathbf{x}) = \underbrace{f(\mathbf{x} | \theta)}_{\text{PDF}}$$
+
+Here the randomness comes from $U$:
+$$S \sim \mathcal{N}(\beta_0 + \beta_1 \log(D), \sigma^2)$$
+
+
+## OLS Solution Maximizes Gaussian Likelihood
+
+$$y_i \sim \mathcal{N}(F(x_i), \sigma^2)$$
+
+::: {.fragment .fade-in}
+$$\mathcal{L}(\theta | \mathbf{y}; F) = \prod_{i=1}^n \frac{1}{\sqrt{2\pi}} \exp(-\frac{y_i - F(x_i)^2}{2\sigma^2})$$
+:::
+
+::: {.fragment .fade-in}
+
+$$\log \mathcal{L}(\theta | \mathbf{y}; F) = \sum_{i=1}^n \left[\log \frac{1}{\sqrt{2\pi}} - \frac{1}{2\sigma^2}(y_i - F(x_i))^2 \right]$$
+
+:::
+
+## {#simplifying-log-likelihood data-menu-title="Simplifying the Log Likelihood"}
+
+$$
+\begin{align}
+\log \mathcal{L}(\theta | \mathbf{y}, F) &= \sum_{i=1}^n \left[\log \frac{1}{\sqrt{2\pi}} - \frac{1}{2\sigma^2}(y_i - F(x_i))  ^2 \right] \\
+&= n \log \frac{1}{\sqrt{2\pi}} - \frac{1}{2\sigma^2} \sum_{i=1}^n (y_i - F(x_i))^2
+\end{align}
+$$
+
+## {#simplifying-constants-ignore data-menu-title="Simplifying by Ignoring Constants"}
+
+Ignoring constants (including $\sigma$):
+
+$$\log \mathcal{L}(\theta | \mathbf{y}, F) \propto -\sum_{i=1}^n (y_i - F(x_i))^2.$$
+
+::: {.fragment .fade-in}
+Maximizing $f(x)$ is equivalent to minimizing $-f(x)$:
+
+$$
+-\log \mathcal{L}(\theta | \mathbf{y}, F) \propto \sum_{i=1}^n (y_i - F(x_i))^2 = \text{MSE}
+$$
+
+:::
+
+## Back to the Problem...
+
+```{julia}
+#| echo: true
+#| code-line-numbers: "|4-9|11-14"
+
+# tds_riverflow_loglik: function to compute the log-likelihood for the tds model
+# θ: vector of model parameters (coefficients β₀ and β₁ and stdev σ)
+# tds, flow: vectors of data
+function tds_riverflow_loglik(θ, tds, flow)
+    β₀, β₁, σ = θ # unpack parameter vector
+    μ = β₀ .+ β₁ * log.(flow) # find mean
+    ll = sum(logpdf.(Normal.(μ, σ), tds)) # compute log-likelihood
+    return ll
+end
+
+lb = [0.0, -1000.0, 1.0]
+ub = [1000.0, 1000.0, 100.0]
+θ₀ = [500.0, 0.0, 50.0]
+optim_out = Optim.optimize(θ -> -tds_riverflow_loglik(θ, tds.tds_mgL, tds.discharge_cms), lb, ub, θ₀)
+θ_mle = optim_out.minimizer; digits=0
+@show θ_mle;
+```
+
+**Note**: Should really round these results to account for significant digits. Did not here purely for comparison with OLS.
+
+## Maximum Likelihood Results
+
+```{julia}
+#| echo: true
+#| code-fold: false
+#| output-location: column
+
+
+# simulate 10,000 predictions
+x = 1:0.1:60
+μ = θ_mle[1] .+ θ_mle[2] * log.(x)
+
+plot!(p1,
+    x,
+    μ,
+    linewidth=3, 
+    label="MLE line",
+    size=(600, 550))
+plot!(p, size=(600, 600))
+```
+
+## Residual Analysis (Patterns)
+
+:::: {.columns}
+::: {.column width=50%}
+Important to check if the assumptions of the model held: are the residuals seemingly uncorrelated and normally distributed?
+:::
+::: {.column width=50%}
+```{julia}
+#| echo: true
+#| code-fold: true
+#| label: fig-residuals
+#| fig-cap: Residuals for the TDS-Riverflow model.
+
+pred = θ_mle[1] .+ θ_mle[2] * log.(tds.discharge_cms)
+resids = pred - tds.tds_mgL
+p1 = scatter(log.(tds.discharge_cms), resids, ylabel="Model Residuals (mg/L)", xlabel=L"Log-Discharge (log-m$^3$/s) ", size=(600, 500))
+```
+:::
+::::
+
+## Residual Analysis (Distribution)
+
+```{julia}
+#| layout-ncol: 2
+#| label: fig-residuals-2
+#| fig-cap: Residuals for the TDS-Riverflow model.
+
+p1 = histogram(resids, xlabel="Model Residuals (mg/L)", ylabel="Count", title="Residual Histogram", size=(600, 500))
+p2 = qqnorm(resids, xlabel="Theoretical Values", ylabel="Empirical Values", title="Residual Q-Q Plot", size=(600, 500))
+display(p1)
+display(p2)
+```
+
+
+# Confidence and Predictive Intervals
+
+## What Did We Gain?
+
+The Gaussian-noise assumptions is strong. Why make it?
+
+Now we have conditional distributions for each $y_i$, $p(y_i | X = \mathbf{x}_i)$.
+
+## Value of Conditional Distributions
+
+This lets us:
+
+1. Capture uncertainty in our estimates (sampling distributions);
+2. Make probabilistic statements about predictions (*e.g.* what is the 99th quantile).
+
+## Sampling Distributions
+
+:::: {.columns}
+::: {.column width=50%}
+Uncertainty can come from randomness of sampling. How does that affect our estimates?
+
+The resulting distribution of estimates is called the **sampling distribution**.
+:::
+::: {.column width=50%}
+```{julia}
+#| code-fold: true
+#| echo: true
+#| output: true
+#| label: fig-sampling-dist
+#| fig-cap: Illustration of sampling distributions
+
+function sim_lrfit(x, β₀, β₁, σ²; coefficients=true)
+    n = length(x)
+    y = β₀ .+ β₁ * x .+ rand(Normal(0, σ²), n)
+    if coefficients
+        mod = lm([ones(n) x], y)
+        return [coef(mod); dispersion(mod)]
+    else
+        return DataFrame(X=x, Y=y)
+    end
+end
+
+x = rand(Uniform(-5, 5), 42)
+# reduce(hcat, v)' turns vector of vectors v into Matrix by concatenating horizontally then transposing
+sim_coefs = reduce(hcat, [sim_lrfit(x, 5, -2, 0.1, coefficients=true) for i in 1:10_000])'
+
+p1 = histogram(sim_coefs[:, 1], xlabel=L"β$_0$", ylabel="Count", label="Simulated Fits")
+vline!([5], color=:red, linewidth=3, label="True Value")
+
+p2 = histogram(sim_coefs[:, 2], xlabel=L"β$_1$", ylabel="Count", label="Simulated Fits")
+vline!([-2], color=:red, linewidth=3, label="True Value", legend=:topleft)
+
+plot(p1, p2, layout=(2, 1), size=(600, 550))
+```
+:::
+::::
+
+## Impact of Greater Noise
+
+:::: {.columns}
+::: {.column width=50%}
+What if we ramp up the observation variability?
+:::
+::: {.column width=50%}
+```{julia}
+#| code-fold: true
+#| echo: true
+#| output: true
+#| label: fig-sampling-dist-2
+#| fig-cap: Illustration of sampling distributions
+
+
+function sim_lrfit(x, β₀, β₁, σ²; coefficients=true)
+    n = length(x)
+    y = β₀ .+ β₁ * x .+ rand(Normal(0, σ²), n)
+    if coefficients
+        mod = lm([ones(n) x], y)
+        return [coef(mod); dispersion(mod)]
+    else
+        return DataFrame(X=x, Y=y)
+    end
+end
+
+x = rand(Uniform(-5, 5), 42)
+# reduce(hcat, v)' turns vector of vectors v into Matrix by concatenating horizontally then transposing
+sim_coefs = reduce(hcat, [sim_lrfit(x, 5, -2, 0.5, coefficients=true) for i in 1:10_000])'
+
+p1 = histogram(sim_coefs[:, 1], xlabel=L"β$_0$", ylabel="Count", label="Simulated Fits")
+vline!([5], color=:red, linewidth=3, label="True Value")
+
+p2 = histogram(sim_coefs[:, 2], xlabel=L"β$_1$", ylabel="Count", label="Simulated Fits")
+vline!([-2], color=:red, linewidth=3, label="True Value")
+
+plot(p1, p2, layout=(2, 1), size=(600, 550))
+```
+:::
+::::
+
+## Sampling Distributions (Linear Models)
+
+**If the linear model is "true"**:
+
+$$\begin{aligned}
+\hat{\beta}_1 &\sim N\left(\beta_1, \frac{\sigma^2}{ns_X^2}\right) \\
+\hat{\beta}_0 &\sim N\left(\beta_0, \frac{\sigma^2}{n}\left(1 + \frac{\bar{x}^2}{s_X^2}\right)\right) \\
+\frac{n\hat{\sigma}^2}{\sigma^2} &\sim \chi^2_{n-2}
+\end{aligned}
+$$
+
+## Sampling Distributions and Confidence Intervals
+
+These closed form distributions allow for direct calculation of confidence intervals, and therefore to address questions like "How improbable is seeing these estimates assuming an alternative model?"
+
+But **they only work if the model is true.** If the model is false, all of these calculations are wrong, hence the importance of diagnostics.
+
+## But What Is A Confidence Interval?
+
+
+:::: {.columns}
+::: {.column width=50%}
+Frequentist estimates have **confidence intervals**, which will contain the "true" parameter value for $\alpha$% of data samples.
+
+No guarantee that an individual CI contains the true value (with any "probability")!
+:::
+
+::: {.column width=50%}
+
+![Horseshoe Illustration](https://www.wikihow.com/images/thumb/2/20/Throw-a-Horseshoe-Step-4-Version-4.jpg/aid448076-v4-728px-Throw-a-Horseshoe-Step-4-Version-4.jpg){width=90%}
+
+::: {.caption}
+Source: <https://www.wikihow.com/Throw-a-Horseshoe>
+:::
+
+:::
+::::
+
+::: {.notes}
+Confidence intervals only capture uncertainty in **parameter inferences** due to data uncertainty, though this language sometimes gets misused to also refer to data/estimand uncertainty. 
+:::
+
+
+## Example: 95% CIs for N(0.4, 2)
+
+```{julia}
+#| label: fig-cis
+#| code-fold: true
+#| code-overflow: wrap
+#| echo: true
+#| layout-ncol: 2
+#| fig-cap: "Display of 95% confidence intervals"
+#| fig-subcap: 
+#|  - "Sample Size 100"
+#|  - "Sample Size 1,000"
+
+# set up distribution
+mean_true = 0.4
+n_cis = 100 # number of CIs to compute
+dist = Normal(mean_true, 2)
+
+# use sample size of 100
+samples = rand(dist, (100, n_cis))
+# mapslices broadcasts over a matrix dimension, could also use a loop
+sample_means = mapslices(mean, samples; dims=1)
+sample_sd = mapslices(std, samples; dims=1) 
+mc_sd = 1.96 * sample_sd / sqrt(100) 
+mc_ci = zeros(n_cis, 2) # preallocate
+for i = 1:n_cis
+    mc_ci[i, 1] = sample_means[i] - mc_sd[i]
+    mc_ci[i, 2] = sample_means[i] + mc_sd[i]
+end
+# find which CIs contain the true value
+ci_true = (mc_ci[:, 1] .< mean_true) .&& (mc_ci[:, 2] .> mean_true)
+# compute percentage of CIs which contain the true value
+ci_frac1 = 100 * sum(ci_true) ./ n_cis
+
+# plot CIs
+p1 = plot([mc_ci[1, :]], [1, 1], linewidth=3, color=:deepskyblue, label="95% Confidence Interval", title="Sample Size 100", yticks=:false, legend=:false)
+for i = 2:n_cis
+    if ci_true[i]
+        plot!(p1, [mc_ci[i, :]], [i, i], linewidth=2, color=:deepskyblue, label=:false)
+    else
+        plot!(p1, [mc_ci[i, :]], [i, i], linewidth=2, color=:red, label=:false)
+    end
+end
+vline!(p1, [mean_true], color=:black, linewidth=2, linestyle=:dash, label="True Value") # plot true value as a vertical line
+xaxis!(p1, "Estimate")
+plot!(p1, size=(500, 350)) # resize to fit slide
+
+# use sample size of 1000
+samples = rand(dist, (1000, n_cis))
+# mapslices broadcasts over a matrix dimension, could also use a loop
+sample_means = mapslices(mean, samples; dims=1)
+sample_sd = mapslices(std, samples; dims=1) 
+mc_sd = 1.96 * sample_sd / sqrt(1000)
+mc_ci = zeros(n_cis, 2) # preallocate
+for i = 1:n_cis
+    mc_ci[i, 1] = sample_means[i] - mc_sd[i]
+    mc_ci[i, 2] = sample_means[i] + mc_sd[i]
+end
+# find which CIs contain the true value
+ci_true = (mc_ci[:, 1] .< mean_true) .&& (mc_ci[:, 2] .> mean_true)
+# compute percentage of CIs which contain the true value
+ci_frac2 = 100 * sum(ci_true) ./ n_cis
+
+# plot CIs
+p2 = plot([mc_ci[1, :]], [1, 1], linewidth=3, color=:deepskyblue, label="95% Confidence Interval", title="Sample Size 1,000", yticks=:false, legend=:false)
+for i = 2:n_cis
+    if ci_true[i]
+        plot!(p2, [mc_ci[i, :]], [i, i], linewidth=2, color=:deepskyblue, label=:false)
+    else
+        plot!(p2, [mc_ci[i, :]], [i, i], linewidth=2, color=:red, label=:false)
+    end
+end
+vline!(p2, [mean_true], color=:black, linewidth=2, linestyle=:dash, label="True Value") # plot true value as a vertical line
+xaxis!(p2, "Estimate")
+plot!(p2, size=(500, 350)) # resize to fit slide
+
+display(p1)
+display(p2)
+```
+
+`{julia} Int64(round(ci_frac1))`% of the CIs contain the true value (left) vs. `{julia} Int64(round(ci_frac2))`% (right)
+
+## Constructing Confidence Intervals from Sampling Distributions
+
+The key quantity is the **standard error** of a parameter, *e.g.* $\text{se}(\hat{\beta}_1)$. 
+
+The standard error is the standard deviation of the sampling distribution.
+
+We call it the "error" to reflect that it is an "error" in estimating parameters.
+
+## Standard Error Estimates
+ 
+Of course, we also need to estimate the standard error since we don't know the "true" values: 
+
+$$\hat{\text{se}}(\hat{\beta}_1) = \frac{\sigma}{\sqrt{n}s_X} \approx \frac{\hat{\sigma}}{\sqrt{n-2}s_X}$$
+
+since $\frac{n}{n-2}\hat{\sigma}^2 \approx \sigma^2$.
+
+
+## Predictive Intervals
+
+:::: {.columns}
+::: {.column width=50%}
+Generate these using the conditional distributions based on probability model. An $\alpha$-distribution should contain $\alpha$% of new observations.
+
+For example: find 90% interval by simulating samples from model and taking 5--95% quantiles.
+:::
+::: {.column width=50%}
+```{julia}
+#| echo: true
+#| code-fold: true
+
+# simulate 10,000 predictions
+x = 1:0.1:60
+μ = θ_mle[1] .+ θ_mle[2] * log.(x)
+
+y_pred = zeros(length(x), 10_000)
+for i = 1:length(x)
+    y_pred[i, :] = rand(Normal(μ[i], θ_mle[3]), 10_000)
+end
+# take quantiles to find prediction intervals
+y_q = mapslices(v -> quantile(v, [0.05, 0.5, 0.95]), y_pred; dims=2)
+
+p = scatter(
+    tds.discharge_cms,
+    tds.tds_mgL,
+    xlabel=L"Discharge (m$^3$/s)",
+    ylabel="Total dissolved solids (mg/L)",
+    markersize=5,
+    label="Observations",
+    size = (600, 550)
+)
+plot!(x,
+    y_q[:, 2],
+    ribbon = (y_q[:, 2] - y_q[:, 1], y_q[:, 3] - y_q[:, 2]),
+    linewidth=3, 
+    fillalpha=0.2, 
+    label="Best Fit",
+    size=(600, 550))
+```
+:::
+::::
+
+
+
+
+# Key Points
+
+## Probability Models
+
+- Adding probabilistic assumptions lets us:
+    - use maximum likelihood estimation;
+    - Make probabilistic statements about parameters and predictions.
+- Can find MLE by hand in some cases, but more often use numerical optimizers.
+- For linear models (**and linear models only**) this gives the same result as OLS.
+
+# Upcoming Schedule
+
+## Next Classes
+
+**Next Week**: More general probability models (including generalized linear models)
+
+## Assessments
+
+**Homework 1** Due **tonight**.
+
+**Exercises**: Due before class Monday.
+
+**Reading**: Shmueli (2010).
+
+**Quiz 1**: Next Friday (2/13). Will include Monday's content.
+
+# References
+
+## References (Scroll for Full List)

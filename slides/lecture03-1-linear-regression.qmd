@@ -1,0 +1,340 @@
+---
+title: "Linear Regression"
+subtitle: "Lecture 05"
+author: "Vivek Srikrishnan"
+course: "BEE 4850"
+institution: "Cornell University"
+date: "February 02, 2026"
+format:
+    revealjs: default
+engine: julia
+filters:
+  - code-fullscreen
+---
+
+```{julia}
+#| output: false
+
+import Pkg
+Pkg.activate(@__DIR__)
+Pkg.instantiate()
+```
+
+```{julia}
+#| output: false
+
+using Random
+using Distributions
+using ColorSchemes
+using Plots
+using StatsPlots
+using StatsBase
+using LaTeXStrings
+using Measures
+using DataFrames
+using CSV   
+using GLM
+using Optim
+
+Random.seed!(1)
+
+plot_font = "Computer Modern"
+default(
+    fontfamily=plot_font,
+    linewidth=3, 
+    framestyle=:box, 
+    label=nothing, 
+    grid=false,
+    guidefontsize=18,
+    legendfontsize=16,
+    tickfontsize=16,
+    titlefontsize=20,
+    bottom_margin=10mm,
+    left_margin=5mm
+)
+```
+
+# Review
+
+## EDA and Data Visualization
+
+- Is my data fit for purpose?
+- What are features of data?
+- EDA methods are valuable even once we start to fit models, to check appropriateness of assumptions.
+
+# Probability Models
+
+## Uses of Probability Models
+
+What can we use a probability model for?
+
+1. **Summaries** of data: store $y = f(\mathbf{x})$ instead of all data points $(y, x_1, \ldots, x_n)$
+2. **Predict** new data (interpolation/extrapolation): $\hat{f} = f(\hat{\mathbf{x}})$
+3. **Infer** relationships between variables (interpret coefficients of $f$)
+
+## Why Do We Need Models For Data?
+
+- **Data are imperfect**: Data $X$ are only one realization of the data that **could** have been observed and/or we can only measure indirect proxies of what we care about.
+- Over time, statisticians learned to treat these imperfections as the results of **random** processes (for some of this history, see @Hacking1990-yr), requiring probability models.
+- **Data are incomplete**: We often want to predict values for unobserved data (interpolation or extrapolation).
+
+## Predicting Random Variables
+
+Let's say that we want to predict the value of a variable $y \sim Y$. We need a criteria to define the "best" point prediction.
+
+Reasonable starting point: 
+
+$$\text{MSE}(m) = \mathbb{E}\left[(Y - m)^2\right]$$
+
+## MSE As (Squared) Bias + Variance
+
+$$\begin{aligned}
+\mathbb{V}(Y) &= \mathbb{E}\left[(Y - \mathbb{E}[Y])^2\right] \\
+&= \mathbb{E}\left[Y^2 - 2Y\mathbb{E}[Y] + \mathbb{E}[Y]^2\right] \\
+&= \mathbb{E}[Y^2] - 2\mathbb{E}[Y]^2 + \mathbb{E}[Y]^2 = \mathbb{E}[Y^2] - \mathbb{E}[Y]^2 .
+\end{aligned}$$
+
+::: {.fragment .fade-in}
+$$\Rightarrow \text{MSE}(m) = \mathbb{E}\left[(Y - m)^2\right] = \mathbb{E}\left[(Y-m)\right]^2 + \mathbb{V}(Y - m).$$
+:::
+
+## Bias-Variance Decomposition of MSE
+
+Then:
+
+$$\begin{aligned}
+\text{MSE}(m) &= \mathbb{E}\left[(Y-m)\right]^2 + \mathbb{V}(Y - m)  \\
+&= \mathbb{E}\left[(Y-m)\right]^2 + \mathbb{V}(Y) \\
+&= \left(\mathbb{E}[Y] - m\right)^2 + \mathbb{V}(Y).
+\end{aligned}$$
+
+This is the source of the so-called "bias-variance tradeoff" (more on this later).
+
+## Optimizing...
+
+We want to find the minimum value of $\text{MSE}(m)$ (denote the optimal prediction by $\mu$):
+
+::: {.fragment .fade-in}
+$$
+\begin{aligned}
+\frac{d\text{MSE}}{dm} &= -2(\mathbb{E}[Y] - m) + 0 \\
+0 = \left.\frac{d\text{MSE}}{dm}\right|_{m = \mu} &= -2(\mathbb{E}[Y] - \mu) 
+\end{aligned}$$
+
+$$\Rightarrow \mu = \mathbb{E}[Y].$$
+:::
+
+## Expected Value As Best Prediction
+
+In other words, **the best predicted value of a random variable is its expectation**.
+
+But:
+
+1. We usually need a model to estimate $\mathbb{E}[Y | X=x]$.
+2. In many applications, we don't just want a point estimate, we need some estimate of ranges of values **we might observe**.
+
+# "Simple" Linear Regression
+
+## Linear Regression
+
+The "simplest" model is **linear**:
+
+1. The distribution of $X$ is arbitrary.
+2. If $X = \mathbf{x}, Y = \sum_{i=1}^n \beta_i x_i + \varepsilon$.
+3. $\mathbf{E}[\varepsilon | X = x] = 0, \text{Var}[\varepsilon | X = x] = \sigma^2$.
+4. $\varepsilon$ is uncorrelated across observations.
+
+**Why might we generally think of linear models as reasonable**?
+
+
+## Example: How Does River Flow Affect TDS?
+
+:::: {.columns}
+::: {.column width=50%}
+
+**Question**: Does river flow affect the concentration of total dissolved solids?
+
+**Data**: Cuyahoga River (1969 -- 1973), from @Helsel2020-nq [Chapter 9].
+
+:::
+::: {.column width=50%}
+```{julia}
+tds = let
+    fname = "data/tds/cuyaTDS.csv" # CHANGE THIS!
+    tds = DataFrame(CSV.File(fname))
+    tds[!, [:date, :discharge_cms, :tds_mgL]]
+end
+p = scatter(
+    tds.discharge_cms,
+    tds.tds_mgL,
+    xlabel=L"Discharge (m$^3$/s)",
+    ylabel="Total dissolved solids (mg/L)",
+    markersize=5,
+    label="Observations"
+)
+plot!(p, size=(600, 600))
+```
+:::
+::::
+
+## How Does River Flow Affect TDS?
+
+:::: {.columns}
+
+::: {.column width=50%}
+**Question**: Does river flow affect the concentration of total dissolved solids?
+
+**Model**: 
+$$D \rightarrow S \ {\color{purple}\leftarrow U}$$
+$$S = f(D, U)$$
+:::
+::: {.column width=50%}
+```{julia}
+p
+```
+:::
+::::
+
+## Transforming Data
+
+:::: {.columns}
+::: {.column width=50%}
+Can address non-linear relationship in this case with a transformation.
+
+Better in general to transform $S$: $\mathbb{E}[f(Y)] \neq f(\mathbb{E}[Y])$ (and these may be very different).
+
+$$
+\begin{align*}
+S &= \beta_0 + \beta_1 \log(D) + U
+\end{align*}
+$$
+
+
+:::
+::: {.column width=50%}
+```{julia}
+p1 = scatter(
+    log.(tds.discharge_cms),
+    tds.tds_mgL,
+    xlabel=L"Log-Discharge (log(m$^3$/s))",
+    ylabel="Total dissolved solids (mg/L)",
+    markersize=5,
+    label="Observations"
+)
+plot!(p1, size=(600, 600))
+```
+:::
+::::
+
+
+
+## Ordinary Least Squares
+
+**Idea** (from Gauss and others): $S = \beta_0 + \beta_1 \log(D)$ is an overdetermined system of equations.
+
+Since we can't solve, use minimization of sum of squared residuals as heuristic for a "good fit".
+
+$$MSE(b) = \sum_{i=1}^n (Y_i - X_i b)^2$$
+
+
+
+## Estimating Equations
+
+To be more concrete, let's assume one predictor, $$y = \beta_0 + \beta_1 x.$$
+
+Then we want to minimize $$MSE(b_0, b_1) = \frac{1}{n} \sum_{i=1}^n \left(y_i - (b_0 + b_1 x_i)\right)^2.$$
+
+## OLS Solution: $\beta_0$
+
+$$
+\begin{gathered}
+\frac{\partial MSE}{\partial b_0} = 0 \\
+-\frac{2}{n} \sum_{i=1}^n y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i) = 0\\
+\bar{y} - \hat{\beta}_0 - \hat{\beta}_1 \bar{x} = 0 \\
+\Rightarrow \hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}
+\end{gathered}
+$$
+
+## OLS Solution: $\beta_1$
+
+$$
+\begin{gathered}
+\frac{\partial MSE}{\partial b_1} = 0 \\
+-\frac{2}{n} \sum_{i=1}^n \left(y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i)\right)x_i = 0\\
+\bar{xy} - \hat{\beta}_0\bar{x} - \hat{\beta}_1 \bar{x}^2 = 0 \\
+\end{gathered}
+$$
+
+## Solving the Estimating Equations
+
+$$
+\begin{gathered}
+\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x} \\
+\bar{xy} - \hat{\beta}_0\bar{x} - \hat{\beta}_1 \bar{x^2} = 0 \\
+\Rightarrow \bar{xy} - \bar{y}\bar{x} + \hat{\beta}_1 \bar{x}\bar{x} - \hat{\beta}_1 \bar{x^2} = 0\\
+\text{Cov}(X,Y) - \hat{\beta}_1 \text{Var}(X) = 0 \\
+\Rightarrow \hat{\beta}_1 = \text{Cov}(X,Y) / \text{Var}(X).
+\end{gathered}
+$$
+
+## Variance of Errors
+
+To get an estimate of the error variance $\hat{\sigma}^2$, a natural first step is using the MSE:
+
+$$\hat{\sigma}^2 = \frac{1}{n}\sum_{i=1}^n \left(y_i - \hat{m}(x)\right)^2.$$
+
+This is actually a slightly biased estimator, but can be made unbiased by inflating the variance:
+
+$$s^2 = \frac{n}{n-2}\hat{\sigma}^2$$
+
+## Linear Model Fitting: OLS
+
+For our River Flow-TDS example:
+
+```{julia}
+#| echo: true
+#| output: true
+#| code-fold: false
+
+X = log.(tds.discharge_cms) # predictors
+Y = tds.tds_mgL # predicands
+β = zeros(2)
+β[2] = cov(X, Y) / var(X)
+β[1] = mean(Y) - β[2] * mean(X)
+@show β;
+ε = Y - [ones(length(X)) X] * β
+s² = (ε' * ε) / (nrow(tds) - 2)  # error estimate
+@show s²;
+```
+
+
+# Key Points
+
+## Key Points
+
+- Models let us make predictive statements about data.
+- Best point prediction: $\mathbb{E}(Y)$, but this is a useless statement without some model.
+- Linear regression is a first example.
+- Classical approach: solve using ordinary least squares.
+
+# Upcoming Schedule
+
+## Next Classes
+
+**Wednesday**: More on linear regression (including multiple regression).
+
+**Friday**: Maximum likelihood and uncertainty
+
+## Assessments
+
+**Homework 1** Due Friday, 2/6.
+
+**Exercises**: Will be available later this week.
+
+**Reading**: Shmueli (2010).
+
+**Quiz 1**: Next Friday (2/13).
+
+# References
+
+## References (Scroll for Full List)
