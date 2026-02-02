@@ -17,7 +17,7 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 :-----:|:---------|:---------|:---------:|:------:|:--:|:---:|
 | 1 | 1/21 | Class Introduction | [{{< fa sharp presentation-screen >}}](slides/lecture01-1-intro.qmd)   | [@OHagan2004-am](http://doi.wiley.com/10.1111/j.1740-9713.2004.00050.x) | [{{< fa sharp pen-field >}}](hw/hw01/hw01.qmd) | | |
 |  | 1/23 | Probability Review | [{{< fa sharp presentation-screen >}}](slides/lecture01-2-probreview.qmd)  |  | | | |
-| 2 | 1/26 | **Class Canceled Due To Snow**  | [@Franconeri2021-vk](https://doi.org/10.1177/15291006211051956) | | | |
+| 2 | 1/26 | **Class Canceled Due To Snow**  | | [@Franconeri2021-vk](https://doi.org/10.1177/15291006211051956) | | | |
 |   | 1/28 | Exploratory Data Analysis | [{{< fa sharp presentation-screen >}}](slides/lecture02-1-eda.qmd) |  | |  |  |
 |   | 1/30 | Data Visualization | [{{< fa sharp presentation-screen >}}](slides/lecture02-2-data-viz.qmd)  | | | | [Data Viz](resources/dataviz.qmd) |
 | 3 | 2/02 | Linear Regression  | [{{< fa sharp presentation-screen >}}](slides/lecture03-1-linear-regression.qmd)  | [@Shmueli2010-ao](https://doi.org/10.1214/10-STS330)  | | |

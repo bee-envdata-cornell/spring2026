@@ -15,7 +15,7 @@ Homework assignments will be assigned on Monday and are generally due two Friday
 
 ## How To Write Assignments
 
-Here are some tips for how to make the grader (the TA or Prof. Srikrishnan) understand what you mean in the time they're looking at your problem: as noted in the [rubrics](rubric.qmd), if your solution isn't clear enough for us to follow, you will not receive the points even if your answer is technically correct, because part of demonstrating understanding is the ability to organize and communicate.
+Here are some tips for how to make the grader (the TA or Prof. Srikrishnan) understand what you mean in the time they're looking at your problem: as noted in the [rubrics](../policies/rubric.qmd), if your solution isn't clear enough for us to follow, you will not receive the points even if your answer is technically correct, because part of demonstrating understanding is the ability to organize and communicate.
 
 ### Be Honest
 

@@ -7,11 +7,11 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/jquery-3.6.3/jquery-3.6.3.min.js"></script>
 <script src="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.js" defer="true"></script>
 <link href="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.26">
+  <meta name="generator" content="quarto-1.7.33">
 
   <meta name="author" content="Vivek Srikrishnan">
   <meta name="dcterms.date" content="2025-04-21">
@@ -100,7 +100,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-99469881743cb8bd1bf840c72478da80.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-7b87de61f0bc8c7187b97021a1ec54e0.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -280,7 +280,7 @@
 <div id="cell-fig-mcar" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a>n <span class="op">=</span> <span class="fl">50</span></span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a>n <span class="op">=</span> <span class="fl">50</span></span>
 <span id="cb1-2"><a></a>x <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">Uniform</span>(<span class="fl">0</span>, <span class="fl">100</span>), n)</span>
 <span id="cb1-3"><a></a><span class="fu">logit</span>(x) <span class="op">=</span> <span class="fu">log</span>(x <span class="op">/</span> (<span class="fl">1</span> <span class="op">-</span> x))</span>
 <span id="cb1-4"><a></a><span class="fu">invlogit</span>(x) <span class="op">=</span> <span class="fu">exp</span>(x) <span class="op">/</span> (<span class="fl">1</span> <span class="op">+</span> <span class="fu">exp</span>(x))</span>
@@ -304,7 +304,7 @@
 <span id="cb1-22"><a></a>p1 <span class="op">=</span> <span class="fu">scatter</span>(xobs, yobs, xlabel<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span>x<span class="sc">$</span><span class="st">", </span>ylabel<span class="st">=L"</span><span class="op">$</span>y<span class="op">$</span><span class="st">", label=false, markersize=5, size=(600, 500), color=:blue)</span></span>
 <span id="cb1-23"><a></a><span class="fu">scatter!</span>(x[missing_y], y[missing_y], alpha<span class="op">=</span><span class="fl">0.9</span>, color<span class="op">=:</span>lightgrey, label<span class="op">=</span><span class="cn">false</span>, markersize<span class="op">=</span><span class="fl">5</span>)</span>
 <span id="cb1-24"><a></a><span class="fu">plot!</span>(xpred, y_lm_all, color<span class="op">=:</span>red, lw<span class="op">=</span><span class="fl">3</span>, label<span class="op">=</span><span class="st">"Complete-Data Inference"</span>, ribbon<span class="op">=</span>GLM.<span class="fu">dispersion</span>(lm_all), fillalpha<span class="op">=</span><span class="fl">0.2</span>)</span>
-<span id="cb1-25"><a></a><span class="fu">plot!</span>(xpred, y_lm_mcar, color<span class="op">=:</span>blue, lw<span class="op">=</span><span class="fl">3</span>, linestyle<span class="op">=:</span>dot, label<span class="op">=</span><span class="st">"Observed-Data Inference"</span>, ribbon<span class="op">=</span>GLM.<span class="fu">dispersion</span>(lm_mcar), fillalpha<span class="op">=</span><span class="fl">0.2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-25"><a></a><span class="fu">plot!</span>(xpred, y_lm_mcar, color<span class="op">=:</span>blue, lw<span class="op">=</span><span class="fl">3</span>, linestyle<span class="op">=:</span>dot, label<span class="op">=</span><span class="st">"Observed-Data Inference"</span>, ribbon<span class="op">=</span>GLM.<span class="fu">dispersion</span>(lm_mcar), fillalpha<span class="op">=</span><span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-mcar" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -436,7 +436,7 @@ Figure&nbsp;1: Illustration of MCAR Data
 <div id="cell-fig-mar" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a></a>missing_y <span class="op">=</span> <span class="fu">Bool</span>.(<span class="fu">rand</span>.(<span class="fu">Binomial</span>.(<span class="fl">1</span>,  <span class="fu">invlogit</span>.(<span class="fl">0.1</span> <span class="op">*</span> (x <span class="op">.-</span> <span class="fl">75</span>)))))</span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a></a>missing_y <span class="op">=</span> <span class="fu">Bool</span>.(<span class="fu">rand</span>.(<span class="fu">Binomial</span>.(<span class="fl">1</span>,  <span class="fu">invlogit</span>.(<span class="fl">0.1</span> <span class="op">*</span> (x <span class="op">.-</span> <span class="fl">75</span>)))))</span>
 <span id="cb2-2"><a></a>xobs <span class="op">=</span> x[.!(missing_y)]</span>
 <span id="cb2-3"><a></a>yobs <span class="op">=</span> y[.!(missing_y)]</span>
 <span id="cb2-4"><a></a>lm_mar <span class="op">=</span> <span class="fu">lm</span>([<span class="fu">ones</span>(n <span class="op">-</span> <span class="fu">sum</span>(missing_y)) xobs], yobs)</span>
@@ -445,7 +445,7 @@ Figure&nbsp;1: Illustration of MCAR Data
 <span id="cb2-7"><a></a>p2 <span class="op">=</span> <span class="fu">scatter</span>(xobs, yobs, xlabel<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span>x<span class="sc">$</span><span class="st">", </span>ylabel<span class="st">=L"</span><span class="op">$</span>y<span class="op">$</span><span class="st">", label=false, markersize=5, size=(600, 500), color=:blue)</span></span>
 <span id="cb2-8"><a></a><span class="fu">scatter!</span>(x[missing_y], y[missing_y], alpha<span class="op">=</span><span class="fl">0.9</span>, color<span class="op">=:</span>lightgrey, label<span class="op">=</span><span class="cn">false</span>, markersize<span class="op">=</span><span class="fl">5</span>)</span>
 <span id="cb2-9"><a></a><span class="fu">plot!</span>(xpred, y_lm_all, color<span class="op">=:</span>red, lw<span class="op">=</span><span class="fl">3</span>, label<span class="op">=</span><span class="st">"Complete-Data Inference"</span>, ribbon<span class="op">=</span>GLM.<span class="fu">dispersion</span>(lm_all), fillalpha<span class="op">=</span><span class="fl">0.2</span>)</span>
-<span id="cb2-10"><a></a><span class="fu">plot!</span>(xpred, y_lm_mar, color<span class="op">=:</span>blue, lw<span class="op">=</span><span class="fl">3</span>, linestyle<span class="op">=:</span>dot, label<span class="op">=</span><span class="st">"Observed-Data Inference"</span>, ribbon<span class="op">=</span>GLM.<span class="fu">dispersion</span>(lm_mar), fillalpha<span class="op">=</span><span class="fl">0.2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-10"><a></a><span class="fu">plot!</span>(xpred, y_lm_mar, color<span class="op">=:</span>blue, lw<span class="op">=</span><span class="fl">3</span>, linestyle<span class="op">=:</span>dot, label<span class="op">=</span><span class="st">"Observed-Data Inference"</span>, ribbon<span class="op">=</span>GLM.<span class="fu">dispersion</span>(lm_mar), fillalpha<span class="op">=</span><span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-mar" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -577,7 +577,7 @@ Figure&nbsp;2: Illustration of MAR Data
 <div id="cell-fig-mnar" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a></a>missing_y <span class="op">=</span> <span class="fu">Bool</span>.(<span class="fu">rand</span>.(<span class="fu">Binomial</span>.(<span class="fl">1</span>,  <span class="fu">invlogit</span>.(<span class="fl">0.9</span> <span class="op">*</span> (y <span class="op">.-</span> <span class="fl">15</span>)))))</span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a></a>missing_y <span class="op">=</span> <span class="fu">Bool</span>.(<span class="fu">rand</span>.(<span class="fu">Binomial</span>.(<span class="fl">1</span>,  <span class="fu">invlogit</span>.(<span class="fl">0.9</span> <span class="op">*</span> (y <span class="op">.-</span> <span class="fl">15</span>)))))</span>
 <span id="cb3-2"><a></a>xobs <span class="op">=</span> x[.!(missing_y)]</span>
 <span id="cb3-3"><a></a>yobs <span class="op">=</span> y[.!(missing_y)]</span>
 <span id="cb3-4"><a></a>lm_mnar <span class="op">=</span> <span class="fu">lm</span>([<span class="fu">ones</span>(n <span class="op">-</span> <span class="fu">sum</span>(missing_y)) xobs], yobs)</span>
@@ -586,7 +586,7 @@ Figure&nbsp;2: Illustration of MAR Data
 <span id="cb3-7"><a></a>p2 <span class="op">=</span> <span class="fu">scatter</span>(xobs, yobs, xlabel<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span>x<span class="sc">$</span><span class="st">", </span>ylabel<span class="st">=L"</span><span class="op">$</span>y<span class="op">$</span><span class="st">", label=false, markersize=5, size=(600, 500), color=:blue)</span></span>
 <span id="cb3-8"><a></a><span class="fu">scatter!</span>(x[missing_y], y[missing_y], alpha<span class="op">=</span><span class="fl">0.9</span>, color<span class="op">=:</span>lightgrey, label<span class="op">=</span><span class="cn">false</span>, markersize<span class="op">=</span><span class="fl">5</span>)</span>
 <span id="cb3-9"><a></a><span class="fu">plot!</span>(xpred, y_lm_all, color<span class="op">=:</span>red, lw<span class="op">=</span><span class="fl">3</span>, label<span class="op">=</span><span class="st">"Complete-Data Inference"</span>, ribbon<span class="op">=</span>GLM.<span class="fu">dispersion</span>(lm_all), fillalpha<span class="op">=</span><span class="fl">0.2</span>)</span>
-<span id="cb3-10"><a></a><span class="fu">plot!</span>(xpred, y_lm_mnar, color<span class="op">=:</span>blue, lw<span class="op">=</span><span class="fl">3</span>, linestyle<span class="op">=:</span>dot, label<span class="op">=</span><span class="st">"Observed-Data Inference"</span>, ribbon<span class="op">=</span>GLM.<span class="fu">dispersion</span>(lm_mnar), fillalpha<span class="op">=</span><span class="fl">0.2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-10"><a></a><span class="fu">plot!</span>(xpred, y_lm_mnar, color<span class="op">=:</span>blue, lw<span class="op">=</span><span class="fl">3</span>, linestyle<span class="op">=:</span>dot, label<span class="op">=</span><span class="st">"Observed-Data Inference"</span>, ribbon<span class="op">=</span>GLM.<span class="fu">dispersion</span>(lm_mnar), fillalpha<span class="op">=</span><span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-mnar" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -727,17 +727,17 @@ Figure&nbsp;3: Illustration of MCAR Data
 <div id="cell-fig-airquality-data" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a></a>dat <span class="op">=</span> CSV.<span class="fu">read</span>(<span class="st">"data/airquality/airquality.csv"</span>, DataFrame)</span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a></a>dat <span class="op">=</span> CSV.<span class="fu">read</span>(<span class="st">"data/airquality/airquality.csv"</span>, DataFrame)</span>
 <span id="cb4-2"><a></a><span class="fu">rename!</span>(dat, <span class="op">:</span><span class="st">"Solar.R"</span> <span class="op">=&gt;</span> <span class="op">:</span>Solar)</span>
 <span id="cb4-3"><a></a>dat.Miss_Ozone <span class="op">=</span> <span class="fu">ismissing</span>.(dat.Ozone)</span>
 <span id="cb4-4"><a></a>dat.Miss_Solar <span class="op">=</span> <span class="fu">ismissing</span>.(dat.Solar)</span>
-<span id="cb4-5"><a></a>dat[<span class="fl">2</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">7</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-5"><a></a>dat[<span class="fl">2</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">7</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-airquality-data" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
 <div aria-describedby="fig-airquality-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div><div style="float: left;"><span>4×7 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
-<table class="data-frame caption-top" style="margin-bottom: 6px;">
+<table class="data-frame caption-top" data-quarto-postprocess="true" style="margin-bottom: 6px;">
 <thead>
 <tr class="header">
 <th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Row</th>
@@ -816,7 +816,7 @@ Figure&nbsp;4: Air quality dataset.
 <h2>Assessing Missingness (Ozone)</h2>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a></a>dat_ozone_complete <span class="op">=</span> <span class="fu">filter</span>(<span class="op">:</span>Ozone <span class="op">=&gt;</span> x <span class="op">-&gt;</span> !<span class="fu">ismissing</span>(x), dat)</span>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a></a>dat_ozone_complete <span class="op">=</span> <span class="fu">filter</span>(<span class="op">:</span>Ozone <span class="op">=&gt;</span> x <span class="op">-&gt;</span> !<span class="fu">ismissing</span>(x), dat)</span>
 <span id="cb5-2"><a></a>dat_ozone_missing <span class="op">=</span> <span class="fu">filter</span>(<span class="op">:</span>Ozone <span class="op">=&gt;</span> x <span class="op">-&gt;</span> <span class="fu">ismissing</span>(x), dat)</span>
 <span id="cb5-3"><a></a></span>
 <span id="cb5-4"><a></a>p1 <span class="op">=</span> <span class="fu">scatter</span>(dat_ozone_complete.Temp, dat_ozone_complete.Wind, xlabel <span class="op">=</span> <span class="st">"Temperature (°C)"</span>, ylabel<span class="op">=</span><span class="st">"Wind (mph)"</span>, markersize<span class="op">=</span><span class="fl">5</span>, color<span class="op">=:</span>blue, label<span class="op">=</span><span class="st">"Not Missing"</span>)</span>
@@ -828,7 +828,7 @@ Figure&nbsp;4: Air quality dataset.
 <span id="cb5-10"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">450</span>))</span>
 <span id="cb5-11"><a></a></span>
 <span id="cb5-12"><a></a><span class="fu">display</span>(p1)</span>
-<span id="cb5-13"><a></a><span class="fu">display</span>(p2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-13"><a></a><span class="fu">display</span>(p2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-airquality-missing-ozone" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
@@ -1268,7 +1268,7 @@ Figure&nbsp;5
 <h2>Assessing Missingness (Solar)</h2>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a></a>dat_solar_complete <span class="op">=</span> <span class="fu">filter</span>(<span class="op">:</span>Solar <span class="op">=&gt;</span> x <span class="op">-&gt;</span> !<span class="fu">ismissing</span>(x), dat)</span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a></a>dat_solar_complete <span class="op">=</span> <span class="fu">filter</span>(<span class="op">:</span>Solar <span class="op">=&gt;</span> x <span class="op">-&gt;</span> !<span class="fu">ismissing</span>(x), dat)</span>
 <span id="cb6-2"><a></a>dat_solar_missing <span class="op">=</span> <span class="fu">filter</span>(<span class="op">:</span>Solar <span class="op">=&gt;</span> x <span class="op">-&gt;</span> <span class="fu">ismissing</span>(x), dat)</span>
 <span id="cb6-3"><a></a></span>
 <span id="cb6-4"><a></a>p1 <span class="op">=</span> <span class="fu">scatter</span>(dat_solar_complete.Temp, dat_solar_complete.Wind, xlabel <span class="op">=</span> <span class="st">"Temperature (°C)"</span>, ylabel<span class="op">=</span><span class="st">"Wind (mph)"</span>, markersize<span class="op">=</span><span class="fl">5</span>, color<span class="op">=:</span>blue, label<span class="op">=</span><span class="st">"Not Missing"</span>)</span>
@@ -1280,7 +1280,7 @@ Figure&nbsp;5
 <span id="cb6-10"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">450</span>))</span>
 <span id="cb6-11"><a></a></span>
 <span id="cb6-12"><a></a><span class="fu">display</span>(p1)</span>
-<span id="cb6-13"><a></a><span class="fu">display</span>(p2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-13"><a></a><span class="fu">display</span>(p2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-airquality-missing-solar" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
@@ -1739,7 +1739,7 @@ Figure&nbsp;6
 <h2>Candidate Model-Based Imputations</h2>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a></a><span class="co"># bootstrap linear models and get predictions</span></span>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a></a><span class="co"># bootstrap linear models and get predictions</span></span>
 <span id="cb7-2"><a></a>nboot <span class="op">=</span> <span class="fl">100</span></span>
 <span id="cb7-3"><a></a><span class="co">## model for solar radiation</span></span>
 <span id="cb7-4"><a></a><span class="kw">function</span> <span class="fu">impute_bootstrap_model</span>(dat_complete, dat_missing, model_formula)</span>
@@ -1781,7 +1781,7 @@ Figure&nbsp;6
 <span id="cb7-40"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">450</span>))</span>
 <span id="cb7-41"><a></a></span>
 <span id="cb7-42"><a></a><span class="fu">display</span>(p1)</span>
-<span id="cb7-43"><a></a><span class="fu">display</span>(p2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-43"><a></a><span class="fu">display</span>(p2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-airquality-impute" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
@@ -2216,14 +2216,14 @@ Figure&nbsp;7
 <div id="cell-fig-airquality-impute-ozone-ts-model" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a></a>p1 <span class="op">=</span> <span class="fu">plot</span>(dat.rownames, dat.Ozone, lw<span class="op">=</span><span class="fl">3</span>, color<span class="op">=:</span>blue, label<span class="op">=</span><span class="st">"Observations"</span>, xlabel<span class="op">=</span><span class="st">"Day Number"</span>, ylabel<span class="op">=</span><span class="st">"Ozone (ppb)"</span>)</span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a></a>p1 <span class="op">=</span> <span class="fu">plot</span>(dat.rownames, dat.Ozone, lw<span class="op">=</span><span class="fl">3</span>, color<span class="op">=:</span>blue, label<span class="op">=</span><span class="st">"Observations"</span>, xlabel<span class="op">=</span><span class="st">"Day Number"</span>, ylabel<span class="op">=</span><span class="st">"Ozone (ppb)"</span>)</span>
 <span id="cb8-2"><a></a><span class="cf">for</span> i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">nrow</span>(dat_ozone_missing)</span>
 <span id="cb8-3"><a></a>    label <span class="op">=</span> i <span class="op">==</span> <span class="fl">1</span> ? <span class="st">"Imputations"</span> <span class="op">:</span> <span class="cn">false</span></span>
 <span id="cb8-4"><a></a>    <span class="fu">boxplot!</span>(p1, [dat_ozone_missing[i, <span class="op">:</span>rownames]], impute_ozone[i, <span class="op">:</span>], color<span class="op">=:</span>orange, label<span class="op">=</span>label)</span>
 <span id="cb8-5"><a></a><span class="cf">end</span></span>
 <span id="cb8-6"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">1200</span>, <span class="fl">500</span>))</span>
 <span id="cb8-7"><a></a></span>
-<span id="cb8-8"><a></a><span class="fu">display</span>(p1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-8"><a></a><span class="fu">display</span>(p1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-airquality-impute-ozone-ts-model" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-fig">
@@ -2806,14 +2806,14 @@ Figure&nbsp;8: Air quality dataset.
 <div id="cell-fig-airquality-impute-solar-ts-model" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a></a>p2 <span class="op">=</span> <span class="fu">plot</span>(dat.rownames, dat.Solar, lw<span class="op">=</span><span class="fl">3</span>, color<span class="op">=:</span>blue, label<span class="op">=</span><span class="st">"Observations"</span>, xlabel<span class="op">=</span><span class="st">"Day Number"</span>, ylabel<span class="op">=</span>L<span class="st">"Solar (W/m</span><span class="sc">$</span><span class="st">^2</span><span class="sc">$</span><span class="st">)")</span></span>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a></a>p2 <span class="op">=</span> <span class="fu">plot</span>(dat.rownames, dat.Solar, lw<span class="op">=</span><span class="fl">3</span>, color<span class="op">=:</span>blue, label<span class="op">=</span><span class="st">"Observations"</span>, xlabel<span class="op">=</span><span class="st">"Day Number"</span>, ylabel<span class="op">=</span>L<span class="st">"Solar (W/m</span><span class="sc">$</span><span class="st">^2</span><span class="sc">$</span><span class="st">)")</span></span>
 <span id="cb9-2"><a></a>for<span class="st"> i = 1:nrow(dat_solar_missing)</span></span>
 <span id="cb9-3"><a></a>    label <span class="op">=</span> i <span class="op">==</span> <span class="fl">1</span> ? <span class="st">"Imputations"</span> <span class="op">:</span> <span class="cn">false</span></span>
 <span id="cb9-4"><a></a>    <span class="fu">boxplot!</span>(p2, [dat_solar_missing[i, <span class="op">:</span>rownames]], impute_solar[i, <span class="op">:</span>], color<span class="op">=:</span>orange, label<span class="op">=</span>label)</span>
 <span id="cb9-5"><a></a><span class="kw">end</span></span>
 <span id="cb9-6"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">1200</span>, <span class="fl">500</span>))</span>
 <span id="cb9-7"><a></a></span>
-<span id="cb9-8"><a></a><span class="fu">display</span>(p2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-8"><a></a><span class="fu">display</span>(p2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-airquality-impute-solar-ts-model" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-fig">
@@ -2986,7 +2986,7 @@ Figure&nbsp;9: Air quality dataset.
 <div id="cell-fig-airquality-regression" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a></a>β_boot <span class="op">=</span> <span class="fu">zeros</span>(nboot)</span>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a></a>β_boot <span class="op">=</span> <span class="fu">zeros</span>(nboot)</span>
 <span id="cb10-2"><a></a>σ_boot <span class="op">=</span> <span class="fu">zeros</span>(nboot)</span>
 <span id="cb10-3"><a></a><span class="cf">for</span> i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>nboot</span>
 <span id="cb10-4"><a></a>    dat_boot <span class="op">=</span> <span class="fu">impute_variables</span>(dat, impute_ozone[<span class="op">:</span>, i], impute_solar[<span class="op">:</span>, i])</span>
@@ -3003,7 +3003,7 @@ Figure&nbsp;9: Air quality dataset.
 <span id="cb10-15"><a></a>σ_cc <span class="op">=</span> <span class="fu">dispersion</span>(cc_model.model)</span>
 <span id="cb10-16"><a></a><span class="fu">histogram</span>(β_boot, xlabel<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span><span class="st">\</span>beta<span class="sc">$</span><span class="st">", </span>ylabel<span class="st">="</span>Count<span class="st">", label=false)</span></span>
 <span id="cb10-17"><a></a><span class="fu">vline!</span>([β_cc], color<span class="op">=:</span>red, label<span class="op">=</span><span class="st">"Complete-Case"</span>)</span>
-<span id="cb10-18"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">500</span>, <span class="fl">450</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-18"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">500</span>, <span class="fl">450</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-airquality-regression" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -3112,7 +3112,7 @@ Figure&nbsp;10: Air quality dataset.
 <h2>Predictive Mean Matching Imputations</h2>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a></a><span class="co"># bootstrap linear models and get predictions</span></span>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a></a><span class="co"># bootstrap linear models and get predictions</span></span>
 <span id="cb11-2"><a></a>nboot <span class="op">=</span> <span class="fl">100</span> <span class="co"># number of bootstrap samples for parameter variabiity</span></span>
 <span id="cb11-3"><a></a>k <span class="op">=</span> <span class="fl">5</span> <span class="co"># number of nearest-neighbors to sample from</span></span>
 <span id="cb11-4"><a></a></span>
@@ -3155,7 +3155,7 @@ Figure&nbsp;10: Air quality dataset.
 <span id="cb11-41"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">450</span>))</span>
 <span id="cb11-42"><a></a></span>
 <span id="cb11-43"><a></a><span class="fu">display</span>(p1)</span>
-<span id="cb11-44"><a></a><span class="fu">display</span>(p2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-44"><a></a><span class="fu">display</span>(p2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-airquality-pmm-impute" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
@@ -3590,14 +3590,14 @@ Figure&nbsp;11
 <div id="cell-fig-airquality-impute-ozone-ts-pmm" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a></a>p1mm <span class="op">=</span> <span class="fu">plot</span>(dat.rownames, dat.Ozone, lw<span class="op">=</span><span class="fl">3</span>, color<span class="op">=:</span>blue, label<span class="op">=</span><span class="st">"Observations"</span>, xlabel<span class="op">=</span><span class="st">"Day Number"</span>, ylabel<span class="op">=</span><span class="st">"Ozone (ppb)"</span>)</span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a></a>p1mm <span class="op">=</span> <span class="fu">plot</span>(dat.rownames, dat.Ozone, lw<span class="op">=</span><span class="fl">3</span>, color<span class="op">=:</span>blue, label<span class="op">=</span><span class="st">"Observations"</span>, xlabel<span class="op">=</span><span class="st">"Day Number"</span>, ylabel<span class="op">=</span><span class="st">"Ozone (ppb)"</span>)</span>
 <span id="cb12-2"><a></a><span class="cf">for</span> i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">nrow</span>(dat_ozone_missing)</span>
 <span id="cb12-3"><a></a>    label <span class="op">=</span> i <span class="op">==</span> <span class="fl">1</span> ? <span class="st">"Imputations"</span> <span class="op">:</span> <span class="cn">false</span></span>
 <span id="cb12-4"><a></a>    <span class="fu">boxplot!</span>(p1mm, [dat_ozone_missing[i, <span class="op">:</span>rownames]], impute_ozone_pmm[i, <span class="op">:</span>], color<span class="op">=:</span>orange, label<span class="op">=</span>label)</span>
 <span id="cb12-5"><a></a><span class="cf">end</span></span>
 <span id="cb12-6"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">1200</span>, <span class="fl">500</span>))</span>
 <span id="cb12-7"><a></a></span>
-<span id="cb12-8"><a></a><span class="fu">display</span>(p1mm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-8"><a></a><span class="fu">display</span>(p1mm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-airquality-impute-ozone-ts-pmm" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-fig">
@@ -4225,14 +4225,14 @@ Figure&nbsp;12: Air quality dataset.
 <div id="cell-fig-airquality-impute-solar-ts-pmm" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a></a>p2mm <span class="op">=</span> <span class="fu">plot</span>(dat.rownames, dat.Solar, lw<span class="op">=</span><span class="fl">3</span>, color<span class="op">=:</span>blue, label<span class="op">=</span><span class="st">"Observations"</span>, xlabel<span class="op">=</span><span class="st">"Day Number"</span>, ylabel<span class="op">=</span>L<span class="st">"Solar (W/m</span><span class="sc">$</span><span class="st">^2</span><span class="sc">$</span><span class="st">)")</span></span>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a></a>p2mm <span class="op">=</span> <span class="fu">plot</span>(dat.rownames, dat.Solar, lw<span class="op">=</span><span class="fl">3</span>, color<span class="op">=:</span>blue, label<span class="op">=</span><span class="st">"Observations"</span>, xlabel<span class="op">=</span><span class="st">"Day Number"</span>, ylabel<span class="op">=</span>L<span class="st">"Solar (W/m</span><span class="sc">$</span><span class="st">^2</span><span class="sc">$</span><span class="st">)")</span></span>
 <span id="cb13-2"><a></a>for<span class="st"> i = 1:nrow(dat_solar_missing)</span></span>
 <span id="cb13-3"><a></a>    label <span class="op">=</span> i <span class="op">==</span> <span class="fl">1</span> ? <span class="st">"Imputations"</span> <span class="op">:</span> <span class="cn">false</span></span>
 <span id="cb13-4"><a></a>    <span class="fu">boxplot!</span>(p2mm, [dat_solar_missing[i, <span class="op">:</span>rownames]], impute_solar_pmm[i, <span class="op">:</span>], color<span class="op">=:</span>orange, label<span class="op">=</span>label)</span>
 <span id="cb13-5"><a></a><span class="kw">end</span></span>
 <span id="cb13-6"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">1200</span>, <span class="fl">500</span>))</span>
 <span id="cb13-7"><a></a></span>
-<span id="cb13-8"><a></a><span class="fu">display</span>(p2mm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-8"><a></a><span class="fu">display</span>(p2mm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-airquality-impute-solar-ts-pmm" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-fig">
@@ -4386,7 +4386,7 @@ Figure&nbsp;13: Air quality dataset.
 <div id="cell-fig-airquality-pmm" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a></a>β_boot <span class="op">=</span> <span class="fu">zeros</span>(nboot)</span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a></a>β_boot <span class="op">=</span> <span class="fu">zeros</span>(nboot)</span>
 <span id="cb14-2"><a></a>σ_boot <span class="op">=</span> <span class="fu">zeros</span>(nboot)</span>
 <span id="cb14-3"><a></a><span class="cf">for</span> i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>nboot</span>
 <span id="cb14-4"><a></a>    dat_boot <span class="op">=</span> <span class="fu">impute_variables</span>(dat, impute_ozone[<span class="op">:</span>, i], impute_solar[<span class="op">:</span>, i])</span>
@@ -4403,7 +4403,7 @@ Figure&nbsp;13: Air quality dataset.
 <span id="cb14-15"><a></a>σ_cc <span class="op">=</span> <span class="fu">dispersion</span>(cc_model.model)</span>
 <span id="cb14-16"><a></a><span class="fu">histogram</span>(β_boot, xlabel<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span><span class="st">\</span>beta<span class="sc">$</span><span class="st">", </span>ylabel<span class="st">="</span>Count<span class="st">", label=false)</span></span>
 <span id="cb14-17"><a></a><span class="fu">vline!</span>([β_cc], color<span class="op">=:</span>red, label<span class="op">=</span><span class="st">"Complete-Case"</span>)</span>
-<span id="cb14-18"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">500</span>, <span class="fl">450</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-18"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">500</span>, <span class="fl">450</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-airquality-pmm" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -4501,7 +4501,7 @@ Figure&nbsp;14: Air quality dataset.
 <h2>Comparison of Imputations (Solar)</h2>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a></a>impute_model_df <span class="op">=</span> <span class="fu">DataFrame</span>(impute_solar<span class="op">'</span>, <span class="op">:</span>auto)</span>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a></a>impute_model_df <span class="op">=</span> <span class="fu">DataFrame</span>(impute_solar<span class="op">'</span>, <span class="op">:</span>auto)</span>
 <span id="cb15-2"><a></a>impute_model_df_stk <span class="op">=</span> <span class="fu">stack</span>(impute_model_df)</span>
 <span id="cb15-3"><a></a>impute_model_df_stk.Method <span class="op">.=</span> <span class="st">"Prediction"</span></span>
 <span id="cb15-4"><a></a></span>
@@ -4512,9 +4512,9 @@ Figure&nbsp;14: Air quality dataset.
 <span id="cb15-9"><a></a>impute_all_df <span class="op">=</span> <span class="fu">vcat</span>(impute_model_df_stk, impute_pmm_df_stk)</span>
 <span id="cb15-10"><a></a></span>
 <span id="cb15-11"><a></a><span class="pp">@df</span> impute_all_df <span class="fu">groupedboxplot</span>(<span class="op">:</span>variable, <span class="op">:</span>value, group<span class="op">=:</span>Method, xlabel<span class="op">=</span><span class="st">"Imputed Case"</span>, ylabel<span class="op">=</span>L<span class="st">"Solar Radiation (W/m</span><span class="sc">$</span><span class="st">^2</span><span class="sc">$</span><span class="st">)")</span></span>
-<span id="cb15-12"><a></a>plot<span class="st">!(size=(1300, 500))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb15-12"><a></a>plot<span class="st">!(size=(1300, 500))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="cell-fig-airquality-impute-solar-comparison" class="cell quarto-layout-panel" data-execution_count="1" data-layout-ncol="2">
+<div id="cell-fig-airquality-impute-solar-comparison" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div id="fig-airquality-impute-solar-comparison" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
@@ -4773,7 +4773,7 @@ Figure&nbsp;15: Air quality dataset.
 <h2>Comparison of Imputations (Ozone)</h2>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a></a>impute_model_df <span class="op">=</span> <span class="fu">DataFrame</span>(impute_ozone<span class="op">'</span>, <span class="op">:</span>auto)</span>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a></a>impute_model_df <span class="op">=</span> <span class="fu">DataFrame</span>(impute_ozone<span class="op">'</span>, <span class="op">:</span>auto)</span>
 <span id="cb16-2"><a></a>impute_model_df_stk <span class="op">=</span> <span class="fu">stack</span>(impute_model_df)</span>
 <span id="cb16-3"><a></a>impute_model_df_stk.Method <span class="op">.=</span> <span class="st">"Prediction"</span></span>
 <span id="cb16-4"><a></a></span>
@@ -4784,9 +4784,9 @@ Figure&nbsp;15: Air quality dataset.
 <span id="cb16-9"><a></a>impute_all_df <span class="op">=</span> <span class="fu">vcat</span>(impute_model_df_stk, impute_pmm_df_stk)</span>
 <span id="cb16-10"><a></a></span>
 <span id="cb16-11"><a></a><span class="pp">@df</span> impute_all_df <span class="fu">groupedboxplot</span>(<span class="op">:</span>variable, <span class="op">:</span>value, group<span class="op">=:</span>Method, xlabel<span class="op">=</span><span class="st">"Imputed Case"</span>, ylabel<span class="op">=</span><span class="st">"Ozone (ppb)"</span>)</span>
-<span id="cb16-12"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">1300</span>, <span class="fl">500</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-12"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">1300</span>, <span class="fl">500</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="cell-fig-airquality-impute-ozone-comparison" class="cell quarto-layout-panel" data-execution_count="1" data-layout-ncol="2">
+<div id="cell-fig-airquality-impute-ozone-comparison" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div id="fig-airquality-impute-ozone-comparison" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
@@ -6394,14 +6394,13 @@ Figure&nbsp;16: Air quality dataset.
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-          const outerScaffold = trigger.parentElement.cloneNode(true);
-          const codeEl = outerScaffold.querySelector('code');
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
+            const codeEl = trigger.previousElementSibling.cloneNode(true);
+            for (const childEl of codeEl.children) {
+              if (isCodeAnnotation(childEl)) {
+                childEl.remove();
+              }
             }
-          }
-          return codeEl.innerText;
+            return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy
