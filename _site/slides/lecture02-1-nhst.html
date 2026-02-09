@@ -7,11 +7,11 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/jquery-3.6.3/jquery-3.6.3.min.js"></script>
 <script src="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.js" defer="true"></script>
 <link href="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.33">
+  <meta name="generator" content="quarto-1.8.26">
 
   <meta name="author" content="Vivek Srikrishnan">
   <meta name="dcterms.date" content="2026-01-26">
@@ -120,7 +120,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-7b87de61f0bc8c7187b97021a1ec54e0.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-99469881743cb8bd1bf840c72478da80.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -441,7 +441,7 @@
 <div id="cell-fig-surge-data" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a><span class="co"># load SF tide gauge data</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a><span class="co"># load SF tide gauge data</span></span>
 <span id="cb1-2"><a></a><span class="co"># read in data and get annual maxima</span></span>
 <span id="cb1-3"><a></a><span class="kw">function</span> <span class="fu">load_data</span>(fname)</span>
 <span id="cb1-4"><a></a>    date_format <span class="op">=</span> <span class="fu">DateFormat</span>(<span class="st">"yyyy-mm-dd HH:MM:SS"</span>)</span>
@@ -493,7 +493,7 @@
 <span id="cb1-50"><a></a>linfit <span class="op">=</span> <span class="fu">lm</span>(<span class="pp">@formula</span>(residual <span class="op">~</span> Year), dat_annmax)</span>
 <span id="cb1-51"><a></a>pred <span class="op">=</span> <span class="fu">coef</span>(linfit)[<span class="fl">1</span>] <span class="op">.+</span> <span class="fu">coef</span>(linfit)[<span class="fl">2</span>] <span class="op">*</span> dat_annmax.Year</span>
 <span id="cb1-52"><a></a></span>
-<span id="cb1-53"><a></a><span class="fu">plot!</span>(p1, dat_annmax.Year, pred, linewidth<span class="op">=</span><span class="fl">3</span>, label<span class="op">=</span><span class="st">"Linear Trend"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-53"><a></a><span class="fu">plot!</span>(p1, dat_annmax.Year, pred, linewidth<span class="op">=</span><span class="fl">3</span>, label<span class="op">=</span><span class="st">"Linear Trend"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 
 </div>
@@ -1192,13 +1192,14 @@ McElreath, R. (2020). <em>Statistical rethinking : A bayesian course with exampl
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

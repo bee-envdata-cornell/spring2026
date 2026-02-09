@@ -7,11 +7,11 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/jquery-3.6.3/jquery-3.6.3.min.js"></script>
 <script src="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.js" defer="true"></script>
 <link href="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.33">
+  <meta name="generator" content="quarto-1.8.26">
 
   <meta name="author" content="Vivek Srikrishnan">
   <meta name="dcterms.date" content="2026-01-28">
@@ -100,7 +100,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-7b87de61f0bc8c7187b97021a1ec54e0.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-99469881743cb8bd1bf840c72478da80.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -376,13 +376,13 @@
 <div id="6" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a>aq <span class="op">=</span> <span class="fu">DataFrame</span>(CSV.<span class="fu">File</span>(<span class="st">"data/airquality/airquality.csv"</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a>aq <span class="op">=</span> <span class="fu">DataFrame</span>(CSV.<span class="fu">File</span>(<span class="st">"data/airquality/airquality.csv"</span>))</span>
 <span id="cb1-2"><a></a><span class="fu">rename!</span>(aq, <span class="op">:</span><span class="st">"Solar.R"</span> <span class="op">=&gt;</span> <span class="op">:</span>Solar) <span class="co"># rename solar radiation column to get rid of period</span></span>
-<span id="cb1-3"><a></a>aq[<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">:</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a></a>aq[<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">:</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <div><div style="float: left;"><span>5×7 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
-<table class="data-frame caption-top" data-quarto-postprocess="true" style="margin-bottom: 6px;">
+<table class="data-frame caption-top" style="margin-bottom: 6px;">
 <thead>
 <tr class="columnLabelRow header">
 <th class="stubheadLabel" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Row</th>
@@ -467,7 +467,7 @@
 <div id="8" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a></a>aq_stack <span class="op">=</span> <span class="fu">stack</span>(aq, <span class="fl">2</span><span class="op">:</span><span class="fl">5</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a></a>aq_stack <span class="op">=</span> <span class="fu">stack</span>(aq, <span class="fl">2</span><span class="op">:</span><span class="fl">5</span>)</span>
 <span id="cb2-2"><a></a>aq_gp <span class="op">=</span> <span class="pp">@groupby</span>(aq_stack, <span class="op">:</span>variable)</span>
 <span id="cb2-3"><a></a><span class="pp">@combine</span>(aq_gp, <span class="op">$</span>AsTable <span class="op">=</span> (</span>
 <span id="cb2-4"><a></a>        min<span class="op">=</span><span class="fu">minimum</span>(<span class="fu">skipmissing</span>(<span class="op">:</span>value)), </span>
@@ -476,11 +476,11 @@
 <span id="cb2-7"><a></a>        max<span class="op">=</span><span class="fu">maximum</span>(<span class="fu">skipmissing</span>(<span class="op">:</span>value)),</span>
 <span id="cb2-8"><a></a>        missings<span class="op">=</span><span class="fu">sum</span>(<span class="fu">ismissing</span>.(<span class="op">:</span>value))</span>
 <span id="cb2-9"><a></a>    )</span>
-<span id="cb2-10"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-10"><a></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <div><div style="float: left;"><span>4×6 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
-<table class="data-frame caption-top" data-quarto-postprocess="true" style="margin-bottom: 6px;">
+<table class="data-frame caption-top" style="margin-bottom: 6px;">
 <thead>
 <tr class="columnLabelRow header">
 <th class="stubheadLabel" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Row</th>
@@ -549,12 +549,12 @@
 <div id="10" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a></a>aq_cor <span class="op">=</span> <span class="fu">cor</span>(<span class="fu">Matrix</span>(<span class="fu">dropmissing</span>(aq[<span class="op">:</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">5</span>])))</span>
-<span id="cb3-2"><a></a><span class="fu">DataFrame</span>(aq_cor, <span class="fu">names</span>(aq[<span class="op">:</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">5</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a></a>aq_cor <span class="op">=</span> <span class="fu">cor</span>(<span class="fu">Matrix</span>(<span class="fu">dropmissing</span>(aq[<span class="op">:</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">5</span>])))</span>
+<span id="cb3-2"><a></a><span class="fu">DataFrame</span>(aq_cor, <span class="fu">names</span>(aq[<span class="op">:</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">5</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <div><div style="float: left;"><span>4×4 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
-<table class="data-frame caption-top" data-quarto-postprocess="true" style="margin-bottom: 6px;">
+<table class="data-frame caption-top" style="margin-bottom: 6px;">
 <thead>
 <tr class="columnLabelRow header">
 <th class="stubheadLabel" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Row</th>
@@ -648,11 +648,11 @@
 <div id="cell-fig-explore1" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a></a>p1 <span class="op">=</span> <span class="fu">boxplot</span>(<span class="fu">skipmissing</span>(aq[!, <span class="op">:</span>Ozone]), ylabel<span class="op">=</span><span class="st">"Ozone (ppb)"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a></a>p1 <span class="op">=</span> <span class="fu">boxplot</span>(<span class="fu">skipmissing</span>(aq[!, <span class="op">:</span>Ozone]), ylabel<span class="op">=</span><span class="st">"Ozone (ppb)"</span>)</span>
 <span id="cb4-2"><a></a></span>
 <span id="cb4-3"><a></a>p2 <span class="op">=</span> <span class="fu">histogram</span>(<span class="fu">skipmissing</span>(aq[!, <span class="op">:</span>Ozone]), xlabel<span class="op">=</span><span class="st">"Ozone (ppb)"</span>, ylabel<span class="op">=</span><span class="st">"Count"</span>)</span>
 <span id="cb4-4"><a></a></span>
-<span id="cb4-5"><a></a>p <span class="op">=</span> <span class="fu">plot</span>(p1, p2, layout<span class="op">=</span>(<span class="fl">2</span>, <span class="fl">1</span>), size<span class="op">=</span>(<span class="fl">550</span>, <span class="fl">500</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-5"><a></a>p <span class="op">=</span> <span class="fu">plot</span>(p1, p2, layout<span class="op">=</span>(<span class="fl">2</span>, <span class="fl">1</span>), size<span class="op">=</span>(<span class="fl">550</span>, <span class="fl">500</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-explore1" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -672,12 +672,12 @@ Figure&nbsp;1: Paired plots of air quality dataset
 <div id="cell-fig-explore2" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a></a><span class="co"># this uses the dataframe plotting syntax from StatsPlots.jl</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a></a><span class="co"># this uses the dataframe plotting syntax from StatsPlots.jl</span></span>
 <span id="cb5-2"><a></a>p1 <span class="op">=</span> <span class="pp">@df</span> aq <span class="fu">scatter</span>(<span class="op">:</span>Ozone, <span class="op">:</span>Solar, markersize<span class="op">=</span><span class="fl">5</span>, color<span class="op">=:</span>blue, xlabel<span class="op">=</span><span class="st">"Ozone (ppb)"</span>, ylabel<span class="op">=</span><span class="st">"Solar Radiation (lang)"</span>, leftmargin<span class="op">=</span><span class="fl">10</span>mm)</span>
 <span id="cb5-3"><a></a>p2 <span class="op">=</span> <span class="pp">@df</span> aq <span class="fu">scatter</span>(<span class="op">:</span>Ozone, <span class="op">:</span>Wind, markersize<span class="op">=</span><span class="fl">5</span>, color<span class="op">=:</span>blue, xlabel<span class="op">=</span><span class="st">"Ozone (ppb)"</span>, ylabel<span class="op">=</span><span class="st">"Wind Speed (mph)"</span>, leftmargin<span class="op">=</span><span class="fl">10</span>mm)</span>
 <span id="cb5-4"><a></a>p3 <span class="op">=</span> <span class="pp">@df</span> aq <span class="fu">scatter</span>(<span class="op">:</span>Ozone, <span class="op">:</span>Temp, markersize<span class="op">=</span><span class="fl">5</span>, color<span class="op">=:</span>blue, xlabel<span class="op">=</span><span class="st">"Ozone (ppb)"</span>, ylabel<span class="op">=</span><span class="st">"Max Temperature (°F) "</span>, leftmargin<span class="op">=</span><span class="fl">10</span>mm)</span>
 <span id="cb5-5"><a></a></span>
-<span id="cb5-6"><a></a>p <span class="op">=</span> <span class="fu">plot</span>(p1, p2, p3, layout<span class="op">=</span>(<span class="fl">1</span>, <span class="fl">3</span>), size<span class="op">=</span>(<span class="fl">1100</span>, <span class="fl">400</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-6"><a></a>p <span class="op">=</span> <span class="fu">plot</span>(p1, p2, p3, layout<span class="op">=</span>(<span class="fl">1</span>, <span class="fl">3</span>), size<span class="op">=</span>(<span class="fl">1100</span>, <span class="fl">400</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 
 </div>
@@ -693,9 +693,9 @@ Figure&nbsp;2: Paired plots of air quality dataset
 <div id="cell-fig-ozone-hist" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a></a><span class="co"># normalize=:pdf turns the y-axis from a raw count to a density to make more comparable with a PDF</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a></a><span class="co"># normalize=:pdf turns the y-axis from a raw count to a density to make more comparable with a PDF</span></span>
 <span id="cb6-2"><a></a>pozone <span class="op">=</span> <span class="fu">histogram</span>(<span class="fu">skipmissing</span>(aq[!, <span class="op">:</span>Ozone]), xlabel<span class="op">=</span><span class="st">"Ozone (ppb)"</span>, ylabel<span class="op">=</span><span class="st">"Density"</span>, normalize<span class="op">=:</span>pdf, label<span class="op">=</span><span class="st">"Data"</span>, size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">450</span>), rightmargin<span class="op">=</span><span class="fl">5</span>mm)</span>
-<span id="cb6-3"><a></a><span class="fu">xlims!</span>(pozone, (<span class="fl">0</span>, <span class="fl">300</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a></a><span class="fu">xlims!</span>(pozone, (<span class="fl">0</span>, <span class="fl">300</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-ozone-hist" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -718,7 +718,7 @@ Figure&nbsp;3: Histogram of Ozone measurements in Air Quality Dataset
 <div id="18" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a></a>d <span class="op">=</span> <span class="fu">fit</span>(LogNormal, <span class="fu">collect</span>(<span class="fu">skipmissing</span>(aq[!, <span class="op">:</span>Ozone])))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a></a>d <span class="op">=</span> <span class="fu">fit</span>(LogNormal, <span class="fu">collect</span>(<span class="fu">skipmissing</span>(aq[!, <span class="op">:</span>Ozone])))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>Distributions.LogNormal{Float64}(μ=3.418515100812007, σ=0.8654745374223664)</code></pre>
@@ -728,8 +728,8 @@ Figure&nbsp;3: Histogram of Ozone measurements in Air Quality Dataset
 <div id="cell-fig-hist-compare" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a></a>ln_samps <span class="op">=</span> <span class="fu">rand</span>(d, <span class="fl">5_000</span>)</span>
-<span id="cb9-2"><a></a><span class="fu">density!</span>(pozone, ln_samps, linewidth<span class="op">=</span><span class="fl">3</span>, color<span class="op">=:</span>red, label<span class="op">=</span><span class="st">"LogNormal Density"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a></a>ln_samps <span class="op">=</span> <span class="fu">rand</span>(d, <span class="fl">5_000</span>)</span>
+<span id="cb9-2"><a></a><span class="fu">density!</span>(pozone, ln_samps, linewidth<span class="op">=</span><span class="fl">3</span>, color<span class="op">=:</span>red, label<span class="op">=</span><span class="st">"LogNormal Density"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-hist-compare" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -753,11 +753,11 @@ Figure&nbsp;4: Histogram of Ozone measurements in Air Quality Dataset
 <div id="cell-fig-norm-qq" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a></a>samps <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">Normal</span>(<span class="fl">0</span>, <span class="fl">3</span>), <span class="fl">20</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a></a>samps <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">Normal</span>(<span class="fl">0</span>, <span class="fl">3</span>), <span class="fl">20</span>)</span>
 <span id="cb10-2"><a></a><span class="fu">qqplot</span>(Normal, samps, linewidth<span class="op">=</span><span class="fl">3</span>, markersize<span class="op">=</span><span class="fl">6</span>)</span>
 <span id="cb10-3"><a></a><span class="fu">xlabel!</span>(<span class="st">"Theoretical Quantiles"</span>)</span>
 <span id="cb10-4"><a></a><span class="fu">ylabel!</span>(<span class="st">"Empirical Quantiles"</span>)</span>
-<span id="cb10-5"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">500</span>, <span class="fl">450</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-5"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">500</span>, <span class="fl">450</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-norm-qq" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -843,13 +843,13 @@ Figure&nbsp;10: Q-Q Plot for Cauchy Data and Normal Distribution
 <div id="cell-fig-qq-ozone" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a></a>p1 <span class="op">=</span> <span class="fu">qqplot</span>(LogNormal, <span class="fu">collect</span>(<span class="fu">skipmissing</span>(aq[!, <span class="op">:</span>Ozone])), linewidth<span class="op">=</span><span class="fl">3</span>, markersize<span class="op">=</span><span class="fl">6</span>, title<span class="op">=</span><span class="st">"Log-Normal Q-Q Plot"</span>, leftmargin<span class="op">=</span><span class="fl">5</span>mm)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a></a>p1 <span class="op">=</span> <span class="fu">qqplot</span>(LogNormal, <span class="fu">collect</span>(<span class="fu">skipmissing</span>(aq[!, <span class="op">:</span>Ozone])), linewidth<span class="op">=</span><span class="fl">3</span>, markersize<span class="op">=</span><span class="fl">6</span>, title<span class="op">=</span><span class="st">"Log-Normal Q-Q Plot"</span>, leftmargin<span class="op">=</span><span class="fl">5</span>mm)</span>
 <span id="cb11-2"><a></a><span class="fu">xlabel!</span>(p1, <span class="st">"Theoretical Values"</span>)</span>
 <span id="cb11-3"><a></a><span class="fu">ylabel!</span>(p1, <span class="st">"Empirical Values"</span>)</span>
 <span id="cb11-4"><a></a><span class="fu">plot!</span>(pozone, xlims<span class="op">=</span>(<span class="fl">0</span>, <span class="fl">300</span>))</span>
 <span id="cb11-5"><a></a>p3 <span class="op">=</span> <span class="fu">boxplot</span>([ln_samps[<span class="fl">1</span><span class="op">:</span><span class="fl">116</span>] <span class="fu">collect</span>(<span class="fu">skipmissing</span>(aq[!, <span class="op">:</span>Ozone]))], xlabel<span class="op">=</span><span class="st">"Ozone (ppb)"</span>)</span>
 <span id="cb11-6"><a></a><span class="fu">xticks!</span>(p3, [<span class="fl">1</span>, <span class="fl">2</span>], [<span class="st">"LogNormal"</span>, <span class="st">"Ozone Data"</span>])</span>
-<span id="cb11-7"><a></a><span class="fu">plot</span>(p1, pozone, p3, layout<span class="op">=</span>(<span class="fl">1</span>, <span class="fl">3</span>), size<span class="op">=</span>(<span class="fl">1250</span>, <span class="fl">525</span>), rightmargin<span class="op">=</span><span class="fl">5</span>mm, leftmargin<span class="op">=</span><span class="fl">5</span>mm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-7"><a></a><span class="fu">plot</span>(p1, pozone, p3, layout<span class="op">=</span>(<span class="fl">1</span>, <span class="fl">3</span>), size<span class="op">=</span>(<span class="fl">1250</span>, <span class="fl">525</span>), rightmargin<span class="op">=</span><span class="fl">5</span>mm, leftmargin<span class="op">=</span><span class="fl">5</span>mm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 
 </div>
@@ -1169,13 +1169,14 @@ Figure&nbsp;11: QQ Plot comparing ozone data with LogNormal distribution
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy
