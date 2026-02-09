@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../hw/hw01/hw01.html" rel="prev">
 <link href="../../_assets/logos/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -149,7 +150,7 @@ window.Quarto = {
 <meta property="og:site_name" content="Environmental Data Analysis &amp; Simulation">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-sidebar docked nav-fixed slimcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -198,7 +199,6 @@ window.Quarto = {
  <span class="menu-text">Coursework</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-coursework">    
-        <li class="dropdown-header">labs/index.qmd</li>
         <li>
     <a class="dropdown-item" href="../../hw/index.html">
  <span class="dropdown-text">Homework Assignments</span></a>
@@ -272,10 +272,45 @@ window.Quarto = {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../hw/hw02/hw02.html">Homework 2: Probability Models</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../hw/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignments Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../hw/hw01/hw01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework 1: Intro and EDA</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../hw/hw02/hw02.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Homework 2: Probability Models</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -371,7 +406,7 @@ window.Quarto = {
 <div id="4" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Random</span> <span class="co"># random number generation and seed-setting</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DataFrames</span> <span class="co"># tabular data structure</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">CSVFiles</span> <span class="co"># reads/writes .csv files</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">CSV</span> <span class="co"># reads/writes .csv files</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Distributions</span> <span class="co"># interface to work with probability distributions</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Plots</span> <span class="co"># plotting library</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">StatsBase</span> <span class="co"># statistical quantities like mean, median, etc</span></span>
@@ -403,19 +438,10 @@ window.Quarto = {
 <p>This problem is adapted from Example 4.1 and 4.2 in Daniel Wilks’ <em>Statistical Methods in the Atmospheric Sciences</em>. Updating the table in that book, Cayuga Lake has frozen in 1796, 1816, 1856, 1875, 1884, 1904, 1912, 1934, 1961, 1979, and 2015<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. The probability of whether a severe enough cold spell to freeze the lake occurs is related to changes in global mean temperature. The file <code>data/HadCRUT5.1Analysis_gl.txt</code> contains estimates of monthly global mean temperature anomalies (in <span class="math inline">\(^\circ\)</span> C, relative to the 1961–1990 mean) as well as the annual global temperature anomaly. You would like to build a model to predict the probability that Cayuga Lake freezes based on the winter (DJF) temperature anomaly.</p>
 <div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;Many of these dates, particularly prior to the 20th century, are subject to some debate, and would be different depending on the data source. Nevertheless, let’s use this dataset.</p></div></div><section id="problem-2.1" class="level4">
 <h4 class="anchored" data-anchor-id="problem-2.1">Problem 2.1</h4>
-<p>Write down a logistic regression model for the probability that Cayuga Lake freezes in a given winter. Encode the occurrence of freezing as a 1, and non-freezing as 0. Load the temperature data and fit this model. The format of the data file is a little awkward, as the even rows are the number of stations (which should be ignored) and have uneven number of space delimiters. The first 13 columns are the year and the monthly means; the final column is the annual average (which we don’t want to use). In Julia, you can load the file with</p>
-<div id="6" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>temp_dat <span class="op">=</span> CSV.<span class="fu">read</span>(<span class="st">"data/HadCRUT5.1Analysis_gl.txt"</span>, delim<span class="op">=</span><span class="st">" "</span>, ignorerepeated<span class="op">=</span><span class="cn">true</span>, header<span class="op">=</span><span class="cn">false</span>, DataFrame) <span class="co"># load data into DataFrame</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre>UndefVarError: `CSV` not defined in `Main.Notebook`
-Suggestion: check for spelling errors or missing imports.
-Stacktrace:
- [1] top-level scope
-<span class="ansi-bright-black-fg">   @</span> <span class="ansi-bright-black-fg">~/Teaching/BEE4850/spring2026/hw/hw02/</span><span style="text-decoration:underline" class="ansi-bright-black-fg">hw02.qmd:133</span></pre>
-</div>
-</div>
-</div>
+<p>Write down a logistic regression model for the probability that Cayuga Lake freezes in a given winter. Encode the occurrence of freezing as a 1, and non-freezing as 0. Load the temperature data and fit this model. The format of the data file is a little awkward, as the even rows are the number of stations (which should be ignored) and have uneven number of space delimiters. The first 13 columns are the year and the monthly means; the final column is the annual average (which we don’t want to use). Another complication is that the (even-numbered) station rows don’t have an entry in the 14th column. In Julia, you can load the file with</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>temp_dat <span class="op">=</span> CSV.<span class="fu">read</span>(<span class="st">"data/HadCRUT5.1Analysis_gl.txt"</span>, delim<span class="op">=</span><span class="st">" "</span>, </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    ignorerepeated<span class="op">=</span><span class="cn">true</span>, header<span class="op">=</span><span class="cn">false</span>, </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    silencewarnings<span class="op">=</span><span class="cn">true</span>, DataFrame) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>To simplify the analysis, since we don’t always know whether the lake froze in the January starting a year or the December ending a year, let’s assume that the years in which the lake froze correspond to the winter starting the year (so the DJF mean corresponding to the freezing in 1884 would include the December from 1883 and the January and February from 1884). You will only be able to use freezing events between 1851 and the present day due to the temperature data. Interpret the coefficients from your model fit <strong>in this specific problem context</strong>.</p>
 </section>
 <section id="problem-2.2" class="level4">
@@ -433,7 +459,7 @@ Stacktrace:
 <section id="problem-3.1" class="level4">
 <h4 class="anchored" data-anchor-id="problem-3.1">Problem 3.1</h4>
 <p>Write down and fit a Poisson regression model for salamander counts using the percentage of ground cover as a predictor. You may need to standardize the predictors as they are much larger than the counts, which you can do using the following function (or its equivalent):</p>
-<div id="8" class="cell" data-execution_count="1">
+<div id="6" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode julia code-annotation-code code-with-copy code-annotated"><code class="sourceCode julia"><button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stdz</span>(x) <span class="op">=</span> (x <span class="op">.-</span> <span class="fu">mean</span>(x)) <span class="op">/</span> <span class="fu">std</span>(x)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
@@ -911,6 +937,15 @@ Stacktrace:
     }
   });
   </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../hw/hw01/hw01.html" class="pagination-link" aria-label="Homework 1: Intro and EDA">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Homework 1: Intro and EDA</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
