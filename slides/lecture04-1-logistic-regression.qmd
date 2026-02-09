@@ -1,0 +1,502 @@
+---
+title: "Logistic Regression"
+subtitle: "Lecture 08"
+author: "Vivek Srikrishnan"
+course: "BEE 4850"
+institution: "Cornell University"
+date: "February 09, 2026"
+format:
+    revealjs:
+        slide-number: c/t
+        show-slide-number: all
+        center-title-slide: true
+        width: 1280
+        height: 720
+        transition: none
+        toc: true
+        toc-depth: 1
+        toc-title: "Overview"
+        history: false
+        link-external-newwindow: true
+        theme: ../sass/slides.scss
+        template-partials:
+            - title-slide.html
+        menu:
+            numbers: true
+        html-math-method: mathjax
+        include-in-header: mathjax-config.html
+        date-format: long
+        email-obfuscation: javascript
+        chalkboard:
+            theme: whiteboard
+            buttons: true
+        mermaid: 
+            theme: dark
+engine: julia
+filters:
+  - code-fullscreen
+---
+
+```{julia}
+#| output: false
+
+import Pkg
+Pkg.activate(@__DIR__)
+Pkg.instantiate()
+```
+
+```{julia}
+#| output: false
+
+using Random
+using DataFrames
+using DataFramesMeta
+using CSV
+using Dates
+using Distributions
+using ColorSchemes
+using Plots
+using StatsPlots
+using StatsBase
+using Optim
+using LaTeXStrings
+using Measures
+
+Random.seed!(1)
+
+plot_font = "Computer Modern"
+default(
+    fontfamily=plot_font,
+    linewidth=3, 
+    framestyle=:box, 
+    label=nothing, 
+    grid=false,
+    guidefontsize=18,
+    legendfontsize=16,
+    tickfontsize=16,
+    titlefontsize=20,
+    bottom_margin=10mm,
+    left_margin=5mm
+)
+```
+
+# Review
+
+## Linear Regression
+
+Linear regression as probability model:
+$$
+y = \sum_i \beta_i x_i + \varepsilon_i, \quad \varepsilon_i \sim N(0, \sigma^2)
+$$
+
+- Maximum likelihood gives same parameters as OLS
+- Allows us to determine conditional predictive probability $p(Y | X=\mathbf{x})$
+- Can get other insights: sampling distributions, confidence intervals, etc.
+
+## More on Predictive Intervals
+
+$\alpha$-predictive intervals: 
+
+- Contain $\alpha\%$ of predicted values
+- Typically conditional $p(Y | X=\mathbf{x})$
+- Can be unconditional if we know $p(X)$: $$p(Y) = \int_X p(Y | X=\mathbf{x}) p(\mathbf{x}) dx$$
+
+## Generating Predictive Intervals for LR
+
+- $p(Y | X=\mathbf{x}) = N(\sum_i \beta_i x_i, \sigma^2)$
+- Due to homoskedasticity, get $\alpha/2$ and $1 - \alpha/2$ quantiles for error distribution $N(0, \sigma^2)$
+- Center this interval on $\mathbf{E}(Y | \mathbf{x}) = \sum_i \beta_i x_i$
+- Can also generate by **simulation** (more general approach).
+
+## Example: Simulating Prediction Intervals
+
+```{julia}
+#| echo: true
+#| output: false
+#| code-fold: false
+
+# load data
+tds = let
+    fname = "data/tds/cuyaTDS.csv" # CHANGE THIS!
+    tds = DataFrame(CSV.File(fname))
+    tds[!, [:date, :discharge_cms, :tds_mgL]]
+end
+
+# fit model
+function tds_riverflow_loglik(θ, tds, flow)
+    β₀, β₁, σ = θ # unpack parameter vector
+    μ = β₀ .+ β₁ * log.(flow) # find mean
+    ll = sum(logpdf.(Normal.(μ, σ), tds)) # compute log-likelihood
+    return ll
+end
+
+lb = [0.0, -1000.0, 1.0]
+ub = [1000.0, 1000.0, 100.0]
+θ₀ = [500.0, 0.0, 50.0]
+optim_out = Optim.optimize(θ -> -tds_riverflow_loglik(θ, tds.tds_mgL, tds.discharge_cms), lb, ub, θ₀)
+θ_mle = round.(optim_out.minimizer; digits=0)
+
+# simulate 10,000 predictions
+x = 1:0.1:60
+μ = θ_mle[1] .+ θ_mle[2] * log.(x)
+
+y_pred = zeros(length(x), 10_000)
+for i = 1:length(x)
+    y_pred[i, :] = rand(Normal(μ[i], θ_mle[3]), 10_000)
+end
+# take quantiles to find prediction intervals
+y_q = mapslices(v -> quantile(v, [0.05, 0.5, 0.95]), y_pred; dims=2)
+```
+
+## Resulting Prediction Intervals
+
+```{julia}
+#| echo: true
+#| code-fold: true
+#| label: fig-lr-prediction
+#| fig-cap: Prediction interval for 
+
+p = scatter(
+    tds.discharge_cms,
+    tds.tds_mgL,
+    xlabel=L"Discharge (m$^3$/s)",
+    ylabel="Total dissolved solids (mg/L)",
+    markersize=5,
+    label="Observations",
+    size = (1100, 500)
+)
+plot!(x,
+    y_q[:, 2],
+    ribbon = (y_q[:, 2] - y_q[:, 1], y_q[:, 3] - y_q[:, 2]),
+    linewidth=3, 
+    fillalpha=0.2, 
+    label="Best Fit")
+```
+
+
+## Checking Assumptions
+
+**Always check assumptions of probability model**.
+
+In this case: are the residuals independently and normally distributed with constant variance?
+
+If not:
+
+1. Relationship might not be linear.
+2. Might need different distribution for error distribution.
+
+## Checking Assumptions
+
+```{julia}
+#| layout-ncol: 2
+#| label: fig-residuals-2
+#| fig-cap: Residuals for the TDS-Riverflow model.
+
+pred = θ_mle[1] .+ θ_mle[2] * log.(tds.discharge_cms)
+resids = pred - tds.tds_mgL
+p1 = histogram(resids, xlabel="Model Residuals (mg/L)", ylabel="Count", title="Residual Histogram", size=(600, 500))
+p2 = qqnorm(resids, xlabel="Theoretical Values", ylabel="Empirical Values", title="Residual Q-Q Plot", size=(600, 500))
+display(p1)
+display(p2)
+```
+
+# Logistic Regression
+
+## Models for Classification
+
+Suppose instead of predicting **values**, we want to predict membership in a **class**.
+
+Examples:
+
+- Will it snow in Ithaca tomorrow?
+- Will we see a bird in a location?
+- Will this person get heart disease in the next five years?
+
+## Probability Model for Classification
+
+Would like conditional distribution of the probabilities, $p(Y | X)$.
+
+**Should we treat a prediction with a 51% of a classification the same as 90%?**
+
+## Indicator Variables
+
+For simplicity, assume our response variable $Y$ is binary: 0 or 1. 
+
+Such a variable is called an **indicator variable** (also sometimes used as predictors in linear regression).
+
+Would like to model $\mathbb{E}[Y] = p(Y=1)$ or $\mathbb{E}[Y | X] = p(Y=1 | X)$.
+
+## Approach to Modeling
+
+We could model $Y$ as a linear regression. **Would this work**?
+
+::: {.fragment .fade-in}
+Instead, **what distribution might we use to model classification outcomes?**
+:::
+
+## Bernoulli Distribution
+
+"Recall" that a Bernoulli distribution models the outcome of a random indicator variable.
+
+Consider a sequence of Bernoulli trials with constant probability of "success" ($Y=1$) $p$:
+
+$$\mathcal{L}(p | Y = y_i, X = x_i) = \Pi_{i=1}^n p^{y_i}(1-p)^{1-y_i}$$
+
+## Inhomogeneous Probabilities
+
+We often want to know how covariates/predictors influence the classification probability.
+
+This means we want to model:
+
+$$\mathcal{L}(p_i | Y = y_i, X = \mathbf{x}_i) = \Pi_{i=1}^n p_i^{y_i}(1-p_i)^{1-y_i}$$
+
+where $p_i = g(\mathbf{x}_i)$.
+
+## How To Model Probabilities?
+
+Some approaches:
+
+::: {.incremental}
+1. Model $p_i$ as a linear regression in $x$. **Would this work**?
+2. Use a transformation $f$ of $p$ which has unbounded range and domain $[0, 1]$,
+$$f(p): [0, 1] \to \mathbb{R}.$$
+:::
+
+## Logit Function
+
+:::: {.columns}
+::: {.column width=50%}
+Simplest function: **the logit (or logistic) function**
+
+$$\text{logit}(p) = \log\left(\frac{p}{1-p}\right)$$
+:::
+
+::: {.column width=50%}
+```{julia}
+#| echo: true
+#| code-fold: true
+#| label: fig-logit
+#| fig-cap: Logit Function
+
+p = 0:0.01:1
+logit(p) = log(p / (1 - p))
+plot(p, logit.(p), xlabel=L"$x$", ylabel=L"$y$", linewidth=3, legend=false, size=(600, 450))
+```
+:::
+::::
+
+## Logistic Regression
+
+This gives us the **logistic regression model**:
+
+$$\text{logit}(p_i) = \sum_j \beta_j x^i_j$$
+
+Solving for $p$:
+
+$$p_i = \frac{\exp\left(\sum_j \beta_j x^i_j\right)}{1 + \exp\left(\sum_j \beta_j x^i_j\right)}.$$
+
+Then we can predict the class when $p > p_\text{thresh}$, usually 0.5, or just work with probabilities.
+
+## Assumptions for Logistic Regression
+
+1. There is a **linear decision boundary**, $\sum_j x_j \beta_j = \text{logit}^{-1}(p_\text{thresh})$.
+2. Class probabilities change as we move away from the boundary based on $\|\beta\|$.
+3. The larger $\|\beta\|$, the smaller the change in $x$ required to move to the extremes.
+
+## Interpretation of $\beta$
+
+$$\log\left(\frac{p}{1-p}\right)$$ is called the **log-odds**.
+
+$\exp^{\beta_i}$ tells us how much more likely the classification $Y=1$ is from a reference $x_i^1$ to $x_i^1 + 1$.
+
+## Logistic Regression Likelihood
+
+$$\begin{aligned}
+\mathcal{L}(\beta_0, \beta) &= \Pi_{i=1}^n p(x_i)^{y_i} (1-p(x_i))^{1-y_i}  \\
+\mathcal{l}(\beta_0, \beta) &= \sum_{i=1}^n y_i \log p(x_i) + (1-y_i) \log (1-p(x_i)) \\
+&= \sum_{i=1}^n \log (1-p(x_i)) + \sum_{i=1}^n y_i \log\left(\frac{p(x_i)}{1-p(x_i)}\right)
+\end{aligned}$$
+
+## Logistic Regression Log-Likelihood
+
+$$\begin{aligned}
+\mathcal{l}(\beta_0, \beta) &= \sum_{i=1}^n \log(1-p(x_i)) + \sum_{i=1}^n y_i(\beta_0 + \mathbf{x}_i \cdot \beta_i) \\
+&= \sum_{i=1}^n -\log(1+\exp(\beta_0 + \mathbf{x}_i \cdot \beta_i)) + \sum_{i=1}^n y_i(\beta_0 + \mathbf{x}_i \cdot \beta_i) 
+\end{aligned}$$
+
+## Maximum Likelihood
+
+Now we can differentiate:
+
+$$\begin{aligned}
+\frac{\partial l}{\partial \beta_j} &= -\sum_{i=1}^n \frac{1}{1 + \exp(\beta_0 + \mathbf{x}_i \cdot \beta_i)}\exp(\beta_0 + \mathbf{x}_i \cdot \beta_i)x^i_j + \sum_{i=1}^n y_i x^i_j \\
+&= \sum_{i=1}^n (y_i - p(x_i | \beta_0, \beta)) x^i_j
+\end{aligned}$$
+
+We need to use numerical optimization to find the zeroes of this!
+
+## Multi-Class Logistic Regression
+
+What if $Y$ can take on more than just two values?
+
+We can still use logistic regression, just need to modify the setup.
+
+Now each class $c$ will have its own intercept $\beta_0^c$ and coefficients $\beta^c$.
+
+## Multi-Class Logistic Regression
+
+Predicted probabilities:
+
+$$p(Y = c | X = \mathbf{x}) = \frac{\exp\left(\beta_0^c + x \cdot \beta^c \right)}{\sum_c \exp\left(\beta_0^c + x \cdot \beta^c\right) }$$
+
+Maximizing the likelihood is similar, but encoding each class as a different outcome and using a Categorical distribution.
+
+# Logistic Regression Example
+
+## Forecasting Precipitation
+
+```{julia}
+#| label: fig-snowqualmie
+#| fig-cap: Snoqualmie Falls, WA precipitation dataset.
+#| echo: true
+#| code-fold: true
+#| warning: false
+
+# read in data; each year is a row and each column is a day
+dat = CSV.read("data/weather/snoqualmie_falls.txt", delim=" ", ignorerepeated=true, silencewarnings=true, skipto=2, DataFrame)
+years = 1948:1983
+# the last "day" of each non-leap year is NA, so need to skip over these
+days_per_year = repeat([366, 365, 365, 365], outer=Int(ceil(length(years) / 4)))
+snoq = zeros(sum(days_per_year))
+for i = 1:length(years)
+    # need to use values() to get the vector of elements in the row; this is a quirk of DataFrames.jl
+    snoq[1+sum(days_per_year[1:i-1]):sum(days_per_year[1:i])] .= values(dat[i, 1:days_per_year[i]])
+end
+# want to arrange dataframe with today's precipitation (predictor) and tomorrow's (prediction)
+snoq_dat = DataFrame(today=snoq[1:end-1], tomorrow=snoq[2:end])
+p1 = histogram(snoq_dat.today, xlabel="Precipitation (1/100 inch)", ylabel="Count", label=false)
+p2 = scatter(snoq_dat.today, snoq_dat.tomorrow, xlabel="Precip Today (1/100 inch)", ylabel="Precip Tomorrow (1/100 inch)", markersize=2, alpha=0.2, label=false)
+plot(p1, p2, layout=(1, 2), size=(1200, 500))
+```
+
+## Forecasting Model
+
+Let's try to forecast when there will be non-zero precipitation ($Y=1$) vs. zero precipitation ($Y=0$) from the previous day's precipitation.
+
+$$\text{logit}(p_i) = \text{logit}(p(Y_i = 1)) = \beta_0 + \beta_1 x_i$$
+
+## Maximum Likelihood Estimation
+
+```{julia}
+#| echo: true
+#| code-fold: false
+
+invlogit(x) = exp(x) / (1 + exp(x)) # define inverse logit
+function logreg_loglik(params, y, x)
+    b0, b1 = params
+    p = invlogit.(b0 .+ b1 * x) # logistic regression
+    ll = sum(logpdf.(Bernoulli.(p), y)) # use Bernoulli log-pdf as log-likelihood
+    return ll
+end
+
+lb = [-1.0, -1.0]
+ub = [1.0, 1.0]
+p0 = [0.0, 0.0]
+optim_out = Optim.optimize(p -> -logreg_loglik(p, snoq_dat.tomorrow .> 0, snoq_dat.today), lb, ub, p0)
+mle = round.(optim_out.minimizer; digits=2)
+```
+
+## Visualizing Results
+
+
+```{julia}
+#| label: fig-forecast-results
+#| fig-cap: Modeled probability of precipitation tomorrow as a function of precipitation today.
+#| echo: true
+#| code-fold: true
+
+x_pred = 0:0.1:maximum(snoq_dat.today)
+p_pred = invlogit.(mle[1] .+ mle[2] * x_pred)
+plot(x_pred, p_pred, linewidth=3, label="Modeled Probability", xlabel="Precip Today (1/100 inch)", ylabel="Positive Precip Tomorrow?", size=(1000, 400))
+scatter!(snoq_dat.today, snoq_dat.tomorrow .> 0, alpha=0.2, label="Data")
+```
+
+## Calibration
+
+Does the predicted CDF $F(y)$ align with the "true" distribution of observations $y$? 
+  $$\mathbb{P}(y \leq F^{-1}(\tau)) = \tau \qquad \forall \tau \in [0, 1]$$
+  
+In this case: does the model produce the "right" probabilities of events?
+
+## Example: Calibration
+
+We have a total of 6,919 days with precipitation. To see the expected number from the model, sum up the probabilities:
+
+```{julia}
+#| echo: true
+#| code-fold: false
+
+p_fit = invlogit.(mle[1] .+ mle[2] * snoq_dat.today)
+round(sum(p_fit); digits=0)
+```
+
+We're off by about 1.3%. **Is that good?**
+
+## Example: Calibration
+
+How well calibrated is the prediction for a no-precipitation day followed by a precipitation day?
+
+:::: {.columns}
+::: {.column width=50%}
+The actual fraction: 
+
+```{julia}
+#| echo: true
+#| code-fold: false
+
+emp_pnp = mean(snoq_dat[snoq_dat.today .== 0, :tomorrow] .> 0)
+round(emp_pnp; digits=3)
+```
+:::
+::: {.column width=50%}
+The modeled fraction:
+```{julia}
+#| echo: true
+#| code-fold: false
+
+mod_pnp = mean(p_fit[snoq_dat.today .== 0])
+round(mod_pnp; digits=3)
+```
+:::
+::::
+
+## Potential Model Improvements
+
+**What might we try to improve this forecast?**
+
+
+# Key Points 
+
+## Logistic Regression
+
+- Approach for **classification problems**.
+- Assumes a **linear decision boundary**.
+- Can check calibration of predictions to assess skill.
+
+# Upcoming Schedule
+
+## Lectures
+
+**Wednesday**: Generalized Linear Models
+
+**Friday**: Quiz 1, wrap up week
+
+## Assessments
+
+**HW2 Released**: Due 2/20
+
+**Quiz 1**: Friday, on material through today.
+
+# References
+
+## References

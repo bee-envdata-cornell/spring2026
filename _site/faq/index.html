@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -67,14 +67,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../_assets/logos/favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-5712731b79dd486b1b9817925f56f1a2.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-5cf72458b51e521e41f1ac40627354c5.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-ba9c0723bac509a7d8c9561700ea21a1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-fb17626478aa78ce15980021f2baceac.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -403,7 +404,7 @@ window.MathJax = {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Don’t Post Screenshots!
+<span class="screen-reader-only">Note</span>Don’t Post Screenshots!
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -416,7 +417,7 @@ Don’t Post Screenshots!
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Update Your Repository!
+<span class="screen-reader-only">Note</span>Update Your Repository!
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -431,7 +432,7 @@ Update Your Repository!
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Give Yourself Time To Problem-Solve
+<span class="screen-reader-only">Warning</span>Give Yourself Time To Problem-Solve
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -459,7 +460,7 @@ Give Yourself Time To Problem-Solve
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Run Notebook Cells Before Submission
+<span class="screen-reader-only">Important</span>Run Notebook Cells Before Submission
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -469,8 +470,8 @@ Run Notebook Cells Before Submission
 <ol type="1">
 <li><p>If you have a Python installation, you can use a tool called <a href="https://nbconvert.readthedocs.io/en/latest/"><code>nbconvert</code></a> to convert to a PDF. This is the easiest thing to do within VS Code: with <code>nbconvert</code> and the <a href="https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter">Jupyter extension</a>, you can [export your notebook] to HTML (which can be saved as a PDF) or directly to a PDF (if you have a TeX installation).</p></li>
 <li><p>If you don’t have a Python installation, within VS Code, you can use <code>IJulia.jl</code> (which will be included in the environments provided with assignments in this class) as follows (enter these commands into the REPL) to open your notebook in your browser:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">IJulia</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">notebook</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">IJulia</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">notebook</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This should open a Jupyter notebook interface in your browser. Navigate to and open the notebook, and once it has completed running, go to <code>File -&gt; Print Preview</code> in the browser menu and Print to PDF.</p></li>
 <li><p>The least reliable option is to use an online renderer, such as <a href="https://nbviewer.org/"><code>nbviewer</code></a>. <code>nbviewer</code> will import your notebook from GitHub and render it, in which case you can just print to a PDF from your browser. The downside to <code>nbviewer</code> is it sometimes doesn’t render figures properly.</p></li>
 </ol>
@@ -485,7 +486,7 @@ Run Notebook Cells Before Submission
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Tag Pages
+<span class="screen-reader-only">Important</span>Tag Pages
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -549,13 +550,14 @@ Tag Pages
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
