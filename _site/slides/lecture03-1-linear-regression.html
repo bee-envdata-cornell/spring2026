@@ -7,11 +7,11 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/jquery-3.6.3/jquery-3.6.3.min.js"></script>
 <script src="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.js" defer="true"></script>
 <link href="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.26">
+  <meta name="generator" content="quarto-1.7.33">
 
   <meta name="author" content="Vivek Srikrishnan">
   <meta name="dcterms.date" content="2026-02-02">
@@ -120,7 +120,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-99469881743cb8bd1bf840c72478da80.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-7b87de61f0bc8c7187b97021a1ec54e0.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -453,7 +453,7 @@ S &amp;= \beta_0 + \beta_1 \log(D) + U
 <h2>Linear Model Fitting: OLS</h2>
 <p>For our River Flow-TDS example:</p>
 <div id="12" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a>X <span class="op">=</span> <span class="fu">log</span>.(tds.discharge_cms) <span class="co"># predictors</span></span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a>X <span class="op">=</span> <span class="fu">log</span>.(tds.discharge_cms) <span class="co"># predictors</span></span>
 <span id="cb1-2"><a></a>Y <span class="op">=</span> tds.tds_mgL <span class="co"># predicands</span></span>
 <span id="cb1-3"><a></a>β <span class="op">=</span> <span class="fu">zeros</span>(<span class="fl">2</span>)</span>
 <span id="cb1-4"><a></a>β[<span class="fl">2</span>] <span class="op">=</span> <span class="fu">cov</span>(X, Y) <span class="op">/</span> <span class="fu">var</span>(X)</span>
@@ -461,7 +461,7 @@ S &amp;= \beta_0 + \beta_1 \log(D) + U
 <span id="cb1-6"><a></a><span class="pp">@show</span> β;</span>
 <span id="cb1-7"><a></a>ε <span class="op">=</span> Y <span class="op">-</span> [<span class="fu">ones</span>(<span class="fu">length</span>(X)) X] <span class="op">*</span> β</span>
 <span id="cb1-8"><a></a>s² <span class="op">=</span> (ε<span class="ch">' * ε) / (nrow(tds) - 2)  # error estimate</span></span>
-<span id="cb1-9"><a></a><span class="pp">@show</span> s²;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-9"><a></a><span class="pp">@show</span> s²;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>β = [609.5487272461863, -111.63106902057183]
 s² = 5266.230284046525</code></pre>
@@ -782,14 +782,13 @@ Helsel, D. R., Hirsch, R. M., Ryberg, K. R., Archfield, S. A., &amp; Gilroy, E. 
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-          const outerScaffold = trigger.parentElement.cloneNode(true);
-          const codeEl = outerScaffold.querySelector('code');
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
+            const codeEl = trigger.previousElementSibling.cloneNode(true);
+            for (const childEl of codeEl.children) {
+              if (isCodeAnnotation(childEl)) {
+                childEl.remove();
+              }
             }
-          }
-          return codeEl.innerText;
+            return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

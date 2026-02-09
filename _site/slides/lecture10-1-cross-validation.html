@@ -7,11 +7,11 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/jquery-3.6.3/jquery-3.6.3.min.js"></script>
 <script src="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.js" defer="true"></script>
 <link href="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.26">
+  <meta name="generator" content="quarto-1.7.33">
 
   <meta name="author" content="Vivek Srikrishnan">
   <meta name="dcterms.date" content="2024-03-24">
@@ -120,7 +120,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-99469881743cb8bd1bf840c72478da80.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-7b87de61f0bc8c7187b97021a1ec54e0.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -341,7 +341,7 @@
 <h2>PIT Example: Well-Calibrated</h2>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a><span class="co"># "true" observation distribution is N(2, 0.5)</span></span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a><span class="co"># "true" observation distribution is N(2, 0.5)</span></span>
 <span id="cb1-2"><a></a>obs <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">Normal</span>(<span class="fl">2</span>, <span class="fl">0.5</span>), <span class="fl">50</span>)</span>
 <span id="cb1-3"><a></a><span class="co"># forecast according to the "correct" distribution and obtain PIT</span></span>
 <span id="cb1-4"><a></a>pit_corr <span class="op">=</span> <span class="fu">cdf</span>(<span class="fu">Normal</span>(<span class="fl">2</span>, <span class="fl">0.45</span>), obs)</span>
@@ -352,7 +352,7 @@
 <span id="cb1-9"><a></a><span class="fu">plot!</span>(p_cdf1, xrange, <span class="fu">cdf</span>.(<span class="fu">Normal</span>(<span class="fl">2</span>, <span class="fl">0.5</span>), xrange), label<span class="op">=</span><span class="st">"Truth"</span>)</span>
 <span id="cb1-10"><a></a></span>
 <span id="cb1-11"><a></a><span class="fu">display</span>(p_cdf1)</span>
-<span id="cb1-12"><a></a><span class="fu">display</span>(p_corr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-12"><a></a><span class="fu">display</span>(p_corr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-pit-2" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
@@ -520,7 +520,7 @@ Figure&nbsp;1
 <h2>PIT Example: Underdispersed</h2>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a></a><span class="co"># forecast according to an underdispersed distribution and obtain PIT</span></span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a></a><span class="co"># forecast according to an underdispersed distribution and obtain PIT</span></span>
 <span id="cb2-2"><a></a>pit_under <span class="op">=</span> <span class="fu">cdf</span>(<span class="fu">Normal</span>(<span class="fl">2</span>, <span class="fl">0.1</span>), obs)</span>
 <span id="cb2-3"><a></a>p_under <span class="op">=</span> <span class="fu">histogram</span>(pit_under, bins<span class="op">=</span><span class="fl">10</span>, label<span class="op">=</span><span class="cn">false</span>, xlabel<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span>y<span class="sc">$</span><span class="st">", </span>ylabel<span class="st">="</span>Count<span class="st">", size=(500, 500))</span></span>
 <span id="cb2-4"><a></a></span>
@@ -529,7 +529,7 @@ Figure&nbsp;1
 <span id="cb2-7"><a></a><span class="fu">plot!</span>(p_cdf2, xrange, <span class="fu">cdf</span>.(<span class="fu">Normal</span>(<span class="fl">2</span>, <span class="fl">0.5</span>), xrange), label<span class="op">=</span><span class="st">"Truth"</span>)</span>
 <span id="cb2-8"><a></a></span>
 <span id="cb2-9"><a></a><span class="fu">display</span>(p_cdf2)</span>
-<span id="cb2-10"><a></a><span class="fu">display</span>(p_under)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-10"><a></a><span class="fu">display</span>(p_under)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-pit-3" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
@@ -698,7 +698,7 @@ Figure&nbsp;2
 <h2>PIT Example: Overdispersed</h2>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a></a><span class="co"># forecast according to an overdispersed distribution and obtain PIT</span></span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a></a><span class="co"># forecast according to an overdispersed distribution and obtain PIT</span></span>
 <span id="cb3-2"><a></a>pit_over <span class="op">=</span> <span class="fu">cdf</span>(<span class="fu">Normal</span>(<span class="fl">2</span>, <span class="fl">1</span>), obs)</span>
 <span id="cb3-3"><a></a>p_over <span class="op">=</span> <span class="fu">histogram</span>(pit_over, bins<span class="op">=</span><span class="fl">10</span>, label<span class="op">=</span><span class="cn">false</span>, xlabel<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span>y<span class="sc">$</span><span class="st">", </span>ylabel<span class="st">="</span>Count<span class="st">", size=(500, 500))</span></span>
 <span id="cb3-4"><a></a></span>
@@ -707,7 +707,7 @@ Figure&nbsp;2
 <span id="cb3-7"><a></a><span class="fu">plot!</span>(p_cdf3, xrange, <span class="fu">cdf</span>.(<span class="fu">Normal</span>(<span class="fl">2</span>, <span class="fl">0.5</span>), xrange), label<span class="op">=</span><span class="st">"Truth"</span>)</span>
 <span id="cb3-8"><a></a></span>
 <span id="cb3-9"><a></a><span class="fu">display</span>(p_cdf3)</span>
-<span id="cb3-10"><a></a><span class="fu">display</span>(p_over)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-10"><a></a><span class="fu">display</span>(p_over)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-pit-1" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
@@ -1771,14 +1771,13 @@ Gneiting, T., Fadoua Balabdaoui, &amp; Raftery, A. E. (2007). <span class="nocas
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-          const outerScaffold = trigger.parentElement.cloneNode(true);
-          const codeEl = outerScaffold.querySelector('code');
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
+            const codeEl = trigger.previousElementSibling.cloneNode(true);
+            for (const childEl of codeEl.children) {
+              if (isCodeAnnotation(childEl)) {
+                childEl.remove();
+              }
             }
-          }
-          return codeEl.innerText;
+            return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

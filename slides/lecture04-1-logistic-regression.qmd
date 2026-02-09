@@ -95,9 +95,9 @@ $$
 
 ## More on Predictive Intervals
 
-$\alpha$-predictive intervals: 
+$1-\alpha$-predictive intervals: 
 
-- Contain $\alpha\%$ of predicted values
+- Contain $1-\alpha\%$ of predicted values
 - Typically conditional $p(Y | X=\mathbf{x})$
 - Can be unconditional if we know $p(X)$: $$p(Y) = \int_X p(Y | X=\mathbf{x}) p(\mathbf{x}) dx$$
 
