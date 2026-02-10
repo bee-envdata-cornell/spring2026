@@ -19,8 +19,8 @@ The term project gives you an opportunity to use and extend the methods we have 
 
 | Milestone |  Due Date |
 |:---------:|:-----------|
-| Proposal and Exploratory Analysis | Fri, Feb 11  |
-| Candidate Models | Fri, Mar 13 |
+| Proposal and Exploratory Analysis | Fri, Feb 27  |
+| Candidate Models | Fri, Mar 20 |
 | Simulation Study | Fri, Apr 10 |
 | Final Report |  Fri, May 15 | 
 
