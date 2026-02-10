@@ -28,7 +28,7 @@ Make sure to look over the [standard homework rubric](../policies/rubric.qmd) an
 
 | Assignment | Topic | Instructions | Solutions | Assigned | Due| 
 |:------:|:------------:|:------:|:------:|:--------:|:--------:|
-| HW 1 | Intro and Exploratory Data Analysis | [{{< fa sharp pen-field >}}](hw01/hw01.qmd) |  [{{< fa sharp key-skeleton >}}]{style="color: grey;"} | Jan. 21, 2026 | Feb. 06, 2026 |
+| HW 1 | Intro and Exploratory Data Analysis | [{{< fa sharp pen-field >}}](hw01/hw01.qmd) |  [{{< fa sharp key-skeleton >}}](../solutions/hw01/hw01.qmd) | Jan. 21, 2026 | Feb. 06, 2026 |
 | HW 2 | Probability Models | [{{< fa sharp pen-field >}}](hw02/hw02.qmd) | [{{< fa sharp key-skeleton >}}]{style="color: grey;"} | Feb. 09, 2026 | Feb. 20, 2026 |
 | HW 3 | Extreme Values and Time Series | [{{< fa sharp pen-field >}}]{style="color: grey;"}  [{{< fa sharp key-skeleton >}}]{style="color: grey;"} | Feb. 23, 2026 | Mar. 06, 2026 |
 | HW 4 | Monte Carlo | [{{< fa sharp pen-field >}}]{style="color: grey;"}  [{{< fa sharp key-skeleton >}}]{style="color: grey;"} | Mar. 16, 2026 | Mar. 27, 2026 |
