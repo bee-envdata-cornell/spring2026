@@ -24,5 +24,5 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 |   | 2/04 | More On Linear Regression | [{{< fa sharp presentation-screen >}}](slides/lecture03-2-linear-regression-more.qmd) |  | |  |  | |
 |   | 2/06 | Linear Regression As A Probability Model | [{{< fa sharp presentation-screen >}}](slides/lecture03-3-linear-regression-mle.qmd)  | | | | | 
 | 4 | 2/09 | Logistic Regression | [{{< fa sharp presentation-screen >}}](slides/lecture04-1-logistic-regression.qmd) | | [{{< fa sharp pen-field >}}](hw/hw02/hw02.qmd) | | |
-|   | 2/11 | Modeling Count Data | | | | | |
-|   | 2/13 | Recap: Linear and Generalized Linear Models | | |  | Quiz 1 | |
+|   | 2/11 | Generalized Linear Models | [{{< fa sharp presentation-screen >}}](slides/lecture04-2-glm.qmd) | | | | |
+|   | 2/13 | Zero-Inflated Models | | |  | Quiz 1 | |

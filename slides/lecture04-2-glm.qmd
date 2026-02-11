@@ -1,10 +1,10 @@
 ---
-title: "Bayesian Workflow Example"
+title: "Generalized Linear Models"
 subtitle: "Lecture 09"
 author: "Vivek Srikrishnan"
 course: "BEE 4850"
 institution: "Cornell University"
-date: "February 24, 2024"
+date: "February 10, 2026"
 format:
     revealjs:
         slide-number: c/t
@@ -79,6 +79,30 @@ default(
     left_margin=5mm
 )
 ```
+
+# Review
+
+## Logistic Regression
+
+- Used to model probabilities for classification.
+- Two-class (*e.g.* success or failure:
+
+$$\begin{aligned}
+y_i &\sim Bernoulli(p_i) \\
+\text{logit}(p_i) &= \sum_j \beta_j x^i_j
+\end{aligned}$$
+
+where $\text{logit}(p) = \log\left(p / (1 - p)\right)$.
+
+## Multi-Class Logistic Regression
+
+Treat one class as a reference. Other classes $c$ will have its own intercept $\beta_0^c$ and coefficients $\beta^c$.
+
+$$p(Y = c | X = \mathbf{x}) = \frac{\exp\left(\beta_0^c + x \cdot \beta^c \right)}{\sum_c \exp\left(\beta_0^c + x \cdot \beta^c\right) }$$
+
+## Interpretation of Coefficients
+
+$\exp(\beta^c_j)$ gives the **relative change in the odds of class c** from a unit change in $x$.
 
 # Logistic Regression Example
 
@@ -205,22 +229,309 @@ round(mod_pnp; digits=3)
 
 # Generalized Linear Models
 
+## Linear vs. Logistic Regression
+
+**Linear Regression**: Model the **conditional expectation function** $$\mu(x)  = \mathbb{E}[Y | X=\mathbf{x}] \approx \beta_0 + \sum_i \beta_i x_i.$$
+
+**Logistic Regression**: 
+
+$$\mu(x)  = \mathbb{E}[Y | X=\mathbf{x}] = \mathbb{P}[Y = 1 | X = \mathbf{x}].$$
+
+We transform the conditional expectation to be linear (using $g(x) = \text{logit}(x)$):
+
+$$g(\mu(x)) = \eta(x) \approx  \beta_0 + \sum_i \beta_i x_i.$$
+
 ## Link Functions
 
 Logistic regression is an example of a **generalized linear model (GLM)**.
 
 Start with a distributional assumption: $y_i \sim \text{Bernoulli}(p_i)$.
 
-Then model parameters using a **link function** and a regression:
+Then model parameters using a **link function** and a linear predictor:
 
-$$\underbrace{\logit}_{\text{link}}(p_i) = \sum_j \beta_j x^i_j$$
+$$\underbrace{\logit}_{\text{link}}(p_i) = \underbrace{\sum_j \beta_j x^i_j}_{\text{predictor}}$$
 
-## 
+## Choice of Distribution
+
+Many possible distributions depending on the problem at hand. Common ones:
+
+- **Binomial**: Integer count from 0 to some upper limit $n$; $$y_i \sim \text{Binomial}(p_i)$$
+- **Poisson**: Modeling counts with no fixed upper limit, but low base probability of "success": $$y_i \sim \text{Poisson}(\lambda_i)$$
+
+## Choosing a Link Function
+
+Link functions are typically linked to distributions.
+
+- Poisson models usually use the **log link** (positives &rarr; reals).
+- Binomial/Bernoulli models use the **logit** link ($[0, 1]$ &rarr; reals) $$\text{logit}(p) = \log\left(\frac{p}{1-p}\right)$$
+
+## ...But A Link Function Is A Choice
+
+:::: {.columns}
+::: {.column width=50%}
+These are "canonical" choices for their associated distributions because they are flexible and have nice mathematical properties, but you can make others as relevant for your data and problem.
+:::
+::: {.column width=50%}
+```{julia}
+#| echo: true
+#| code-fold: true
+#| label: fig-logit
+#| fig-cap: Logit Function
+
+p = 0:0.01:1
+logit(p) = log(p / (1 - p))
+plot(p, logit.(p), xlabel=L"$x$", ylabel=L"$y$", linewidth=3, legend=false, size=(600, 450))
+```
+:::
+::::
 
 # Poisson Regression Example
 
 ## Modeling Counts
 
-A common use of GLMs is to model **counts**.
+```{julia}
+#| echo: true
+#| code-fold: true
+#| output: true
+
+fish = CSV.File("data/ecology/Fish.csv") |> DataFrame
+fish[1:3, :]
+```
+
+## What Distribution?
+
+::: {.fragment .fade-in}
+Count data can be modeled using a Poisson or negative binomial distribution.
+
+```{julia}
+#| label: fig-count-dists
+#| fig-cap: 
+#|  - "Poisson"
+#|  - "Negative Binomial"
+#| layout-ncol: 2
+
+p1 = plot(Poisson(2), size=(500, 450), title="Poisson(2)", xlabel="Value")
+p2 = plot(NegativeBinomial(2, 0.5), size=(500, 450), title="Negative Binomial(2, 0.5)", xlabel="Value")
+display(p1)
+display(p2)
+```
+:::
+
+## What Distribution?
+
+Let's start with a Poisson. 
+
+One property of $y \sim \text{Poisson}(\lambda)$: $\mathbb{E}(y) = \text{Var}(y) = \lambda$.
+
+- Mean: `{julia} round(mean(fish.fish_caught); digits=1)`
+- Variance: `{julia} round(var(fish.fish_caught); digits=1)`
 
 
+## What Does This Mean?
+
+:::: {.columns}
+::: {.column width=50%}
+- The data is **overdispersed** relative to a Poisson distribution.
+- But a Poisson GLM may give rise to overdispersed data, since every observation has a different $\lambda_i$ (hence mean and variance.)
+:::
+::: {.column width=50%}
+
+```{julia}
+#| label: fig-fishing-data
+#| fig-cap: Fishing Data
+
+histogram(fish.fish_caught, xlabel="Caught Fish", ylabel="Count", size=(600, 500))
+```
+:::
+::::
+
+## Model Specification
+
+We might hypothesize that the number of fish caught is influenced by the number of children (noisy, distracting, impatient) and whether the party brought a camper.
+
+$$\begin{align*}
+y_i &\sim \text{Poisson}(\lambda_i) \\
+f(\lambda_i) &= \beta_0 + \beta_1 \text{child}_i + \beta_2 \text{camper}_i
+\end{align*}
+$$
+
+::: {.fragment .fade-in}
+$\lambda_i$: positive "rate"
+
+$f(\cdot)$: maps positive reals (rate scale) to all reals (linear model scale)
+:::
+
+
+## Fitting the Model
+
+```{julia}
+#| echo: true
+#| code-fold: false
+#| code-line-numbers: "|1-5|7-11"
+
+function fish_model(params, child, camper, fish_caught)
+    β₀, β₁, β₂ = params
+    λ = exp.(β₀ .+ β₁ * child + β₂ * camper)
+    loglik = sum(logpdf.(Poisson.(λ), fish_caught))
+end
+
+lb = [-100.0, -100.0, -100.0]
+ub = [100.0, 100.0, 100.0]
+init = [0.0, 0.0, 0.0]
+
+optim_out = optimize(θ -> -fish_model(θ, fish.child, fish.camper, fish.fish_caught), lb, ub, init)
+θ_mle = optim_out.minimizer
+@show round.(θ_mle; digits=2);
+@show round.(exp.(θ_mle); digits=2);
+```
+
+## Interpretation of Coefficients
+
+Since $\log(\lambda_i) = \sum_j \beta_j x^i_j$: 
+
+$\exp(\beta_j)$ says how much a unit increase in $x_j$ multiplies the rate (hence expected value).
+
+So $\beta_1 =$ `{julia} round(θ_mle[2]; digits=1)` says that each extra child reduces the expected number of fish caught by a factor of `{julia} round(exp(θ_mle[2]); digits=1)`.
+
+## Predictive Checks To Evaluate Model
+
+- Linear regression: model checking was straightforward: residuals should have been Gaussian distributed.
+- GLMs: Less clear how to check distributional assumptions.
+
+**Strategy**: check predictive distribution of relevant summary statistic(s) by simulation; do you capture the empirical statistic?
+
+## Predictive Checks
+
+In other words, for some statistic $T$:
+
+- Estimate $\hat{T}$ from the data.
+- Simulate synthetic datasets using your model and calculate $\tilde{T}_n$ for each one;
+- Examine the distribution of $(\tilde{T})$ to see where $\hat{T}$ falls.
+
+**Teaser**: This is closely related to the idea of a $p$-value...
+
+## Checking Proportion of Zero Fish
+
+```{julia}
+#| label: fig-fish-skill
+#| fig-cap: Predictive distribution for fitted fish model.
+#| code-line-numbers: "|1-3|5-8"
+
+# simulate samples for each P
+λ = exp.(θ_mle[1] .+ θ_mle[2] * fish.child .+ θ_mle[3] * fish.camper)
+# draw 10,000 samples for each
+fish_sim = zeros(10_000, nrow(fish)) # initialize matrix to store simulations
+for i = 1:nrow(fish)
+    fish_sim[:, i] = rand(Poisson(λ[i]), 10_000)
+end
+
+# calculate frequency of zeros
+fish_zeros = mapslices(row -> sum(row .== 0) / length(row), fish_sim; dims=1)
+histogram(fish_zeros', xlabel="Proportion of Zeros", ylabel="Count", label=false)
+vline!([sum(fish.fish_caught .== 0) / nrow(fish)], color=:red, linewidth=3, label="Empirical Statistic")
+```
+
+## What Was The Problem?
+
+- The model produces far fewer zero-fish counts than the data.
+- This is typical of a lot of environmental count data; often have far more zeros than would be expected from a Poisson regression.
+- Alternative: Use a **zero-inflated model**.
+
+## Alternative: Zero-Inflated Poisson
+
+This is a **mixture** between a Poisson and point-distribution (Dirac distribution) at zero.
+
+$$\begin{aligned}
+y_i &\sim p_i \text{Poisson}(\lambda_i) + (1-p_i) \text{Dirac}(0) \\
+\text{logit}(p_i) &= \alpha_0 + \alpha_1 \text{persons}_i\\
+\log(\lambda_i) &= \beta_0 + \beta_1 \text{child}_i + \beta_2 \text{camper}_i
+\end{aligned}$$
+
+## ZIP Interpretation
+
+- Some groups don't fish, which guarantees no fish.
+- Probability of fishing is influenced by size of group.
+- If a group fishes, then there's a Poisson process for the number of fish they catch.
+- Expected fishing influenced by children and campers.
+
+## Fitting ZIP
+
+```{julia}
+#| echo: true
+#| code-fold: false
+#| code-line-numbers: "|2|3-9"
+
+invlogit(x) = exp(x) / (1 + exp(x))
+ZeroInflated(p, λ) = MixtureModel([Dirac(0), Poisson(λ)], [p, 1 - p])
+function fish_model_zip(params, persons, child, camper, fish_caught)
+    α₀, α₁, β₀, β₁, β₂ = params
+    p = invlogit.(α₀ .+ α₁ * persons)
+    λ = exp.(β₀ .+ β₁ * child .+ β₂ * camper)
+    ll = sum(logpdf.(ZeroInflated.(p, λ), fish_caught))
+    return ll
+end
+
+lb = [-100.0, -100.0, -100.0, -100.0, -100.0]
+ub = [100.0, 0.0, 100.0, 100.0, 100.0]
+init = [5.0, -2.0, 0.0, 0.0, 0.0]
+
+optim_out = optimize(θ -> -fish_model_zip(θ, fish.persons, fish.child, fish.camper, fish.fish_caught), lb, ub, init)
+θ_mle = optim_out.minimizer
+@show round.(θ_mle; digits=2);
+@show round.(exp.(θ_mle); digits=2);
+```
+
+## Evaluating Model Fit
+
+```{julia}
+#| label: fig-fish-skill-2
+#| fig-cap: Predictive distribution for fitted fish model.
+#| output-location: column
+#| code-line-numbers: "|1-3|5-8"
+
+# simulate samples for each P
+p = invlogit.(θ_mle[1] .+ θ_mle[2] * fish.persons)
+λ = exp.(θ_mle[3] .+ θ_mle[4] * fish.child .+ θ_mle[5] * fish.camper)
+# draw 10,000 samples for each
+fish_sim = zeros(10_000, nrow(fish)) # initialize matrix to store simulations
+for i = 1:nrow(fish)
+    u = rand(Uniform(0, 1), 10_000)
+    for j = 1:10_000
+       if u[j] < p[i]
+            fish_sim[j, i] = 0.0
+        else
+            fish_sim[j, i] = rand(Poisson(λ[i]))
+        end
+    end   
+end
+
+# calculate frequency of zeros
+fish_zeros = mapslices(row -> sum(row .== 0) / length(row), fish_sim; dims=1)
+histogram(fish_zeros', xlabel="Proportion of Zeros", ylabel="Count", label=false)
+vline!([sum(fish.fish_caught .== 0) / nrow(fish)], color=:red, linewidth=3, label="Empirical Statistic")
+```
+
+## Interpretation of Check
+
+- This is much better, but is only one test.
+- A model has more evidence for it if it passes multiple checks.
+- But none of this can "prove" a model is right: need to rely on hypotheses and EDA to propose a sensible model.
+
+# Key Points
+
+## GLMs
+
+- Generalized linear models: use an alternative distribution but let parameters vary.
+- Require a choice of distribution, a link function, and a linear model.
+- Simulation is valuable for checking model fit.
+
+
+# Upcoming Schedule
+
+## Upcoming Schedule
+
+**Friday**: Quiz 1 for first 25 minutes.
+
+**Monday**: No class!
+
+**Next Week**: Modeling extreme values.
