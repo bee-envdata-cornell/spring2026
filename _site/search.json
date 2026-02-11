@@ -1812,6 +1812,13 @@
     "text": "What Does This Mean?\n\n\n\nThe data is overdispersed relative to a Poisson distribution.\nBut a Poisson GLM may give rise to overdispersed data, since every observation has a different \\(\\lambda_i\\) (hence mean and variance.)\n\n\n\n\n\n\n\n\n\nFigure 6: Fishing Data"
   },
   {
+    "objectID": "slides/lecture04-2-glm.html#be-cautious",
+    "href": "slides/lecture04-2-glm.html#be-cautious",
+    "title": "Generalized Linear Models",
+    "section": "Be Cautious…",
+    "text": "Be Cautious…\n\n\n\nOver-relying on plots like histograms can lead to mis-specifying GLM dynamics.\nThink of linear regression: the question is not if the data are Gaussian but the residuals.\n\n\n\n\n\nBrain on Regression Meme\n\n\n\nSource: Richard McElreath"
+  },
+  {
     "objectID": "slides/lecture04-2-glm.html#model-specification",
     "href": "slides/lecture04-2-glm.html#model-specification",
     "title": "Generalized Linear Models",
@@ -1861,46 +1868,11 @@
     "text": "What Was The Problem?\n\nThe model produces far fewer zero-fish counts than the data.\nThis is typical of a lot of environmental count data; often have far more zeros than would be expected from a Poisson regression.\nAlternative: Use a zero-inflated model."
   },
   {
-    "objectID": "slides/lecture04-2-glm.html#alternative-zero-inflated-poisson",
-    "href": "slides/lecture04-2-glm.html#alternative-zero-inflated-poisson",
-    "title": "Generalized Linear Models",
-    "section": "Alternative: Zero-Inflated Poisson",
-    "text": "Alternative: Zero-Inflated Poisson\nThis is a mixture between a Poisson and point-distribution (Dirac distribution) at zero.\n\\[\\begin{aligned}\ny_i &\\sim p_i \\text{Poisson}(\\lambda_i) + (1-p_i) \\text{Dirac}(0) \\\\\n\\text{logit}(p_i) &= \\alpha_0 + \\alpha_1 \\text{persons}_i\\\\\n\\log(\\lambda_i) &= \\beta_0 + \\beta_1 \\text{child}_i + \\beta_2 \\text{camper}_i\n\\end{aligned}\\]"
-  },
-  {
-    "objectID": "slides/lecture04-2-glm.html#zip-interpretation",
-    "href": "slides/lecture04-2-glm.html#zip-interpretation",
-    "title": "Generalized Linear Models",
-    "section": "ZIP Interpretation",
-    "text": "ZIP Interpretation\n\nSome groups don’t fish, which guarantees no fish.\nProbability of fishing is influenced by size of group.\nIf a group fishes, then there’s a Poisson process for the number of fish they catch.\nExpected fishing influenced by children and campers."
-  },
-  {
-    "objectID": "slides/lecture04-2-glm.html#fitting-zip",
-    "href": "slides/lecture04-2-glm.html#fitting-zip",
-    "title": "Generalized Linear Models",
-    "section": "Fitting ZIP",
-    "text": "Fitting ZIP\n\ninvlogit(x) = exp(x) / (1 + exp(x))\nZeroInflated(p, λ) = MixtureModel([Dirac(0), Poisson(λ)], [p, 1 - p])\nfunction fish_model_zip(params, persons, child, camper, fish_caught)\n    α₀, α₁, β₀, β₁, β₂ = params\n    p = invlogit.(α₀ .+ α₁ * persons)\n    λ = exp.(β₀ .+ β₁ * child .+ β₂ * camper)\n    ll = sum(logpdf.(ZeroInflated.(p, λ), fish_caught))\n    return ll\nend\n\nlb = [-100.0, -100.0, -100.0, -100.0, -100.0]\nub = [100.0, 0.0, 100.0, 100.0, 100.0]\ninit = [5.0, -2.0, 0.0, 0.0, 0.0]\n\noptim_out = optimize(θ -&gt; -fish_model_zip(θ, fish.persons, fish.child, fish.camper, fish.fish_caught), lb, ub, init)\nθ_mle = optim_out.minimizer\n@show round.(θ_mle; digits=2);\n@show round.(exp.(θ_mle); digits=2);\n\nround.(θ_mle; digits = 2) = [1.3, -0.56, 1.6, -1.04, 0.83]\nround.(exp.(θ_mle); digits = 2) = [3.66, 0.57, 4.94, 0.35, 2.3]"
-  },
-  {
-    "objectID": "slides/lecture04-2-glm.html#evaluating-model-fit",
-    "href": "slides/lecture04-2-glm.html#evaluating-model-fit",
-    "title": "Generalized Linear Models",
-    "section": "Evaluating Model Fit",
-    "text": "Evaluating Model Fit\n\n\nFigure 8: Predictive distribution for fitted fish model."
-  },
-  {
-    "objectID": "slides/lecture04-2-glm.html#interpretation-of-check",
-    "href": "slides/lecture04-2-glm.html#interpretation-of-check",
-    "title": "Generalized Linear Models",
-    "section": "Interpretation of Check",
-    "text": "Interpretation of Check\n\nThis is much better, but is only one test.\nA model has more evidence for it if it passes multiple checks.\nBut none of this can “prove” a model is right: need to rely on hypotheses and EDA to propose a sensible model."
-  },
-  {
     "objectID": "slides/lecture04-2-glm.html#glms",
     "href": "slides/lecture04-2-glm.html#glms",
     "title": "Generalized Linear Models",
     "section": "GLMs",
-    "text": "GLMs\n\nGeneralized linear models: use an alternative distribution but let parameters vary.\nRequire a choice of distribution, a link function, and a linear model.\nSimulation is valuable for checking model fit."
+    "text": "GLMs\n\nGeneralized linear models: use an alternative distribution but let parameters vary.\nRequire a choice of distribution, a link function, and a linear model.\nLots of different choices of distributions — think about structure of the data and generative properties of the distributions.\nSimulation is valuable for checking model fit."
   },
   {
     "objectID": "slides/lecture04-2-glm.html#upcoming-schedule-1",
@@ -2617,172 +2589,200 @@
     "text": "References (Scroll for Full List)\n\n\n\n\nMcElreath, R. (2020). Statistical rethinking : A bayesian course with examples in R and Stan (Second). Boca Raton, Florida: CRC. Retrieved from https://www.routledge.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919"
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#bayes-rule",
-    "href": "slides/lecture06-1-bayes-workflow.html#bayes-rule",
-    "title": "Bayesian Workflow Example",
-    "section": "Bayes’ Rule",
-    "text": "Bayes’ Rule\n\\[\n\\underbrace{{p(\\theta | y)}}_{\\text{posterior}} = \\frac{\\overbrace{p(y | \\theta)}^{\\text{likelihood}}}{\\underbrace{p(y)}_\\text{normalization}} \\overbrace{p(\\theta)}^\\text{prior}\n\\]"
+    "objectID": "slides/lecture08-2-bayesian-computation.html#the-bootstrap",
+    "href": "slides/lecture08-2-bayesian-computation.html#the-bootstrap",
+    "title": "Bayesian Computing and MCMC",
+    "section": "The Bootstrap",
+    "text": "The Bootstrap\n\n\nEfron (1979) suggested combining estimation with simulation: the bootstrap.\nKey idea: use the data to simulate a data-generating mechanism.\n\n\n\n\n\nBaron von Munchhausen Pulling Himself By His Hair\n\n\n\nSource: Wikipedia"
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#bayesian-model-components",
-    "href": "slides/lecture06-1-bayes-workflow.html#bayesian-model-components",
-    "title": "Bayesian Workflow Example",
-    "section": "Bayesian Model Components",
-    "text": "Bayesian Model Components\nA fully specified Bayesian model includes:\n\nPrior distributions over the parameters, \\(p(\\theta)\\)\nProbability model for the data given the parameters (the likelihood), \\(p(y | \\theta)\\)t\n\nThink: Prior provides proposed explanations, likelihood re-weights based on ability to produce the data."
+    "objectID": "slides/lecture08-2-bayesian-computation.html#why-does-the-bootstrap-work",
+    "href": "slides/lecture08-2-bayesian-computation.html#why-does-the-bootstrap-work",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Why Does The Bootstrap Work?",
+    "text": "Why Does The Bootstrap Work?\nLet \\(t_0\\) the “true” value of a statistic, \\(\\hat{t}\\) the estimate of the statistic from the sample, and \\((\\tilde{t}_i)\\) the bootstrap estimates.\n\nVariance: \\(\\text{Var}[\\hat{t}] \\approx \\text{Var}[\\tilde{t}]\\)\nThen the bootstrap error distribution approximates the sampling distribution \\[(\\tilde{t}_i - \\hat{t}) \\overset{\\mathcal{D}}{\\sim} \\hat{t} - t_0\\]"
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#bayes-and-parametric-uncertainty",
-    "href": "slides/lecture06-1-bayes-workflow.html#bayes-and-parametric-uncertainty",
-    "title": "Bayesian Workflow Example",
-    "section": "Bayes and Parametric Uncertainty",
-    "text": "Bayes and Parametric Uncertainty\nFrequentist: Parametric uncertainty is purely the result of sampling variability\nBayesian: Parameters have probabilities based on consistency with data and priors.\nThink: how “likely” is a set of parameters to have produced the data given the specified data generating process?"
+    "objectID": "slides/lecture08-2-bayesian-computation.html#bootstrap-variants",
+    "href": "slides/lecture08-2-bayesian-computation.html#bootstrap-variants",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Bootstrap Variants",
+    "text": "Bootstrap Variants\n\nResample Cases (Non-Parametric)\nResample Residuals (from fitted model trend)\nSimulate from Fitted Model (Parametric)"
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#bayesian-updating",
-    "href": "slides/lecture06-1-bayes-workflow.html#bayesian-updating",
-    "title": "Bayesian Workflow Example",
-    "section": "Bayesian Updating",
-    "text": "Bayesian Updating\n\nThe posterior is a “compromise” between the prior and the data.\nThe posterior mean is a weighted combination of the data and the prior mean.\nThe weights depend on the prior and the likelihood variances.\nMore data usually makes the posterior more confident."
+    "objectID": "slides/lecture08-2-bayesian-computation.html#which-bootstrap-to-use",
+    "href": "slides/lecture08-2-bayesian-computation.html#which-bootstrap-to-use",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Which Bootstrap To Use?",
+    "text": "Which Bootstrap To Use?\nDepends on trust in model “correctness”: - Do we trust the model specification to be reasonably correct? - Do we trust that we have enough samples to recover the empirical CDF? - Do we trust the data-generating process?"
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#san-francisco-tide-gauge-data",
-    "href": "slides/lecture06-1-bayes-workflow.html#san-francisco-tide-gauge-data",
-    "title": "Bayesian Workflow Example",
-    "section": "San Francisco Tide Gauge Data",
-    "text": "San Francisco Tide Gauge Data\n\n\nCode\n# read in data and get annual maxima\nfunction load_data(fname)\n    date_format = DateFormat(\"yyyy-mm-dd HH:MM:SS\")\n    # This uses the DataFramesMeta.jl package, which makes it easy to string together commands to load and process data\n    df = @chain fname begin\n        CSV.read(DataFrame; header=false)\n        rename(\"Column1\" =&gt; \"year\", \"Column2\" =&gt; \"month\", \"Column3\" =&gt; \"day\", \"Column4\" =&gt; \"hour\", \"Column5\" =&gt; \"gauge\")\n        # need to reformat the decimal date in the data file\n        @transform :datetime = DateTime.(:year, :month, :day, :hour)\n        # replace -99999 with missing\n        @transform :gauge = ifelse.(abs.(:gauge) .&gt;= 9999, missing, :gauge)\n        select(:datetime, :gauge)\n    end\n    return df\nend\n\ndat = load_data(\"data/surge/h551.csv\")\n\n# detrend the data to remove the effects of sea-level rise and seasonal dynamics\nma_length = 366\nma_offset = Int(floor(ma_length/2))\nmoving_average(series,n) = [mean(@view series[i-n:i+n]) for i in n+1:length(series)-n]\ndat_ma = DataFrame(datetime=dat.datetime[ma_offset+1:end-ma_offset], residual=dat.gauge[ma_offset+1:end-ma_offset] .- moving_average(dat.gauge, ma_offset))\n\n# group data by year and compute the annual maxima\ndat_ma = dropmissing(dat_ma) # drop missing data\ndat_annmax = combine(dat_ma -&gt; dat_ma[argmax(dat_ma.residual), :], groupby(DataFrames.transform(dat_ma, :datetime =&gt; x-&gt;year.(x)), :datetime_function))\ndelete!(dat_annmax, nrow(dat_annmax)) # delete 2023; haven't seen much of that year yet\nrename!(dat_annmax, :datetime_function =&gt; :Year)\nselect!(dat_annmax, [:Year, :residual])\ndat_annmax.residual = dat_annmax.residual / 1000 # convert to m\n\n# make plots\np1 = plot(\n    dat_annmax.Year,\n    dat_annmax.residual;\n    xlabel=\"Year\",\n    ylabel=\"Annual Max Tide Level (m)\",\n    label=false,\n    marker=:circle,\n    markersize=5,\n    tickfontsize=16,\n    guidefontsize=18\n)\np2 = histogram(\n    dat_annmax.residual,\n    normalize=:pdf,\n    orientation=:horizontal,\n    label=:false,\n    xlabel=\"PDF\",\n    ylabel=\"\",\n    yticks=[],\n    tickfontsize=16,\n    guidefontsize=18\n)\n\nl = @layout [a{0.7w} b{0.3w}]\nplot(p1, p2; layout=l, link=:y, ylims=(1, 1.7), bottom_margin=5mm, left_margin=5mm)\nplot!(size=(1000, 450))\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 1: Annual maxima surge data from the San Francisco, CA tide gauge."
+    "objectID": "slides/lecture08-2-bayesian-computation.html#sampling-so-far",
+    "href": "slides/lecture08-2-bayesian-computation.html#sampling-so-far",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Sampling So Far",
+    "text": "Sampling So Far\n\n\nRejection sampling (or importance sampling) to draw i.i.d. samples from a proposal density and reject/re-weight based on target.\nBoth require \\(f(x) \\leq M g(x)\\) for some \\(1 &lt; M &lt; \\infty\\).\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 1: Example of rejection sampling for a Normal distribution"
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#proposed-probability-model",
-    "href": "slides/lecture06-1-bayes-workflow.html#proposed-probability-model",
-    "title": "Bayesian Workflow Example",
-    "section": "Proposed Probability Model",
-    "text": "Proposed Probability Model\n\\[\n\\begin{align*}\n& y \\sim LogNormal(\\mu, \\sigma) \\tag{likelihood}\\\\\n& \\left. \\begin{aligned}\n& \\mu \\sim Normal(0, 1) \\\\\n& \\sigma \\sim HalfNormal(0, 5)\n\\end{aligned} \\right\\} \\tag{priors}\n\\end{align*}\n\\]\nWant to find:\n\\[p(\\mu, \\sigma | y) \\propto p(y | \\mu, \\sigma) p(\\mu)p(\\sigma)\\]"
+    "objectID": "slides/lecture08-2-bayesian-computation.html#bayesian-computing-challenges",
+    "href": "slides/lecture08-2-bayesian-computation.html#bayesian-computing-challenges",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Bayesian Computing Challenges",
+    "text": "Bayesian Computing Challenges\n\nSamples needed to compute posterior quantities (credible intervals, posterior predictive distributions, model skill estimates, etc.) with Monte Carlo.\nPosteriors often highly correlated.\nGrid approximation can help us visualize the posteriors in low dimensions.\nRejection sampling scales poorly to higher dimensions.\nConjugate priors only are appropriate in limited cases."
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#are-our-priors-reasonable",
-    "href": "slides/lecture06-1-bayes-workflow.html#are-our-priors-reasonable",
-    "title": "Bayesian Workflow Example",
-    "section": "Are Our Priors Reasonable?",
-    "text": "Are Our Priors Reasonable?\nKey idea: what do the priors imply for observable variables?\nLet’s simulate data from the prior predictive distribution to see we get plausible outcomes.\n\\[y \\sim p(\\tilde{y}) = \\int_{\\Theta} p(\\tilde{y} | \\theta) p(\\theta) d\\theta\\]"
+    "objectID": "slides/lecture08-2-bayesian-computation.html#what-would-make-a-good-algorithm",
+    "href": "slides/lecture08-2-bayesian-computation.html#what-would-make-a-good-algorithm",
+    "title": "Bayesian Computing and MCMC",
+    "section": "What Would Make A Good Algorithm?",
+    "text": "What Would Make A Good Algorithm?\nA wishlist:\n\nDon’t need to know the characteristics of the distribution.\nSamples will eventually be correctly distributed (given enough time).\nIdeally fast and requiring minimal tuning."
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#prior-predictive-check",
-    "href": "slides/lecture06-1-bayes-workflow.html#prior-predictive-check",
-    "title": "Bayesian Workflow Example",
-    "section": "Prior Predictive Check",
-    "text": "Prior Predictive Check\n\n\nCode\n# sample from priors\nμ_sample = rand(Normal(0, 1), 1_000)\nσ_sample = rand(truncated(Normal(0, 5), 0, +Inf), 1_000)\n\n# define return periods and cmopute return levels for parameters\nreturn_periods = 2:100\nreturn_levels = zeros(1_000, length(return_periods))\nfor i in 1:1_000\n    return_levels[i, :] = quantile.(LogNormal(μ_sample[i], σ_sample[i]), 1 .- (1 ./ return_periods))\nend\n\nplt_prior_1 = plot(; yscale=:log10, yticks=10 .^ collect(0:2:16), ylabel=\"Return Level (m)\", xlabel=\"Return Period (yrs)\",\n    tickfontsize=16, legendfontsize=18, guidefontsize=18, bottom_margin=10mm, left_margin=10mm, legend=:topleft)\nfor idx in 1:1_000\n    label = idx == 1 ? \"Prior\" : false\n    plot!(plt_prior_1, return_periods, return_levels[idx, :]; color=:black, alpha=0.1, label=label)\nend\nplt_prior_1\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 2: Prior predictive check of return periods with revised model"
+    "objectID": "slides/lecture08-2-bayesian-computation.html#how-can-we-do-this",
+    "href": "slides/lecture08-2-bayesian-computation.html#how-can-we-do-this",
+    "title": "Bayesian Computing and MCMC",
+    "section": "How Can We Do This?",
+    "text": "How Can We Do This?\nSuppose we want to sample a probability distribution \\(f(\\cdot)\\) and are at a parameter vector \\(x\\).\nWhat if we had a method that would let us stochastically jump from \\(x\\) to a new vector \\(y\\) in such a way that, eventually, we would visit any given vector wiith probability \\(f\\)?\nThis would let us trade convenience/flexibility for dependent samples."
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#lets-revise-the-prior",
-    "href": "slides/lecture06-1-bayes-workflow.html#lets-revise-the-prior",
-    "title": "Bayesian Workflow Example",
-    "section": "Let’s Revise the Prior",
-    "text": "Let’s Revise the Prior\n\\[\n\\begin{align*}\n& y \\sim LogNormal(\\mu, \\sigma) \\tag{likelihood}\\\\\n& \\left. \\begin{aligned}\n& \\mu \\sim Normal(0, 0.5) \\\\\n& \\sigma \\sim HalfNormal(0, 0.1)\n\\end{aligned} \\right\\} \\tag{priors}\n\\end{align*}\n\\]"
+    "objectID": "slides/lecture08-2-bayesian-computation.html#markov-chain-monte-carlo-mcmc",
+    "href": "slides/lecture08-2-bayesian-computation.html#markov-chain-monte-carlo-mcmc",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Markov Chain Monte Carlo (MCMC)",
+    "text": "Markov Chain Monte Carlo (MCMC)\nThere is a mathematical process that has these properties: Markov Chains.\nThese methods are called Markov chain Monte Carlo (MCMC)."
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#prior-predictive-check-2",
-    "href": "slides/lecture06-1-bayes-workflow.html#prior-predictive-check-2",
-    "title": "Bayesian Workflow Example",
-    "section": "Prior Predictive Check 2",
-    "text": "Prior Predictive Check 2\n\n\nCode\n# sample from priors\nμ_sample = rand(Normal(0, 0.5), 1_000)\nσ_sample = rand(truncated(Normal(0, 0.1), 0, +Inf), 1_000)\n\nreturn_periods = 2:100\nreturn_levels = zeros(1_000, length(return_periods))\nfor i in 1:1_000\n    return_levels[i, :] = quantile.(LogNormal(μ_sample[i], σ_sample[i]), 1 .- (1 ./ return_periods))\nend\n\nplt_prior_2 = plot(; ylabel=\"Return Level (m)\", xlabel=\"Return Period (yrs)\", tickfontsize=16, legendfontsize=18, guidefontsize=18, bottom_margin=10mm, left_margin=10mm)\nfor idx in 1:1_000\n    label = idx == 1 ? \"Prior\" : false\n    plot!(plt_prior_2, return_periods, return_levels[idx, :]; color=:black, alpha=0.1, label=label)\nend\nplt_prior_2\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 3: Prior predictive check of return periods with revised model"
+    "objectID": "slides/lecture08-2-bayesian-computation.html#what-is-a-markov-chain",
+    "href": "slides/lecture08-2-bayesian-computation.html#what-is-a-markov-chain",
+    "title": "Bayesian Computing and MCMC",
+    "section": "What Is A Markov Chain?",
+    "text": "What Is A Markov Chain?\n\n\nConsider a stochastic process \\(\\{X_t\\}_{t \\in \\mathcal{T}}\\), where\n\n\\(X_t \\in \\mathcal{S}\\) is the state at time \\(t\\), and\n\\(\\mathcal{T}\\) is a time-index set (can be discrete or continuous)\n\\(\\mathbb{P}(s_i \\to s_j) = p_{ij}\\).\n\n\n\n\n\nMarkov State Space"
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#compute-posterior",
-    "href": "slides/lecture06-1-bayes-workflow.html#compute-posterior",
-    "title": "Bayesian Workflow Example",
-    "section": "Compute Posterior",
-    "text": "Compute Posterior\n\nCode\nll(μ, σ) = sum(logpdf(LogNormal(μ, σ), dat_annmax.residual))\nlprior1(μ, σ) = logpdf(Normal(0, 1), μ) + logpdf(truncated(Normal(0, 5), 0, Inf), σ)\nlprior2(μ, σ) = logpdf(Normal(0, 0.5), μ) + logpdf(truncated(Normal(0, 0.1), 0, Inf), σ)\nlposterior1(μ, σ) = ll(μ, σ) + lprior1(μ, σ)\nlposterior2(μ, σ) = ll(μ, σ) + lprior2(μ, σ)\n\np_map1 = optimize(p -&gt; -lposterior1(p[1], p[2]), [0.0, 0.0], [1.0, 1.0], [0.5, 0.5]).minimizer\np_map2 = optimize(p -&gt; -lposterior2(p[1], p[2]), [0.0, 0.0], [1.0, 1.0], [0.5, 0.5]).minimizer\n\nμ = 0.15:0.005:0.35\nσ = 0.04:0.01:0.1\nposterior1_vals = @. lposterior1(μ', σ)\nposterior2_vals = @. lposterior2(μ', σ)\n\np_post1 = contour(μ, σ, posterior1_vals, \n    levels=100, \n    clabels=false, \n    cbar=false, lw=1, \n    fill=(true,cgrad(:grays,[0,0.1,1.0])),\n    title = \"Diffuse Prior\"\n)\nscatter!(p_post1, [p_map1[1]], [p_map1[2]], label=\"MLE\", markersize=10, marker=:star)\nxlabel!(p_post1, L\"$\\mu$\")\nylabel!(p_post1, L\"$\\sigma$\")\nplot!(p_post1, size=(600, 500))\n\np_post2 = contour(μ, σ, posterior2_vals, \n    levels=100, \n    clabels=false, \n    cbar=false, lw=1, \n    fill=(true,cgrad(:grays,[0,0.1,1.0])),\n    title = \"More Informed Priors\"\n)\nscatter!(p_post2, [p_map2[1]], [p_map2[2]], label=\"MAP\", markersize=10, marker=:star)\nxlabel!(p_post2, L\"$\\mu$\")\nylabel!(p_post2, L\"$\\sigma$\")\nplot!(p_post2, size=(600, 500))\n\ndisplay(p_post1)\ndisplay(p_post2)\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Posterior samples from surge model.\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b)\n\n\n\n\n\n\n\nFigure 4\n\n\n\n\n\np_map1 = [0.25470601822948175, 0.05548961712923218]\np_map2 = [0.2546874075933288, 0.05542213686160764]"
+    "objectID": "slides/lecture08-2-bayesian-computation.html#markovian-property",
+    "href": "slides/lecture08-2-bayesian-computation.html#markovian-property",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Markovian Property",
+    "text": "Markovian Property\nThis stochastic process is a Markov chain if it satisfies the Markovian (or memoryless) property: \\[\\begin{align*}\n\\mathbb{P}(X_{T+1} = s_i &| X_1=x_1, \\ldots, X_T=x_T) = \\\\ &\\qquad\\mathbb{P}(X_{T+1} = s_i| X_T=x_T)\n\\end{align*}\n\\]"
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#assess-map-fit",
-    "href": "slides/lecture06-1-bayes-workflow.html#assess-map-fit",
-    "title": "Bayesian Workflow Example",
-    "section": "Assess MAP Fit",
-    "text": "Assess MAP Fit\n\nCode\np1 = histogram(\n    dat_annmax.residual,\n    normalize=:pdf,\n    legend=:false,\n    ylabel=\"PDF\",\n    xlabel=\"Annual Max Tide Level (m)\",\n    tickfontsize=16,\n    guidefontsize=18,\n    bottom_margin=5mm, left_margin=5mm\n)\nplot!(p1, LogNormal(p_map2[1], p_map2[2]),\n    linewidth=3,\n    color=:red)\nxlims!(p1, (1, 1.7))\nplot!(p1, size=(600, 450))\n\nreturn_periods = 2:500\nreturn_levels = quantile.(LogNormal(p_map2[1], p_map2[2]), 1 .- (1 ./ return_periods))\n\n# function to calculate exceedance probability and plot positions based on data quantile\nfunction exceedance_plot_pos(y)\n    N = length(y)\n    ys = sort(y; rev=false) # sorted values of y\n    nxp = xp = [r / (N + 1) for r in 1:N] # exceedance probability\n    xp = 1 .- nxp\n    return xp, ys\nend\nxp, ys = exceedance_plot_pos(dat_annmax.residual)\n\np2 = plot(return_periods, return_levels, linewidth=3, color=:blue, label=\"Model Fit\", tickfontsize=16, legendfontsize=18, guidefontsize=18, bottom_margin=5mm, left_margin=5mm, right_margin=10mm, legend=:bottomright)\nscatter!(p2, 1 ./ xp, ys, label=\"Observations\", color=:black, markersize=5)\nxlabel!(p2, \"Return Period (yrs)\")\nylabel!(p2, \"Return Level (m)\")\nxlims!(-1, 300)\nplot!(p2, size=(600, 450))\n\ndisplay(p1)\ndisplay(p2)\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Checks for model fit.\n\n\n\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(b)\n\n\n\n\n\n\n\nFigure 5"
+    "objectID": "slides/lecture08-2-bayesian-computation.html#example-drunkards-walk",
+    "href": "slides/lecture08-2-bayesian-computation.html#example-drunkards-walk",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Example: “Drunkard’s Walk”",
+    "text": "Example: “Drunkard’s Walk”\n\n\n\n\n:img Random Walk, 80%\n\n\n\n\nHow can we model the unconditional probability \\(\\mathbb{P}(X_T = s_i)\\)?\nHow about the conditional probability \\(\\mathbb{P}(X_T = s_i | X_{T-1} = x_{T-1})\\)?"
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#what-about-the-posterior-distribution",
-    "href": "slides/lecture06-1-bayes-workflow.html#what-about-the-posterior-distribution",
-    "title": "Bayesian Workflow Example",
-    "section": "What About The Posterior Distribution?",
-    "text": "What About The Posterior Distribution?\nOne of the points of Bayesian statistics is we get a distribution over parameters.\nSampling from this distribution is often more involved."
+    "objectID": "slides/lecture08-2-bayesian-computation.html#example-weather",
+    "href": "slides/lecture08-2-bayesian-computation.html#example-weather",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Example: Weather",
+    "text": "Example: Weather\nSuppose the weather can be foggy, sunny, or rainy.\nBased on past experience, we know that:\n\nThere are never two sunny days in a row;\nEven chance of two foggy or two rainy days in a row;\nA sunny day occurs 1/4 of the time after a foggy or rainy day."
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#exception-conjugate-priors",
-    "href": "slides/lecture06-1-bayes-workflow.html#exception-conjugate-priors",
-    "title": "Bayesian Workflow Example",
-    "section": "Exception: Conjugate Priors",
-    "text": "Exception: Conjugate Priors\nWhen the mathematical forms of the likelihood and the prior(s) are conjugate, the posterior is a nice closed-form distribution.\nExamples:\n\nNormal \\(p(y | \\mu)\\), Normal \\(p(\\mu)\\) ⇒ Normal \\(p(\\mu | y)\\)\nBinomial \\(p(y | \\theta)\\), Beta \\(p(\\theta)\\), ⇒ Beta \\(p(\\theta | y)\\)\n\nSampling using conjugate priors is called Gibbs sampling."
+    "objectID": "slides/lecture08-2-bayesian-computation.html#aside-higher-order-markov-chains",
+    "href": "slides/lecture08-2-bayesian-computation.html#aside-higher-order-markov-chains",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Aside: Higher Order Markov Chains",
+    "text": "Aside: Higher Order Markov Chains\nSuppose that today’s weather depends on the prior two days.\n\nCan we write this as a Markov chain?\nWhat are the states?"
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#when-does-the-prior-matter",
-    "href": "slides/lecture06-1-bayes-workflow.html#when-does-the-prior-matter",
-    "title": "Bayesian Workflow Example",
-    "section": "When Does The Prior Matter?",
-    "text": "When Does The Prior Matter?\nIn general, priors matter more for:\n\nLess data (likelihood less informative);\nMore complex models (more degrees of freedom).\n\nAlways justify and test your priors. Explicitly compare the prior to the posterior to see whether your inferences are driven by the prior or by the data (probability model)."
+    "objectID": "slides/lecture08-2-bayesian-computation.html#weather-transition-matrix",
+    "href": "slides/lecture08-2-bayesian-computation.html#weather-transition-matrix",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Weather Transition Matrix",
+    "text": "Weather Transition Matrix\nWe can summarize these probabilities in a transition matrix \\(P\\): \\[\nP =\n\\begin{array}{cc}\n\\begin{array}{ccc}\n\\phantom{i}\\color{red}{F}\\phantom{i} & \\phantom{i}\\color{red}{S}\\phantom{i} & \\phantom{i}\\color{red}{R}\\phantom{i}\n\\end{array}\n\\\\\n\\begin{pmatrix}\n      1/2 & 1/4 & 1/4 \\\\\n      1/2 & 0 & 1/2 \\\\\n      1/4 & 1/4 & 1/2\n      \\end{pmatrix}\n&\n\\begin{array}{ccc}\n\\color{red}F  \\\\ \\color{red}S  \\\\ \\color{red}R\n\\end{array}   \n\\end{array}\n\\]\nRows are the current state, columns are the next step, so \\(\\sum_i p_{ij} = 1\\)."
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#overview-of-ppls",
-    "href": "slides/lecture06-1-bayes-workflow.html#overview-of-ppls",
-    "title": "Bayesian Workflow Example",
-    "section": "Overview of PPLs",
-    "text": "Overview of PPLs\n\nSpeciality “languages” for specifying probability models.\nRely on automatic differentiation to compile likelihood/posterior functions.\nMany frameworks developing over the last few years:\n\nPython: pyMC3\nJulia: Turing.jl\nCross-platform: Stan"
+    "objectID": "slides/lecture08-2-bayesian-computation.html#weather-example-state-probabilities",
+    "href": "slides/lecture08-2-bayesian-computation.html#weather-example-state-probabilities",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Weather Example: State Probabilities",
+    "text": "Weather Example: State Probabilities\nDenote by \\(\\lambda^t\\) a probability distribution over the states at time \\(t\\).\nThen \\(\\lambda^t = \\lambda^{t-1}P\\):\n\\[\\begin{pmatrix}\\lambda^t_F & \\lambda^t_S & \\lambda^t_R \\end{pmatrix} =  \n\\begin{pmatrix}\\lambda^{t-1}_F & \\lambda^{t-1}_S & \\lambda^{t-1}_R \\end{pmatrix}\n      \\begin{pmatrix}\n      1/2 & 1/4 & 1/4 \\\\\n      1/2 & 0 & 1/2 \\\\\n      1/4 & 1/4 & 1/2\n      \\end{pmatrix}\n\\]"
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#specifying-extreme-example-with-turing.jl",
-    "href": "slides/lecture06-1-bayes-workflow.html#specifying-extreme-example-with-turing.jl",
-    "title": "Bayesian Workflow Example",
-    "section": "Specifying Extreme Example with Turing.jl",
-    "text": "Specifying Extreme Example with Turing.jl\n\n\nCode\nusing Turing\n## y: observed data\n## can also specify covariates or auxiliary data in the function if used\n@model function tide_model(y)\n    # specify priors\n    μ ~ Normal(0, 0.5)\n    σ ~ truncated(Normal(0, 0.1), 0, Inf)\n    # specify likelihood\n    y ~ LogNormal(μ, σ)\n    # returning y allows us (later) to generate predictive simulations\n    return y \nend"
+    "objectID": "slides/lecture08-2-bayesian-computation.html#multi-transition-probabilities",
+    "href": "slides/lecture08-2-bayesian-computation.html#multi-transition-probabilities",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Multi-Transition Probabilities",
+    "text": "Multi-Transition Probabilities\nNotice that \\[\\lambda^{t+i} = \\lambda^t P^i,\\] so multiple transition probabilities are \\(P\\)-exponentials.\n\\[P^3 =\n\\begin{array}{cc}\n\\begin{array}{ccc}\n\\phantom{iii}\\color{red}{F}\\phantom{ii} & \\phantom{iii}\\color{red}{S}\\phantom{iii} & \\phantom{ii}\\color{red}{R}\\phantom{iii}\n\\end{array}\n\\\\\n\\begin{pmatrix}\n      26/64 & 13/64 & 25/64 \\\\\n      26/64 & 12/64 & 26/64 \\\\\n      26/64 & 13/64 & 26/64\n      \\end{pmatrix}\n&\n\\begin{array}{ccc}\n\\color{red}F  \\\\ \\color{red}S  \\\\ \\color{red}R\n\\end{array}   \n\\end{array}\n\\]"
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#finding-mle-and-map",
-    "href": "slides/lecture06-1-bayes-workflow.html#finding-mle-and-map",
-    "title": "Bayesian Workflow Example",
-    "section": "Finding MLE and MAP",
-    "text": "Finding MLE and MAP\n\n\nCode\nm = tide_model(dat_annmax.residual)\nθ_mle = maximum_likelihood(m)\nθ_map = maximum_a_posteriori(m)\n\n@show θ_mle;\n@show θ_map;\n@show p_map2;\n\n\nθ_mle = [0.25471224255244257, 0.055489643349750276]\nθ_map = [0.2546874075936701, 0.05542213631132044]\np_map2 = [0.2546874075933288, 0.05542213686160764]"
+    "objectID": "slides/lecture08-2-bayesian-computation.html#long-run-probabilities",
+    "href": "slides/lecture08-2-bayesian-computation.html#long-run-probabilities",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Long Run Probabilities",
+    "text": "Long Run Probabilities\nWhat happens if we let the system run for a while starting from an initial sunny day?\n\n\nCode\ncurrent = [1.0, 0.0, 0.0]\nP = [1/2 1/4 1/4\n    1/2 0 1/2\n    1/4 1/4 1/2]   \n\nT = 21\n\nstate_probs = zeros(T, 3)\nstate_probs[1,:] = current\nfor t=1:T-1\n    state_probs[t+1, :] = state_probs[t:t, :] * P\nend\n\n\np = plot(0:T-1, state_probs, label=[\"Foggy\" \"Sunny\" \"Rainy\"], palette=:mk_8, linewidth=3)\nxlabel!(\"Time\")\nylabel!(\"State Probability\")\nplot!(p, size=(1000, 350))\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 2: State probabilities for the weather examples."
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#more-ppl-tips",
-    "href": "slides/lecture06-1-bayes-workflow.html#more-ppl-tips",
-    "title": "Bayesian Workflow Example",
-    "section": "More PPL Tips",
-    "text": "More PPL Tips\n\nParameterization can matter (more when we talk about simulation from posterior than MLE/MAP); read documentation and tips and don’t feel shy about checking Reddit/forums\nSometimes can use external models: easy in Turing, more difficult in Stan and not sure of current status in pyMC3.\nPackages rely on a lot of dependencies which may not be trivial to install."
+    "objectID": "slides/lecture08-2-bayesian-computation.html#stationary-distributions",
+    "href": "slides/lecture08-2-bayesian-computation.html#stationary-distributions",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Stationary Distributions",
+    "text": "Stationary Distributions\nThis stabilization always occurs when the probability distribution is an eigenvector of \\(P\\) with eigenvalue 1:\n\\[\\pi = \\pi P.\\]\nThis is called an invariant or a stationary distribution."
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#more-ppl-tips-1",
-    "href": "slides/lecture06-1-bayes-workflow.html#more-ppl-tips-1",
-    "title": "Bayesian Workflow Example",
-    "section": "More PPL Tips",
-    "text": "More PPL Tips\nWhen are PPLs useful?\n\nReadable model code;\nComplex models (hierarchical models, external models with infeasible parameters, etc)\n“Full Bayes” (haven’t discussed yet, but generating samples from the posterior distribution)."
+    "objectID": "slides/lecture08-2-bayesian-computation.html#which-markov-chains-have-stationary-distributions",
+    "href": "slides/lecture08-2-bayesian-computation.html#which-markov-chains-have-stationary-distributions",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Which Markov Chains Have Stationary Distributions?",
+    "text": "Which Markov Chains Have Stationary Distributions?\nThis is a property called ergodicity (or the chain is ergodic). Ergodic Markov chains always have a limiting distribution which is the limit of the time-evolution of the chain dynamics, e.g. \\[\\pi_j = \\lim_{t \\to \\infty} \\mathbb{P}(X_t = s_j).\\]\nKey: The limiting distribution is independent of the initial state probability."
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#key-points-bayesian-workflow",
-    "href": "slides/lecture06-1-bayes-workflow.html#key-points-bayesian-workflow",
-    "title": "Bayesian Workflow Example",
-    "section": "Key Points: Bayesian Workflow",
-    "text": "Key Points: Bayesian Workflow\n\nUse prior predictive simulations to refine priors.\nPriors matter less when likelihood is highly informative.\nCan use PPLs to specify models without formally writing out likelihoods."
+    "objectID": "slides/lecture08-2-bayesian-computation.html#limiting-distributions-are-stationary",
+    "href": "slides/lecture08-2-bayesian-computation.html#limiting-distributions-are-stationary",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Limiting Distributions are Stationary",
+    "text": "Limiting Distributions are Stationary\nFor an ergodic chain, the limiting distribution is the unique stationary distribution (we won’t prove uniqueness):\n\\[\n\\begin{align}\n\\pi_j &= \\lim_{t \\to \\infty} \\mathbb{P}(X_t = s_j | X_0 = s_i) \\\\\n&= \\lim_{t \\to \\infty} (P^{t+1})_{ij} = \\lim_{t \\to \\infty} (P^tP)_{ij} \\\\\n&= \\lim_{t \\to \\infty} \\sum_d (P^t)_{id} P_{dj} \\\\\n&= \\sum_d \\pi_d P_{dj}\n\\end{align}\n\\]"
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#next-classes",
-    "href": "slides/lecture06-1-bayes-workflow.html#next-classes",
-    "title": "Bayesian Workflow Example",
+    "objectID": "slides/lecture08-2-bayesian-computation.html#mcmc-and-ergodic-chains",
+    "href": "slides/lecture08-2-bayesian-computation.html#mcmc-and-ergodic-chains",
+    "title": "Bayesian Computing and MCMC",
+    "section": "MCMC and Ergodic Chains",
+    "text": "MCMC and Ergodic Chains\nProving that a chain is ergodic is getting into the mathematical weeds a bit (and is outside the scope of this class).\nThe good news: The goal of any MCMC algorithm is to construct an ergodic chain where the stationary distribution \\(\\pi(\\cdot)\\) is the target \\(f(\\cdot)\\).\nThis means that if you’re using a “standard” algorithm, the existence of a stationary distribution for the produced Markov chain is mathematically guaranteed."
+  },
+  {
+    "objectID": "slides/lecture08-2-bayesian-computation.html#transient-portion-of-the-chain",
+    "href": "slides/lecture08-2-bayesian-computation.html#transient-portion-of-the-chain",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Transient Portion of the Chain",
+    "text": "Transient Portion of the Chain\nThe portion of the chain prior to convergence to the stationary distribution is called the transient portion.\n\n\nCode\nvspan!(p, [0, 4], color=:red, alpha=0.3, label=\"Transient Portion\")\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 3: Transient portion of the weather Markov chain."
+  },
+  {
+    "objectID": "slides/lecture08-2-bayesian-computation.html#key-points-bayesian-computing",
+    "href": "slides/lecture08-2-bayesian-computation.html#key-points-bayesian-computing",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Key Points (Bayesian Computing)",
+    "text": "Key Points (Bayesian Computing)\n\nBayesian computation is difficult because we need to sample from effectively arbitrary distributions.\nMarkov chains provide a path forward if we can construct a chain satisfying detailed balance whose stationary distribution is the target distribution.\nThen a post-convergence chain of samples is the same as a dependent Monte Carlo set of samples."
+  },
+  {
+    "objectID": "slides/lecture08-2-bayesian-computation.html#key-points-markov-chains",
+    "href": "slides/lecture08-2-bayesian-computation.html#key-points-markov-chains",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Key Points (Markov Chains)",
+    "text": "Key Points (Markov Chains)\n\nStochastic process with memoryless property.\nSome chains have a stationary distribution (eigenvector of transition matrix with eigenvalue 1).\nErgodic Markov chains: dynamics converge to a limiting distribution, which is also stationary."
+  },
+  {
+    "objectID": "slides/lecture08-2-bayesian-computation.html#next-classes",
+    "href": "slides/lecture08-2-bayesian-computation.html#next-classes",
+    "title": "Bayesian Computing and MCMC",
     "section": "Next Classes",
-    "text": "Next Classes\nWednesday: Random variate generation and sampling from distributions.\nNext Week: Monte Carlo and the Bootstrap."
+    "text": "Next Classes\nMonday: MCMC\nWednesday: Cross-Validation and Model Skill"
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#term-project",
-    "href": "slides/lecture06-1-bayes-workflow.html#term-project",
-    "title": "Bayesian Workflow Example",
-    "section": "Term Project",
-    "text": "Term Project\n\nCan work in groups of 1-2\nProposal due 3/21.\nMax three pages, should include background and problem statement, data overview, proposed probability models, and research plan.\nDeliverables include presentations (in class, last 2-3 sessions) and written report (during finals week)."
+    "objectID": "slides/lecture08-2-bayesian-computation.html#assessments",
+    "href": "slides/lecture08-2-bayesian-computation.html#assessments",
+    "title": "Bayesian Computing and MCMC",
+    "section": "Assessments",
+    "text": "Assessments\n\nHomework 3: Due Friday (3/14)\nProject Proposal: Due 3/21"
   },
   {
-    "objectID": "slides/lecture06-1-bayes-workflow.html#references-scroll-for-full-list",
-    "href": "slides/lecture06-1-bayes-workflow.html#references-scroll-for-full-list",
-    "title": "Bayesian Workflow Example",
+    "objectID": "slides/lecture08-2-bayesian-computation.html#references-scroll-for-full-list",
+    "href": "slides/lecture08-2-bayesian-computation.html#references-scroll-for-full-list",
+    "title": "Bayesian Computing and MCMC",
     "section": "References (Scroll for Full List)",
-    "text": "References (Scroll for Full List)"
+    "text": "References (Scroll for Full List)\n\n\n\n\nEfron, B. (1979). Bootstrap methods: Another look at the jackknife. Ann. Stat., 7, 1–26. https://doi.org/10.1214/aos/1176344552"
   },
   {
     "objectID": "slides/lecture12-2-missing-data.html#extreme-values",
@@ -3918,7 +3918,7 @@
     "href": "solutions/hw01/hw01.html#problems",
     "title": "Homework 1 Solutions",
     "section": "Problems",
-    "text": "Problems\n\nProblem 1\n\nProblem 1.1\nFirst, let’s load the data.\n\n# load the data\ndata = DataFrame(load(\"data/bites.csv\")) # load data into DataFrame\n\n# split data into vectors of bites for each group\nbeer = data[data.group .== \"beer\", :bites]\nwater = data[data.group .== \"water\", :bites]\n\nobserved_difference = mean(beer) - mean(water)\n\n4.37777777777778\n\n\nNow, we write a function (simulate_differences()) to generate a new data set and compute the group differences under the skeptic’s hypothesis by shuffling the data across the two groups (this is called the non-parametric bootstrap, which we will talk about more later):\n\n# simulate_differences: function which simulates a new group difference based on the skeptic's hypothesis of no \"real\" difference between groups by shuffling the input data across groups\n# inputs:\n#   y₁: vector of bite counts for the beer-drinking group\n#   y₂: vector of bite counts for the water-drinking group\n# output:\n#   a simulated difference between shuffled group averages\nfunction simulate_differences(y₁, y₂)\n    # concatenate both vectors into a single vector\n    y = vcat(y₁, y₂)\n\n    # create new experimental groups consistent with skeptic's hypothesis\n    y_shuffle = shuffle(y)   # shuffle the combined data\n    n₁ = length(y₁)\n    x₁ = y_shuffle[1:n₁]\n    x₂ = y_shuffle[(n₁+1):end]\n\n    # compute difference between new group means\n    diff = mean(x₁) - mean(x₂)\n    return diff\nend\n\nsimulate_differences (generic function with 1 method)\n\n\nNext, we evaluate this function 10,000 times and plot the resulting histogram of differences.\nIn Julia (and in Python), it is convenient to use a comprehension to automatically allocate the output of the for loop to a vector. The syntax for a comprehension is [some_function(input) for input in some_range]. In this case, the index input doesn’t appear in the comprehension as we’re just repeating the exact same calculation every time:\n\nshuffled_differences = [simulate_differences(beer, water) for i in 1:50_000]\n\n50000-element Vector{Float64}:\n -0.5911111111111111\n -1.9288888888888884\n  1.1288888888888877\n -0.017777777777777004\n -0.3999999999999986\n  1.9888888888888907\n -0.11333333333333329\n -2.6933333333333316\n -1.4511111111111106\n  1.4155555555555566\n  ⋮\n  0.2688888888888883\n -0.7822222222222202\n  0.07777777777777928\n  2.0844444444444434\n -1.3555555555555578\n -1.2600000000000016\n -1.068888888888889\n -0.3044444444444423\n  0.36444444444444457\n\n\nWithout a comprehension, this loop would look something like:\nshuffled_diffs = zeros(10_000)\nfor i in 1:length(shuffled_diffs)\n    shuffled_differences[i] = simulate_differences(beer, water)\nend\nNow let’s plot the histogram.\n\nhist = histogram(shuffled_differences, label=\"Simulated Differences\") # plot the basic histogram\n# MAKE SURE TO ADD AXIS LABELS!\nxlabel!(hist, \"Increased Number of Average Bites for Beer Group\")\nylabel!(hist, \"Count\")\n\n# now add a vertical line for the experimentally-observed difference \n1vline!(hist, [observed_difference], color=:red, linestyle=:dash, label=\"Observed Difference\")\n\n\n1\n\nvline!() (which creates a vertical line) is an example of a mutating function, which modifies an existing object in-place (meaning that it does not create a new object). In this case, looking at the plot hist before the vline!() call would not show the line, while looking at it afterwards will. This is in contrast with a non-mutating function, which would return a new object which would need to be saved in a variable. Julia convention is to name mutating functions with exclamation marks (e.g. vline!) to distinguish them from non-mutating functions; not all languages are this strict, so be aware of whether you’re using a mutating or a non-mutating function. Also, specifically passing hist to vline!() is not strictly necessary; often mutating functions will assume that the object to be modified is the last object which has been referenced. But passing the object removes ambiguity and avoids accidentally overwriting the wrong one.\n\n\n\n\n\n\n\n\n\nFigure 1: Histogram of simulated differences between the average bites for the beer group and the average bites for the water group under the assumption that differences are due only to random chance. A positive value indicates that the beer group is bitten more often. The red line is the group difference from the experimental data.\n\n\n\n\n\n\nProblem 1.2\nWhat do we see from Figure 1?\n\nThe simulated differences follow roughly a normal distribution centered at a value of zero. This is not surprising given the hypothesis that there is no “true” difference in bite frequency between the two groups.\nThe observed data are extremely unlikely if the skeptic’s hypothesis is true. We can calculate the probability of seeing data that extreme given this hypothesis (also called the p-value) by finding the empirical cumulative density function of the simulated data vector:\nempirical_cdf = ecdf(shuffled_differences)\n1 - empirical_cdf(observed_difference)\nThis shows that we would only expect, given the skeptic’s hypothesis, to see data at least this extreme by chance in 0.04% of experiments. If we don’t think that our experiment is likely to be an outlier, this suggests that the skeptic’s hypothesis is quite unlikely. However, this does not mean our mechanistic theory for the group difference is correct: this would require more work and maybe a more targeted experiment!\n\n\n\n\nProblem 2\n\nProblem 2.1\nLet’s load the dataset and do some basic EDA. First, the quantiles:\n\n# load the data\nchicago_dat = DataFrame(load(\"data/chicago.csv\")) # load data into DataFrame\n\n# get the summary quantiles\n1mapcols(col -&gt; quantile(skipmissing(col), [0, 0.25, 0.5, 0.75, 1.0]), chicago_dat[:, 2:end])\n\n\n1\n\nThere are two syntax features here that might be of interest to students using Julia. First, mapcols applies a function to every column of a DataFrame (“map” means a function is applied to subsets of a collection, such as an array). In this case, we define an anonymous function which takes each row, skips the missing values ('skipmissings), and computes the quantiles we’re interested in (note that we skip the first column; this just the row indices). In other languages, there may be built in functions which do this more directly. Second, end is “syntactical sugar” for the final index of an array; it internally calls nrow, ncol, or length, depending on the application (meaning it is not “optimal” in terms of runtime, but the penalty is pretty minor), but is a bit simpler to read. You can also modify it to get indices that aren’t from the end, e.g. end-1 gives you the penultimate index.\n\n\n\n\n5×7 DataFrame\n\n\n\nRow\ndeath\npm10median\npm25median\no3median\nso2median\ntime\ntmpd\n\n\n\nFloat64\nFloat64\nFloat64\nFloat64\nFloat64\nFloat64\nFloat64\n\n\n\n\n1\n69.0\n-37.3761\n-16.4264\n-24.7794\n-8.2061\n-2556.5\n-16.0\n\n\n2\n105.0\n-13.1082\n-6.58841\n-10.2319\n-2.68935\n-1278.25\n35.0\n\n\n3\n114.0\n-3.53906\n-1.32584\n-3.32586\n-1.21826\n0.0\n51.0\n\n\n4\n124.0\n8.30292\n5.34377\n4.46821\n0.831593\n1278.25\n67.0\n\n\n5\n411.0\n320.725\n38.1504\n43.6878\n28.9034\n2556.5\n92.0\n\n\n\n\n\n\nTo compute the mean, we can take a similar mapcols approach:\n\n# compute the mean of each column\nmapcols(col -&gt; mean(skipmissing(col)), chicago_dat[:, 2:end])\n\n1×7 DataFrame\n\n\n\nRow\ndeath\npm10median\npm25median\no3median\nso2median\ntime\ntmpd\n\n\n\nFloat64\nFloat64\nFloat64\nFloat64\nFloat64\nFloat64\nFloat64\n\n\n\n\n1\n115.419\n-0.14639\n0.243053\n-2.17938\n-0.636071\n0.0\n50.1933\n\n\n\n\n\n\nFinally, we want to count the number of missing values. In Julia, we can do this by summing the ismissing() function, which returns a true value if the value is missing and is false otherwise. There are similar functions in other languages; but this is a reason to avoid imputing values such as 0 where data are missing.\n\n# count the number of missing values\n1mapcols(col -&gt; sum(ismissing.(col)), chicago_dat[:, 2:end])\n\n\n1\n\nWe need to broadcast ismissing as it is defined on individual values, not vectors (and the entire column is not missing, so it will return false). Just calling sum(ismissing(col)) would give us a 0. Make sure you look at the documentation of functions to ensure that they behave as you expect!\n\n\n\n\n1×7 DataFrame\n\n\n\nRow\ndeath\npm10median\npm25median\no3median\nso2median\ntime\ntmpd\n\n\n\nInt64\nInt64\nInt64\nInt64\nInt64\nInt64\nInt64\n\n\n\n\n1\n0\n251\n4387\n0\n27\n0\n0\n\n\n\n\n\n\nThe temperature units are in degrees Fahrenheit, not Celsius, which we can see by the scale. That the pollution variables are below zero approximately half the time (based on the median) suggests that they are anomalies, in this case from the mean.\n\n\nProblem 2.2\nWe first want to convert time to the calendar date. To do that, we need to identify the zero date and recognize that the dates are also shifted by a value of 0.5. We can see from the first and last values of the time column that the values are symmetric, which means they are likely days from a central value. If we eliminate the decimal by adding 0.5, the first value (which should correspond to Jan. 1, 1987) is -2556. We can find the zero date by finding the date which is 2556 days from 01-01-1987. This will look different in different languages, but in Julia (using the features and syntax from Dates.jl:\n\n1Date(1987-01-01) + Day(2556)\n\n\n1\n\nThis uses the DateTime formatting from Dates.jl. The nice thing about this syntax is it lets us treat units as time arithmetically.\n\n\n\n\n1992-01-01\n\n\nSo, since we added 0.5 to each row, the zero date is Dec. 31, 1993 (it would be Jan. 1, 1994 if we subtracted). As a result, we can convert the time column to a date:\n\nday_zero = Date(\"1993-12-31\")\n1chicago_dat.Date = day_zero .+ Day.(chicago_dat.time .+ 0.5)\n\n\n1\n\ndf.colname lets us reference and extract only the named column.\n\n\n\n\n5114-element Vector{Date}:\n 1987-01-01\n 1987-01-02\n 1987-01-03\n 1987-01-04\n 1987-01-05\n 1987-01-06\n 1987-01-07\n 1987-01-08\n 1987-01-09\n 1987-01-10\n ⋮\n 2000-12-23\n 2000-12-24\n 2000-12-25\n 2000-12-26\n 2000-12-27\n 2000-12-28\n 2000-12-29\n 2000-12-30\n 2000-12-31\n\n\nNow, let’s plot the deaths versus the date. We’ll use a line plot to make the time trends easier to see.\n\n# make a line plot of the death time series.\n1plot(chicago_dat.Date, chicago_dat.death, xlabel=\"Date\", ylabel=\"Non-Accidental Deaths\", legend=false)\n\n\n1\n\nI set the legend to false since we only have one data series in this plot. And make sure you include axis labels and units!\n\n\n\n\n\n\n\n\n\nFigure 2: Number of non-accidental deaths in Chicago from 1987—2000.\n\n\n\n\nOther than a large spike on a particular day in 1995, Figure 2 reveals that there is some seasonal variation in the number of deaths. We would need to do more analysis to understand these variations, but they visually appear regular, with no real trends over time.\n\n\nProblem 2.3\nNow let’s plot the deaths versus the temperature. Here we might want to use a scatterplot since there is no clear ordering between the temperatures on the x-axis, as there was in Problem 2.2 with time.\n\n# make a scatterplot of the deaths vs. temperatures.\n1scatter(chicago_dat.tmpd, chicago_dat.death, xlabel=\"Temperature (°F)\", ylabel=\"Non-Accidental Deaths\", markersize=2, alpha=0.8, legend=false)\n\n\n1\n\nWe use a smaller markersize and lower alpha to make it easier to distinguish individual points which overlap. You may not need to use both.\n\n\n\n\n\n\n\n\n\nFigure 3: Number of non-accidental deaths in Chicago from 1987—2000 by daily average temperature.\n\n\n\n\nFigure 3 shows that there are some large outliers at higher temperatures, but it looks like there could be a slight negative trend in the deaths as the temperatures increase. Could is the key word: there is a lot of variation so it’s unclear if that is signal or noise.\n\n\nProblem 2.4\nNeither is particularly clear, but there does not appear visually to be a trend in time, whereas there does appear to be a slight trend in temperature.\n\n\n\nProblem 3\n\nProblem 3.1\nThis looks the same as in Problem 2, except we only care about summarizing the Flowering.DDY column. We’ll save the values in a variable since we want to use them in our future plotting.\n\n# load the data\ncherry_dat = DataFrame(load(\"data/kyoto.csv\")) # load data into DataFrame\n\n# get the summary quantiles\n1flower_quantiles = quantile(skipmissing(cherry_dat[:, :\"Flowering.DOY\"]), [0, 0.25, 0.5, 0.75, 1.0])\n\n\n1\n\nThe df[:, :colname] syntax can be used instead of df[:, colindex] (the : indicates that this is a Symbol, which is how Julia encodes things like DataFrame column names). When colname is a simple string, this syntax is straightforward; in this case, there is a decimal in the column name, which gets more complicated as df.colname is also a way to reference a specific column, as seen in the solution to Problem 2.1. Using quotes around the name to indicate that the entire thing is a String solves that problem.\n\n\n\n\n5-element Vector{Float64}:\n  86.0\n 100.0\n 105.0\n 109.0\n 124.0\n\n\nNow, let’s compute the mean. We’ll save it in a variable since we want to use it in our future plotting.\n\n# calculate the mean\nflower_mean = mean(skipmissing(cherry_dat[:, :\"Flowering.DOY\"]))\n\n104.54050785973398\n\n\nFinally, the number of missing values:\n\n# count the number of missing values\nsum(ismissing.(cherry_dat[:, :\"Flowering.DOY\"]))\n\n388\n\n\n\n\nProblem 3.2\nWe’ll make a similar time series plot as in Problem 2.2, with a line plot for the observations during the year, to help make trends stand out.\n\n# plot the flowering series\np = plot(cherry_dat.\"Year.AD\", cherry_dat.\"Flowering.DOY\", xlabel=\"Year (AD)\", ylabel=\"Flowering Day of Year\", label=\"Observed Flowering Day\")\n# add horizontal lines for the mean \n1hline!(p, [flower_mean], color=:red, label=\"Flowering DOY Mean\")\n# add horizontal lines for the 0.25 and 0.75 quantiles\nhline!(p, flower_quantiles[[2,4]], color=:purple, label=\"Flowering DOY Quantiles (0.25/0.75)\")\n2xticks!(p, 800:100:2100)\n\n\n1\n\nhline!() (and the vertical equivalent, vline!()) wants a vector of values. For the mean, this means that we had to package the single, scalar value as a 1-value vector by wrapping it in square brackets. For the quantiles, we are passing a vector of two values, so we don’t have to do this.\n\n2\n\nxticks!() and yticks!() let us change the position and labels of axis tick marks from the default ones. Here, we don’t need custom labels, but might benefit from having ticks every century to help our subsequent analysis. This is typical start:step:stop syntax for specifying a numerical range with set end points and constant steps.\n\n\n\n\n\n\n\n\n\nFigure 4: Day of years of cherry blossom flowering. The red line is the mean and the purple are the 0.25 and 0.75 quantile throughout the entire historical period.\n\n\n\n\nIt looks from Figure 4 as though, until the late 19th/early 20th century, there is no real trend in the data. However, the “typical” day of flowering appears to be getting earlier after 1900.\n\n\n\nProblem 4\n\nProblem 4.1\nUnder the hypothesis that there is no correlation between rigor and impact and that each marginal property follows a standard normal, we can sample 200 realizations of each and find the indices of the ones which have been selected. Since we want to do this with multiple replications, we’ll create a function.\n\n# simulate the described grant selection process.\nfunction grant_selection(n)\n1    grants = rand(Normal(0, 1), (n, 2))\n2    total_scores = sum(grants; dims=2)\n    select_threshold = sort(total_scores; dims=1, rev=true)[Int64(0.1 * n)] # get the threshold score for the top 10%\n    select_idx = total_scores .&gt;= select_threshold\n    grants = hcat(grants, select_idx) # append selection status to grant matrix\n3    grants_df = DataFrame(grants, [:rigor, :impact, :selected])\n    return grants_df\nend\n\n\n1\n\nThis syntax samples a 200x2 array of values from Normal(0, 1). We could also have sampled two 200x1 arrays separately; this is just a bit more concise.\n\n2\n\nThe dims argument for sum is equivalent to mapping sum across a dimension of an array; there is similar syntax in NumPy and this could also be done with a loop or a comprehension.\n\n3\n\nThis isn’t at all necessary, but converting all of the sampled scores to a single DataFrame including selection status will let me look at both the overall correlations and create plots of the full sample compared to the selected subsample. There are many other solutions that will work!\n\n\n\n\ngrant_selection (generic function with 1 method)\n\n\nJust to explore the impact of the selection process, let’s look at the outcomes from a single realization.\n\ngrant_sim = grant_selection(200)\n1grant_selected = subset(grant_sim, :selected =&gt; x -&gt; x .== 1)\n2p_grants = scatter(grant_sim[!, :rigor], grant_sim[!, :impact], xlabel=\"Rigor Scores\", ylabel=\"Impact Scores\", label=\"All Grants\")\n3scatter!(p_grants, grant_selected[!, :rigor], grant_selected[!, :impact], color=:red, label=\"Selected Grants\")\n\n\n1\n\nsubset selects a set of rows based on the condition in the second argument; in this case, evaluating the function x -&gt; x == 1 over each element of the selected column. Since grant_sim[!, :selected] takes 0 and 1 values, we could also have used x -&gt; Bool.(x) to transform the values of x to true and false.\n\n2\n\nThis command creates the basic scatterplot using the Plots.jl syntax.\n\n3\n\nThe plot! command adds new artifacts to an existing plot objective (in this case, p_grants). If you don’t specify a plot object, it will automatically add to the last plot.\n\n\n\n\n\n\n\n\n\nFigure 5: Outcomes of a single realization of the simulated grant selection process under the assumption of no correlation between rigor and impact. The grants selected for funding are colored in red.\n\n\n\n\nWe can see from Figure 5 that while the overall scores form an uncorrelated blob (correlation between grant and impact is -0.05), the selected grants have a strong negative correlation induced by the selection process (correlation -0.81).\nThat was just one sample, though: now let’s look across 1,000 simulations and plot the distribution of the correlation coefficients. Again, we’ll create a function to do the grant simulation and extract the correlation coefficients to simplify the replication process.\n\nfunction grant_correlation(n_grants, n_replicates)\n1    grant_correlations = zeros(n_replicates, 2)\n2    for i = 1:n_replicates\n        grant_sim = grant_selection(n_grants)\n        grant_selected = subset(grant_sim, :selected =&gt; x -&gt; x .== 1) \n3        grant_correlations[i, 1] = cor(Matrix(grant_sim[!, 1:2]))[1, 2]\n        grant_correlations[i, 2] = cor(Matrix(grant_selected[!, 1:2]))[1, 2]\n    end\n    return grant_correlations\nend\n\ngrant_cor = grant_correlation(200, 1_000)\np_grantcor = boxplot([\"Full Pool\" \"Selected Grants\"], grant_cor, legend=false, ylabel=\"Correlation Between Rigor and Impact\")\n\n\n1\n\nThe zeros function initializes an array of zero values with the desired dimensions; in this case, each replication should have two values, one for the total pool correlation and one for the selected grant correlation. It’s always a good idea to pre-allocate memory for arrays that you intend to fill sequentially when you can; constantly re-allocating memory can slow down runtimes dramatically.\n\n2\n\nJulia’s loops are quite fast, unlike some languages, so we won’t shy away from using them!\n\n3\n\ncor returns a correlation matrix, and we’re interested in the off-diagonal elements (the diagonal elements are just one).\n\n\n\n\n\n\n\n\n\nFigure 6: Distributions of correlations across the simulated grant pools and the selected grants.\n\n\n\n\nWe can see from Figure 6 that while the overall pool has its correlation around zero (as designed), as in our individual example, the selected grants typically have strong negative correlations between rigor and impact (though there are some simulations with a far weaker correlation).\n\n\nProblem 4.2\nWhy does this correlation occur? The selection process filters for the total scores which are above a certain threshold. This means that a grant can get above this threshold by compensating for having a lower rigor score by having a higher impact score, or vice versa, which creates a negative correlation when one only looks at the selected grants. In other words, this is purely an artifact of the selection process, not anything intrinsic to the grants themselves (hence the selection-distortion effect). In fact, the selected grants likely can’t be too weak at either category; the correlation only looks at the linear relationship between the two measures, not their values.\n\n\n\nProblem 5\n\nProblem 5.1\nLet’s start by sketching out the simulation model. For every student, we first need to simulate the outcome of the first coin flip, which has a 50% probability of heads. If this coin flip comes up as heads, then the student answers honestly, and admits to cheating with probability \\(p\\). If the coin flip comes up tails, the student flips another coin and answers that they cheated with probability 50%. After looping over this procedure for each student in the class, we add up the “true” values.\nWe might code this model as follows.\n\n# cheating_model: function which simulates the outcome of the interview procedure described in this problem and returns the number of confessions obtained.\n# inputs:\n#   p: base probability of cheating under a given hypothesis\n#   n: vector of bite counts for the water-drinking group\n# output:\n#   a simulated number of confessions for one realization of the process.\nfunction cheating_model(p, n)\n    # initialize the storage vector for whether students admit to cheating\n    # we do this with a boolean vector, which is a little faster, but storing integers is basically the same thing\n    cheat = zeros(Bool, n)\n    # loop over every student to simulate the interview process\n    for i in 1:n\n        # initial coin flip\n        # rand() simulates a uniform random number between 0 and 1\n        if rand() &gt;= 0.5\n            # if this came up heads, simulate whether the student cheated based on the cheating probability\n            if rand() &lt; p\n                cheat[i] = true\n            else\n                cheat[i] = false\n            end\n        else\n            # otherwise, simulate another coin flip\n            if rand() &gt;= 0.5\n                cheat[i] = true\n            else\n                cheat[i] = false\n            end\n        end\n    end\n    # return the total number of cheating admissions\n    return sum(cheat)\nend\n\ncheating_model (generic function with 1 method)\n\n\nNow we simulate under our assumption of low cheating and the TA’s assumption of widespread cheating and plot the results.\n\n# conduct the simulations\nno_cheat_data = [cheating_model(0.0, 100) for i in 1:50_000]\nlow_cheat_data = [cheating_model(0.05, 100) for i in 1:50_000]\nhigh_cheat_data = [cheating_model(0.30, 100) for i in 1:50_000]\n\n# plot the histograms with axis labels and a vertical line for the \"real\" outcome of the procedure\np_cheat = histogram(no_cheat_data, color=:orange, label=\"Cheating Rate 0%\", alpha=0.4)\n1histogram!(p_cheat, low_cheat_data, color=:blue, label=\"Cheating Rate 5%\", alpha=0.4)\nhistogram!(p_cheat, high_cheat_data, color=:red, label=\"Cheating Rate 30%\", alpha=0.4)\n2xlabel!(\"Number of Students who Confess to Cheating\")\nylabel!(\"Count\")\nvline!([31], linestyle=:dash, color=:black, linewidth=3, label=\"Observed Outcome\")\n\n\n1\n\nWe can use the mutating versions of plotting functions (histogram!, plot!, scatter!, etc) to put multiple plots on the same set of axes (for example, overlaying a probability density function over a histogram).\n\n2\n\nUsing xlabel!() and ylabel!() is an alternative to specifying axis labels within the original plotting function call. This may help make code more readable.\n\n\n\n\n\n\n\n\n\nFigure 7: Histograms of the number of simulated confessions obtained under the hypothesis of a 5% cheating rate (blue) and a 30% cheating rate (red). The green line is the observed number of cheating confessions.\n\n\n\n\n\n\nProblem 5.2\nFrom Figure 7, we can see:\n\nThere is some overlap between your hypothesis and the TA’s around the 25-42 confession count rate. Lower than 25 students confessing would strongly suggest that the TA is overstating the rate of cheating, while more than 40 would strongly suggest that you are underestimating the cheating rate.\nNote that neither of these is “confirmation” of either theory, but evidence about the relative proportion of cheating being more or less consistent with one of our hypotheses.\nThis interview process is noisy, but appears to work to separate very large differences in cheating rates. On the other hand, it might not work so well if we cared about the difference between 5% cheating and 10% cheating rates, as the difference in the “true” confessions would be swamped by the coin flips. If we wanted to tease out those differences, we could use a weighted coin (to increase the number of “honest” confessions).\n\nSo we might say that around 42 “Yes” answers would let us completely distinguish the two hypotheses. On the other hand, values between 25 and 42 would give us different levels of confidence about the two hypotheses; around 38 (just to make up a number) might provide evidence that the TA’s hypothesis is stronger than ours. We’ll talk later in the semester about how to try to make these determinations."
+    "text": "Problems\n\nProblem 1\n\nProblem 1.1\nFirst, let’s load the data.\n\n# load the data\ndata = DataFrame(load(\"data/bites.csv\")) # load data into DataFrame\n\n# split data into vectors of bites for each group\nbeer = data[data.group .== \"beer\", :bites]\nwater = data[data.group .== \"water\", :bites]\n\nobserved_difference = mean(beer) - mean(water)\n\n4.37777777777778\n\n\nNow, we write a function (simulate_differences()) to generate a new data set and compute the group differences under the skeptic’s hypothesis by shuffling the data across the two groups (this is called the non-parametric bootstrap, which we will talk about more later):\n\n# simulate_differences: function which simulates a new group difference based on the skeptic's hypothesis of no \"real\" difference between groups by shuffling the input data across groups\n# inputs:\n#   y₁: vector of bite counts for the beer-drinking group\n#   y₂: vector of bite counts for the water-drinking group\n# output:\n#   a simulated difference between shuffled group averages\nfunction simulate_differences(y₁, y₂)\n    # concatenate both vectors into a single vector\n    y = vcat(y₁, y₂)\n\n    # create new experimental groups consistent with skeptic's hypothesis\n    y_shuffle = shuffle(y)   # shuffle the combined data\n    n₁ = length(y₁)\n    x₁ = y_shuffle[1:n₁]\n    x₂ = y_shuffle[(n₁+1):end]\n\n    # compute difference between new group means\n    diff = mean(x₁) - mean(x₂)\n    return diff\nend\n\nsimulate_differences (generic function with 1 method)\n\n\nNext, we evaluate this function 10,000 times and plot the resulting histogram of differences.\nIn Julia (and in Python), it is convenient to use a comprehension to automatically allocate the output of the for loop to a vector. The syntax for a comprehension is [some_function(input) for input in some_range]. In this case, the index input doesn’t appear in the comprehension as we’re just repeating the exact same calculation every time:\n\nshuffled_differences = [simulate_differences(beer, water) for i in 1:50_000]\n\n50000-element Vector{Float64}:\n -1.7377777777777794\n  0.5555555555555571\n  2.1799999999999997\n -0.3044444444444423\n -3.0755555555555567\n -0.017777777777777004\n  0.36444444444444457\n -1.6422222222222231\n  0.8422222222222224\n -0.9733333333333327\n  ⋮\n -3.0755555555555567\n -0.017777777777777004\n  1.7022222222222219\n  1.224444444444444\n  0.7466666666666661\n -2.6933333333333316\n -2.4066666666666663\n -0.4955555555555584\n -2.4066666666666663\n\n\nWithout a comprehension, this loop would look something like:\nshuffled_diffs = zeros(10_000)\nfor i in 1:length(shuffled_diffs)\n    shuffled_differences[i] = simulate_differences(beer, water)\nend\nNow let’s plot the histogram.\n\nhist = histogram(shuffled_differences, label=\"Simulated Differences\") # plot the basic histogram\n# MAKE SURE TO ADD AXIS LABELS!\nxlabel!(hist, \"Increased Number of Average Bites for Beer Group\")\nylabel!(hist, \"Count\")\n\n# now add a vertical line for the experimentally-observed difference \n1vline!(hist, [observed_difference], color=:red, linestyle=:dash, label=\"Observed Difference\")\n\n\n1\n\nvline!() (which creates a vertical line) is an example of a mutating function, which modifies an existing object in-place (meaning that it does not create a new object). In this case, looking at the plot hist before the vline!() call would not show the line, while looking at it afterwards will. This is in contrast with a non-mutating function, which would return a new object which would need to be saved in a variable. Julia convention is to name mutating functions with exclamation marks (e.g. vline!) to distinguish them from non-mutating functions; not all languages are this strict, so be aware of whether you’re using a mutating or a non-mutating function. Also, specifically passing hist to vline!() is not strictly necessary; often mutating functions will assume that the object to be modified is the last object which has been referenced. But passing the object removes ambiguity and avoids accidentally overwriting the wrong one.\n\n\n\n\n\n\n\n\n\nFigure 1: Histogram of simulated differences between the average bites for the beer group and the average bites for the water group under the assumption that differences are due only to random chance. A positive value indicates that the beer group is bitten more often. The red line is the group difference from the experimental data.\n\n\n\n\n\n\nProblem 1.2\nWhat do we see from Figure 1?\n\nThe simulated differences follow roughly a normal distribution centered at a value of zero. This is not surprising given the hypothesis that there is no “true” difference in bite frequency between the two groups.\nThe observed data are extremely unlikely if the skeptic’s hypothesis is true. We can calculate the probability of seeing data that extreme given this hypothesis (also called the p-value) by finding the empirical cumulative density function of the simulated data vector:\nempirical_cdf = ecdf(shuffled_differences)\n1 - empirical_cdf(observed_difference)\nThis shows that we would only expect, given the skeptic’s hypothesis, to see data at least this extreme by chance in 0.04% of experiments. If we don’t think that our experiment is likely to be an outlier, this suggests that the skeptic’s hypothesis is quite unlikely. However, this does not mean our mechanistic theory for the group difference is correct: this would require more work and maybe a more targeted experiment!\n\n\n\n\nProblem 2\n\nProblem 2.1\nLet’s load the dataset and do some basic EDA. First, the quantiles:\n\n# load the data\nchicago_dat = DataFrame(load(\"data/chicago.csv\")) # load data into DataFrame\n\n# get the summary quantiles\n1mapcols(col -&gt; quantile(skipmissing(col), [0, 0.25, 0.5, 0.75, 1.0]), chicago_dat[:, 2:end])\n\n\n1\n\nThere are two syntax features here that might be of interest to students using Julia. First, mapcols applies a function to every column of a DataFrame (“map” means a function is applied to subsets of a collection, such as an array). In this case, we define an anonymous function which takes each row, skips the missing values ('skipmissings), and computes the quantiles we’re interested in (note that we skip the first column; this just the row indices). In other languages, there may be built in functions which do this more directly. Second, end is “syntactical sugar” for the final index of an array; it internally calls nrow, ncol, or length, depending on the application (meaning it is not “optimal” in terms of runtime, but the penalty is pretty minor), but is a bit simpler to read. You can also modify it to get indices that aren’t from the end, e.g. end-1 gives you the penultimate index.\n\n\n\n\n5×7 DataFrame\n\n\n\nRow\ndeath\npm10median\npm25median\no3median\nso2median\ntime\ntmpd\n\n\n\nFloat64\nFloat64\nFloat64\nFloat64\nFloat64\nFloat64\nFloat64\n\n\n\n\n1\n69.0\n-37.3761\n-16.4264\n-24.7794\n-8.2061\n-2556.5\n-16.0\n\n\n2\n105.0\n-13.1082\n-6.58841\n-10.2319\n-2.68935\n-1278.25\n35.0\n\n\n3\n114.0\n-3.53906\n-1.32584\n-3.32586\n-1.21826\n0.0\n51.0\n\n\n4\n124.0\n8.30292\n5.34377\n4.46821\n0.831593\n1278.25\n67.0\n\n\n5\n411.0\n320.725\n38.1504\n43.6878\n28.9034\n2556.5\n92.0\n\n\n\n\n\n\nTo compute the mean, we can take a similar mapcols approach:\n\n# compute the mean of each column\nmapcols(col -&gt; mean(skipmissing(col)), chicago_dat[:, 2:end])\n\n1×7 DataFrame\n\n\n\nRow\ndeath\npm10median\npm25median\no3median\nso2median\ntime\ntmpd\n\n\n\nFloat64\nFloat64\nFloat64\nFloat64\nFloat64\nFloat64\nFloat64\n\n\n\n\n1\n115.419\n-0.14639\n0.243053\n-2.17938\n-0.636071\n0.0\n50.1933\n\n\n\n\n\n\nFinally, we want to count the number of missing values. In Julia, we can do this by summing the ismissing() function, which returns a true value if the value is missing and is false otherwise. There are similar functions in other languages; but this is a reason to avoid imputing values such as 0 where data are missing.\n\n# count the number of missing values\n1mapcols(col -&gt; sum(ismissing.(col)), chicago_dat[:, 2:end])\n\n\n1\n\nWe need to broadcast ismissing as it is defined on individual values, not vectors (and the entire column is not missing, so it will return false). Just calling sum(ismissing(col)) would give us a 0. Make sure you look at the documentation of functions to ensure that they behave as you expect!\n\n\n\n\n1×7 DataFrame\n\n\n\nRow\ndeath\npm10median\npm25median\no3median\nso2median\ntime\ntmpd\n\n\n\nInt64\nInt64\nInt64\nInt64\nInt64\nInt64\nInt64\n\n\n\n\n1\n0\n251\n4387\n0\n27\n0\n0\n\n\n\n\n\n\nThe temperature units are in degrees Fahrenheit, not Celsius, which we can see by the scale. That the pollution variables are below zero approximately half the time (based on the median) suggests that they are anomalies, in this case from the mean.\n\n\nProblem 2.2\nWe first want to convert time to the calendar date. To do that, we need to identify the zero date and recognize that the dates are also shifted by a value of 0.5. We can see from the first and last values of the time column that the values are symmetric, which means they are likely days from a central value. If we eliminate the decimal by adding 0.5, the first value (which should correspond to Jan. 1, 1987) is -2556. We can find the zero date by finding the date which is 2556 days from 01-01-1987. This will look different in different languages, but in Julia (using the features and syntax from Dates.jl:\n\n1Date(1987-01-01) + Day(2556)\n\n\n1\n\nThis uses the DateTime formatting from Dates.jl. The nice thing about this syntax is it lets us treat units as time arithmetically.\n\n\n\n\n1992-01-01\n\n\nSo, since we added 0.5 to each row, the zero date is Dec. 31, 1993 (it would be Jan. 1, 1994 if we subtracted). As a result, we can convert the time column to a date:\n\nday_zero = Date(\"1993-12-31\")\n1chicago_dat.Date = day_zero .+ Day.(chicago_dat.time .+ 0.5)\n\n\n1\n\ndf.colname lets us reference and extract only the named column.\n\n\n\n\n5114-element Vector{Date}:\n 1987-01-01\n 1987-01-02\n 1987-01-03\n 1987-01-04\n 1987-01-05\n 1987-01-06\n 1987-01-07\n 1987-01-08\n 1987-01-09\n 1987-01-10\n ⋮\n 2000-12-23\n 2000-12-24\n 2000-12-25\n 2000-12-26\n 2000-12-27\n 2000-12-28\n 2000-12-29\n 2000-12-30\n 2000-12-31\n\n\nNow, let’s plot the deaths versus the date. We’ll use a line plot to make the time trends easier to see.\n\n# make a line plot of the death time series.\n1plot(chicago_dat.Date, chicago_dat.death, xlabel=\"Date\", ylabel=\"Non-Accidental Deaths\", legend=false)\n\n\n1\n\nI set the legend to false since we only have one data series in this plot. And make sure you include axis labels and units!\n\n\n\n\n\n\n\n\n\nFigure 2: Number of non-accidental deaths in Chicago from 1987—2000.\n\n\n\n\nOther than a large spike on a particular day in 1995, Figure 2 reveals that there is some seasonal variation in the number of deaths. We would need to do more analysis to understand these variations, but they visually appear regular, with no real trends over time.\n\n\nProblem 2.3\nNow let’s plot the deaths versus the temperature. Here we might want to use a scatterplot since there is no clear ordering between the temperatures on the x-axis, as there was in Problem 2.2 with time.\n\n# make a scatterplot of the deaths vs. temperatures.\n1scatter(chicago_dat.tmpd, chicago_dat.death, xlabel=\"Temperature (°F)\", ylabel=\"Non-Accidental Deaths\", markersize=2, alpha=0.8, legend=false)\n\n\n1\n\nWe use a smaller markersize and lower alpha to make it easier to distinguish individual points which overlap. You may not need to use both.\n\n\n\n\n\n\n\n\n\nFigure 3: Number of non-accidental deaths in Chicago from 1987—2000 by daily average temperature.\n\n\n\n\nFigure 3 shows that there are some large outliers at higher temperatures, but it looks like there could be a slight negative trend in the deaths as the temperatures increase. Could is the key word: there is a lot of variation so it’s unclear if that is signal or noise.\n\n\nProblem 2.4\nNeither is particularly clear, but there does not appear visually to be a trend in time, whereas there does appear to be a slight trend in temperature.\n\n\n\nProblem 3\n\nProblem 3.1\nThis looks the same as in Problem 2, except we only care about summarizing the Flowering.DDY column. We’ll save the values in a variable since we want to use them in our future plotting.\n\n# load the data\ncherry_dat = DataFrame(load(\"data/kyoto.csv\")) # load data into DataFrame\n\n# get the summary quantiles\n1flower_quantiles = quantile(skipmissing(cherry_dat[:, :\"Flowering.DOY\"]), [0, 0.25, 0.5, 0.75, 1.0])\n\n\n1\n\nThe df[:, :colname] syntax can be used instead of df[:, colindex] (the : indicates that this is a Symbol, which is how Julia encodes things like DataFrame column names). When colname is a simple string, this syntax is straightforward; in this case, there is a decimal in the column name, which gets more complicated as df.colname is also a way to reference a specific column, as seen in the solution to Problem 2.1. Using quotes around the name to indicate that the entire thing is a String solves that problem.\n\n\n\n\n5-element Vector{Float64}:\n  86.0\n 100.0\n 105.0\n 109.0\n 124.0\n\n\nNow, let’s compute the mean. We’ll save it in a variable since we want to use it in our future plotting.\n\n# calculate the mean\nflower_mean = mean(skipmissing(cherry_dat[:, :\"Flowering.DOY\"]))\n\n104.54050785973398\n\n\nFinally, the number of missing values:\n\n# count the number of missing values\nsum(ismissing.(cherry_dat[:, :\"Flowering.DOY\"]))\n\n388\n\n\n\n\nProblem 3.2\nWe’ll make a similar time series plot as in Problem 2.2, with a line plot for the observations during the year, to help make trends stand out.\n\n# plot the flowering series\np = plot(cherry_dat.\"Year.AD\", cherry_dat.\"Flowering.DOY\", xlabel=\"Year (AD)\", ylabel=\"Flowering Day of Year\", label=\"Observed Flowering Day\")\n# add horizontal lines for the mean \n1hline!(p, [flower_mean], color=:red, label=\"Flowering DOY Mean\")\n# add horizontal lines for the 0.25 and 0.75 quantiles\nhline!(p, flower_quantiles[[2,4]], color=:purple, label=\"Flowering DOY Quantiles (0.25/0.75)\")\n2xticks!(p, 800:100:2100)\n\n\n1\n\nhline!() (and the vertical equivalent, vline!()) wants a vector of values. For the mean, this means that we had to package the single, scalar value as a 1-value vector by wrapping it in square brackets. For the quantiles, we are passing a vector of two values, so we don’t have to do this.\n\n2\n\nxticks!() and yticks!() let us change the position and labels of axis tick marks from the default ones. Here, we don’t need custom labels, but might benefit from having ticks every century to help our subsequent analysis. This is typical start:step:stop syntax for specifying a numerical range with set end points and constant steps.\n\n\n\n\n\n\n\n\n\nFigure 4: Day of years of cherry blossom flowering. The red line is the mean and the purple are the 0.25 and 0.75 quantile throughout the entire historical period.\n\n\n\n\nIt looks from Figure 4 as though, until the late 19th/early 20th century, there is no real trend in the data. However, the “typical” day of flowering appears to be getting earlier after 1900.\n\n\n\nProblem 4\n\nProblem 4.1\nUnder the hypothesis that there is no correlation between rigor and impact and that each marginal property follows a standard normal, we can sample 200 realizations of each and find the indices of the ones which have been selected. Since we want to do this with multiple replications, we’ll create a function.\n\n# simulate the described grant selection process.\nfunction grant_selection(n)\n1    grants = rand(Normal(0, 1), (n, 2))\n2    total_scores = sum(grants; dims=2)\n    select_threshold = sort(total_scores; dims=1, rev=true)[Int64(0.1 * n)] # get the threshold score for the top 10%\n    select_idx = total_scores .&gt;= select_threshold\n    grants = hcat(grants, select_idx) # append selection status to grant matrix\n3    grants_df = DataFrame(grants, [:rigor, :impact, :selected])\n    return grants_df\nend\n\n\n1\n\nThis syntax samples a 200x2 array of values from Normal(0, 1). We could also have sampled two 200x1 arrays separately; this is just a bit more concise.\n\n2\n\nThe dims argument for sum is equivalent to mapping sum across a dimension of an array; there is similar syntax in NumPy and this could also be done with a loop or a comprehension.\n\n3\n\nThis isn’t at all necessary, but converting all of the sampled scores to a single DataFrame including selection status will let me look at both the overall correlations and create plots of the full sample compared to the selected subsample. There are many other solutions that will work!\n\n\n\n\ngrant_selection (generic function with 1 method)\n\n\nJust to explore the impact of the selection process, let’s look at the outcomes from a single realization.\n\ngrant_sim = grant_selection(200)\n1grant_selected = subset(grant_sim, :selected =&gt; x -&gt; x .== 1)\n2p_grants = scatter(grant_sim[!, :rigor], grant_sim[!, :impact], xlabel=\"Rigor Scores\", ylabel=\"Impact Scores\", label=\"All Grants\")\n3scatter!(p_grants, grant_selected[!, :rigor], grant_selected[!, :impact], color=:red, label=\"Selected Grants\")\n\n\n1\n\nsubset selects a set of rows based on the condition in the second argument; in this case, evaluating the function x -&gt; x == 1 over each element of the selected column. Since grant_sim[!, :selected] takes 0 and 1 values, we could also have used x -&gt; Bool.(x) to transform the values of x to true and false.\n\n2\n\nThis command creates the basic scatterplot using the Plots.jl syntax.\n\n3\n\nThe plot! command adds new artifacts to an existing plot objective (in this case, p_grants). If you don’t specify a plot object, it will automatically add to the last plot.\n\n\n\n\n\n\n\n\n\nFigure 5: Outcomes of a single realization of the simulated grant selection process under the assumption of no correlation between rigor and impact. The grants selected for funding are colored in red.\n\n\n\n\nWe can see from Figure 5 that while the overall scores form an uncorrelated blob (correlation between grant and impact is -0.04), the selected grants have a strong negative correlation induced by the selection process (correlation -0.78).\nThat was just one sample, though: now let’s look across 1,000 simulations and plot the distribution of the correlation coefficients. Again, we’ll create a function to do the grant simulation and extract the correlation coefficients to simplify the replication process.\n\nfunction grant_correlation(n_grants, n_replicates)\n1    grant_correlations = zeros(n_replicates, 2)\n2    for i = 1:n_replicates\n        grant_sim = grant_selection(n_grants)\n        grant_selected = subset(grant_sim, :selected =&gt; x -&gt; x .== 1) \n3        grant_correlations[i, 1] = cor(Matrix(grant_sim[!, 1:2]))[1, 2]\n        grant_correlations[i, 2] = cor(Matrix(grant_selected[!, 1:2]))[1, 2]\n    end\n    return grant_correlations\nend\n\ngrant_cor = grant_correlation(200, 1_000)\np_grantcor = boxplot([\"Full Pool\" \"Selected Grants\"], grant_cor, legend=false, ylabel=\"Correlation Between Rigor and Impact\")\n\n\n1\n\nThe zeros function initializes an array of zero values with the desired dimensions; in this case, each replication should have two values, one for the total pool correlation and one for the selected grant correlation. It’s always a good idea to pre-allocate memory for arrays that you intend to fill sequentially when you can; constantly re-allocating memory can slow down runtimes dramatically.\n\n2\n\nJulia’s loops are quite fast, unlike some languages, so we won’t shy away from using them!\n\n3\n\ncor returns a correlation matrix, and we’re interested in the off-diagonal elements (the diagonal elements are just one).\n\n\n\n\n\n\n\n\n\nFigure 6: Distributions of correlations across the simulated grant pools and the selected grants.\n\n\n\n\nWe can see from Figure 6 that while the overall pool has its correlation around zero (as designed), as in our individual example, the selected grants typically have strong negative correlations between rigor and impact (though there are some simulations with a far weaker correlation).\n\n\nProblem 4.2\nWhy does this correlation occur? The selection process filters for the total scores which are above a certain threshold. This means that a grant can get above this threshold by compensating for having a lower rigor score by having a higher impact score, or vice versa, which creates a negative correlation when one only looks at the selected grants. In other words, this is purely an artifact of the selection process, not anything intrinsic to the grants themselves (hence the selection-distortion effect). In fact, the selected grants likely can’t be too weak at either category; the correlation only looks at the linear relationship between the two measures, not their values.\n\n\n\nProblem 5\n\nProblem 5.1\nLet’s start by sketching out the simulation model. For every student, we first need to simulate the outcome of the first coin flip, which has a 50% probability of heads. If this coin flip comes up as heads, then the student answers honestly, and admits to cheating with probability \\(p\\). If the coin flip comes up tails, the student flips another coin and answers that they cheated with probability 50%. After looping over this procedure for each student in the class, we add up the “true” values.\nWe might code this model as follows.\n\n# cheating_model: function which simulates the outcome of the interview procedure described in this problem and returns the number of confessions obtained.\n# inputs:\n#   p: base probability of cheating under a given hypothesis\n#   n: vector of bite counts for the water-drinking group\n# output:\n#   a simulated number of confessions for one realization of the process.\nfunction cheating_model(p, n)\n    # initialize the storage vector for whether students admit to cheating\n    # we do this with a boolean vector, which is a little faster, but storing integers is basically the same thing\n    cheat = zeros(Bool, n)\n    # loop over every student to simulate the interview process\n    for i in 1:n\n        # initial coin flip\n        # rand() simulates a uniform random number between 0 and 1\n        if rand() &gt;= 0.5\n            # if this came up heads, simulate whether the student cheated based on the cheating probability\n            if rand() &lt; p\n                cheat[i] = true\n            else\n                cheat[i] = false\n            end\n        else\n            # otherwise, simulate another coin flip\n            if rand() &gt;= 0.5\n                cheat[i] = true\n            else\n                cheat[i] = false\n            end\n        end\n    end\n    # return the total number of cheating admissions\n    return sum(cheat)\nend\n\ncheating_model (generic function with 1 method)\n\n\nNow we simulate under our assumption of low cheating and the TA’s assumption of widespread cheating and plot the results.\n\n# conduct the simulations\nno_cheat_data = [cheating_model(0.0, 100) for i in 1:50_000]\nlow_cheat_data = [cheating_model(0.05, 100) for i in 1:50_000]\nhigh_cheat_data = [cheating_model(0.30, 100) for i in 1:50_000]\n\n# plot the histograms with axis labels and a vertical line for the \"real\" outcome of the procedure\np_cheat = histogram(no_cheat_data, color=:orange, label=\"Cheating Rate 0%\", alpha=0.4)\n1histogram!(p_cheat, low_cheat_data, color=:blue, label=\"Cheating Rate 5%\", alpha=0.4)\nhistogram!(p_cheat, high_cheat_data, color=:red, label=\"Cheating Rate 30%\", alpha=0.4)\n2xlabel!(\"Number of Students who Confess to Cheating\")\nylabel!(\"Count\")\nvline!([31], linestyle=:dash, color=:black, linewidth=3, label=\"Observed Outcome\")\n\n\n1\n\nWe can use the mutating versions of plotting functions (histogram!, plot!, scatter!, etc) to put multiple plots on the same set of axes (for example, overlaying a probability density function over a histogram).\n\n2\n\nUsing xlabel!() and ylabel!() is an alternative to specifying axis labels within the original plotting function call. This may help make code more readable.\n\n\n\n\n\n\n\n\n\nFigure 7: Histograms of the number of simulated confessions obtained under the hypothesis of a 5% cheating rate (blue) and a 30% cheating rate (red). The green line is the observed number of cheating confessions.\n\n\n\n\n\n\nProblem 5.2\nFrom Figure 7, we can see:\n\nThere is some overlap between your hypothesis and the TA’s around the 25-42 confession count rate. Lower than 25 students confessing would strongly suggest that the TA is overstating the rate of cheating, while more than 40 would strongly suggest that you are underestimating the cheating rate.\nNote that neither of these is “confirmation” of either theory, but evidence about the relative proportion of cheating being more or less consistent with one of our hypotheses.\nThis interview process is noisy, but appears to work to separate very large differences in cheating rates. On the other hand, it might not work so well if we cared about the difference between 5% cheating and 10% cheating rates, as the difference in the “true” confessions would be swamped by the coin flips. If we wanted to tease out those differences, we could use a weighted coin (to increase the number of “honest” confessions).\n\nSo we might say that around 42 “Yes” answers would let us completely distinguish the two hypotheses. On the other hand, values between 25 and 42 would give us different levels of confidence about the two hypotheses; around 38 (just to make up a number) might provide evidence that the TA’s hypothesis is stronger than ours. We’ll talk later in the semester about how to try to make these determinations."
   },
   {
     "objectID": "solutions/hw01/hw01.html#references",
@@ -4785,200 +4785,81 @@
     "text": "References (Scroll for Full List)\n\n\n\n\nGneiting, T., Fadoua Balabdaoui, & Raftery, A. E. (2007). Probabilistic Forecasts, Calibration and Sharpness. J. R. Stat. Soc. Series B Stat. Methodol., 69, 243–268. Retrieved from http://www.jstor.org/stable/4623266"
   },
   {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#the-bootstrap",
-    "href": "slides/lecture08-2-bayesian-computation.html#the-bootstrap",
-    "title": "Bayesian Computing and MCMC",
-    "section": "The Bootstrap",
-    "text": "The Bootstrap\n\n\nEfron (1979) suggested combining estimation with simulation: the bootstrap.\nKey idea: use the data to simulate a data-generating mechanism.\n\n\n\n\n\nBaron von Munchhausen Pulling Himself By His Hair\n\n\n\nSource: Wikipedia"
+    "objectID": "slides/lecture04-3-zero-inflated.html#mixture-models",
+    "href": "slides/lecture04-3-zero-inflated.html#mixture-models",
+    "title": "Zero-Inflated Model Example",
+    "section": "Mixture Models",
+    "text": "Mixture Models\nWhen we have two different data-generating processes which produce the same observable outcome, may need to use a mixture of two distributions to capture outcome.\nDistribution 1: \\(\\mathcal{D}_1\\) with likelihood \\(L_1(\\theta_1 | y)\\).\nDistribution 2: \\(\\mathcal{D}_2\\) with likelihood \\(L_1(\\theta_2 | y)\\)."
   },
   {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#why-does-the-bootstrap-work",
-    "href": "slides/lecture08-2-bayesian-computation.html#why-does-the-bootstrap-work",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Why Does The Bootstrap Work?",
-    "text": "Why Does The Bootstrap Work?\nLet \\(t_0\\) the “true” value of a statistic, \\(\\hat{t}\\) the estimate of the statistic from the sample, and \\((\\tilde{t}_i)\\) the bootstrap estimates.\n\nVariance: \\(\\text{Var}[\\hat{t}] \\approx \\text{Var}[\\tilde{t}]\\)\nThen the bootstrap error distribution approximates the sampling distribution \\[(\\tilde{t}_i - \\hat{t}) \\overset{\\mathcal{D}}{\\sim} \\hat{t} - t_0\\]"
+    "objectID": "slides/lecture04-3-zero-inflated.html#mixture-model-likelihood",
+    "href": "slides/lecture04-3-zero-inflated.html#mixture-model-likelihood",
+    "title": "Zero-Inflated Model Example",
+    "section": "Mixture Model Likelihood",
+    "text": "Mixture Model Likelihood\nThen if \\(y_i \\sim \\mathcal{D}_1\\) with probability \\(p_i\\), \\(y_i \\sim \\mathcal{D}_2\\) with probability \\(p_{i-1}\\).\n\\[L(p_i, \\theta_1, \\theta_2) = \\prod_{i=1}^n \\left(p_1 L_1(\\theta_1 | y_i) + p_2 L_2(\\theta_2 | y_i)\\right)\\]"
   },
   {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#bootstrap-variants",
-    "href": "slides/lecture08-2-bayesian-computation.html#bootstrap-variants",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Bootstrap Variants",
-    "text": "Bootstrap Variants\n\nResample Cases (Non-Parametric)\nResample Residuals (from fitted model trend)\nSimulate from Fitted Model (Parametric)"
+    "objectID": "slides/lecture04-3-zero-inflated.html#fitting-mixture-models",
+    "href": "slides/lecture04-3-zero-inflated.html#fitting-mixture-models",
+    "title": "Zero-Inflated Model Example",
+    "section": "Fitting Mixture Models",
+    "text": "Fitting Mixture Models\nThis can get complicted (and require more complicated algorithms) when with many or similar mixture components. But our case is easier!"
   },
   {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#which-bootstrap-to-use",
-    "href": "slides/lecture08-2-bayesian-computation.html#which-bootstrap-to-use",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Which Bootstrap To Use?",
-    "text": "Which Bootstrap To Use?\nDepends on trust in model “correctness”: - Do we trust the model specification to be reasonably correct? - Do we trust that we have enough samples to recover the empirical CDF? - Do we trust the data-generating process?"
+    "objectID": "slides/lecture04-3-zero-inflated.html#example-mixture-rationale",
+    "href": "slides/lecture04-3-zero-inflated.html#example-mixture-rationale",
+    "title": "Zero-Inflated Model Example",
+    "section": "Example: Mixture Rationale",
+    "text": "Example: Mixture Rationale\n\nSome groups don’t fish, which guarantees no fish.\nProbability of fishing is influenced by size of group.\nIf a group fishes, then there’s a Poisson process for the number of fish they catch.\nExpected fishing influenced by children and campers."
   },
   {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#sampling-so-far",
-    "href": "slides/lecture08-2-bayesian-computation.html#sampling-so-far",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Sampling So Far",
-    "text": "Sampling So Far\n\n\nRejection sampling (or importance sampling) to draw i.i.d. samples from a proposal density and reject/re-weight based on target.\nBoth require \\(f(x) \\leq M g(x)\\) for some \\(1 &lt; M &lt; \\infty\\).\n\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 1: Example of rejection sampling for a Normal distribution"
+    "objectID": "slides/lecture04-3-zero-inflated.html#zero-inflated-poisson",
+    "href": "slides/lecture04-3-zero-inflated.html#zero-inflated-poisson",
+    "title": "Zero-Inflated Model Example",
+    "section": "Zero-Inflated Poisson",
+    "text": "Zero-Inflated Poisson\nThis is a mixture between a Poisson and point-distribution (Dirac distribution) at zero.\n\\[\\begin{aligned}\ny_i &\\sim p_i \\text{Dirac}(0) + (1 - p_i) \\text{Poisson}(\\lambda_i)  \\\\\n\\text{logit}(p_i) &= \\alpha_0 + \\alpha_1 \\text{persons}_i\\\\\n\\log(\\lambda_i) &= \\beta_0 + \\beta_1 \\text{child}_i + \\beta_2 \\text{camper}_i\n\\end{aligned}\\]"
   },
   {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#bayesian-computing-challenges",
-    "href": "slides/lecture08-2-bayesian-computation.html#bayesian-computing-challenges",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Bayesian Computing Challenges",
-    "text": "Bayesian Computing Challenges\n\nSamples needed to compute posterior quantities (credible intervals, posterior predictive distributions, model skill estimates, etc.) with Monte Carlo.\nPosteriors often highly correlated.\nGrid approximation can help us visualize the posteriors in low dimensions.\nRejection sampling scales poorly to higher dimensions.\nConjugate priors only are appropriate in limited cases."
+    "objectID": "slides/lecture04-3-zero-inflated.html#zip-likelihood",
+    "href": "slides/lecture04-3-zero-inflated.html#zip-likelihood",
+    "title": "Zero-Inflated Model Example",
+    "section": "ZIP Likelihood",
+    "text": "ZIP Likelihood\nIf \\(y = 0\\):\n\\[\\mathcal{L}(p_i, \\lambda_i | y_i = 0) = p_i + (1 - p_i) \\overbrace{e^{-\\lambda_i}}^{\\text{Poisson zero likelihood}}\\]\nIf \\(y &gt; 0\\):\n\\[\\mathcal{L}(p_i, \\lambda_i | y_i &gt; 0) = (1 - p_i) \\underbrace{\\frac{\\lambda_i^{y_i}e^{-\\lambda_i}}{y_i!}}_{\\text{Poisson likelihood}}\\]"
   },
   {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#what-would-make-a-good-algorithm",
-    "href": "slides/lecture08-2-bayesian-computation.html#what-would-make-a-good-algorithm",
-    "title": "Bayesian Computing and MCMC",
-    "section": "What Would Make A Good Algorithm?",
-    "text": "What Would Make A Good Algorithm?\nA wishlist:\n\nDon’t need to know the characteristics of the distribution.\nSamples will eventually be correctly distributed (given enough time).\nIdeally fast and requiring minimal tuning."
+    "objectID": "slides/lecture04-3-zero-inflated.html#fitting-zip",
+    "href": "slides/lecture04-3-zero-inflated.html#fitting-zip",
+    "title": "Zero-Inflated Model Example",
+    "section": "Fitting ZIP",
+    "text": "Fitting ZIP\n\nfish = CSV.File(\"data/ecology/Fish.csv\") |&gt; DataFrame\ninvlogit(x) = exp(x) / (1 + exp(x))\nZeroInflated(p, λ) = MixtureModel([Dirac(0), Poisson(λ)], [p, 1 - p])\nfunction fish_model_zip(params, persons, child, camper, fish_caught)\n    α₀, α₁, β₀, β₁, β₂ = params\n    p = invlogit.(α₀ .+ α₁ * persons)\n    λ = exp.(β₀ .+ β₁ * child .+ β₂ * camper)\n    ll = sum(logpdf.(ZeroInflated.(p, λ), fish_caught))\n    return ll\nend\n\nlb = [-100.0, -100.0, -100.0, -100.0, -100.0]\nub = [100.0, 0.0, 100.0, 100.0, 100.0]\ninit = [5.0, -2.0, 0.0, 0.0, 0.0]\n\noptim_out = optimize(θ -&gt; -fish_model_zip(θ, fish.persons, fish.child, fish.camper, fish.fish_caught), lb, ub, init)\nθ_mle = optim_out.minimizer\n@show round.(θ_mle; digits=2);\n@show round.(exp.(θ_mle); digits=2);\n\nround.(θ_mle; digits = 2) = [1.3, -0.56, 1.6, -1.04, 0.83]\nround.(exp.(θ_mle); digits = 2) = [3.66, 0.57, 4.94, 0.35, 2.3]"
   },
   {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#how-can-we-do-this",
-    "href": "slides/lecture08-2-bayesian-computation.html#how-can-we-do-this",
-    "title": "Bayesian Computing and MCMC",
-    "section": "How Can We Do This?",
-    "text": "How Can We Do This?\nSuppose we want to sample a probability distribution \\(f(\\cdot)\\) and are at a parameter vector \\(x\\).\nWhat if we had a method that would let us stochastically jump from \\(x\\) to a new vector \\(y\\) in such a way that, eventually, we would visit any given vector wiith probability \\(f\\)?\nThis would let us trade convenience/flexibility for dependent samples."
+    "objectID": "slides/lecture04-3-zero-inflated.html#evaluating-model-fit",
+    "href": "slides/lecture04-3-zero-inflated.html#evaluating-model-fit",
+    "title": "Zero-Inflated Model Example",
+    "section": "Evaluating Model Fit",
+    "text": "Evaluating Model Fit\n\n\nFigure 1: Predictive distribution for fitted fish model."
   },
   {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#markov-chain-monte-carlo-mcmc",
-    "href": "slides/lecture08-2-bayesian-computation.html#markov-chain-monte-carlo-mcmc",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Markov Chain Monte Carlo (MCMC)",
-    "text": "Markov Chain Monte Carlo (MCMC)\nThere is a mathematical process that has these properties: Markov Chains.\nThese methods are called Markov chain Monte Carlo (MCMC)."
+    "objectID": "slides/lecture04-3-zero-inflated.html#interpretation-of-check",
+    "href": "slides/lecture04-3-zero-inflated.html#interpretation-of-check",
+    "title": "Zero-Inflated Model Example",
+    "section": "Interpretation of Check",
+    "text": "Interpretation of Check\n\nThis is much better, but is only one test.\nA model has more evidence for it if it passes multiple checks.\nBut none of this can “prove” a model is right: need to rely on hypotheses and EDA to propose a sensible model."
   },
   {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#what-is-a-markov-chain",
-    "href": "slides/lecture08-2-bayesian-computation.html#what-is-a-markov-chain",
-    "title": "Bayesian Computing and MCMC",
-    "section": "What Is A Markov Chain?",
-    "text": "What Is A Markov Chain?\n\n\nConsider a stochastic process \\(\\{X_t\\}_{t \\in \\mathcal{T}}\\), where\n\n\\(X_t \\in \\mathcal{S}\\) is the state at time \\(t\\), and\n\\(\\mathcal{T}\\) is a time-index set (can be discrete or continuous)\n\\(\\mathbb{P}(s_i \\to s_j) = p_{ij}\\).\n\n\n\n\n\nMarkov State Space"
+    "objectID": "slides/lecture04-3-zero-inflated.html#key-points",
+    "href": "slides/lecture04-3-zero-inflated.html#key-points",
+    "title": "Zero-Inflated Model Example",
+    "section": "Key Points",
+    "text": "Key Points\n\nZero-inflation can address problems where data have more zeros than GLM distribution would suggest.\nSimple version of a mixture model."
   },
   {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#markovian-property",
-    "href": "slides/lecture08-2-bayesian-computation.html#markovian-property",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Markovian Property",
-    "text": "Markovian Property\nThis stochastic process is a Markov chain if it satisfies the Markovian (or memoryless) property: \\[\\begin{align*}\n\\mathbb{P}(X_{T+1} = s_i &| X_1=x_1, \\ldots, X_T=x_T) = \\\\ &\\qquad\\mathbb{P}(X_{T+1} = s_i| X_T=x_T)\n\\end{align*}\n\\]"
-  },
-  {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#example-drunkards-walk",
-    "href": "slides/lecture08-2-bayesian-computation.html#example-drunkards-walk",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Example: “Drunkard’s Walk”",
-    "text": "Example: “Drunkard’s Walk”\n\n\n\n\n:img Random Walk, 80%\n\n\n\n\nHow can we model the unconditional probability \\(\\mathbb{P}(X_T = s_i)\\)?\nHow about the conditional probability \\(\\mathbb{P}(X_T = s_i | X_{T-1} = x_{T-1})\\)?"
-  },
-  {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#example-weather",
-    "href": "slides/lecture08-2-bayesian-computation.html#example-weather",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Example: Weather",
-    "text": "Example: Weather\nSuppose the weather can be foggy, sunny, or rainy.\nBased on past experience, we know that:\n\nThere are never two sunny days in a row;\nEven chance of two foggy or two rainy days in a row;\nA sunny day occurs 1/4 of the time after a foggy or rainy day."
-  },
-  {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#aside-higher-order-markov-chains",
-    "href": "slides/lecture08-2-bayesian-computation.html#aside-higher-order-markov-chains",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Aside: Higher Order Markov Chains",
-    "text": "Aside: Higher Order Markov Chains\nSuppose that today’s weather depends on the prior two days.\n\nCan we write this as a Markov chain?\nWhat are the states?"
-  },
-  {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#weather-transition-matrix",
-    "href": "slides/lecture08-2-bayesian-computation.html#weather-transition-matrix",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Weather Transition Matrix",
-    "text": "Weather Transition Matrix\nWe can summarize these probabilities in a transition matrix \\(P\\): \\[\nP =\n\\begin{array}{cc}\n\\begin{array}{ccc}\n\\phantom{i}\\color{red}{F}\\phantom{i} & \\phantom{i}\\color{red}{S}\\phantom{i} & \\phantom{i}\\color{red}{R}\\phantom{i}\n\\end{array}\n\\\\\n\\begin{pmatrix}\n      1/2 & 1/4 & 1/4 \\\\\n      1/2 & 0 & 1/2 \\\\\n      1/4 & 1/4 & 1/2\n      \\end{pmatrix}\n&\n\\begin{array}{ccc}\n\\color{red}F  \\\\ \\color{red}S  \\\\ \\color{red}R\n\\end{array}   \n\\end{array}\n\\]\nRows are the current state, columns are the next step, so \\(\\sum_i p_{ij} = 1\\)."
-  },
-  {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#weather-example-state-probabilities",
-    "href": "slides/lecture08-2-bayesian-computation.html#weather-example-state-probabilities",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Weather Example: State Probabilities",
-    "text": "Weather Example: State Probabilities\nDenote by \\(\\lambda^t\\) a probability distribution over the states at time \\(t\\).\nThen \\(\\lambda^t = \\lambda^{t-1}P\\):\n\\[\\begin{pmatrix}\\lambda^t_F & \\lambda^t_S & \\lambda^t_R \\end{pmatrix} =  \n\\begin{pmatrix}\\lambda^{t-1}_F & \\lambda^{t-1}_S & \\lambda^{t-1}_R \\end{pmatrix}\n      \\begin{pmatrix}\n      1/2 & 1/4 & 1/4 \\\\\n      1/2 & 0 & 1/2 \\\\\n      1/4 & 1/4 & 1/2\n      \\end{pmatrix}\n\\]"
-  },
-  {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#multi-transition-probabilities",
-    "href": "slides/lecture08-2-bayesian-computation.html#multi-transition-probabilities",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Multi-Transition Probabilities",
-    "text": "Multi-Transition Probabilities\nNotice that \\[\\lambda^{t+i} = \\lambda^t P^i,\\] so multiple transition probabilities are \\(P\\)-exponentials.\n\\[P^3 =\n\\begin{array}{cc}\n\\begin{array}{ccc}\n\\phantom{iii}\\color{red}{F}\\phantom{ii} & \\phantom{iii}\\color{red}{S}\\phantom{iii} & \\phantom{ii}\\color{red}{R}\\phantom{iii}\n\\end{array}\n\\\\\n\\begin{pmatrix}\n      26/64 & 13/64 & 25/64 \\\\\n      26/64 & 12/64 & 26/64 \\\\\n      26/64 & 13/64 & 26/64\n      \\end{pmatrix}\n&\n\\begin{array}{ccc}\n\\color{red}F  \\\\ \\color{red}S  \\\\ \\color{red}R\n\\end{array}   \n\\end{array}\n\\]"
-  },
-  {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#long-run-probabilities",
-    "href": "slides/lecture08-2-bayesian-computation.html#long-run-probabilities",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Long Run Probabilities",
-    "text": "Long Run Probabilities\nWhat happens if we let the system run for a while starting from an initial sunny day?\n\n\nCode\ncurrent = [1.0, 0.0, 0.0]\nP = [1/2 1/4 1/4\n    1/2 0 1/2\n    1/4 1/4 1/2]   \n\nT = 21\n\nstate_probs = zeros(T, 3)\nstate_probs[1,:] = current\nfor t=1:T-1\n    state_probs[t+1, :] = state_probs[t:t, :] * P\nend\n\n\np = plot(0:T-1, state_probs, label=[\"Foggy\" \"Sunny\" \"Rainy\"], palette=:mk_8, linewidth=3)\nxlabel!(\"Time\")\nylabel!(\"State Probability\")\nplot!(p, size=(1000, 350))\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 2: State probabilities for the weather examples."
-  },
-  {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#stationary-distributions",
-    "href": "slides/lecture08-2-bayesian-computation.html#stationary-distributions",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Stationary Distributions",
-    "text": "Stationary Distributions\nThis stabilization always occurs when the probability distribution is an eigenvector of \\(P\\) with eigenvalue 1:\n\\[\\pi = \\pi P.\\]\nThis is called an invariant or a stationary distribution."
-  },
-  {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#which-markov-chains-have-stationary-distributions",
-    "href": "slides/lecture08-2-bayesian-computation.html#which-markov-chains-have-stationary-distributions",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Which Markov Chains Have Stationary Distributions?",
-    "text": "Which Markov Chains Have Stationary Distributions?\nThis is a property called ergodicity (or the chain is ergodic). Ergodic Markov chains always have a limiting distribution which is the limit of the time-evolution of the chain dynamics, e.g. \\[\\pi_j = \\lim_{t \\to \\infty} \\mathbb{P}(X_t = s_j).\\]\nKey: The limiting distribution is independent of the initial state probability."
-  },
-  {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#limiting-distributions-are-stationary",
-    "href": "slides/lecture08-2-bayesian-computation.html#limiting-distributions-are-stationary",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Limiting Distributions are Stationary",
-    "text": "Limiting Distributions are Stationary\nFor an ergodic chain, the limiting distribution is the unique stationary distribution (we won’t prove uniqueness):\n\\[\n\\begin{align}\n\\pi_j &= \\lim_{t \\to \\infty} \\mathbb{P}(X_t = s_j | X_0 = s_i) \\\\\n&= \\lim_{t \\to \\infty} (P^{t+1})_{ij} = \\lim_{t \\to \\infty} (P^tP)_{ij} \\\\\n&= \\lim_{t \\to \\infty} \\sum_d (P^t)_{id} P_{dj} \\\\\n&= \\sum_d \\pi_d P_{dj}\n\\end{align}\n\\]"
-  },
-  {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#mcmc-and-ergodic-chains",
-    "href": "slides/lecture08-2-bayesian-computation.html#mcmc-and-ergodic-chains",
-    "title": "Bayesian Computing and MCMC",
-    "section": "MCMC and Ergodic Chains",
-    "text": "MCMC and Ergodic Chains\nProving that a chain is ergodic is getting into the mathematical weeds a bit (and is outside the scope of this class).\nThe good news: The goal of any MCMC algorithm is to construct an ergodic chain where the stationary distribution \\(\\pi(\\cdot)\\) is the target \\(f(\\cdot)\\).\nThis means that if you’re using a “standard” algorithm, the existence of a stationary distribution for the produced Markov chain is mathematically guaranteed."
-  },
-  {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#transient-portion-of-the-chain",
-    "href": "slides/lecture08-2-bayesian-computation.html#transient-portion-of-the-chain",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Transient Portion of the Chain",
-    "text": "Transient Portion of the Chain\nThe portion of the chain prior to convergence to the stationary distribution is called the transient portion.\n\n\nCode\nvspan!(p, [0, 4], color=:red, alpha=0.3, label=\"Transient Portion\")\n\n\n\n\n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n  \n    \n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 3: Transient portion of the weather Markov chain."
-  },
-  {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#key-points-bayesian-computing",
-    "href": "slides/lecture08-2-bayesian-computation.html#key-points-bayesian-computing",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Key Points (Bayesian Computing)",
-    "text": "Key Points (Bayesian Computing)\n\nBayesian computation is difficult because we need to sample from effectively arbitrary distributions.\nMarkov chains provide a path forward if we can construct a chain satisfying detailed balance whose stationary distribution is the target distribution.\nThen a post-convergence chain of samples is the same as a dependent Monte Carlo set of samples."
-  },
-  {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#key-points-markov-chains",
-    "href": "slides/lecture08-2-bayesian-computation.html#key-points-markov-chains",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Key Points (Markov Chains)",
-    "text": "Key Points (Markov Chains)\n\nStochastic process with memoryless property.\nSome chains have a stationary distribution (eigenvector of transition matrix with eigenvalue 1).\nErgodic Markov chains: dynamics converge to a limiting distribution, which is also stationary."
-  },
-  {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#next-classes",
-    "href": "slides/lecture08-2-bayesian-computation.html#next-classes",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Next Classes",
-    "text": "Next Classes\nMonday: MCMC\nWednesday: Cross-Validation and Model Skill"
-  },
-  {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#assessments",
-    "href": "slides/lecture08-2-bayesian-computation.html#assessments",
-    "title": "Bayesian Computing and MCMC",
-    "section": "Assessments",
-    "text": "Assessments\n\nHomework 3: Due Friday (3/14)\nProject Proposal: Due 3/21"
-  },
-  {
-    "objectID": "slides/lecture08-2-bayesian-computation.html#references-scroll-for-full-list",
-    "href": "slides/lecture08-2-bayesian-computation.html#references-scroll-for-full-list",
-    "title": "Bayesian Computing and MCMC",
-    "section": "References (Scroll for Full List)",
-    "text": "References (Scroll for Full List)\n\n\n\n\nEfron, B. (1979). Bootstrap methods: Another look at the jackknife. Ann. Stat., 7, 1–26. https://doi.org/10.1214/aos/1176344552"
+    "objectID": "slides/lecture04-3-zero-inflated.html#upcoming-schedule",
+    "href": "slides/lecture04-3-zero-inflated.html#upcoming-schedule",
+    "title": "Zero-Inflated Model Example",
+    "section": "Upcoming Schedule",
+    "text": "Upcoming Schedule\nMonday: No class, enjoy break.\nNext Two Weeks: Extreme Values\nHW2: Due 2/20\nProject Proposal: Due 2/27"
   },
   {
     "objectID": "slides/lecture09-2-model-skill.html#markov-chain-monte-carlo",

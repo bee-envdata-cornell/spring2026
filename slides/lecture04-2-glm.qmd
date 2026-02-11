@@ -345,6 +345,22 @@ histogram(fish.fish_caught, xlabel="Caught Fish", ylabel="Count", size=(600, 500
 :::
 ::::
 
+## Be Cautious...
+
+:::: {.columns}
+::: {.column width=45%}
+- Over-relying on plots like histograms can lead to mis-specifying GLM dynamics.
+- Think of linear regression: the question is **not if the data are Gaussian but the residuals**.
+:::
+::: {.column width=55%}
+![Brain on Regression Meme](memes/brain_on_regression.jpg){width=45%}
+
+::: {.caption}
+Source: Richard McElreath
+:::
+:::
+::::
+
 ## Model Specification
 
 We might hypothesize that the number of fish caught is influenced by the number of children (noisy, distracting, impatient) and whether the party brought a camper.
@@ -437,85 +453,6 @@ vline!([sum(fish.fish_caught .== 0) / nrow(fish)], color=:red, linewidth=3, labe
 - This is typical of a lot of environmental count data; often have far more zeros than would be expected from a Poisson regression.
 - Alternative: Use a **zero-inflated model**.
 
-## Alternative: Zero-Inflated Poisson
-
-This is a **mixture** between a Poisson and point-distribution (Dirac distribution) at zero.
-
-$$\begin{aligned}
-y_i &\sim p_i \text{Poisson}(\lambda_i) + (1-p_i) \text{Dirac}(0) \\
-\text{logit}(p_i) &= \alpha_0 + \alpha_1 \text{persons}_i\\
-\log(\lambda_i) &= \beta_0 + \beta_1 \text{child}_i + \beta_2 \text{camper}_i
-\end{aligned}$$
-
-## ZIP Interpretation
-
-- Some groups don't fish, which guarantees no fish.
-- Probability of fishing is influenced by size of group.
-- If a group fishes, then there's a Poisson process for the number of fish they catch.
-- Expected fishing influenced by children and campers.
-
-## Fitting ZIP
-
-```{julia}
-#| echo: true
-#| code-fold: false
-#| code-line-numbers: "|2|3-9"
-
-invlogit(x) = exp(x) / (1 + exp(x))
-ZeroInflated(p, λ) = MixtureModel([Dirac(0), Poisson(λ)], [p, 1 - p])
-function fish_model_zip(params, persons, child, camper, fish_caught)
-    α₀, α₁, β₀, β₁, β₂ = params
-    p = invlogit.(α₀ .+ α₁ * persons)
-    λ = exp.(β₀ .+ β₁ * child .+ β₂ * camper)
-    ll = sum(logpdf.(ZeroInflated.(p, λ), fish_caught))
-    return ll
-end
-
-lb = [-100.0, -100.0, -100.0, -100.0, -100.0]
-ub = [100.0, 0.0, 100.0, 100.0, 100.0]
-init = [5.0, -2.0, 0.0, 0.0, 0.0]
-
-optim_out = optimize(θ -> -fish_model_zip(θ, fish.persons, fish.child, fish.camper, fish.fish_caught), lb, ub, init)
-θ_mle = optim_out.minimizer
-@show round.(θ_mle; digits=2);
-@show round.(exp.(θ_mle); digits=2);
-```
-
-## Evaluating Model Fit
-
-```{julia}
-#| label: fig-fish-skill-2
-#| fig-cap: Predictive distribution for fitted fish model.
-#| output-location: column
-#| code-line-numbers: "|1-3|5-8"
-
-# simulate samples for each P
-p = invlogit.(θ_mle[1] .+ θ_mle[2] * fish.persons)
-λ = exp.(θ_mle[3] .+ θ_mle[4] * fish.child .+ θ_mle[5] * fish.camper)
-# draw 10,000 samples for each
-fish_sim = zeros(10_000, nrow(fish)) # initialize matrix to store simulations
-for i = 1:nrow(fish)
-    u = rand(Uniform(0, 1), 10_000)
-    for j = 1:10_000
-       if u[j] < p[i]
-            fish_sim[j, i] = 0.0
-        else
-            fish_sim[j, i] = rand(Poisson(λ[i]))
-        end
-    end   
-end
-
-# calculate frequency of zeros
-fish_zeros = mapslices(row -> sum(row .== 0) / length(row), fish_sim; dims=1)
-histogram(fish_zeros', xlabel="Proportion of Zeros", ylabel="Count", label=false)
-vline!([sum(fish.fish_caught .== 0) / nrow(fish)], color=:red, linewidth=3, label="Empirical Statistic")
-```
-
-## Interpretation of Check
-
-- This is much better, but is only one test.
-- A model has more evidence for it if it passes multiple checks.
-- But none of this can "prove" a model is right: need to rely on hypotheses and EDA to propose a sensible model.
 
 # Key Points
 
@@ -523,6 +460,7 @@ vline!([sum(fish.fish_caught .== 0) / nrow(fish)], color=:red, linewidth=3, labe
 
 - Generalized linear models: use an alternative distribution but let parameters vary.
 - Require a choice of distribution, a link function, and a linear model.
+- Lots of different choices of distributions --- think about structure of the data and generative properties of the distributions.
 - Simulation is valuable for checking model fit.
 
 
