@@ -23,6 +23,13 @@ format:
     title: "Environmental Data Analysis & Simulation"
     subtitle: "BEE 4850/5850 • Spring 2026"
 engine: julia
+format-links:      
+  - format: typst
+    text: PDF
+    icon: file-earmark-pdf
+  - format: docx
+    text: Word
+    icon: file-earmark-word
 julia:
     exeflags: ["+1.11.5"]
 ---

@@ -8,6 +8,17 @@ julia:
     exeflags: ["+1.11.5"]
 format:
   html: default    
+  typst:
+    include-in-header: 
+      - "_assets/typst-pdf/include-in-header.typ"
+  ipynb: default   
+format-links:
+    - format: typst
+      text: PDF
+      icon: file-earmark-pdf
+    - format: ipynb  
+      text: Jupyter
+      icon: journal-code
 ---
 
 ## Overview

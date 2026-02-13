@@ -86,6 +86,41 @@ default(
 
 - Use linear model to specify (usually transformed) parameters of a non-Gaussian distribution.
 - Can be more challenging to specify, interpret, and check.
+- **Examples**: Poisson, Binomial regression, but almost unlimited combinations of distribution + link possible.
+
+# Poisson Regression Example
+
+:::: {.columns}
+::: {.column width=50%}
+- The data is **overdispersed** relative to a Poisson distribution.
+- But a Poisson GLM may give rise to overdispersed data, since every observation has a different $\lambda_i$ (hence mean and variance.)
+:::
+::: {.column width=50%}
+
+```{julia}
+#| label: fig-fishing-data
+#| fig-cap: Fishing Data
+fish = CSV.File("data/ecology/Fish.csv") |> DataFrame
+histogram(fish.fish_caught, xlabel="Caught Fish", ylabel="Count", size=(600, 500))
+```
+:::
+::::
+
+## Be Cautious...
+
+:::: {.columns}
+::: {.column width=45%}
+- Over-relying on plots like histograms can lead to mis-specifying GLM dynamics.
+- Think of linear regression: the question is **not if the data are Gaussian but the residuals**.
+:::
+::: {.column width=55%}
+![Brain on Regression Meme](memes/brain_on_regression.jpg){width=45%}
+
+::: {.caption}
+Source: Richard McElreath
+:::
+:::
+::::
 
 ## Model Specification
 
@@ -110,9 +145,6 @@ $f(\cdot)$: maps positive reals (rate scale) to all reals (linear model scale)
 #| echo: true
 #| code-fold: false
 #| code-line-numbers: "|1-5|7-11"
-
-fish = CSV.File("data/ecology/Fish.csv") |> DataFrame
-
 function fish_model(params, child, camper, fish_caught)
     β₀, β₁, β₂ = params
     λ = exp.(β₀ .+ β₁ * child + β₂ * camper)

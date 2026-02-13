@@ -1,0 +1,128 @@
+---
+title: "Example: Poisson Regression"
+execute:
+    error: true
+    warning: true
+engine: julia
+julia:
+    exeflags: ["+1.11.5"]
+format:
+  html: default  
+  typst: default
+  ipynb: default   
+format-links:
+    - format: typst
+      text: PDF
+      icon: file-earmark-pdf
+    - format: ipynb  
+      text: Jupyter
+      icon: journal-code
+---
+
+```{julia}
+using DataFrames
+using CSV
+using Statistics
+using Distributions
+using Optim
+using Plots
+using StatsPlots
+```
+
+This is an example of setting up, fitting, checking, and modifying a generalized linear model (GLM). We'll use a dataset of fish caught by visitors at a National Park:
+
+```{julia}
+fish = CSV.File("data/Fish.csv") |> DataFrame
+fish[1:3, :]
+```
+
+The data includes the number of fish caught by visitors, whether they used live bait, whether they brought a camper van, the number of children and persons in the party, and how many hours they spent in the park.
+
+## Exploratory Analysis
+
+Let's plot a histogram of the number of caught fish (our response variable), as well as explore the relationship between the potential predictors and the response.
+
+```{julia}
+#| label: fig-fish-hist
+#| fig-cap: Histogram of the number of fish caught.
+
+histogram(fish.fish_caught, xlabel="Number of Fish Caught", ylabel="Count", legend=false)
+```
+
+We can see from @fig-fish-hist that there are quite a large number of zeros, and the data is quite dispersed: it has a mean of `{julia} round(mean(fish.fish_caught); digits=1)` and a variance of `{julia} round(var(fish.fish_caught); digits=1)`.
+
+```{julia}
+#| label: fig-fish-scatter
+#| fig-cap: Exploratory analysis of predictor variable relationship with the number of fish caught.
+#| subfig-cap:
+#|  - "Live bait use"
+#|  - "Camper use"
+#|  - "Number of children in party"
+#|  - "Number of persons in party"
+#|  - "Number of hours in park"
+#| ncol-display: 2
+
+p1 = boxplot(fish.livebait, fish.fish_caught, xlabel="Live Bait Use", ylabel="Fish Caught", legend=false)
+p2 = boxplot(fish.camper, fish.fish_caught, xlabel="Camper Van Use", ylabel="Fish Caught", legend=false)
+p3 = boxplot(fish.child, fish.fish_caught, xlabel="Number of Children", ylabel="Fish Caught", legend=false)
+p4 = boxplot(fish.persons, fish.fish_caught, xlabel="Number of Persons", ylabel="Fish Caught", legend=false)
+p5 = scatter(fish.hours, fish.fish_caught, xlabel="Hours in Park", ylabel="Fish Caught", legend=false)
+display(p1)
+display(p2)
+display(p3)
+display(p4)
+display(p5)
+```
+
+## Poisson Regression
+
+### Model Specification
+
+A GLM requires us to specify three things:
+
+1. The distribution of the response variable $y$;
+2. Link function(s) for the parameters which are modeled;
+3. A linear model for the transformed parameters (through the reverse link).
+
+From @fig-fish-scatter, it appears as though there are relationships between the number of fish caught and the live bait, camper, child, and person variables, but not the number of hours (as groups might be doing something other than fishing for a while). The strongest impact are live bait and camper use, so let's see how correlated these are to decide if we ought to include them as separate predictors. 
+
+```{julia}
+@show sum(fish.camper[fish.livebait .== 0]) / nrow(fish);
+@show sum(fish.camper[fish.livebait .== 1]) / nrow(fish);
+@show sum(fish.livebait[fish.camper .== 0]) / nrow(fish);
+```
+
+So only 6.4% of the groups that did not use live bait used a camper, while 52% of the groups that did use live bait used a camper, and 34% of groups which did not use a camper used live bait. That suggests there is a relationship between the two that we could capture with the camper variable, but there could be extra information from the live bait variable. 
+
+As a result, we might hypothesize that the number of fish caught is influenced by the number of children (noisy, distracting, impatient) and whether the party brought a camper. We'll hold off on including the live bait variable for now. As we're modeling counts of caught fish, a Poisson distribution is the typical starting point^[As noted earlier, the variance of the caught fish distribution is much larger than the mean, which would normally suggest that a Poisson distribution is not a good choice. However, that is the distribution *after the influence of covariates*, which would produce different Poissons for different predictors and could result in that level of overdispersion. We can't know without fitting the model and testing it if the distribution predicted by the GLM will have these properties! It's important not to over-interpret the raw histogram.], and the most flexible link for the Poisson rate $\lambda$ is the log. This would give us the following GLM:
+
+$$\begin{align*}
+y_i &\sim \text{Poisson}(\lambda_i) \\
+f(\lambda_i) &= \beta_0 + \beta_1 \text{child}_i + \beta_2 \text{camper}_i
+\end{align*}
+$$
+
+### Fitting The Poisson Model
+
+We'll use numerical optimization to fit the model, using the basic optimization routine `Optim.optimize()`. We won't tweak the settings and will give the optimizer a pretty broad range of parameters to work with.
+
+```{julia}
+function fish_model(params, child, camper, fish_caught)
+    β₀, β₁, β₂ = params
+    λ = exp.(β₀ .+ β₁ * child + β₂ * camper)
+    ll = sum(logpdf.(Poisson.(λ), fish_caught))
+    return ll
+end
+
+lb = [-100.0, -100.0, -100.0] # lower bounds
+ub = [100.0, 100.0, 100.0] # upper bounds
+init = [0.0, 0.0, 0.0] # initial guesses
+
+optim_out = optimize(θ -> -fish_model(θ, fish.child, fish.camper, fish.fish_caught), lb, ub, init)
+θ_mle = optim_out.minimizer
+@show round.(θ_mle; digits=2);
+@show round.(exp.(θ_mle); digits=2);
+```
+
+So, **under this model specification**, the base odds of catching a fish are 2.5, which are decreased by a factor of 0.29 for every additional child in the group, and increased by a factor of almost 3 if a camper is used. How do we know if this model works well?
+

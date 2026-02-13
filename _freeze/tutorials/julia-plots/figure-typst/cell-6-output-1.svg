@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="528" height="336" viewBox="0 0 2112 1344">
 <defs>
-  <clipPath id="clip630">
+  <clipPath id="clip940">
     <rect x="0" y="0" width="2112" height="1344"/>
   </clipPath>
 </defs>
-<path clip-path="url(#clip630)" d="M0 1344 L2112 1344 L2112 2.13163e-14 L0 2.13163e-14  Z" fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
+<path clip-path="url(#clip940)" d="M0 1344 L2112 1344 L2112 2.13163e-14 L0 2.13163e-14  Z" fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip631">
-    <rect x="422" y="0" width="1479" height="1344"/>
+  <clipPath id="clip941">
+    <rect x="153" y="47" width="1912" height="1188"/>
   </clipPath>
 </defs>
-<path clip-path="url(#clip630)" d="M47.2441 1296.76 L2064.76 1296.76 L2064.76 47.2441 L47.2441 47.2441  Z" fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
+<path clip-path="url(#clip940)" d="M47.2441 1296.76 L2064.76 1296.76 L2064.76 47.2441 L47.2441 47.2441  Z" fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip632">
+  <clipPath id="clip942">
     <rect x="47" y="47" width="2019" height="1251"/>
   </clipPath>
 </defs>
-<polyline clip-path="url(#clip632)" style="stroke:#009af9; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="104.343,1168.47 580.172,812.511 1056,361.443 1531.83,452.489 2007.66,82.6076 "/>
-<polyline clip-path="url(#clip632)" style="stroke:#e26f46; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="104.343,1014.36 580.172,269.376 1056,256.036 1531.83,398.297 2007.66,1046.74 "/>
-<circle clip-path="url(#clip632)" cx="104.343" cy="526.264" r="14.4" fill="#3da44d" fill-rule="evenodd" fill-opacity="1" stroke="#000000" stroke-opacity="1" stroke-width="2.688"/>
-<circle clip-path="url(#clip632)" cx="580.172" cy="678.879" r="14.4" fill="#3da44d" fill-rule="evenodd" fill-opacity="1" stroke="#000000" stroke-opacity="1" stroke-width="2.688"/>
-<circle clip-path="url(#clip632)" cx="1056" cy="873.046" r="14.4" fill="#3da44d" fill-rule="evenodd" fill-opacity="1" stroke="#000000" stroke-opacity="1" stroke-width="2.688"/>
-<circle clip-path="url(#clip632)" cx="1531.83" cy="1261.39" r="14.4" fill="#3da44d" fill-rule="evenodd" fill-opacity="1" stroke="#000000" stroke-opacity="1" stroke-width="2.688"/>
-<circle clip-path="url(#clip632)" cx="2007.66" cy="531.508" r="14.4" fill="#3da44d" fill-rule="evenodd" fill-opacity="1" stroke="#000000" stroke-opacity="1" stroke-width="2.688"/>
+<polyline clip-path="url(#clip942)" style="stroke:#009af9; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="104.343,1168.47 580.172,812.511 1056,361.443 1531.83,452.489 2007.66,82.6076 "/>
+<polyline clip-path="url(#clip942)" style="stroke:#e26f46; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="104.343,1014.36 580.172,269.376 1056,256.036 1531.83,398.297 2007.66,1046.74 "/>
+<circle clip-path="url(#clip942)" cx="104.343" cy="526.264" r="14.4" fill="#3da44d" fill-rule="evenodd" fill-opacity="1" stroke="#000000" stroke-opacity="1" stroke-width="2.688"/>
+<circle clip-path="url(#clip942)" cx="580.172" cy="678.879" r="14.4" fill="#3da44d" fill-rule="evenodd" fill-opacity="1" stroke="#000000" stroke-opacity="1" stroke-width="2.688"/>
+<circle clip-path="url(#clip942)" cx="1056" cy="873.046" r="14.4" fill="#3da44d" fill-rule="evenodd" fill-opacity="1" stroke="#000000" stroke-opacity="1" stroke-width="2.688"/>
+<circle clip-path="url(#clip942)" cx="1531.83" cy="1261.39" r="14.4" fill="#3da44d" fill-rule="evenodd" fill-opacity="1" stroke="#000000" stroke-opacity="1" stroke-width="2.688"/>
+<circle clip-path="url(#clip942)" cx="2007.66" cy="531.508" r="14.4" fill="#3da44d" fill-rule="evenodd" fill-opacity="1" stroke="#000000" stroke-opacity="1" stroke-width="2.688"/>
 </svg>

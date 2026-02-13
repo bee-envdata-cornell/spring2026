@@ -118,7 +118,7 @@ website:
           text: "Project Overview"
         - href: project/report.qmd
           text: "Report"
-    - title: "Tutorials"
+    - title: "Examples"
       style: docked
       search: false
       background: "#f7f7f7"
@@ -127,6 +127,7 @@ website:
         - tutorials/julia-basics.qmd
         - tutorials/latex-notebook.qmd
         - tutorials/julia-plots.qmd
+        - tutorials/poisson-regression.qmd
 format:
   html:
     theme: 
