@@ -25,4 +25,4 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 |   | 2/06 | Linear Regression As A Probability Model | [{{< fa sharp presentation-screen >}}](slides/lecture03-3-linear-regression-mle.qmd)  | | | | | 
 | 4 | 2/09 | Logistic Regression | [{{< fa sharp presentation-screen >}}](slides/lecture04-1-logistic-regression.qmd) | | [{{< fa sharp pen-field >}}](hw/hw02/hw02.qmd) | | |
 |   | 2/11 | Generalized Linear Models | [{{< fa sharp presentation-screen >}}](slides/lecture04-2-glm.qmd) | | | | |
-|   | 2/13 | Zero-Inflated Models | | |  | Quiz 1 | |
+|   | 2/13 | Zero-Inflated Models | [{{< fa sharp presentation-screen >}}](slides/lecture04-3-zero-inflated.qmd) | |  | Quiz 1 | |
