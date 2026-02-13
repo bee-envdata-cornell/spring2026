@@ -8,9 +8,7 @@ julia:
     exeflags: ["+1.11.5"]
 format:
   html: default  
-  typst:
-    include-in-header: 
-      - "_assets/typst-pdf/include-in-header.typ"
+  typst: default
   ipynb: default   
 format-links:
     - format: typst
