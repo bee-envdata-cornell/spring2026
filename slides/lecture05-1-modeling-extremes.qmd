@@ -1,10 +1,10 @@
 ---
 title: "Modeling Extreme Values"
-subtitle: "Lecture 19"
+subtitle: "Lecture 13"
 author: "Vivek Srikrishnan"
 course: "BEE 4850"
 institution: "Cornell University"
-date: "April 9, 2025"
+date: "February 23, 2026"
 format:
     revealjs:
         slide-number: c/t
@@ -85,14 +85,13 @@ default(
 
 # Review
 
-## Last Unit
+## Last Week: GLMs
 
-**Model Evaluation**: How to assess and compare models for selection or assessment of evidence?
+- Generalized Linear Models: use linear models to represent alternative distributional assumptions.
+- $$y_i \sim \mathcal{D}(\theta), \quad f(\theta) = \sum_j \beta_j x_i^j$$
+- Focus on logistic and Poisson regressions.
+- Can be more challenging to interpret coefficients.
 
-- Over/Underfitting;
-- Scoring Rules
-- Cross-Validation;
-- Information Criteria
 
 # Extreme Values
 
@@ -265,7 +264,7 @@ This means that errors in estimating $F_X$ become exponentially worse for $F_{Y_
 
 ## Sum-Stable Distributions
 
-If we have independent and identically-distributed variables$$X_1, X_2, \ldots, X_n$.
+If we have independent and identically-distributed variables $X_1, X_2, \ldots, X_n$.
 
 $$Y_1 = \sum_{i=1}^k X_i, \quad Y_2 = \sum_{i={k+1}}^{2k} X_i, \quad \ldots, \quad Y_m = \sum_{i={n-k+1}}^{n} X_i$$
 
@@ -275,10 +274,12 @@ $$Y_1 = \sum_{i=1}^k X_i, \quad Y_2 = \sum_{i={k+1}}^{2k} X_i, \quad \ldots, \qu
 
 ## Max Stability
 
-$$\begin{align*}
+$$
+\begin{aligned}
 \max\{x_1, \ldots, &x_{2n}\}\\
 &= \max\{\max\{x_1, \ldots, x_n\}, \max\{x_{n+1}, \ldots, x_2n\} \}
-\end{align*}$$
+\end{aligned}
+$$
 
 ```{julia}
 #| output: true

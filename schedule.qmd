@@ -1,6 +1,6 @@
 ---
 title: "Class Schedule"
-tbl-colwidths: [5, 10, 25, 5, 15, 5, 5, 5]
+tbl-colwidths: [5, 10, 25, 5, 15, 5, 10, 5]
 suppress-bibliography: true
 format:
   html: default
@@ -26,3 +26,6 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 | 4 | 2/09 | Logistic Regression | [{{< fa sharp presentation-screen >}}](slides/lecture04-1-logistic-regression.qmd) | | [{{< fa sharp pen-field >}}](hw/hw02/hw02.qmd) | | |
 |   | 2/11 | Generalized Linear Models | [{{< fa sharp presentation-screen >}}](slides/lecture04-2-glm.qmd) | | | | |
 |   | 2/13 | Poisson Regression Example | [{{< fa sharp presentation-screen >}}](slides/lecture04-3-zero-inflated.qmd) | |  | Quiz 1 | |
+| 5 | 2/16 | **February Break** | |  | | | | 
+|  | 2/18 | Autocorrelation and Time Series [{{< fa sharp presentation-screen >}}](slides/lecture05-1-timeseries.qmd) | [@Chandler2002-oi](https://doi.org/10.1029/2001WR000906) |  |  | |
+| | 2/20 | Inference for Time Series | | | | | |
