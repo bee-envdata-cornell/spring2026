@@ -27,5 +27,5 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 |   | 2/11 | Generalized Linear Models | [{{< fa sharp presentation-screen >}}](slides/lecture04-2-glm.qmd) | | | | |
 |   | 2/13 | Poisson Regression Example | [{{< fa sharp presentation-screen >}}](slides/lecture04-3-zero-inflated.qmd) | |  | Quiz 1 | |
 | 5 | 2/16 | **February Break** | |  | | | | 
-|  | 2/18 | Autocorrelation and Time Series [{{< fa sharp presentation-screen >}}](slides/lecture05-1-timeseries.qmd) | [@Chandler2002-oi](https://doi.org/10.1029/2001WR000906) |  |  | |
-| | 2/20 | Inference for Time Series | | | | | |
+|  | 2/18 | Autocorrelation and Time Series | [{{< fa sharp presentation-screen >}}](slides/lecture05-1-timeseries.qmd) | [@Chandler2002-oi](https://doi.org/10.1029/2001WR000906) |  |  | |
+| | 2/20 | Inference for Time Series | [{{< fa sharp presentation-screen >}}](slides/lecture05-2-timeseries-inference.qmd) | | | | |

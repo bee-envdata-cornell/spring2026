@@ -4,7 +4,7 @@ subtitle: "Lecture 11"
 author: "Vivek Srikrishnan"
 course: "BEE 4850"
 institution: "Cornell University"
-date: "February 18, 2025"
+date: "February 18, 2026"
 format:
     revealjs:
         slide-number: c/t
@@ -140,7 +140,7 @@ hline!(p1, [0], color=:black, linestyle=:dash)
 Equivalent for time series $\mathbf{y} = \{y_t\}$ is **stationarity**.
 
 - **Strict stationarity**: $\{y_t, \ldots, y_{t+k-1}\} \sim \mathcal{D}$ for all $t$.
-- **Weak stationarity**: $\mathbb{E}[X_1] = \mathbb{E}[X_t]$ and $\text{Cov}(X_1, X_k) = \text{Cov}(X_t, X_{t+k-1})$ for all $t$.
+- **Weak stationarity**: $\mathbb{E}[X_1] = \mathbb{E}[X_t]$ and $\text{Cov}(X_1, X_k) = \text{Cov}(X_t, X_{t+k-1})$ for all $t, k$.
 
 ## Stationary vs. Non-Stationary Series
 
@@ -176,8 +176,7 @@ display(p2)
 ## Autocorrelation
 
 ```{julia}
-#| echo: true
-#| code-fold: true
+#| echo: false
 #| label: fig-ac-regression
 #| fig-cap: Lag-1 autocorrelation for an AR model and Gaussian noise.
 #| layout: [[1, 1], [1, 1]]
@@ -367,25 +366,6 @@ hline!(p1, [0], color=:black, linestyle=:dash)
 :::
 ::::
 
-## AR(1) and Stationarity
-
-$$\begin{aligned}
-\mathbb{E}[Y_{t+h} | Y_t = y_t] &= \mathbb{E}[\alpha \sum_{k=0}^{t-1} \rho^k + \sum_{k=0}^{t-1} \varepsilon_{t-k} \rho^k + \rho^t y_0 | Y_t = y_t] \\
-&= \alpha \sum_{k=0}^{t-1} \rho^k + \rho^t y_0
-\end{aligned}$$
-
-Under what condition will $\mathbf{y}$ be stationary?
-
-::: {.fragment .fade-in}
-Stationarity requires $| \rho | < 1$ and $\alpha = 0$.
-:::
-
-## Implication of Stationarity
-
-**Stationarity**: $$|\rho| < 1 \Rightarrow \lim_{t \to \infty} \rho^t = 0.$$
-
-Stationary AR(1)s will decay to 0 on average and non-stationary will diverge to $\pm \infty$.
-
 ## AR(1) Variance
 
 The **conditional variance** $\mathbb{V}[y_t | y_{t-1}] = \sigma^2$.
@@ -401,169 +381,104 @@ $$
 $$
 
 
-## AR(1) Joint Distribution
+## AR(1) and Stationarity
 
-Assume stationarity and zero-mean process. 
+Need $\mathbb{E}[Y_t] = \mathbb{E}[X_{t-1}]$ and $\mathbb{V}[Y_t] = \mathbb{V}[Y_{t-1}]$. If we want this to hold:
 
-Need to know $\text{Cov}[y_t, y_{t+h}]$ for arbitrary $h$.
+$$\begin{aligned}
+\mathbb{E}[Y_t] &= \mathbb{E}[\alpha + \rho Y_{t-1} + \varepsilon_t] \\
+&= \alpha + \mathbb{E}[Y_{t-1}] + \cancel{\mathbb{E}[\varepsilon_t]} \\[0.75em]
+\Rightarrow \mathbb{E}[Y_t] &= \alpha + \rho \mathbb{E}[Y_t] \\
+&= \frac{\alpha}{1-\rho}.
+\end{aligned}$$
+
+## AR(1) and Stationarity
+
+Now for the variance:
+
+$$\begin{aligned}
+\mathbb{V}[Y_t] = \mathbb{V}[\alpha + \rho Y_{t-1} + \varepsilon_t] \\
+&= \rho^2 \mathbb{V}[Y_{t-1}] + \cancel{2\text{Cov}(Y_{t-1}, \varepsilon_t)} + \mathbb{V}[\varepsilon_t] \\[0.75em]
+\Rightarrow \mathbb{V}[Y_t] &= \rho^2 \mathbb{V}[Y_t] + \sigma^2 \\
+&= \frac{\sigma^2}{1 - \rho^2}.
+\end{aligned}$$
+
+Thus the AR(1) is stationary if and only if $|\rho| < 1$.
+
+
+## Implication of Stationarity
+
+Think about deterministic version (set $\alpha = 0$ to simplify):
+
 
 $$
-\begin{align*}
-\text{Cov}[y_t, y_{t-h}] &= \text{Cov}[\rho^h y_{t-h}, y_{t-h}] \\
-&= \rho^h \text{Cov}[y_{t-h}, y_{t-h}] \\
-&= \rho^h \frac{\sigma^2}{1-\rho^2}
-\end{align*}
+y_t = \rho y_{t-1} = \rho^t y_0
 $$
 
-## AR(1) Joint Distribution
+**Stationarity**: $$|\rho| < 1 \Rightarrow \lim_{t \to \infty} \rho^t = 0.$$
 
-$$
-\begin{align*}
-\mathbf{y} &\sim \mathcal{N}(\mathbf{0}, \Sigma) \\
-\Sigma &= \frac{\sigma^2}{1 - \rho^2} \begin{pmatrix}1 & \rho & \ldots & \rho^{T-1}  \\ \rho & 1 & \ldots & \rho^{T-2} \\ \vdots & \vdots & \ddots & \vdots \\ \rho^{T-1} & \rho^{T-2} & \ldots & 1\end{pmatrix}
-\end{align*}
-$$
+Stationary AR(1)s will decay to 0 on average and non-stationary will diverge to $\pm \infty$.
 
-## Alternatively..
-
-An "easier approach" (often more numerically stable) is to **whiten** the series sample/compute likelihoods in sequence:
-
-$$
-\begin{align*}
-y_0 & \sim N\left(0, \frac{\sigma^2}{1 - \rho^2}\right) \\
-y_t &\sim N(\rho y_{t-1} , \sigma^2) 
-\end{align*}
-$$
-
-## Dealing with Trends
-
-$$y_t = \underbrace{x_t}_{\text{fluctuations}} + \underbrace{z_t}_{\text{trend}}$$
-
-- Model trend with regression: $$y_t - a - bt \sim N(\rho (y_{t-1} - a - bt), \sigma^2)$$
-- Model the **spectrum** (frequency domain).
-- Difference values (**integrated** time series model): $\hat{y}_t = y_t - y_{t-1}$
-
-## Be Cautious with Detrending!
+## Effect of Noise
 
 :::: {.columns}
-::: {.column width=50%}
-**Dragons**: Extrapolating trends identified using "curve-fitting" is highly fraught, complicating projections. 
-
-Better to have an explanatory model and then fit autoregressive models to the residuals...
-:::
-::: {.column width=50%}
-![Dog Growth Extrapolation Cartoon](memes/dog_puppy_trend.jpg){width=55%}
-
-::: {.caption}
-Source: Reddit (original source unclear...)
+::: {.column width=40%}
+Innovations/noise continually perturb away from this long-term deterministic path.
 :::
 
-:::
-::::
-
-## Code for AR(1) model
-
+::: {.column width=60%}
 ```{julia}
 #| echo: true
-#| code-fold: false
-#| output: false
-#| code-line-numbers: "|1-15|17-29"
-
-function ar1_loglik_whitened(θ, dat)
-    # might need to include mean or trend parameters as well
-    # subtract trend from data to make this mean-zero in this case
-    ρ, σ = θ
-    T = length(dat)
-    ll = 0 # initialize log-likelihood counter
-    for i = 1:T
-        if i == 1
-            ll += logpdf(Normal(0, sqrt(σ^2 / (1 - ρ^2))), dat[i])
-        else
-            ll += logpdf(Normal(ρ * dat[i-1], σ), dat[i])
-        end
-    end
-    return ll
-end
-
-function ar1_loglik_joint(θ, dat)
-    # might need to include mean or trend parameters as well
-    # subtract trend from data to make this mean-zero in this case
-    ρ, σ = θ
-    T = length(dat)
-    # compute all of the pairwise lags
-    # this is an "outer product"; syntax will differ wildly by language
-    H = abs.((1:T) .- (1:T)')
-    P = ρ.^H # exponentiate ρ by each lag
-    Σ = σ^2 / (1 - ρ^2) * P
-    ll = logpdf(MvNormal(zeros(T), Σ), dat)
-    return ll
-end
-```
-
-## AR(1) Example
-
-:::: {.columns}
-::: {.column width=50%}
-```{julia}
-#| label: fig-ar1-test
-#| fig-cap: Simulated AR(1) data
 #| code-fold: true
-#| echo: true
+#| label: fig-ts-stochastic
+#| fig-cap: Determinitic vs. Stochastic AR(1)
 
-ρ = 0.6
-σ = 0.25
-T = 25
-ts_sim = zeros(T)
-# simulate synthetic AR(1) series
-for t = 1:T
-    if t == 1
-        ts_sim[t] = rand(Normal(0, sqrt(σ^2 / (1 - ρ^2))))
+ρ = 0.7
+σ = 0.2
+ar_var = sqrt(σ^2 / (1 - ρ^2))
+T = 100
+ts_det = zeros(T)
+n = 3
+ts_stoch = zeros(T, n)
+t0 = 1.5
+for i = 1:T
+    if i == 1
+        ts_det[i] = t0
+        ts_stoch[i, :] .= t0
     else
-        ts_sim[t] = rand(Normal(ρ * ts_sim[t-1], σ))
+        ts_det[i] = ρ * ts_det[i-1]
+        ts_stoch[i, :] = ρ * ts_stoch[i-1, :] .+ rand(Normal(0, σ), n)
     end
 end
 
-plot(1:T, ts_sim, linewidth=3, xlabel="Time", ylabel="Value", title=L"$ρ = 0.6, σ = 0.25$")
-plot!(size=(600, 500))
+p = plot(1:T, ts_det, label="Deterministic", xlabel="Time", linewidth=3, color=:black, size=(600, 550))
+cols = ["#DDAA33", "#BB5566", "#004488"]
+for i = 1:n
+    label = i == 1 ? "Stochastic" : false
+    plot!(p, 1:T, ts_stoch[:, i], linewidth=1, color=cols[i], label=label)
+end 
+p   
 ```
-:::
-::: {.column width=50%}
-```{julia}
-#| code-fold: true
-#| echo: true
 
-lb = [-0.99, 0.01]
-ub = [0.99, 5]
-init = [0.6, 0.3]
-
-optim_whitened = Optim.optimize(θ -> -ar1_loglik_whitened(θ, ts_sim), lb, ub, init)
-θ_wn_mle = round.(optim_whitened.minimizer; digits=2)
-@show θ_wn_mle;
-
-optim_joint = Optim.optimize(θ -> -ar1_loglik_joint(θ, ts_sim), lb, ub, init)
-θ_joint_mle = round.(optim_joint.minimizer; digits=2)
-@show θ_joint_mle;
-```
 :::
 ::::
 
-# Higher Order Autoregressions
 
-## AR(p)
+## Predicting AR(1)s
 
-$$y_t = a + \rho_1 y_{t-1} + \rho_2 y_{t-2} + \ldots + \rho_p y_{t-p} + \varepsilon_t$$
-
-- Same basic ideas, but more difficult to estimate and easy to overfit.
-- Simulate/predict by sampling first $p$ values and innovations, then plug into equation.
-- Can have much more interesting dynamics, including oscillations.
+$$\begin{aligned}
+\mathbb{E}[Y_{t+h} | Y_t = \mathbf{y}_t] &= \mathbb{E}[\alpha \sum_{k=0}^{h-1} \rho^k + \sum_{k=0}^{h-1} \varepsilon_{t-k} \rho^k + \rho^h y_0 | Y_t = \mathbf{y}_t] \\
+&= \alpha \sum_{k=0}^{t-1} \rho^k + \rho^h y_0
+\end{aligned}$$
 
 # Key Points
 
 ## Key Points
 
-- Time series exhibit serial dependence (autocorrelation
-- AR(1) probability models: joint vs. whitened likelihoods
-- In general, AR models useful for forecasting/when we don't care about explanation, pretty useless for explanation.
+- Time series exhibit serial dependence (autocorrelation)
+- AR(1): autoregressive model with explicit lag-1 dependence.
+- AR(1) is **stationary** if and only if $|\rho| < 1$.
+- In general, AR models useful for forecasting, pretty useless for explanation.
 - **Similar concepts in spatial data**: spatial correlation (distance/adjacency vs. time), lots of different models.
 
 ## For More On Time Series
@@ -588,7 +503,7 @@ $$y_t = a + \rho_1 y_{t-1} + \rho_2 y_{t-2} + \ldots + \rho_p y_{t-p} + \varepsi
 
 ## Next Classes
 
-**Friday**: Wrap up AR models
+**Friday**: AR(1) Inference
 
 **Next Week**: Extreme Values (Theory and Models)
 

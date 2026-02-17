@@ -1,0 +1,465 @@
+---
+title: "AR(1) Inference"
+subtitle: "Lecture 12"
+author: "Vivek Srikrishnan"
+course: "BEE 4850"
+institution: "Cornell University"
+date: "February 20, 2026"
+format:
+    revealjs:
+        slide-number: c/t
+        show-slide-number: all
+        center-title-slide: true
+        width: 1280
+        height: 720
+        transition: none
+        toc: true
+        toc-depth: 1
+        toc-title: "Overview"
+        history: false
+        link-external-newwindow: true
+        theme: ../sass/slides.scss
+        template-partials:
+            - title-slide.html
+        menu:
+            numbers: true
+        html-math-method: mathjax
+        include-in-header: mathjax-config.html
+        date-format: long
+        email-obfuscation: javascript
+        chalkboard:
+            theme: whiteboard
+            buttons: true
+        mermaid: 
+            theme: dark
+engine: julia
+filters:
+  - code-fullscreen
+---
+
+```{julia}
+#| output: false
+
+import Pkg
+Pkg.activate(@__DIR__)
+Pkg.instantiate()
+```
+
+```{julia}
+#| output: false
+
+using Random
+using DataFrames
+using DataFramesMeta
+using CSV
+using Dates
+using Distributions
+using ColorSchemes
+using Plots
+using StatsPlots
+using StatsBase
+using GLM
+using Optim
+using LaTeXStrings
+using Measures
+
+Random.seed!(1)
+
+plot_font = "Computer Modern"
+default(
+    fontfamily=plot_font,
+    linewidth=3, 
+    framestyle=:box, 
+    label=nothing, 
+    grid=false,
+    guidefontsize=18,
+    legendfontsize=16,
+    tickfontsize=16,
+    titlefontsize=20,
+    bottom_margin=10mm,
+    left_margin=5mm
+)
+```
+
+# Review
+
+## Time Series
+
+:::: {.columns}
+::: {.column width=55%}
+**Dependence**: History or sequencing of the data matters
+
+$$p(y_t) = f(y_1, \ldots, y_{t-1})$$
+
+Serial dependence captured by **autocorrelation**:
+
+$$\varsigma(i) = \rho(y_t, y_{t-i}) = \frac{\text{Cov}[y_t, y_{t+i}]}{\mathbb{V}[y_t]} $$
+
+:::
+::: {.column width=45%}
+```{julia}
+#| label: fig-lynx-acf
+#| fig-cap: Autocorrelation for the Lynx data.
+
+lh_obs = DataFrame(CSV.File("data/ecology/Lynx_Hare.csv"))
+p1 = plot(0:5, autocor(lh_obs.Lynx, 0:5), marker=:circle, line=:stem, linewidth=3, markersize=8, tickfontsize=16, guidefontsize=18, legend=false, ylabel="Autocorrelation", xlabel="Time Lag", size=(550, 600))
+hline!(p1, [0], color=:black, linestyle=:dash)
+```
+:::
+::::
+
+
+## AR(1) Models
+
+AR(p): (autoregressive of order $p$):
+
+$$
+\begin{align*}
+y_t &= \alpha + \rho y_{t-1} + \varepsilon_t \\
+\varepsilon &\sim \mathcal{D}(\theta) \\
+y_0 &\sim \mathcal{G}(\psi)
+\end{align*}
+$$ 
+
+$\mathbb{E}[\varepsilon] = 0$, $\text{cor}(\varepsilon_i, \varepsilon_j) = 0$, $\text{cor}(\varepsilon_i, y_0) = 0$ 
+
+
+## AR(1) Models
+
+- Have memory of autocorrelation even though it's only explicit for 1 lag.
+- Weakly stationary if and only if autoregression coefficient $|\rho| < 1$.
+- Use **partial autocorrelation function** to identify lag-1 autocorrelation.
+
+# AR(1) Inference
+
+## AR(1) Joint Distribution
+
+Assume stationarity and zero-mean process ($\alpha = 0$). 
+
+Need to know $\text{Cov}[y_t, y_{t+h}]$ for arbitrary $h$.
+
+$$
+\begin{align*}
+\text{Cov}[y_t, y_{t-h}] &= \text{Cov}[\rho^h y_{t-h}, y_{t-h}] \\
+&= \rho^h \text{Cov}[y_{t-h}, y_{t-h}] \\
+&= \rho^h \frac{\sigma^2}{1-\rho^2}
+\end{align*}
+$$
+
+## AR(1) Joint Distribution
+
+$$
+\begin{align*}
+\mathbf{y} &\sim \mathcal{N}(\mathbf{0}, \Sigma) \\
+\Sigma &= \frac{\sigma^2}{1 - \rho^2} \begin{pmatrix}1 & \rho & \ldots & \rho^{T-1}  \\ \rho & 1 & \ldots & \rho^{T-2} \\ \vdots & \vdots & \ddots & \vdots \\ \rho^{T-1} & \rho^{T-2} & \ldots & 1\end{pmatrix}
+\end{align*}
+$$
+
+## Alternatively..
+
+An "easier approach" (often more numerically stable) is to **whiten** the series sample/compute likelihoods in sequence:
+
+$$
+\begin{align*}
+y_0 & \sim N\left(0, \frac{\sigma^2}{1 - \rho^2}\right) \\
+y_t &\sim N(\rho y_{t-1} , \sigma^2) 
+\end{align*}
+$$
+
+## Code for AR(1) model
+
+```{julia}
+#| echo: true
+#| code-fold: false
+#| output: false
+#| code-line-numbers: "|1-15|17-29"
+
+function ar1_loglik_whitened(θ, dat)
+    # might need to include mean or trend parameters as well
+    # subtract trend from data to make this mean-zero in this case
+    ρ, σ = θ
+    T = length(dat)
+    ll = 0 # initialize log-likelihood counter
+    for i = 1:T
+        if i == 1
+            ll += logpdf(Normal(0, sqrt(σ^2 / (1 - ρ^2))), dat[i])
+        else
+            ll += logpdf(Normal(ρ * dat[i-1], σ), dat[i])
+        end
+    end
+    return ll
+end
+
+function ar1_loglik_joint(θ, dat)
+    # might need to include mean or trend parameters as well
+    # subtract trend from data to make this mean-zero in this case
+    ρ, σ = θ
+    T = length(dat)
+    # compute all of the pairwise lags
+    # this is an "outer product"; syntax will differ wildly by language
+    H = abs.((1:T) .- (1:T)')
+    P = ρ.^H # exponentiate ρ by each lag
+    Σ = σ^2 / (1 - ρ^2) * P
+    ll = logpdf(MvNormal(zeros(T), Σ), dat)
+    return ll
+end
+```
+
+## AR(1) Example
+
+:::: {.columns}
+::: {.column width=50%}
+```{julia}
+#| label: fig-ar1-test
+#| fig-cap: Simulated AR(1) data
+#| code-fold: true
+#| echo: true
+
+ρ = 0.6
+σ = 0.25
+T = 25
+ts_sim = zeros(T)
+# simulate synthetic AR(1) series
+for t = 1:T
+    if t == 1
+        ts_sim[t] = rand(Normal(0, sqrt(σ^2 / (1 - ρ^2))))
+    else
+        ts_sim[t] = rand(Normal(ρ * ts_sim[t-1], σ))
+    end
+end
+
+plot(1:T, ts_sim, linewidth=3, xlabel="Time", ylabel="Value", title=L"$ρ = 0.6, σ = 0.25$")
+plot!(size=(600, 500))
+```
+:::
+::: {.column width=50%}
+```{julia}
+#| code-fold: true
+#| echo: true
+
+lb = [-0.99, 0.01]
+ub = [0.99, 5]
+init = [0.6, 0.3]
+
+optim_whitened = Optim.optimize(θ -> -ar1_loglik_whitened(θ, ts_sim), lb, ub, init)
+θ_wn_mle = round.(optim_whitened.minimizer; digits=2)
+@show θ_wn_mle;
+
+optim_joint = Optim.optimize(θ -> -ar1_loglik_joint(θ, ts_sim), lb, ub, init)
+θ_joint_mle = round.(optim_joint.minimizer; digits=2)
+@show θ_joint_mle;
+```
+:::
+::::
+
+
+# Dealing with Trends
+
+## AR(1) with Trend
+
+$$y_t = \underbrace{x_t}_{\text{fluctuations}} + \underbrace{z_t}_{\text{trend}}$$
+
+- Model trend with regression: $$y_t - (a + bt) \sim N(\rho (y_{t-1} - (a + b(t-1))), \sigma^2)$$
+- Model the **spectrum** (frequency domain, for periodic trends).
+- Difference values (**integrated** time series model): $\hat{y}_t = y_t - y_{t-1}$
+
+## Be Cautious with Detrending!
+
+:::: {.columns}
+::: {.column width=50%}
+**Dragons**: Extrapolating trends identified using "curve-fitting" is highly fraught, complicating projections. 
+
+Better to have an explanatory model and then fit autoregressive models to the residuals...
+:::
+::: {.column width=50%}
+![Dog Growth Extrapolation Cartoon](memes/dog_puppy_trend.jpg){width=55%}
+
+::: {.caption}
+Source: Reddit (original source unclear...)
+:::
+
+:::
+::::
+
+## Sea-Level Rise Example
+
+```{julia}
+#| label: fig-slr-data
+#| fig-cap: Global mean sea level and temperature data for Problem 1.
+
+norm_yrs = 1880:1900
+
+sl_dat = DataFrame(CSV.File(joinpath("data", "sealevel", "CSIRO_Recons_gmsl_yr_2015.csv")))
+
+rename!(sl_dat, [:Year, :GMSLR, :SD]) # rename to make columns easier to work with
+sl_dat[!, :Year] .-= 0.5 # shift year to line up with years instead of being half-year 
+sl_dat[!, :GMSLR] .-= mean(filter(row -> row.Year ∈ norm_yrs, sl_dat)[!, :GMSLR]) # rescale to be relative to 1880-1900 mean for consistency with temperature anomaly
+
+# load temperature data
+temp_dat = DataFrame(CSV.File(joinpath("data", "climate", "HadCRUT.5.0.1.0.analysis.summary_series.global.annual.csv")))
+rename!(temp_dat, [:Year, :Temp, :Lower, :Upper]) # rename to make columns easier to work with
+filter!(row -> row.Year ∈ sl_dat[!, :Year], temp_dat) # reduce to the same years that we have SL data for
+temp_normalize = mean(filter(row -> row.Year ∈ norm_yrs, temp_dat)[!, :Temp]) # get renormalization to rescale temperature to 1880-1900 mean
+temp_dat[!, :Temp] .-= temp_normalize
+temp_dat[!, :Lower] .-= temp_normalize
+temp_dat[!, :Upper] .-=  temp_normalize
+
+sl_plot = scatter(sl_dat[!, :Year], sl_dat[!, :GMSLR], yerr=sl_dat[!, :SD], color=:black, label="Observations", ylabel="(mm)", xlabel="Year", title="Sea Level Anomaly")
+
+temp_plot = scatter(temp_dat[!, :Year], temp_dat[!, :Temp], yerr=(temp_dat[!, :Temp] - temp_dat[!, :Lower], temp_dat[!, :Upper] - temp_dat[!, :Temp]), color=:black, label="Observations", ylabel="(°C)", xlabel="Year", title="Temperature")
+
+plot(sl_plot, temp_plot, layout=(1, 2))
+```
+
+## SLR Autocorrelation
+
+```{julia}
+#| label: fig-p1-residuals
+#| echo: true
+#| code-fold: true
+#| fig-cap: Partial Autocorrelation Plot
+#| layout-ncol: 2
+
+
+pacf_slr = pacf(sl_dat[!, :GMSLR], 0:5)
+
+p1 = plot(0:5, autocor(sl_dat[!, :GMSLR], 0:5), marker=:circle, line=:stem, linewidth=3, markersize=8, legend=false, ylabel="Autocorrelation", xlabel="Time Lag", size=(550, 500))
+p2 = plot(0:5, pacf_slr, marker=:circle, line=:stem, markersize=8, linewidth=3, legend=false, ylabel="Partial Autocorrelation", xlabel="Time Lag", size=(550, 500))
+
+display(p1)
+display(p2)
+```
+
+## SLR Model
+
+Simple model of sea-level rise from @Grinsted2010-wc:
+
+$$\begin{aligned}
+\frac{dS}{dt} &= \frac{S_\text{eq} - S}{\tau} \\
+S_\text{eq} &= aT + b,
+\end{aligned}
+$$
+
+## Models and Autocorrelation
+
+**Note**: Hypothetically this type of model can capture all of the autocorrelation (or at least non-stationarity) in the data, since: 
+
+1. the forcings ($T$) are autocorrelated;
+2. the differential equation models $dS/dt$ as a function of $S$.
+
+So a good strategy is to try to calibrate this model without assuming AR(1) residuals, then see if they're necessary (HW3).
+
+
+## Model Discretization
+
+Many ways to discretize model, we use the simplest (forward Euler) based on $\frac{dy}{dx} = \lim_{\Delta x \to 0} \frac{y(x + \Delta x) - y(x)}{\Delta x}$:
+
+1. Replace $\frac{dS}{dt}$ with $\frac{S(t + \Delta t)}{\Delta t}$ for some small time step $\Delta t > 0$ (here take $\Delta t = 1$ yr)
+2. Solve for $S(t + \Delta t)$.
+
+## Discrete SLR Model
+
+$$
+\begin{aligned}
+\frac{S(t+1) - S(t)}{\Delta t} &= \frac{S_\text{eq}(t) - S(t)}{\tau} \\[0.5em]
+S_\text{eq}(t) &= a T(t) + b, \\[1.5em]
+\Rightarrow S(t+1) &= S(t) + \Delta t \frac{S_\text{eq}(t) - S(t)}{\tau} \\[0.5em]
+S_\text{eq}(t) &= a T(t) + b,
+\end{aligned}
+$$
+
+## From Numerical to Probability Model
+
+We can treat this like any other regression, but use model for $S(t)$ instead of *e.g.* linear model:
+
+**Assuming i.i.d. Gaussian residuals**:
+$$y_t = S(t) + \varepsilon_t, \qquad \varepsilon_t \sim N(0, \sigma^2)$$
+
+**If residuals are autocorrelated**:
+$$y_t = S(t) + \omega_t, \quad \omega_t = \rho \omega_{t-1} + \varepsilon_t, \quad \varepsilon_t \sim N(0, \sigma^2)$$
+
+
+## General Idea of Workflow
+
+For a given set of parameters:
+
+1. Evaluate numerical model to get predictions $S(t)$;
+2. Calculate residuals $r(t) = y(t) - S(t)$;
+3. Maximize likelihood of residuals according to probability model.
+
+## Model Discrepancy
+
+Can go further and separate out observation errors (typically white noise) from model-data discrepancies (systematic differences in state prediction, often autocorrelated):
+
+Computer Model: $$\eta(\underbrace{\theta}_{\substack{\text{calibration}\\\text{variables}}}; \underbrace{x}_{\substack{\text{control}\\\text{variables}}})$$
+
+Observations: $$\mathbf{y} \sim p(\underbrace{\zeta(\mathbf{x})}_{\substack{\text{expected}\\\text{state}}})$$
+
+## Model-Data Discpreancy
+
+Write $$\zeta(\mathbf{x}) = \delta(\eta(\theta; x))$$ where $\delta$ represents the **discrepancy** between the model output and the expected state.
+
+Then the probability model is: $$\mathbf{y} \sim p(\delta(\eta(\theta; x))).$$
+
+Most common setting (*e.g.* @Brynjarsdottir2014-ve):
+
+$$\mathbf{y} = \underbrace{\eta(\mathbf{x}; \theta)}_{\text{model}} + \underbrace{\delta(x)}_{\text{discrepancy}} + \underbrace{\varepsilon}_{\text{error}}$$
+
+
+# Higher Order Autoregressions
+
+## AR(p)
+
+$$y_t = a + \rho_1 y_{t-1} + \rho_2 y_{t-2} + \ldots + \rho_p y_{t-p} + \varepsilon_t$$
+
+- Same basic ideas, but more difficult to estimate and easy to overfit.
+- Simulate/predict by sampling first $p$ values and innovations, then plug into equation.
+- Can have much more interesting dynamics, including oscillations.
+
+# Key Points
+
+## Key Points
+
+- Can do inference for AR(1) either by whitening residuals or fitting joint distribution.
+- Often numerical models have autocorrelated residuals: this *can* produce very different estimates than assuming independent Gaussian residuals.
+- Common problem when fitting models by minimizing (R)MSE!
+
+## For More On Time Series
+
+::: {layout-ncol=2}
+### Courses
+
+- STSCI 4550/5550 (Applied Time Series Analysis), 
+- CEE 6790 (heavy focus on spectral analysis and signal processing)
+
+### Books
+
+- @shumstof2025
+- @Hyndman2021-mw
+- @Durbin2012-pn
+- @Banerjee2011-dg
+- @Cressie2011-pj
+
+:::
+
+# Upcoming Schedule
+
+## Next Classes
+
+
+**Next Week**: Extreme Values (Theory and Models)
+
+**Next Unit**: Hypothesis Testing, Model Evaluation, and Comparison
+
+## Assessments
+
+**HW2**: Due Friday at 9pm.
+
+**Exercises**: Available after class (will include GLMs + time series).
+
+**HW3**: Assigned on 3/2, due 3/13.
+
+# References
+
+## References (Scroll For Full List)
+
