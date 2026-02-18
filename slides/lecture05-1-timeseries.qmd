@@ -81,6 +81,15 @@ default(
 )
 ```
 
+# Review
+
+## GLMs
+
+- Generalized Linear Models: use linear models to represent alternative distributional assumptions.
+- $$y_i \sim \mathcal{D}(\theta), \quad f(\theta) = \sum_j \beta_j x_i^j$$
+- Focus on logistic and Poisson regressions.
+- Can be more challenging to interpret coefficients.
+
 
 # Time Series
 

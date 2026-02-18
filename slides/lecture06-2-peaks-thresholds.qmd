@@ -1,10 +1,10 @@
 ---
 title: "Peaks Over Thresholds"
-subtitle: "Lecture 20"
+subtitle: "Lecture 14"
 author: "Vivek Srikrishnan"
 course: "BEE 4850"
 institution: "Cornell University"
-date: "April 14, 2025"
+date: "February 25, 2026"
 format:
     revealjs:
         slide-number: c/t
