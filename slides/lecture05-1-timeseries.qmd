@@ -62,6 +62,7 @@ using GLM
 using Optim
 using LaTeXStrings
 using Measures
+using FourierAnalysis
 
 Random.seed!(1)
 
@@ -118,7 +119,99 @@ plot!(size=(500, 500))
 :::
 ::::
 
-## When Do We Care About Time Series?
+```{julia}
+#| output: true
+#| echo: true
+#| code-fold: true
+#| code-overflow: wrap
+#| fig-align: center
+#| label: fig-norfolk-data
+#| fig-cap: 2015 tide gauge data from the Norfolk, VA tide gauge.
+
+function load_data(fname)
+    date_format = "yyyy-mm-dd HH:MM"
+    # this uses the DataFramesMeta package -- it's pretty cool
+    return @chain fname begin
+        CSV.File(; dateformat=date_format)
+        DataFrame
+        DataFrames.rename(
+            "Time (GMT)" => "time", "Predicted (m)" => "harmonic", "Verified (m)" => "gauge"
+        )
+        @transform :datetime = (Date.(:Date, "yyyy/mm/dd") + Time.(:time))
+        select(:datetime, :gauge, :harmonic)
+        @transform :weather = :gauge - :harmonic
+        @transform :month = (month.(:datetime))
+    end
+end
+
+dat = load_data("data/surge/norfolk-hourly-surge-2015.csv")
+
+p1 = plot(dat.datetime, dat.gauge; ylabel="Gauge Measurement (m)", label="Observed", legend=:topleft, xlabel="Date/Time", bottom_margin=5mm, left_margin=5mm, right_margin=5mm)
+```
+
+## Spectral Analysis
+
+```{julia}
+#| echo: false
+#| code-fold: false
+
+function regress_period(p, y, t, ω)
+    A, B, C, σ = p
+    ll = sum(logpdf.(Normal.(A * cos.(ω * t) + B * sin.(ω * t) .+ C, σ), y))
+    return ll
+end
+
+ub = [10.0, 10.0, 10.0, 10.0]
+lb = [-10.0, -10.0, -10.0, 0.1]
+init_p = [0.0, 0.0, 0.0, 5.0]
+
+optim_out = optimize(p -> -regress_period(p, dat.gauge, 1:nrow(dat), (2 * π)/365), lb, ub, init_p)
+mle = optim_out.minimizer
+```
+
+Often time series have **periodic** components. Can recover these using regression: $$y_t = A \cos(\omega t) + B \sin(\omega t) + C + \varepsilon_t, \qquad \varepsilon \sim N(0, \sigma^2).$$
+
+## Example: Daily Periods
+
+If we want to look at the tide gauge data with a daily period, then 
+$$\begin{gathered}
+2\pi / \omega = 365 \\
+\omega = 2\pi / 365
+\end{gathered}$$
+
+and we get: `{julia} mle`.
+
+## How To Identify Interesting Periods
+
+**Spectral analysis**: Based on Fourier decomposition to switch between **time domain** and **frequency domain**.
+
+## Estimating Fourier Coefficients
+
+Let $\omega_j = 2\pi j / T$. Then:
+
+$$\begin{aligned}
+\hat{A} &= \frac{2}{T} \sum_t y_t \cos(\omega_j t) \\
+\hat{B} &= \frac{2}{T} \sum_t y_t \sin(\omega_j t) \\
+\hat{C} &= \bar{Y} = \frac{1}{T} \sum_t y_t.
+\end{aligned}$$
+
+## Periodogram
+
+Can then define the **periodogram** $$I_T(\omega) = \frac{1}{2\pi T} \left|\sum_{t=1}^T y_t e^{i\omega t}\right|^2.$$
+
+Larger values of $I_T$ mean those frequencies contribute more to the overall signal.
+
+## Periodogram Example
+
+![Example of a Periodogram](https://vlyubchich.github.io/tsar/l13_spectral_files/figure-html/fig-airpassangersFFT-1.png){width=55%}
+
+::: {.caption}
+Source: [Time Series Analysis, Chapter 11](https://vlyubchich.github.io/tsar/l13_spectral.html)
+:::
+
+# Autocorrelation
+
+## Temporal Dependence
 
 :::: {.columns}
 ::: {.column width=55%}
