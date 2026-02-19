@@ -52,6 +52,7 @@ using Random
 using DataFrames
 using DataFramesMeta
 using CSV
+using DSP
 using Dates
 using Distributions
 using ColorSchemes
@@ -119,6 +120,14 @@ plot!(size=(500, 500))
 :::
 ::::
 
+## Spectral Analysis
+
+
+Often time series have **periodic** components. Can recover these using regression: $$y_t = A \cos(\omega t) + B \sin(\omega t) + C + \varepsilon_t, \qquad \varepsilon \sim N(0, \sigma^2).$$
+
+## Tide Gauge Data
+
+
 ```{julia}
 #| output: true
 #| echo: true
@@ -146,13 +155,15 @@ end
 
 dat = load_data("data/surge/norfolk-hourly-surge-2015.csv")
 
-p1 = plot(dat.datetime, dat.gauge; ylabel="Gauge Measurement (m)", label="Observed", legend=:topleft, xlabel="Date/Time", bottom_margin=5mm, left_margin=5mm, right_margin=5mm)
+p1 = plot(dat.datetime, dat.gauge; ylabel="Gauge Measurement (m)", label="Observed", legend=:topleft, xlabel="Date/Time", bottom_margin=5mm, left_margin=5mm, right_margin=5mm, size=(1100, 500))
 ```
 
-## Spectral Analysis
+
+## Example: Daily Periods
 
 ```{julia}
 #| echo: false
+#| output: false
 #| code-fold: false
 
 function regress_period(p, y, t, ω)
@@ -165,21 +176,18 @@ ub = [10.0, 10.0, 10.0, 10.0]
 lb = [-10.0, -10.0, -10.0, 0.1]
 init_p = [0.0, 0.0, 0.0, 5.0]
 
-optim_out = optimize(p -> -regress_period(p, dat.gauge, 1:nrow(dat), (2 * π)/365), lb, ub, init_p)
-mle = optim_out.minimizer
+optim_out = optimize(p -> -regress_period(p, dat.gauge, 1:nrow(dat), (2 * π) / 292), lb, ub, init_p)
+mle = round.(optim_out.minimizer; digits=3)
 ```
 
-Often time series have **periodic** components. Can recover these using regression: $$y_t = A \cos(\omega t) + B \sin(\omega t) + C + \varepsilon_t, \qquad \varepsilon \sim N(0, \sigma^2).$$
 
-## Example: Daily Periods
-
-If we want to look at the tide gauge data with a daily period, then 
+If we want to look at the tide gauge data  (which has an hourly sampling period and 8760 samples) with a monthly period, then 
 $$\begin{gathered}
-2\pi / \omega = 365 \\
-\omega = 2\pi / 365
+2\pi / \omega = 8760 / 30 = 292 \\
+\omega = 2\pi / 292
 \end{gathered}$$
 
-and we get: `{julia} mle`.
+and we get: $[A, B, C, \sigma$] = $`{julia} mle`.
 
 ## How To Identify Interesting Periods
 
@@ -201,13 +209,27 @@ Can then define the **periodogram** $$I_T(\omega) = \frac{1}{2\pi T} \left|\sum_
 
 Larger values of $I_T$ mean those frequencies contribute more to the overall signal.
 
-## Periodogram Example
+## Periodogram: Tide Gauge
 
-![Example of a Periodogram](https://vlyubchich.github.io/tsar/l13_spectral_files/figure-html/fig-airpassangersFFT-1.png){width=55%}
+:::: {.columns}
+::: {.column width=50%}
+```{julia}
+#| echo: true
+#| code-fold: true
+#| label: fig-periodogram
+#| fig-cap: Periodogram for the NOrfolk Tide Gauge Data
 
-::: {.caption}
-Source: [Time Series Analysis, Chapter 11](https://vlyubchich.github.io/tsar/l13_spectral.html)
+T = nrow(dat) # get number of samples (this is hourly in this case), so 8760
+ps = DSP.periodogram(dat.gauge; fs=T) # compute periodogram with T sampling frequency
+plot(ps.freq, ps.power, xlabel="Period (Hours)", ylabel="Power Spectrum", legend=false, linewidth=3, yaxis=:log) 
+```
 :::
+::: {.column width=50%}
+The biggest spikes are at period 0 (no period; this is just a drift without harmonic behavior) and period 711 (roughly 30 days; aligns with the lunar cycle).
+
+Sometimes periodograms are computed with respect to *frequency*, rather than *period*: recover period by multiplying by the sampling frequency.
+:::
+::::
 
 # Autocorrelation
 
@@ -468,110 +490,6 @@ hline!(p1, [0], color=:black, linestyle=:dash)
 :::
 ::::
 
-## AR(1) Variance
-
-The **conditional variance** $\mathbb{V}[y_t | y_{t-1}] = \sigma^2$.
-
-**Unconditional variance** for stationary $\mathbb{V}[y_t]$:
-
-$$
-\begin{align*}
-\mathbb{V}[y_t] &= \rho^2 \mathbb{V}[y_{t-1}] + \mathbb{V}[\varepsilon] \\
-&= \rho^2 \mathbb{V}[y_t] + \sigma^2 \\
-&= \frac{\sigma^2}{1 - \rho^2}.
-\end{align*}
-$$
-
-
-## AR(1) and Stationarity
-
-Need $\mathbb{E}[Y_t] = \mathbb{E}[X_{t-1}]$ and $\mathbb{V}[Y_t] = \mathbb{V}[Y_{t-1}]$. If we want this to hold:
-
-$$\begin{aligned}
-\mathbb{E}[Y_t] &= \mathbb{E}[\alpha + \rho Y_{t-1} + \varepsilon_t] \\
-&= \alpha + \mathbb{E}[Y_{t-1}] + \cancel{\mathbb{E}[\varepsilon_t]} \\[0.75em]
-\Rightarrow \mathbb{E}[Y_t] &= \alpha + \rho \mathbb{E}[Y_t] \\
-&= \frac{\alpha}{1-\rho}.
-\end{aligned}$$
-
-## AR(1) and Stationarity
-
-Now for the variance:
-
-$$\begin{aligned}
-\mathbb{V}[Y_t] = \mathbb{V}[\alpha + \rho Y_{t-1} + \varepsilon_t] \\
-&= \rho^2 \mathbb{V}[Y_{t-1}] + \cancel{2\text{Cov}(Y_{t-1}, \varepsilon_t)} + \mathbb{V}[\varepsilon_t] \\[0.75em]
-\Rightarrow \mathbb{V}[Y_t] &= \rho^2 \mathbb{V}[Y_t] + \sigma^2 \\
-&= \frac{\sigma^2}{1 - \rho^2}.
-\end{aligned}$$
-
-Thus the AR(1) is stationary if and only if $|\rho| < 1$.
-
-
-## Implication of Stationarity
-
-Think about deterministic version (set $\alpha = 0$ to simplify):
-
-
-$$
-y_t = \rho y_{t-1} = \rho^t y_0
-$$
-
-**Stationarity**: $$|\rho| < 1 \Rightarrow \lim_{t \to \infty} \rho^t = 0.$$
-
-Stationary AR(1)s will decay to 0 on average and non-stationary will diverge to $\pm \infty$.
-
-## Effect of Noise
-
-:::: {.columns}
-::: {.column width=40%}
-Innovations/noise continually perturb away from this long-term deterministic path.
-:::
-
-::: {.column width=60%}
-```{julia}
-#| echo: true
-#| code-fold: true
-#| label: fig-ts-stochastic
-#| fig-cap: Determinitic vs. Stochastic AR(1)
-
-ρ = 0.7
-σ = 0.2
-ar_var = sqrt(σ^2 / (1 - ρ^2))
-T = 100
-ts_det = zeros(T)
-n = 3
-ts_stoch = zeros(T, n)
-t0 = 1.5
-for i = 1:T
-    if i == 1
-        ts_det[i] = t0
-        ts_stoch[i, :] .= t0
-    else
-        ts_det[i] = ρ * ts_det[i-1]
-        ts_stoch[i, :] = ρ * ts_stoch[i-1, :] .+ rand(Normal(0, σ), n)
-    end
-end
-
-p = plot(1:T, ts_det, label="Deterministic", xlabel="Time", linewidth=3, color=:black, size=(600, 550))
-cols = ["#DDAA33", "#BB5566", "#004488"]
-for i = 1:n
-    label = i == 1 ? "Stochastic" : false
-    plot!(p, 1:T, ts_stoch[:, i], linewidth=1, color=cols[i], label=label)
-end 
-p   
-```
-
-:::
-::::
-
-
-## Predicting AR(1)s
-
-$$\begin{aligned}
-\mathbb{E}[Y_{t+h} | Y_t = \mathbf{y}_t] &= \mathbb{E}[\alpha \sum_{k=0}^{h-1} \rho^k + \sum_{k=0}^{h-1} \varepsilon_{t-k} \rho^k + \rho^h y_0 | Y_t = \mathbf{y}_t] \\
-&= \alpha \sum_{k=0}^{t-1} \rho^k + \rho^h y_0
-\end{aligned}$$
 
 # Key Points
 

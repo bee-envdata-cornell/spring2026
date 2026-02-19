@@ -132,6 +132,112 @@ $\mathbb{E}[\varepsilon] = 0$, $\text{cor}(\varepsilon_i, \varepsilon_j) = 0$, $
 
 # AR(1) Inference
 
+## AR(1) Variance
+
+The **conditional variance** $\mathbb{V}[y_t | y_{t-1}] = \sigma^2$.
+
+**Unconditional variance** for stationary $\mathbb{V}[y_t]$:
+
+$$
+\begin{align*}
+\mathbb{V}[y_t] &= \rho^2 \mathbb{V}[y_{t-1}] + \mathbb{V}[\varepsilon] \\
+&= \rho^2 \mathbb{V}[y_t] + \sigma^2 \\
+&= \frac{\sigma^2}{1 - \rho^2}.
+\end{align*}
+$$
+
+
+## AR(1) and Stationarity
+
+Need $\mathbb{E}[Y_t] = \mathbb{E}[X_{t-1}]$ and $\mathbb{V}[Y_t] = \mathbb{V}[Y_{t-1}]$. If we want this to hold:
+
+$$\begin{aligned}
+\mathbb{E}[Y_t] &= \mathbb{E}[\alpha + \rho Y_{t-1} + \varepsilon_t] \\
+&= \alpha + \mathbb{E}[Y_{t-1}] + \cancel{\mathbb{E}[\varepsilon_t]} \\[0.75em]
+\Rightarrow \mathbb{E}[Y_t] &= \alpha + \rho \mathbb{E}[Y_t] \\
+&= \frac{\alpha}{1-\rho}.
+\end{aligned}$$
+
+## AR(1) and Stationarity
+
+Now for the variance:
+
+$$\begin{aligned}
+\mathbb{V}[Y_t] = \mathbb{V}[\alpha + \rho Y_{t-1} + \varepsilon_t] \\
+&= \rho^2 \mathbb{V}[Y_{t-1}] + \cancel{2\text{Cov}(Y_{t-1}, \varepsilon_t)} + \mathbb{V}[\varepsilon_t] \\[0.75em]
+\Rightarrow \mathbb{V}[Y_t] &= \rho^2 \mathbb{V}[Y_t] + \sigma^2 \\
+&= \frac{\sigma^2}{1 - \rho^2}.
+\end{aligned}$$
+
+Thus the AR(1) is stationary if and only if $|\rho| < 1$.
+
+
+## Implication of Stationarity
+
+Think about deterministic version (set $\alpha = 0$ to simplify):
+
+
+$$
+y_t = \rho y_{t-1} = \rho^t y_0
+$$
+
+**Stationarity**: $$|\rho| < 1 \Rightarrow \lim_{t \to \infty} \rho^t = 0.$$
+
+Stationary AR(1)s will decay to 0 on average and non-stationary will diverge to $\pm \infty$.
+
+## Effect of Noise
+
+:::: {.columns}
+::: {.column width=40%}
+Innovations/noise continually perturb away from this long-term deterministic path.
+:::
+
+::: {.column width=60%}
+```{julia}
+#| echo: true
+#| code-fold: true
+#| label: fig-ts-stochastic
+#| fig-cap: Determinitic vs. Stochastic AR(1)
+
+ρ = 0.7
+σ = 0.2
+ar_var = sqrt(σ^2 / (1 - ρ^2))
+T = 100
+ts_det = zeros(T)
+n = 3
+ts_stoch = zeros(T, n)
+t0 = 1.5
+for i = 1:T
+    if i == 1
+        ts_det[i] = t0
+        ts_stoch[i, :] .= t0
+    else
+        ts_det[i] = ρ * ts_det[i-1]
+        ts_stoch[i, :] = ρ * ts_stoch[i-1, :] .+ rand(Normal(0, σ), n)
+    end
+end
+
+p = plot(1:T, ts_det, label="Deterministic", xlabel="Time", linewidth=3, color=:black, size=(600, 550))
+cols = ["#DDAA33", "#BB5566", "#004488"]
+for i = 1:n
+    label = i == 1 ? "Stochastic" : false
+    plot!(p, 1:T, ts_stoch[:, i], linewidth=1, color=cols[i], label=label)
+end 
+p   
+```
+
+:::
+::::
+
+
+## Predicting AR(1)s
+
+$$\begin{aligned}
+\mathbb{E}[Y_{t+h} | Y_t = \mathbf{y}_t] &= \mathbb{E}[\alpha \sum_{k=0}^{h-1} \rho^k + \sum_{k=0}^{h-1} \varepsilon_{t-k} \rho^k + \rho^h y_0 | Y_t = \mathbf{y}_t] \\
+&= \alpha \sum_{k=0}^{t-1} \rho^k + \rho^h y_0
+\end{aligned}$$
+
+
 ## AR(1) Joint Distribution
 
 Assume stationarity and zero-mean process ($\alpha = 0$). 
