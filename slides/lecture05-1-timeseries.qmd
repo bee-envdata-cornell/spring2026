@@ -159,7 +159,7 @@ p1 = plot(dat.datetime, dat.gauge; ylabel="Gauge Measurement (m)", label="Observ
 ```
 
 
-## Example: Daily Periods
+## Example: Monthly Periods
 
 ```{julia}
 #| echo: false
@@ -243,7 +243,7 @@ $$p(y_t) = f(y_1, \ldots, y_{t-1})$$
 
 Serial dependence captured by **autocorrelation**:
 
-$$\varsigma(i) = \rho(y_t, y_{t-i}) = \frac{\text{Cov}[y_t, y_{t+i}]}{\mathbb{V}[y_t]} $$
+$$\varsigma(i) = \rho(y_t, y_{t-i}) = \frac{\text{Cov}[y_t, y_{t-i}]}{\mathbb{V}[y_t]} $$
 
 :::
 ::: {.column width=45%}
