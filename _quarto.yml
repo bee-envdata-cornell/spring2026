@@ -107,6 +107,8 @@ website:
           text: "Homework 1: Intro and EDA"
         - href: hw/hw02/hw02.qmd
           text: "Homework 2: Probability Models"  
+        - href: hw/hw03/hw03.qmd
+          text: "Homework 3: Extreme Values and Time Series"  
     - title: "Literature Critique"
       href: lit_critique/index.qmd      
     - title: "Project"

@@ -287,7 +287,7 @@
 <p><strong>Dependence</strong>: History or sequencing of the data matters</p>
 <p><span class="math display">\[p(y_t) = f(y_1, \ldots, y_{t-1})\]</span></p>
 <p>Serial dependence captured by <strong>autocorrelation</strong>:</p>
-<p><span class="math display">\[\varsigma(i) = \rho(y_t, y_{t-i}) = \frac{\text{Cov}[y_t, y_{t+i}]}{\mathbb{V}[y_t]} \]</span></p>
+<p><span class="math display">\[\varsigma(i) = \rho(y_t, y_{t-i}) = \frac{\text{Cov}[y_t, y_{t-i}]}{\mathbb{V}[y_t]} \]</span></p>
 </div><div class="column" style="width:45%;">
 <div id="cell-fig-lynx-acf" class="cell" data-execution_count="1">
 <div id="fig-lynx-acf" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
@@ -460,7 +460,7 @@ Figure&nbsp;3: Determinitic vs.&nbsp;Stochastic AR(1)
 <section id="ar1-joint-distribution" class="slide level2">
 <h2>AR(1) Joint Distribution</h2>
 <p>Assume stationarity and zero-mean process (<span class="math inline">\(\alpha = 0\)</span>).</p>
-<p>Need to know <span class="math inline">\(\text{Cov}[y_t, y_{t+h}]\)</span> for arbitrary <span class="math inline">\(h\)</span>.</p>
+<p>Need to know <span class="math inline">\(\text{Cov}[y_t, y_{t-h}]\)</span> for arbitrary <span class="math inline">\(h\)</span>.</p>
 <p><span class="math display">\[
 \begin{align*}
 \text{Cov}[y_t, y_{t-h}] &amp;= \text{Cov}[\rho^h y_{t-h}, y_{t-h}] \\
@@ -481,11 +481,12 @@ Figure&nbsp;3: Determinitic vs.&nbsp;Stochastic AR(1)
 </section>
 <section id="alternatively.." class="slide level2">
 <h2>Alternatively..</h2>
-<p>An “easier approach” (often more numerically stable) is to <strong>whiten</strong> the series sample/compute likelihoods in sequence:</p>
+<p>An “easier approach” (often more numerically stable) is to <strong>whiten</strong> the series sample/compute likelihoods in sequence.</p>
+<p>Calculate whitened residuals <span class="math display">\[r_t = y_t - \left(\alpha + \rho * y_{t-1}\right).\]</span></p>
 <p><span class="math display">\[
 \begin{align*}
 y_0 &amp; \sim N\left(\frac{\alpha}{1 - \rho}, \frac{\sigma^2}{1 - \rho^2}\right) \\
-y_t &amp;\sim N(\rho y_{t-1} , \sigma^2)
+r_t &amp;\sim N(0, \sigma^2)
 \end{align*}
 \]</span></p>
 </section>
@@ -502,8 +503,8 @@ y_t &amp;\sim N(\rho y_{t-1} , \sigma^2)
 <span id="cb2-8"><a></a>        <span class="cf">if</span> i <span class="op">==</span> <span class="fl">1</span></span>
 <span id="cb2-9"><a></a>            ll <span class="op">+=</span> <span class="fu">logpdf</span>(<span class="fu">Normal</span>(α <span class="op">/</span> (<span class="fl">1</span> <span class="op">-</span> ρ), <span class="fu">sqrt</span>(σ<span class="op">^</span><span class="fl">2</span> <span class="op">/</span> (<span class="fl">1</span> <span class="op">-</span> ρ<span class="op">^</span><span class="fl">2</span>))), dat[i])</span>
 <span id="cb2-10"><a></a>        <span class="cf">else</span></span>
-<span id="cb2-11"><a></a>            r <span class="op">=</span> dat[i] <span class="op">-</span> (α <span class="op">-</span> ρ <span class="op">*</span> dat[i<span class="op">-</span><span class="fl">1</span>])</span>
-<span id="cb2-12"><a></a>            ll <span class="op">+=</span> <span class="fu">logpdf</span>(<span class="fu">Normal</span>(α <span class="op">+</span> ρ <span class="op">*</span> dat[i<span class="op">-</span><span class="fl">1</span>], σ), dat[i])</span>
+<span id="cb2-11"><a></a>            r <span class="op">=</span> dat[i] <span class="op">-</span> (α <span class="op">+</span> ρ <span class="op">*</span> dat[i<span class="op">-</span><span class="fl">1</span>])</span>
+<span id="cb2-12"><a></a>            ll <span class="op">+=</span> <span class="fu">logpdf</span>(<span class="fu">Normal</span>(<span class="fl">0</span>, σ), r)</span>
 <span id="cb2-13"><a></a>        <span class="cf">end</span></span>
 <span id="cb2-14"><a></a>    <span class="cf">end</span></span>
 <span id="cb2-15"><a></a>    <span class="cf">return</span> ll</span>

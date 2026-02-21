@@ -94,7 +94,7 @@ $$p(y_t) = f(y_1, \ldots, y_{t-1})$$
 
 Serial dependence captured by **autocorrelation**:
 
-$$\varsigma(i) = \rho(y_t, y_{t-i}) = \frac{\text{Cov}[y_t, y_{t+i}]}{\mathbb{V}[y_t]} $$
+$$\varsigma(i) = \rho(y_t, y_{t-i}) = \frac{\text{Cov}[y_t, y_{t-i}]}{\mathbb{V}[y_t]} $$
 
 :::
 ::: {.column width=45%}
@@ -268,7 +268,7 @@ p
 
 Assume stationarity and zero-mean process ($\alpha = 0$). 
 
-Need to know $\text{Cov}[y_t, y_{t+h}]$ for arbitrary $h$.
+Need to know $\text{Cov}[y_t, y_{t-h}]$ for arbitrary $h$.
 
 $$
 \begin{align*}
@@ -291,12 +291,14 @@ where $\mu = \frac{\alpha}{1 - \rho}$.
 
 ## Alternatively..
 
-An "easier approach" (often more numerically stable) is to **whiten** the series sample/compute likelihoods in sequence:
+An "easier approach" (often more numerically stable) is to **whiten** the series sample/compute likelihoods in sequence.
+
+Calculate whitened residuals $$r_t = y_t - \left(\alpha + \rho * y_{t-1}\right).$$
 
 $$
 \begin{align*}
 y_0 & \sim N\left(\frac{\alpha}{1 - \rho}, \frac{\sigma^2}{1 - \rho^2}\right) \\
-y_t &\sim N(\rho y_{t-1} , \sigma^2) 
+r_t &\sim N(0, \sigma^2) 
 \end{align*}
 $$
 
@@ -318,8 +320,8 @@ function ar1_loglik_whitened(θ, dat)
         if i == 1
             ll += logpdf(Normal(α / (1 - ρ), sqrt(σ^2 / (1 - ρ^2))), dat[i])
         else
-            r = dat[i] - (α - ρ * dat[i-1])
-            ll += logpdf(Normal(α + ρ * dat[i-1], σ), dat[i])
+            r = dat[i] - (α + ρ * dat[i-1])
+            ll += logpdf(Normal(0, σ), r)
         end
     end
     return ll
