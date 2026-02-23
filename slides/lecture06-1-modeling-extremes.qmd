@@ -87,7 +87,7 @@ default(
 
 ## Last Week: Time Series
 
-- Autocorrelation: $y_t$ not independent of $y_{t-k$}
+- Autocorrelation: $y_t$ not independent of $y_{t-k}$
 - Common for measurements made repeatedly over time
 - Use partial autocorrelation functions to diagnose lag $k$
 
@@ -260,13 +260,11 @@ $$
 F_{Y_n}(z) &= \mathbb{P}[Y_n \leq z] \\
 &= \mathbb{P}(X_1 \leq z, \ldots, X_n \leq z) \\
 &= \mathbb{P}(X_1 \leq z) \times \ldots \times \mathbb{P}(X_n \leq z) \\
-&= \mathbb{P}(X \leq z)^n = F_X^n(z)
+&= \mathbb{P}(X \leq z)^n = \left[F_X(z)\right]^n
 \end{align*}
 $$
 
 This means that errors in estimating $F_X$ become exponentially worse for $F_{Y_n}$.
-
-
 
 ## Sum-Stable Distributions
 
@@ -276,17 +274,18 @@ $$Y_1 = \sum_{i=1}^k X_i, \quad Y_2 = \sum_{i={k+1}}^{2k} X_i, \quad \ldots, \qu
 
 **Sum-Stability**: $Y \stackrel{d}{=} a_kX + b_k$ for some constants $a, b \geq 0$.
 
-**Example**: If $X \sim N(\mu, \sigma)$, $Y \sim N(k\mu, k\sigma)$ 
+**Example**: If $X \sim N(\mu, \sigma^2)$, $Y \sim N(k\mu, k\sigma^2)$ 
 
 ## Max Stability
 
 $$
 \begin{aligned}
 \max\{x_1, \ldots, &x_{2n}\}\\
-&= \max\{\max\{x_1, \ldots, x_n\}, \max\{x_{n+1}, \ldots, x_2n\} \}
+&= \max\{\max\{x_1, \ldots, x_n\}, \max\{x_{n+1}, \ldots, x_{2n}\} \}
 \end{aligned}
 $$
 
+::: {.fragment .fade-in}
 ```{julia}
 #| output: true
 #| fig-align: center
@@ -295,14 +294,19 @@ $$
 
 plot!(pbm, xlims=Dates.value.([DateTime("2015-01-01"), DateTime("2015-03-01")]), size=(1000, 425))
 ```
+:::
 
 ## Stability Postulate
 
-By analogy with sum stability, postulate that for a **max-stable process**,
+If $Z = \max\{X_1, \ldots, X_n\}$, then $F_{Z}(z) = \left[F_X(z)\right]^n$.
+
+By analogy with sum stability, postulate that for a **max-stable process**:
 
 $$F^n(z) = F(a_n z + b_n)$$ 
 
 for some constants $a_n, b_n \geq 0$.
+
+**Idea**: If possible, this rescaling ensures that as $n \to \infty$, $G^n$ doesn't collapse to zero.
 
 ## Extremal Types Theorem
 
@@ -351,10 +355,10 @@ plot!(size=(600, 450))
 :::
 ::::
 
-### Impact of Shape Parameter
+## Impact of Shape Parameter
 
 :::: {.columns}
-::: {.column width=40%}
+::: {.column width=50%}
 ```{julia}
 #| label: fig-gev-cdf
 #| output: true
@@ -369,14 +373,12 @@ c3 = 1 .- cdf.(GeneralizedExtremeValue(0, 1, -0.5), -2:0.1:6)
 p = plot(-2:0.1:6, c1, linewidth=3, color=:red, label=L"$\xi = 1/2$", lw=3, ylabel=L"$P(X > x)$", xlabel=L"$x$")
 plot!(-2:0.1:6, c2, linewidth=3, color=:green, label=L"$\xi = 0$", lw=3)
 plot!(-2:0.1:6, c3, linewidth=3, color=:blue, label=L"$\xi = -1/2$", lw=3)
-scatter!((-2, 0), color=:red, label=:false)
-scatter!((2, 0), color=:blue, label=:false)
 ylabel!("Density")
 xlabel!(L"$x$")
 plot!(size=(600, 450))
 ```
 :::
-::: {.column width=60%}
+::: {.column width=50%}
 
 ```{julia}
 #| label: fig-gev-survival
@@ -388,12 +390,10 @@ plot!(size=(600, 450))
 
 c1 = 1 .- cdf.(GeneralizedExtremeValue(0, 1, 0.5), -2:0.1:6)
 c2 = 1 .- cdf.(GeneralizedExtremeValue(0, 1, 0), -2:0.1:6)
-c3 = 1 .- cdf.(GeneralizedExtremeValue(0, 1, -0.5), -2:0.1:1.9)
+c3 = 1 .- cdf.(GeneralizedExtremeValue(0, 1, -0.5), -2:0.01:1.89)
 p = plot(-2:0.1:6, c1, linewidth=3, color=:red, label=L"$\xi = 1/2$", lw=3, ylabel=L"$P(X > x)$", xlabel=L"$x$", yaxis=:log)
 plot!(-2:0.1:6, c2, linewidth=3, color=:green, label=L"$\xi = 0$", lw=3)
-plot!(-2:0.1:1.9, c3, linewidth=3, color=:blue, label=L"$\xi = -1/2$", lw=3)
-scatter!((-2, 0), color=:red, label=:false)
-scatter!((2, 0), color=:blue, label=:false)
+plot!(-2:0.01:1.89, c3, linewidth=3, color=:blue, label=L"$\xi = -1/2$", lw=3)
 ylabel!("Density")
 xlabel!(L"$x$")
 plot!(size=(600, 450))
@@ -435,7 +435,7 @@ Return levels are associated with the analogous return period.
 #| code-overflow: wrap
 #| fig-align: center
 #| label: fig-surge-data
-#| fig-cap: Annual maxima surge data from the San Francisco, CA tide gauge.
+#| fig-cap: Annual surge data from the San Francisco, CA tide gauge.
 
 # load SF tide gauge data
 # read in data and get annual maxima
@@ -456,6 +456,76 @@ end
 
 d_sf = load_data("data/surge/h551.csv")
 
+## plot data
+p1 = plot(
+    d_sf.datetime[year.(d_sf.datetime) .== 2000],
+    d_sf.gauge[year.(d_sf.datetime) .== 2000] / 1000;
+    xlabel="Date",
+    ylabel="Tide Level (m)",
+    label=false,
+    marker=:circle,
+    markersize=2
+)
+
+```
+
+## Annual Maxima of Gauge Data
+
+```{julia}
+#| output: true
+#| echo: true
+#| code-fold: true
+#| code-overflow: wrap
+#| fig-align: center
+#| label: fig-surge-max
+#| fig-cap: Annual maxima surge data from the San Francisco, CA tide gauge.
+
+# group data by year and compute the annual maxima
+dat_ma = dropmissing(d_sf) # drop missing data
+dat_annmax = combine(dat_ma -> dat_ma[argmax(dat_ma.gauge), :], groupby(transform(dat_ma, :datetime => x->year.(x)), :datetime_function))
+delete!(dat_annmax, nrow(dat_annmax)) # delete 2023; haven't seen much of that year yet
+rename!(dat_annmax, :datetime_function => :Year)
+select!(dat_annmax, [:Year, :gauge])
+dat_annmax.gauge = dat_annmax.gauge / 1000 # convert to m
+
+# make plots
+p1 = plot(
+    dat_annmax.Year,
+    dat_annmax.gauge;
+    xlabel="Year",
+    ylabel="Annual Max Tide Level (m)",
+    label=false,
+    marker=:circle,
+    markersize=5
+)
+p2 = histogram(
+    dat_annmax.gauge,
+    normalize=:pdf,
+    orientation=:horizontal,
+    label=:false,
+    xlabel="Count",
+    ylabel="",
+    yticks=[]
+)
+
+l = @layout [a{0.7w} b{0.3w}]
+plot(p1, p2; layout=l, link=:y, ylims=(3.7, 4.6), bottom_margin=5mm, left_margin=5mm)
+plot!(size=(1000, 450))
+
+```
+
+
+## Annual Maxima of Detrended Data
+
+```{julia}
+#| output: true
+#| echo: true
+#| code-fold: true
+#| code-overflow: wrap
+#| fig-align: center
+#| label: fig-surge-max-detrend
+#| fig-cap: Annual maximasurge data from the San Francisco, CA tide gauge.
+
 # detrend the data to remove the effects of sea-level rise and seasonal dynamics
 ma_length = 366
 ma_offset = Int(floor(ma_length/2))
@@ -475,7 +545,7 @@ p1 = plot(
     dat_annmax.Year,
     dat_annmax.residual;
     xlabel="Year",
-    ylabel="Annual Max Tide Level (m)",
+    ylabel="Annual Max Tide Over MSL (m)",
     label=false,
     marker=:circle,
     markersize=5
@@ -494,24 +564,11 @@ l = @layout [a{0.7w} b{0.3w}]
 plot(p1, p2; layout=l, link=:y, ylims=(1, 1.7), bottom_margin=5mm, left_margin=5mm)
 plot!(size=(1000, 450))
 
-# find GEV fit
-# for most distributions we could use Distributions.fit(), but this isn't implemented in Distributions.jl for GEV
-init_θ = [1.0, 1.0, 1.0]
-gev_lik(θ) = -sum(logpdf(GeneralizedExtremeValue(θ[1], θ[2], θ[3]), dat_annmax.residual))
-θ_mle = Optim.optimize(gev_lik, init_θ).minimizer
-
 ```
 
 ## GEV Parameters
 
 :::: {.columns}
-::: {.column width=30%}
-
-* $\mu =  `{julia} round(θ_mle[1]; digits=2)`$
-* $\sigma = `{julia} round(θ_mle[2]; digits=2)`$
-* $\xi =  `{julia} round(θ_mle[3]; digits=2)`$
-
-:::
 ::: {.column width=70%}
 ```{julia}
 #| label: fig-gev-tide-show
@@ -520,6 +577,12 @@ gev_lik(θ) = -sum(logpdf(GeneralizedExtremeValue(θ[1], θ[2], θ[3]), dat_annm
 #| code-fold: true
 #| fig-align: center
 #| fig-cap: GEV fit to annual maxima of San Francisco Tide Gauge Data
+
+# find GEV fit
+# for most distributions we could use Distributions.fit(), but this isn't implemented in Distributions.jl for GEV
+init_θ = [1.0, 1.0, 1.0]
+gev_lik(θ) = -sum(logpdf(GeneralizedExtremeValue(θ[1], θ[2], θ[3]), dat_annmax.residual))
+θ_mle = Optim.optimize(gev_lik, init_θ).minimizer
 
 p = histogram(
     dat_annmax.residual,
@@ -538,6 +601,14 @@ plot!(size=(800, 500))
 ```
 
 :::
+::: {.column width=30%}
+
+* $\mu =$  `{julia} round(θ_mle[1]; digits=2)`
+* $\sigma =$ `{julia} round(θ_mle[2]; digits=2)`
+* $\xi =$ `{julia} round(θ_mle[3]; digits=2)`
+
+:::
+
 ::::
 
 ## GEV Return Levels
@@ -669,45 +740,27 @@ Source: @Zarekarizi2020-ky
 - Large block sizes: fewer data points, greater estimation variance
 - One year is common for practical reasons, but can go finer with sufficient data so long as block maxima can be treated as independent.
 
-# Nonstationary Block Maxima
 
-## Nonstationary GEVs
+# Key Points And Upcoming Schedule
 
-Suppose block maxima can change with the block (*e.g.* climate change).
+## Key Points
 
-$$Y_i \sim GEV(\mu(x_i), \sigma(x_i), \xi(x_i))$$
-
-Common to use generalized linear framework, *e.g.*
-
-$$Y_i \sim GEV(\mu_0 + \mu_1 x_i, \sigma_0 + \sigma_1 x_i, \xi_0 + \xi_1 x_i)$$
-
-## Be Careful with Nonstationary GEVs
-
-- GEV parameters are already subject to large uncertainties; nonstationarity makes this worse.
-- **Be particularly careful with non-stationary $\xi$ (shape).**
-- Most common approach: only treat $\mu$ and/or $\sigma$ as non-stationary, $$Y_i \sim GEV(\mu_0 + \mu_1 x_i, \sigma_0 + \sigma_1 x_i, \xi)$$
-
-## Nonstationary Return Levels
-
-No non-conditional return periods since distribution depends on predictors $x$.
-
-First specify a covariate value $x$, then can calculate return levels conditional on that value.
-
-For example: what are 100-year return levels of temperatures in 2020, 2050, and 2100?
-
-## Example: Tide Gauge Data
-
-
-# Upcoming Schedule
+- Two approaches to modeling extremes: **block maxima** and **peaks over thresholds**
+- Block maxima are modeled by **Generalized Extreme Value (GEV) distributions**
+- Three types of GEVs depending on shape $\xi$: influences heaviness of taills (extreme eztremes)
+- Need to detrend data to ensure distribution over time is the same.
+- Be careful when choosing block sizes.
 
 ## Upcoming Schedule
 
-**Monday**: Peaks Over Thresholds
+**Wednesday**: Peaks Over Thresholds
 
-**Wednesday**: Missing and Censored Data
+**Friday**: Nonstationary Extremes
 
 ## Assessments
 
-**Friday**: HW4 Due
+**Friday**: Project Proposal Due
+
+**3/06**: HW3 Due
 
 ## References 
