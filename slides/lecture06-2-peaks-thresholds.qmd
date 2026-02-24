@@ -120,22 +120,6 @@ plot!(size=(600, 450))
 :::
 ::::
 
-##  Return Levels
-
-**Return Levels** are a central (if poorly named) concept in risk analysis.
-
-The **$T$-year return level** is the value expected to be observed **on average** once every $T$ years.
-
-From a GEV fit to annual maxima: $T$-year return level is the $1-1/T$ quantile.
-
-## Return Periods
-
-The **return period** of an extreme value is the inverse of the exceedance probability.
-
-**Example**: The 100-year return period has an exceedance probability of 1%, *e.g.* the 0.99 quantile.
-
-Return levels are associated with the analogous return period.
-
 # Peaks Over Thresholds
 
 ## Drawbacks of Block Maxima
@@ -554,14 +538,12 @@ $$\text{RL}_m = \begin{cases}u + \frac{\sigma}{\xi} \left((m(\lambda_0 + \lambda
 
 ## Upcoming Schedule
 
-**Wednesday**: Missing Data and E-M Algorithm
+**Friday**: Return Periods and Non-Stationary Extremes
 
-**Monday**: Mixture Models and Model-Based Clustering (maybe)
-
-**Next Wednesday (4/23)**: No Class
+**Next Week**: Model Evaluation and Comparison
 
 ## Assessments
 
-**HW5** released, due 5/2.
+**Project Proposal** due Friday (2/27)
 
 ## References 

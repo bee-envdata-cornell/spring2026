@@ -1,0 +1,530 @@
+---
+title: "Homework 2 Solutions"
+subtitle: "BEE 4850/5850"
+format:
+    html:        
+        warning: false
+        error: true
+        fig-format: svg
+    pdf:
+        warning: false
+        error: true
+        keep-tex: true
+        fig-format: svg    
+        include-in-header: 
+            text: |
+                \usepackage{fvextra}
+                \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+        include-before-body:
+            text: |
+                \RecustomVerbatimEnvironment{verbatim}{Verbatim}{
+                showspaces = false,
+                showtabs = false,
+                breaksymbolleft={},
+                breaklines
+                % Note: setting commandchars=\\\{\} here will cause an error 
+                }
+engine: julia
+julia:
+    exeflags: ["+1.11.5"]
+format-links: [pdf]
+freeze: false
+---
+
+::: {.content-visible when-format="ipynb"}
+**Name**:
+
+**ID**:
+:::
+
+::: {.callout-important icon=false}
+### Due Date
+
+Friday, 2/20/26, 9:00pm
+:::
+
+::: {.content-visible unless-format="ipynb"}
+:::{.callout-tip}
+
+To do this assignment in Julia, you can find a Jupyter notebook with an appropriate environment in [the homework's Github repository]({{< var github_org.repo >}}/hw02). Otherwise, you will be responsible for setting up an appropriate package environment in the language of your choosing. Make sure to include your name and NetID on your solution.
+:::
+:::
+
+
+::: {.cell .markdown}
+### Load Environment
+
+The following code loads the environment and makes sure all needed packages are installed. This should be at the start of most Julia scripts.
+
+:::
+
+```{julia}
+#| output: false
+
+import Pkg
+Pkg.activate(@__DIR__)
+Pkg.instantiate()
+```
+
+::: {.cell .markdown}
+The following packages are included in the environment (to help you find other similar packages in other languages). The code below loads these packages for use in the subsequent notebook (the desired functionality for each package is commented next to the package).
+
+:::
+
+```{julia}
+#| output: false
+
+using Random # random number generation and seed-setting
+using DataFrames # tabular data structure
+using CSV # reads/writes .csv files
+using Distributions # interface to work with probability distributions
+using Plots # plotting library
+using StatsBase # statistical quantities like mean, median, etc
+using StatsPlots # some additional statistical plotting tools
+using Optim # optimization tools
+using LaTeXStrings # latex formatting for plot strings
+```
+
+## Problems
+
+
+### Problem 1 
+
+Let's revisit the `chicago` dataset from HW1 (found in `data/chicago.csv`). We will look at the relationship of the potential predictor variables `pm25median` (the median density anomaly of smaller pollutant particles, in particles/m$^3$), `o3median` (the median concentration anomaly of O$_3$, in ppb), `so2median` (the median concentration anomaly of SO$_2$, in ppb), and `tmpd` (mean daily temperature, in degrees Fahrenheit) with the variable we would like to predict, `death` (the number of non-accidental deaths on that day).
+
+#### Problem 1.1
+
+As always, first, load the data:
+
+```{julia}
+chicago_dat = CSV.read("data/chicago.csv", DataFrame) # load data into DataFrame
+```
+
+Now we make the scatterplots. I'll make these into a single plot with different panels, but making these as separate plots is also fine. Putting these all on a single plot with different symbols might be a bit dense (and you have to worry about scales for the predictors).
+
+```{julia}
+#| label: fig-chicago-dat
+#| fig-cap: Scatterplots of bivariate relationships between non-accidental daily deaths in Chicago and environmental predictors.
+
+p1 = @df chicago_dat scatter(:pm25median, :death, title="PM 2.5 Daily Median Anomaly", ylabel="Non-Accidental Daily Deaths", xlabel=L"particles/m$^3$", markersize=3, titlefontsize=8, guidefontsize=7, tickfontsize=5, legend=false) # <1>
+p2 = @df chicago_dat scatter(:o3median, :death, title=L"O$_3$ Daily Median Anomaly", ylabel="Non-Accidental Daily Deaths", xlabel="ppb", markersize=3, titlefontsize=8, guidefontsize=7, tickfontsize=5, legend=false) # <1>
+p3 = @df chicago_dat scatter(:so2median, :death, title=L"SO$_2$ Daily Median Anomaly", ylabel="Non-Accidental Daily Deaths", xlabel="ppb", markersize=3, titlefontsize=8, guidefontsize=7, tickfontsize=5, legend=false) # <1>
+p4 = @df chicago_dat scatter(:tmpd, :death, title="Daily Mean Temperature", ylabel="Non-Accidental Daily Deaths", xlabel="°F", markersize=3, titlefontsize=8, guidefontsize=7, tickfontsize=5, legend=false) # <1>
+plot(p1, p2, p3, p4, layout=(2, 2)) # <2>
+```
+1. This uses the `DataFrame` plotting macro from `StatsPlots.jl` which reduces having to write `chicago_dat` for every variable.
+2. This arranges all of the plots as panels of a single plot with the specified layout.
+
+We can see from @fig-chicago-dat that there are some large outliers which might be limiting our ability to see if there is an overall linear trend between any of these variables. Let's change the y-axis limits to let us see the bulk of the data more clearly.
+
+```{julia}
+#| label: fig-chicago-rescale
+#| fig-cap: Rescaled scatterplots of bivariate relationships between non-accidental daily deaths in Chicago and environmental predictors.
+
+yaxis!(p1, (50, 200))
+yaxis!(p2, (50, 200))
+yaxis!(p3, (50, 200))
+yaxis!(p4, (50, 200))
+plot(p1, p2, p3, p4, layout=(2, 2))
+```
+
+It does not look like from either @fig-chicago-dat or @fig-chicago-rescale that there is much of a linear relationship between the air pollution predictors and the number of deaths. However, temperature appears like a reasonable linear predictor, and visually it could be that the data has roughly similar variance until we get to the very large outliers at high temperatures.
+
+
+#### Problem 1.2
+
+Letting $y$ be the deaths and $x$ the mean temperature, this linear model is $$y_i = \beta_0 + \beta_1 x_i + \varepsilon_i, \quad \varepsilon_i \sim N(0, \sigma^2).$$ As a result, the likelihood is based on the probability model for the errors, $$\varepsilon_i = y_i - \left(\beta_0 - \beta_1 x_i\right) \sim N(0, \sigma^2).$$ Equivalently, we could set this up as $$y_i \sim N(\beta_0 + \beta_1 x_i, \sigma^2);$$ both will result in the same result but the code might look a little different.
+
+Now, let's code the log-likelihood function and optimize it.
+
+```{julia}
+function gauss_loglik(p, y, x) # <1>
+    b0, b1, s = p # <1>
+    pred = b0 .+ b1 * x # calculate predicted y
+    ll = sum(logpdf.(Normal.(pred, s), y)) # compute log likelihood
+    return ll
+end
+
+lb = [-1000.0, -100.0, 0.1] # <2>
+ub = [1000.0, 100.0, 50.0]
+p0 = [0.0, 0.0, 10.0]
+optim_out = Optim.optimize(p -> -gauss_loglik(p, chicago_dat.death, chicago_dat.tmpd), lb, ub, p0)
+p_mle = round.(optim_out.minimizer; digits=1) # round to a reasonable number of sig figs
+```
+1. `p` is a vector of the model parameters `b0`, `b1`, `s`; often optimization packages want to optimize over a vector so here I unpack this vector within the function. This pattern also keeps the function definition a bit cleaner, particularly as the number of parameters increases. However, you can do the opposite, writing your function with individual parameters and "unpacking" into the optimization function.
+2. The lower bound is set to 0.1 as the standard deviation cannot be 0 or negative.
+
+How do we interpret the coefficients? 
+
+* $\hat{\beta}_0 = 130$ deaths suggests that, at a temperature of 0$^\circ$ F, we would expect 130 non-accidental deaths. 
+* $\hat{\beta}_1 = -0.3$ suggests that, on two days with a difference in mean temperature of 1$^\circ$ F, we would expect to see 0.3 fewer deaths on the warmer day. Note that this **does not mean** an increase of 1$^\circ$ F "causes" this reduction.
+
+
+#### Problem 1.3
+
+
+Add your fitted regression line and a 90% prediction interval to your scatterplot of `tmpd` and `death`. Using this and any other diagnostics, do you agree with the Gaussian-error linear model assumption? Why or why not?
+```{julia}
+#| label: fig-chicago-tmpd
+#| fig-cap: Fitted relationship between mean temperature and non-accidental deaths in Chicago. The shaded region is the 90% prediction interval from the linear regression model.
+
+# get regression line
+b0, b1, s = p_mle
+x_pred = -20:100
+y_pred = b0 .+ b1 * x_pred
+# simulate conditional distribution to plot prediction interval
+err = rand(Normal(0, s), 10_000) # <1>
+err_quantile = quantile(err, [0.05, 0.95]) # <1>
+
+# make plot
+p = @df chicago_dat scatter(:tmpd, :death, title="Daily Mean Temperature", xlabel="Non-Accidental Daily Deaths", ylabel="°F", alpha=0.4, label="Observations") # reduce alpha to make rest of plot easier to see
+plot!(p, x_pred, y_pred, ribbon=(abs(err_quantile[1]), err_quantile[2]), fillalpha=0.3, color=:red, linewidth=2, label="Regression") # <2>
+```
+1. Since the error distribution is the same around the regression estimate, regardless of $x$, we can just simulate from a single distribution and add the quantiles back to the regression line to get the prediction interval. For some other cases (such as heteroskedastic errors, or other distributions), we might have to simulate at every prediction point.
+2. The `ribbon` keyword in `Plots.plot` can either take an array of values or a tuple of (positive) values if the same distance is to be used from the main plotted line. 
+
+The general trend in @fig-chicago-tmpd looks reasonable. We can calculate the surprise index by finding the fraction of observations which are outside of the 90% prediction interval.
+
+```{julia}
+resids = chicago_dat.death - (b0 .+ b1 * chicago_dat.tmpd)
+si = sum((resids .< err_quantile[1]) + (resids .> err_quantile[2])) / nrow(chicago_dat)  # <1>
+round(si; digits=2)
+```
+1. The `sum` term here will add together two vectors, one of which is 1 when the residuals are below the lower bound of the interval, and the second which is 1 when they're above the upper bound.
+
+The surprise index is about 8%, which is not ideal, but also isn't so far from the expected 10% to be indicative of a major problem. Let's look at the distribution of residuals and a Q-Q plot to see if the residuals appear normal.
+
+```{julia}
+#| label: fig-chicago-diagnostic
+#| fig-cap: Diagnostics to check Gaussian assumptions for the residuals.
+
+resid_hist = histogram(resids, xlabel="Residuals", ylabel="Count", legend=false)
+resid_qq = qqplot(resids, Normal(), xlabel="Theoretical Quantiles", ylabel="Empirical Quantiles")
+p = plot(resid_hist, resid_qq, layout=(2, 1))
+```
+
+@fig-chicago-diagnostic suggests that while the bulk of the residuals appear to follow a Gaussian distribution, there is a long upper tail which throws off the Q-Q plot. From @fig-chicago-tmpd, these large outliers occur at very high temperatures; the simple regression model cannot account for this change in trend, which could be due to extreme heat exposure or some other factor which is correlated with high temperatures. We might trust this model for temperatures below 80$^\circ$ F, or we would want to rethink the model completely with a better representation of factors which contribute to deaths.
+
+### Problem 2 (6 points)
+
+#### Problem 2.1
+
+Denoting the occurrence of freezing in year $i$ as $y_i$, the probability of this occurring as $p_i$, and the DJF temperature as $T$, the logistic regression model can be formulated as:
+
+$$\begin{aligned}
+y_i &\sim \text{Binomial}(p_i) \\
+\text{logit}(p_i) &= \beta_0 + \beta_1 T.
+\end{aligned}$$
+
+Let's load the data and calculate the winter temperatures. I decided to write a function which would calculate the DJF mean for a given base year, which would allow me to loop over all of the years and apply the function; there are many other possible approaches one could take.
+
+```{julia}
+temp_dat = CSV.read("data/HadCRUT5.1Analysis_gl.txt", delim=" ", ignorerepeated=true, header=false, silencewarnings=true, DataFrame) # <1>
+temp_dat = temp_dat[1:2:nrow(temp_dat), :] # only keep even rows
+
+function djf_mean(temps, year)
+    idx = findfirst(temps[:, 1] .== year) # <2>
+    return mean([temps[idx - 1, 13], temps[idx, 2], temps[idx, 3]]) # <3>
+end
+
+djf_means = [djf_mean(temp_dat, yr) for yr in 1851:2025] # <4>
+```
+1. We need `silencewarnings=true` because `CSV.read` will complain about the even rows not having the same number of columns.
+2. `findfirst` (or the equivalent) is the fastest solution since it will terminate after finding any matches, but if you used a different approach which involved searching over the entire `DataFrame`, it wouldn't matter too much in this case since the data is small.
+3. `temps[idx - 1, 13]` is the previous December since the first column is the year, and similarly for that year's January and February.
+4. This is a straightforward use of a comprehension to apply a function in a loop. Comprehensions are quite memory efficient. There are other strategies, such as mapping the function, that one could use.
+
+Now we want to create a vector of `1`s and `0`s for the freezing occurrences and non-occurrences (as a reminder, 1796 and 1816 are outside of the temperature data, so we will not include those). We'll put all of the data together in a `DataFrame` to make it easy to assign the relevant `1`s.
+
+```{julia}
+freezes = [1856, 1875, 1884, 1904, 1912, 1934, 1961, 1979, 2015]
+dat = DataFrame(year=1851:2025, temp=djf_means, freeze=zeros(length(djf_means)))
+for yr in freezes
+    idx = findfirst(dat.year .== yr)
+    dat[idx, :freeze] = 1
+end
+```
+
+Now let's maximize the likelihood of the model. We need to be able to compute the inverse logit of the linear part of the model, which is given by $$\text{logit}^{-1}(x) = \frac{\exp(x)}{\exp(x) + 1}.$$
+
+```{julia}
+logit(p) = log(p / (1 - p))
+invlogit(x) = exp(x) / (exp(x) + 1)
+function freeze_loglik(params, dat)
+    b0, b1 = params
+    p = invlogit.(b0 .+ b1 * dat.temp)
+    ll = sum(logpdf.(Bernoulli.(p), dat.freeze))
+    return ll
+end
+
+lb = [-20.0, -20.0]
+ub = [20.0, 20.0]
+p0 = [0.25, 0.25]
+optim_out = Optim.optimize(v -> -freeze_loglik(v, dat), lb, ub, p0)
+v_mle = round.(optim_out.minimizer; digits=1)
+```
+
+We can interpret these coefficients as follows:
+
+* $\hat{\beta}_0 = -3$ gives us the probability of freezing when the temperature anomaly is the same as the reference period mean, namely $\text{logit}^{-1}(-3) = 4.7\%$. 
+* $\hat{\beta}_1 = -0.7$ gives the reduction in freezing log-odds associated with a temperature anomaly increase of $1^\circ$ C. It's not entirely clear what this means, but one important feature is that this is negative, so that increased temperatures decrease the probability of freezing, which is what we would expect.
+
+#### Problem 2.2
+
+Let's plot how the probability of freezing changes with respect to temperature and time.
+
+```{julia}
+#| label: fig-freezing-temps
+#| fig-cap: Modeled probability of Cayuga Lake freezing versus the DJF temperature anomaly and over time.
+
+temp_pred = -1:0.1:2
+p1 = plot(-1:0.1:2, invlogit.(v_mle[1] .+ v_mle[2] * temp_pred), xlabel="DJF Temperature Anomaly (°C)", ylabel="Probability Cayuga Lake Freezes", legend=false)
+p2 = plot(dat.year, invlogit.(v_mle[1] .+ v_mle[2] * dat.temp), xlabel="Year", ylabel="Probability Cayuga Lake Freezes")
+plot(p1, p2, layout=(1, 2), legend=false)
+```
+
+We can see from @fig-freezing-temps that the probability has declined precipitously over time as the temperature anomaly has increased, from around a 6-8% probability between 1851 and 1925 down to around 2% today.
+
+How can we determine if this model is reasonable? Since the probabilities of occurrence are so low, we can't try to look at a raw mis-classification rate. However, we can try to assess how well calibrated the model is, *e.g.*, does it generally predict the right number of freezes. We have observed 9 years in which Cayuga Lake has frozen (that align with our temperature data); let's see if the expected number of freezes is similar to this by adding up the modeled probabilities.
+
+```{julia}
+p_fit = invlogit.(v_mle[1] .+ v_mle[2] * dat.temp)
+sum(p_fit)
+```
+
+This is almost exactly right, though it is a bit generous to the model because it's an in-sample estimate. We can also look at how well the model captures probabilities of freezing at different ranges of predicted probabilities. Let's look at what happens between probabilities over 5% and under 5%.
+
+```{julia}
+sum(p_fit[p_fit .> 0.05])
+```
+
+```{julia}
+sum(dat.freeze[p_fit .> 0.05])
+```
+
+That's off by a little, but not much.
+
+Similarly, for probabilities below 5%:
+
+```{julia}
+sum(p_fit[p_fit .< 0.05])
+```
+
+```{julia}
+sum(dat.freeze[p_fit .< 0.05])
+```
+
+
+Try out other ranges to see where the model performs well and where it doesn't: if you see ranges where the model substantially over or under predicts, that's a signal of mis-specification.
+
+Beyond this, diagnosing logistic regression *post facto* can be difficult because it doesn't make distributional assumptions; you need to convince yourself that the log-odds ought to have a linear relationship with the predictor(s), which can be difficult.
+
+
+#### Problem 2.3
+
+To find the temperature required for less than a 1% probability of Cayuga Lake freezing, we need to find $\text{logit}(0.01)$ and solve for the temperature based on the logistic regression.
+
+```{julia}
+freeze_thresh_prob = logit(0.01)
+freeze_thresh_temp = (freeze_thresh_prob - v_mle[1]) / v_mle[2]
+```
+
+So if the winter temperature anomaly rises above 2.2$^\circ$ C, we would expect the probability of Cayuga Lake freezing to drop below 1%.
+
+### Problem 3 (6 points)
+
+The file `data/salamanders.csv` contains counts of salamanders from 47 different plots of the same area in California, as well as the percentage of ground cover and age of the forest in the plot. You would like to see if you can use these data to predict the salamander counts with a Poisson regression.
+
+#### Problem 3.1
+
+Loading the data (note the delimiter is now a semi-colon):
+
+```{julia}
+dat = CSV.read(joinpath("data", "salamanders.csv"), DataFrame, delim=";")
+```
+
+The first model, using `PCTCOVER` as a predictor, can be specified as the following (using the standard log link function for Poisson regression):
+
+$$
+\begin{aligned}
+S &\sim \text{Poisson}(\lambda) \\
+\log(\lambda) &= a PC + b
+\end{aligned}
+$$
+
+As noted in the problem, we will need to standardize the `PCTCOVER` variable, as its range is much larger than the salamander counts.
+
+```{julia}
+function salamander_pcover(p, counts, pctcover) 
+    a, b = p
+    λ = exp.(a * pctcover .+ b)
+    ll = sum(logpdf.(Poisson.(λ), counts))
+    return ll
+end
+
+lb = [-10.0, -50.0]
+ub = [10.0, 50.0]
+p0 = [0.0, 0.0]
+
+# function to make this more convenient
+stdz(x) = (x .- mean(x)) / std(x) # <1>
+
+result = optimize(p -> -salamander_pcover(p, dat.SALAMAN, stdz(dat.PCTCOVER)), lb, ub, p0)
+pcover_mle = round.(result.minimizer; digits=1)
+```
+
+#### Problem 3.2 
+
+To translate these estimates to expected values and uncertainty intervals, we now simulate observations of salamanders based on this model.
+
+```{julia}
+#| label: fig-salamander-sim
+#| fig-cap: Predictive interval of salamander counts using the percent cover model.
+
+function sim_salamanders_pcover(params, pctcover, n)
+    a, b = params
+    λ = exp.(a * pctcover .+ b)
+    sal_pred = zeros(n, length(pctcover))
+    for i = 1:length(pctcover)
+        sal_pred[:, i] = rand(Poisson(λ[i]), n)
+    end
+    return sal_pred
+end
+
+sim_pcover = sim_salamanders_pcover(pcover_mle, -2:0.01:2, 10_000) # <1>
+
+pcover_q = mapslices(col -> quantile(col, [0.05, 0.5, 0.95]), sim_pcover; dims=1) 
+plot(-2:0.01:2, pcover_q[2, :], linewidth=3, ribbon=(pcover_q[2, :] - pcover_q[1, :], pcover_q[3, :] - pcover_q[2, :]), fillalpha=0.5, xlabel="Standardized Percent Ground Cover", ylabel="Salamander Count", label="Simulations") # <1>
+scatter!(stdz(dat.PCTCOVER), dat.SALAMAN, label="Observations")
+```
+1. Note that our predictors are along the **standardized** predictor range, not the *raw* `PCTCOVER` range, since we standardized the inputs when we fit the regression.
+
+The model seems to do ok for lower levels of percent cover, but does not account for the level of dispersion at higher levels; this might suggest that a Poisson model is not ideal, but we could try a negative binomial regression instead.
+
+#### Problem 3.3
+
+Let's see if we can improve the model using the `FORESTAGE` predictor. We'll try to add this in as a linear predictor.
+
+```{julia}
+function salamander_fage(p, counts, pctcover, forestage) 
+    a1, a2, b = p
+    λ = exp.(a1 * pctcover + a2 * forestage .+ b)
+    ll = sum(logpdf.(Poisson.(λ), counts))
+    return ll
+end
+
+lb = [-10.0, -10.0, -50.0]
+ub = [10.0, 10.0, 50.0]
+p0 = [0.0, 0.0, 0.0]
+
+result = optimize(p -> -salamander_fage(p, dat.SALAMAN, stdz(dat.PCTCOVER), stdz(dat.FORESTAGE)), lb, ub, p0)
+fage_mle = round.(result.minimizer; digits=1)
+```
+
+We can see that the `FORESTAGE` predictor variable is effectively zero, which means it does not add much to the prediction. Why is this? The correlation between `PCTCOVER` and `FORESTAGE` is quite high: `{julia} round(cor(dat.PCTCOVER, dat.FORESTAGE); digits=2)`, which means most of the information in `FORESTAGE` has already been included in the `PCTCOVER` model. It makes sense that `PCTCOVER` is valuable: salamanders are likely to seek areas with high levels of ground cover, while the age of the forest is only meaningful to the extent that older forests may have more ground cover (hence the high correlation).
+
+
+### Problem 4 (7 points)
+
+
+#### Problem 4.1 
+
+Loading the data (once again, the file is delimited by semi-colons):
+
+```{julia}
+dat = CSV.read(joinpath("data", "Hurricanes.csv"), DataFrame, delim=";")
+```
+
+Our interpretation of the hypothesis results in the following model specification:
+
+$$
+\begin{aligned}
+D &\sim \text{Poisson}(\lambda) \\
+\log(\lambda) &= a_1 FN + a_2 MP + b
+\end{aligned}
+$$
+
+We need to standardized the pressure predictor.
+
+```{julia}
+function hurricane_pressure(p, counts, fem, pressure) 
+    a1, a2, b = p
+    m = exp.(a1 * fem + a2 * pressure .+ b)
+    ll = sum(logpdf.(Poisson.(m), counts))
+    return ll
+end
+
+lb = [-10.0, -10.0, -50.0]
+ub = [10.0, 10.0, 50.0]
+p0 = [5.0, 5.0, 0.0]
+
+# function to make this more convenient
+stdz(x) = (x .- mean(x)) / std(x) # <1>
+
+result = optimize(p -> -hurricane_pressure(p, dat.deaths, dat.female, stdz(dat.min_pressure)), lb, ub, p0)
+p_pressure = result.minimizer
+```
+
+#### Problem 4.2
+
+```{julia}
+#| label: fig-hurricane-sim
+#| fig-cap: Simulation of hurricane deaths based on femininity of name and minimum hurricane pressure. Included are projections assuming the most masculine and feminine names in the dataset.
+
+function sim_hurricanes(p, fem, damage,  n)
+    a1, a2, b = p
+    λ = exp.(a1 * fem + a2 * damage .+ b)
+    hur_pred = zeros(n, length(fem))
+    for i = 1:length(fem)
+        hur_pred[:, i] = rand(Poisson(λ[i]), n)
+    end
+    return hur_pred
+end
+
+press_range = -3:0.01:2 # these are normalized pressures
+sim_m = sim_hurricanes(p_pressure, repeat([-1], length(press_range)), press_range, 10_000) # <1>
+sim_f = sim_hurricanes(p_pressure, repeat([1], length(press_range)), press_range, 10_000) # <1>
+
+simm_q = mapslices(col -> quantile(col, [0.05, 0.5, 0.95]), sim_m; dims=1)
+simf_q = mapslices(col -> quantile(col, [0.05, 0.5, 0.95]), sim_f; dims=1)
+
+std_pressure = stdz(dat.min_pressure)
+plot(-3:0.01:2, simm_q[2, :], linewidth=3, ribbon=(simm_q[2, :] - simm_q[1, :], simm_q[3, :] - simm_q[2, :]), alpha=0.5, label="Masculine Storms (Simulation)", color=:blue, xlabel="Standardized Minimum Pressure", ylabel="Deaths")
+plot!(-3:0.01:2, simf_q[2, :], linewidth=3, ribbon=(simf_q[2, :] - simf_q[1, :], simf_q[3, :] - simf_q[2, :]), alpha=0.5, label="Feminine Storms (Simulation)", color=:red)
+scatter!(std_pressure[dat.female .== 0.0], dat.deaths[dat.female .== 0.0], color=:blue, label="Masculine Storms (Observations)")
+scatter!(std_pressure[dat.female .== 1.0], dat.deaths[dat.female .== 1.0], color=:red, label="Feminine Storms (Observations)")
+```
+1. Here we want to fix one of the predictors (`female`) to generate the relevant conditional simulations. The `repeat()` function lets us repeat the same values for the female predictor.
+
+The model fails to predict the storms with the most and least deaths for both genders; this isn't entirely shocking since most of the data consists of storms with low deaths, and a Poisson model has equal variance to its mean. We would need a model with more dispersion (such as a negative binomial, which was used in the original paper) to potentially predict these. However, the model does clearly predict an effect from the gender of the storm name, as we can see in @fig-hurricane-sim.
+
+#### Problem 4.3
+
+The effect size shown in @fig-hurricane-sim is quite strong, and does not in general seem supported by the data. While there are female-named storms with more deaths than the male-named storms with similar minimum pressures, we can also see many cases where they are quite similar. This effect seems to be driven by the large outlying storms, which tend to have female names, but aside from these few events, the data do not appear to suggest a systematic pattern of greater deaths from female storms.
+
+#### Problem 4.4
+
+We can now stop taking this hypothesis seriously. To what extent do you think the finding could be an artifact of the dataset (e.g. there is no actual effect, but there are coincidental features of the data that produce the result that female-named storms are more deadly than male-named storms)? Justify this conclusion with specific reference to an exploratory analysis of the data.
+
+As noted in the solution to Problem 4.3, the model results seem to be driven entirely by the most deadly four storms, all of which had female names. We can see how likely this is from random variation. Let's look at how many more storms in the dataset have female names than male names.
+
+```{julia}
+sum(dat.female) / nrow(dat)
+```
+
+So 2/3 of the storms in the dataset have female names. As a result, there is a $(2/3)^4 =20\%$ probability that the four deadliest storms would happen to have female names just by chance, which is hardly negligible. 
+
+**Extra** (I don't expect you to have looked this up): 
+
+In fact, this isn't random: the dataset includes storms between 1953--1978, when all tropical storms were given female names. And in fact, other than Sandy (which is classified as having a female name, but it is generally considered unisex), the four most deadly storms were from this period:
+
+```{julia}
+sort(dat, :deaths, rev=true)  
+```
+
+As noted, while Katrina and Audrey would have also been among the top storms (but were left out of the dataset), Hurricane Audrey was in 1957, which is also in the female-only period. Neglecting the storms from that period makes the deadliest storms Katrina, Sandy, and Ike: hardly signs of a clear female bias. Moreover, we know that many of the deaths from Katrina resulted from engineering failures rather than residents "not taking storms with female names seriously."
+
+For a thorough analysis of this paper's statistical failings (which go beyond what we have considered here), see [this paper by Gary Smith](https://www.sciencedirect.com/science/article/pii/S2212094715300517). As a sign of how much of a laughingstock this paper is among statisticians, you can see how often it's mockingly referenced at [Andrew Gelman's blog](https://statmodeling.stat.columbia.edu/?s=himmicanes&submit=Search). This is further evidence that just because you can do statistics, it doesn't mean your results make sense, even if you fit your model and get "statistically significant" results. You should always think carefully about what your data-generating mechanism actually implies, and how fit for purpose your dataset is to examine your hypothesis (in this case, the inclusion of data between 1953 and 1978 clearly biases the results in favor of the authors' hypothesis).
+
+
+## References
