@@ -120,6 +120,269 @@ plot!(size=(600, 450))
 :::
 ::::
 
+# Return Levels
+
+##  Return Levels
+
+**Return Levels** are a central (if poorly named) concept in risk analysis.
+
+The **$T$-year return level** is the value expected to be observed **on average** once every $T$ years.
+
+From a GEV fit to annual maxima: $T$-year return level is the $1-1/T$ quantile.
+
+
+## Return Periods
+
+The **return period** of an extreme value is the inverse of the exceedance probability.
+
+**Example**: The 100-year return period has an exceedance probability of 1%, *e.g.* the 0.99 quantile.
+
+Return levels are associated with the analogous return period.
+
+## San Francisco Tide Gauge Data
+
+```{julia}
+#| output: true
+#| echo: true
+#| code-fold: true
+#| code-overflow: wrap
+#| fig-align: center
+#| label: fig-surge-data
+#| fig-cap: Annual maxima surge data from the San Francisco, CA tide gauge.
+
+# load SF tide gauge data
+# read in data and get annual maxima
+function load_data(fname)
+    date_format = DateFormat("yyyy-mm-dd HH:MM:SS")
+    # This uses the DataFramesMeta.jl package, which makes it easy to string together commands to load and process data
+    df = @chain fname begin
+        CSV.read(DataFrame; header=false)
+        rename("Column1" => "year", "Column2" => "month", "Column3" => "day", "Column4" => "hour", "Column5" => "gauge")
+        # need to reformat the decimal date in the data file
+        @transform :datetime = DateTime.(:year, :month, :day, :hour)
+        # replace -99999 with missing
+        @transform :gauge = ifelse.(abs.(:gauge) .>= 9999, missing, :gauge)
+        select(:datetime, :gauge)
+    end
+    return df
+end
+
+d_sf = load_data("data/surge/h551.csv")
+
+# detrend the data to remove the effects of sea-level rise and seasonal dynamics
+ma_length = 366
+ma_offset = Int(floor(ma_length/2))
+moving_average(series,n) = [mean(@view series[i-n:i+n]) for i in n+1:length(series)-n]
+dat_ma = DataFrame(datetime=d_sf.datetime[ma_offset+1:end-ma_offset], residual=d_sf.gauge[ma_offset+1:end-ma_offset] .- moving_average(d_sf.gauge, ma_offset))
+
+# group data by year and compute the annual maxima
+dat_ma = dropmissing(dat_ma) # drop missing data
+dat_annmax = combine(dat_ma -> dat_ma[argmax(dat_ma.residual), :], groupby(transform(dat_ma, :datetime => x->year.(x)), :datetime_function))
+delete!(dat_annmax, nrow(dat_annmax)) # delete 2023; haven't seen much of that year yet
+rename!(dat_annmax, :datetime_function => :Year)
+select!(dat_annmax, [:Year, :residual])
+dat_annmax.residual = dat_annmax.residual / 1000 # convert to m
+
+# make plots
+p1 = plot(
+    dat_annmax.Year,
+    dat_annmax.residual;
+    xlabel="Year",
+    ylabel="Annual Max Tide Level (m)",
+    label=false,
+    marker=:circle,
+    markersize=5
+)
+p2 = histogram(
+    dat_annmax.residual,
+    normalize=:pdf,
+    orientation=:horizontal,
+    label=:false,
+    xlabel="Count",
+    ylabel="",
+    yticks=[]
+)
+
+l = @layout [a{0.7w} b{0.3w}]
+plot(p1, p2; layout=l, link=:y, ylims=(1, 1.7), bottom_margin=5mm, left_margin=5mm)
+plot!(size=(1000, 450))
+
+# find GEV fit
+# for most distributions we could use Distributions.fit(), but this isn't implemented in Distributions.jl for GEV
+init_θ = [1.0, 1.0, 1.0]
+gev_lik(θ) = -sum(logpdf(GeneralizedExtremeValue(θ[1], θ[2], θ[3]), dat_annmax.residual))
+θ_mle = Optim.optimize(gev_lik, init_θ).minimizer
+
+```
+
+## GEV Parameters
+
+:::: {.columns}
+::: {.column width=30%}
+
+* $\mu =$  `{julia} round(θ_mle[1]; digits=2)`
+* $\sigma =$ `{julia} round(θ_mle[2]; digits=2)`
+* $\xi =$  `{julia} round(θ_mle[3]; digits=2)`
+
+:::
+::: {.column width=70%}
+```{julia}
+#| label: fig-gev-tide-show
+#| output: true
+#| echo: true
+#| code-fold: true
+#| fig-align: center
+#| fig-cap: GEV fit to annual maxima of San Francisco Tide Gauge Data
+
+p = histogram(
+    dat_annmax.residual,
+    normalize=:pdf,
+    label="Data",
+    xlabel="Annual Maximum (m)",
+    ylabel="PDF",
+    yticks=[],
+    left_margin=10mm,
+    right_margin=10mm
+)
+
+plot!(GeneralizedExtremeValue(θ_mle[1], θ_mle[2], θ_mle[3]), linewidth=5, label="GEV Fit", color=:gold4)
+xlims!((1, 1.75))
+plot!(size=(800, 500))
+```
+
+:::
+::::
+
+## GEV Return Levels
+
+:::: {.columns}
+::: {.column width=30%}
+
+**100-year return level**: `{julia} round(quantile(GeneralizedExtremeValue(θ_mle[1], θ_mle[2], θ_mle[3]), 0.99), digits=2)`m
+
+:::
+::: {.column width=70%}
+
+```{julia}
+#| label: fig-gev-tide-cdf
+#| output: true
+#| echo: true
+#| code-fold: true
+#| fig-align: center
+#| fig-cap: GEV fit to annual maxima of San Francisco Tide Gauge Data
+
+gevcdf(x) = cdf(GeneralizedExtremeValue(θ_mle[1], θ_mle[2], θ_mle[3]), x) # find quantiles of values
+rl_100 = quantile(GeneralizedExtremeValue(θ_mle[1], θ_mle[2], θ_mle[3]), 0.99)
+
+plot(1:0.01:1.75, 1 .- gevcdf.(1:0.01:1.75), yaxis=:log, yticks=10 .^ collect(-3.0:1.0:0.0), xlabel="Water Level (m)", ylabel="Exceedance Probability (1/yr)", lw=3)
+plot!(1:0.01:rl_100, 0.01 .+ zeros(length(1:0.01:rl_100)), color=:red, lw=2)
+plot!(rl_100 .+ zeros(length(-4:0.01:-2)), 10 .^collect(-4.0:0.01:-2.0), color=:red, lw=2)
+scatter!([rl_100], [0.01], color=:red, markersize=5)
+plot!(size=(800, 500))
+
+```
+:::
+::::
+
+## GEV vs LogNormal
+
+```{julia}
+#| label: fig-gev-tide-fit
+#| output: true
+#| echo: true
+#| code-fold: true
+#| fig-align: center
+#| fig-cap: GEV fit to annual maxima of San Francisco Tide Gauge Data
+
+p = histogram(
+    dat_annmax.residual,
+    normalize=:pdf,
+    label="Data",
+    xlabel="Annual Maximum (m)",
+    ylabel="PDF",
+    yticks=[],
+    left_margin=10mm,
+    right_margin=10mm
+)
+plot!(GeneralizedExtremeValue(θ_mle[1], θ_mle[2], θ_mle[3]), linewidth=5, label="GEV Fit", color=:gold4)
+plot!(fit(LogNormal, dat_annmax.residual), linewidth=5, label="LogNormal Fit", color=:darkred)
+xlims!((1, 1.75))
+```
+
+## GEV Q-Q Plot
+
+```{julia}
+#| label: fig-gev-tide-qq
+#| output: true
+#| echo: true
+#| code-fold: true
+#| fig-align: center
+#| layout-ncol: 2
+#| fig-cap: GEV fit to annual maxima of San Francisco Tide Gauge Data
+
+p1 = qqplot(GeneralizedExtremeValue(θ_mle[1], θ_mle[2], θ_mle[3]), dat_annmax.residual, 
+    linewidth=3, markersize=5,
+    xlabel="Theoretical Quantile",
+    ylabel="Empirical Quantile"
+)
+plot!(p1, size=(600, 450))
+
+return_periods = 2:500
+# get GEV return levels
+return_levels = quantile.(GeneralizedExtremeValue(θ_mle[1], θ_mle[2], θ_mle[3]), 1 .- (1 ./ return_periods))
+# fit lognormal to get return levels for comparison
+lognormal_fit = fit(LogNormal, dat_annmax.residual)
+return_levels_lognormal = quantile.(lognormal_fit, 1 .- (1 ./ return_periods))
+
+# function to calculate exceedance probability and plot positions based on data quantile
+function exceedance_plot_pos(y)
+    N = length(y)
+    ys = sort(y; rev=false) # sorted values of y
+    nxp = xp = [r / (N + 1) for r in 1:N] # exceedance probability
+    xp = 1 .- nxp
+    return xp, ys
+end
+xp, ys = exceedance_plot_pos(dat_annmax.residual)
+
+p2 = plot(return_periods, return_levels, linewidth=5, color=:gold4, label="GEV Model Fit", bottom_margin=5mm, left_margin=5mm, right_margin=10mm, legend=:bottomright)
+plot!(p2, return_periods, return_levels_lognormal, linewidth=5, color=:darkred, label="LogNormal Model Fit")
+scatter!(p2, 1 ./ xp, ys, label="Observations", color=:black, markersize=6)
+xlabel!(p2, "Return Period (yrs)")
+ylabel!(p2, "Return Level (m)")
+xlims!(-1, 300)
+plot!(p2, size=(600, 450))
+
+display(p1)
+display(p2)
+```
+
+
+## Be Careful About The Shape Parameter!
+
+:::: {.columns}
+::: {.column width=40%}
+- $\xi$ can be difficult to constrain;
+- Often lots of uncertainty (large standard errors);
+- Controls frequency of "extreme" extremes
+:::
+::: {.column width=60%}
+::: {.center}
+![House flood risk sensitivity](figures/zarekarizi-sensitivity.png){width=80%}
+:::
+::: {.caption}
+Source: @Zarekarizi2020-ky
+:::
+:::
+::::
+
+## Choosing a Block Size
+
+- Similar to the "bias-variance tradeoff"
+- Small block sizes: poor approximation by GEV, resulting in greater bias
+- Large block sizes: fewer data points, greater estimation variance
+- One year is common for practical reasons, but can go finer with sufficient data so long as block maxima can be treated as independent.
+
+
 # Peaks Over Thresholds
 
 ## Drawbacks of Block Maxima
@@ -230,6 +493,8 @@ plot!(size=(600, 450))
 :::
 ::::
 
+# Declustering Exceedances
+
 ## Exceedances Can Occur In Clusters
 
 ```{julia}
@@ -276,6 +541,14 @@ p1 = plot(dat_ma_plot.datetime, dat_ma_plot.residual; linewidth=2, ylabel="Gauge
 hline!([thresh], color=:red, linestyle=:dash, label="Threshold")
 scatter!(dat_ma_plot.datetime[dat_ma_plot.residual .> thresh], dat_ma_plot.residual[dat_ma_plot.residual .> thresh], markershape=:x, color=:black, markersize=3, label="Exceedances")
 ```
+
+## The Problem With Clusters
+
+A GPD models conditional exceedances **assuming they are independent realizations.**
+
+But events which result in clustered exceedances (heat waves, TCs) don't result in independent exceedances.
+
+**Why is this not a problem with block maxima?**
 
 ## Declustering
 
@@ -327,12 +600,13 @@ T = diff(S) # get difference between adjacent exceedances
 ```
 
 
-For the SF tide gauge data and $u=1.0 \text{m}$, we get the an extremal index of `{julia} round(θ, digits=2)` and a declustering time of `{julia} round(1 / θ, digits=0)` hours. 
+For the SF tide gauge data and $u=1.0 \text{m}$, we get an extremal index ($\theta(u)$) of `{julia} round(θ, digits=2)` and a declustering time ($1/\theta(u)$) of `{julia} round(1 / θ, digits=0)` hours. 
 
 ## Mapping Data To Clusters
 
 ```{julia}
 #| echo: true
+#| code-fold: false
 #| output: false
 #| label: pot-exceedances-decluster
 
@@ -499,13 +773,13 @@ plot!(p, count_dist)
 
 :::: {.columns}
 ::: {.column width=40%}
-Poisson: $\lambda = `{julia} round(λ; digits=0)`$
+Poisson: $\lambda =$ `{julia} round(λ; digits=0)`
 
 GPD parameters:
 
 - $\mu = 0$ (fixed)
-- $\sigma = `{julia} round(θ_mle[1]; digits=2)`$
-- $\xi = `{julia} round(θ_mle[2]; digits=2)`$
+- $\sigma =$ `{julia} round(θ_mle[1]; digits=2)`
+- $\xi =$ `{julia} round(θ_mle[2]; digits=2)`
 
 :::
 ::: {.column width=60%}
@@ -519,26 +793,28 @@ $$
 :::
 ::::
 
-## Nonstationary POT
+# GPP-GEV Comparison
 
-Non-stationarity could influence either the Poisson (how many exceedances occur each year) or GPD (when exceedances occur how are they distributed)?
+## Pros and Cons
 
-Often simplest to use a Poisson GLM:
+**GEV**: have to choose block size, throws away more data, only captures one extreme per period, easier to fit, return levels are trivial to compute
 
-$$\lambda_t = \text{Poisson}(\lambda_0 + \lambda_1 x_t)$$
+**GPP**: have to set threshold and deal with clusters, model both frequency and peak, can have multiple events each period, return levels more cumbersome
 
-and let the GPD be stationary.
+## But...
 
-## Nonstationary Return Levels
+We should get the same return periods in either case. The difference is:
 
-Then the $m$-year return level associated with covariate $x_t$ becomes
+- If you care about the possibility of multiple exceedances per year.
+- If you only care about the "worst case" event over a period of time.
 
-$$\text{RL}_m = \begin{cases}u + \frac{\sigma}{\xi} \left((m(\lambda_0 + \lambda_1 x_t))^\xi - 1\right) & \text{if}\  \xi \neq 0 \\ u + \sigma \log(m(\lambda_0 + \lambda_1 x_t)) & \text{if}\  \xi = 0.\end{cases}$$
+Unfortunately, this choice is often made for reasons of simplicity or data length, which is **always the wrong approach**. Let your question dictate your methods.
 
+# Key Points And Upcoming Schedule
 
 ## Upcoming Schedule
 
-**Friday**: Return Periods and Non-Stationary Extremes
+**Friday**: Non-Stationary Extremes
 
 **Next Week**: Model Evaluation and Comparison
 
