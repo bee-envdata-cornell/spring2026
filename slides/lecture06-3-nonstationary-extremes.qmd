@@ -454,7 +454,7 @@ $$Y_i \sim GEV(\mu(x_i), \sigma(x_i), \xi(x_i))$$
 
 Common to use generalized linear framework, *e.g.*
 
-$$Y_i \sim GEV(\mu_0 + \mu_1 x_i, \sigma_0 + \sigma_1 x_i, \xi_0 + \xi_1 x_i)$$
+$$Y_i \sim GEV(\mu_0 + \mu_1 x_i, \exp(\sigma_0 + \sigma_1 x_i), \xi_0 + \xi_1 x_i)$$
 
 ## Be Careful with Nonstationary GEVs
 
@@ -561,3 +561,7 @@ optim_out = Optim.optimize(p -> -gev_nonstat_loglik(p, dat_annmax.residual, pdo.
 ## Upcoming Schedule
 
 **Next Week**: Model Assessment and Comparison
+
+# References
+
+## References
