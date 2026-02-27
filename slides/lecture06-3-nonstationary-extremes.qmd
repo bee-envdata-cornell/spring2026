@@ -1,0 +1,561 @@
+---
+title: "Nonstationary Extremes"
+subtitle: "Lecture 15"
+author: "Vivek Srikrishnan"
+course: "BEE 4850"
+institution: "Cornell University"
+date: "February 27, 2026"
+format:
+    revealjs:
+        slide-number: c/t
+        show-slide-number: all
+        center-title-slide: true
+        width: 1280
+        height: 720
+        transition: none
+        toc: true
+        toc-depth: 1
+        toc-title: "Overview"
+        history: false
+        link-external-newwindow: true
+        theme: ../sass/slides.scss
+        template-partials:
+            - title-slide.html
+        menu:
+            numbers: true
+        html-math-method: mathjax
+        include-in-header: mathjax-config.html
+        date-format: long
+        email-obfuscation: javascript
+        chalkboard:
+            theme: whiteboard
+            buttons: true
+        mermaid: 
+            theme: dark
+engine: julia
+filters:
+  - code-fullscreen
+---
+
+```{julia}
+#| output: false
+
+import Pkg
+Pkg.activate(@__DIR__)
+Pkg.instantiate()
+```
+
+```{julia}
+#| output: false
+
+using Random
+using DataFrames
+using DataFramesMeta
+using CSV
+using Dates
+using Distributions
+using ColorSchemes
+using Plots
+using StatsPlots
+using StatsBase
+using LaTeXStrings
+using Measures
+using Optim
+
+Random.seed!(1)
+
+ENV["GKSwstype"] = "nul"
+
+plot_font = "Computer Modern"
+default(
+    fontfamily=plot_font,
+    linewidth=3, 
+    framestyle=:box, 
+    label=nothing, 
+    grid=false,
+    guidefontsize=18,
+    legendfontsize=16,
+    tickfontsize=16,
+    titlefontsize=20,
+    bottom_margin=10mm,
+    left_margin=5mm
+)
+
+```
+
+# Review
+
+## Modeling Extremes
+
+**Values with a very low probability of occurring**, not necessarily high-impact events (which don't have to be rare!).
+
+1. "Block" extremes, *e.g.* annual maxima (**block maxima**)
+2. Values which exceed a certain threshold (**peaks over threshold**)
+
+## Return Levels and Periods
+
+The **$T$-year return level** is the value expected to be observed **on average** once every $T$ years.
+
+The **return period** of an extreme value is the inverse of the exceedance probability.
+
+**Example**: The 100-year return period has an exceedance probability of 1%, *e.g.* the 0.99 quantile.
+
+Return levels are associated with the analogous return period.
+
+
+## Generalized Extreme Values
+
+:::: {.columns}
+::: {.column width=40%}
+Block maxima $Y_n = \max \{X_1, \ldots, X_n \}$ are modeled using **Generalized Extreme Value** distributions: $GEV(\mu, \sigma, \xi)$.
+
+For a GEV, the $T$-year return level is the $1 - 1/T$ quantile.
+:::
+::: {.column width=60%}
+
+```{julia}
+#| label: fig-gev-shape
+#| output: true
+#| echo: true
+#| code-fold: true
+#| fig-align: center
+#| fig-cap: Shape of the GEV distribution with different choices of $\xi$.
+
+p1 = plot(-2:0.1:6, GeneralizedExtremeValue(0, 1, 0.5), linewidth=3, color=:red, label=L"$\xi = 1/2$", lw=3)
+plot!(-4:0.1:6, GeneralizedExtremeValue(0, 1, 0), linewidth=3, color=:green, label=L"$\xi = 0$", lw=3)
+plot!(-4:0.1:2, GeneralizedExtremeValue(0, 1, -0.5), linewidth=3, color=:blue, label=L"$\xi = -1/2$", lw=3)
+scatter!((-2, 0), color=:red, label=:false)
+scatter!((2, 0), color=:blue, label=:false)
+ylabel!("Density")
+xlabel!(L"$x$")
+plot!(size=(600, 450))
+```
+:::
+::::
+
+## Generalized Pareto Distributions
+
+
+:::: {.columns}
+::: {.column width=40%}
+Peaks over a threshold $u$ are modeled using **Generalized Pareto Distribution**: $GPD(\mu, \sigma, \xi)$.
+:::
+::: {.column width=60%}
+
+```{julia}
+#| label: fig-gpd-shape
+#| output: true
+#| echo: true
+#| code-fold: true
+#| fig-align: center
+#| fig-cap: Shape of the GPD distribution with different choices of $\xi$.
+
+p1 = plot(-2:0.1:6, GeneralizedPareto(0, 1, 0.5), linewidth=3, color=:red, label=L"$\xi = 1/2$", left_margin=5mm, bottom_margin=10mm)
+plot!(-4:0.1:6, GeneralizedPareto(0, 1, 0), linewidth=3, color=:green, label=L"$\xi = 0$")
+plot!(-4:0.1:2, GeneralizedPareto(0, 1, -0.5), linewidth=3, color=:blue, label=L"$\xi = -1/2$")
+scatter!((-2, 0), color=:red, label=:false)
+scatter!((2, 0), color=:blue, label=:false)
+ylabel!("Density")
+xlabel!(L"$x$")
+plot!(size=(600, 450))
+```
+:::
+::::
+
+## Example Data
+
+```{julia}
+#| output: true
+#| echo: true
+#| code-fold: true
+#| code-overflow: wrap
+#| fig-align: center
+#| label: fig-surge-data
+#| fig-cap: Annual surge data from the San Francisco, CA tide gauge.
+
+# load SF tide gauge data
+# read in data and get annual maxima
+function load_data(fname)
+    date_format = DateFormat("yyyy-mm-dd HH:MM:SS")
+    # This uses the DataFramesMeta.jl package, which makes it easy to string together commands to load and process data
+    df = @chain fname begin
+        CSV.read(DataFrame; header=false)
+        rename("Column1" => "year", "Column2" => "month", "Column3" => "day", "Column4" => "hour", "Column5" => "gauge")
+        # need to reformat the decimal date in the data file
+        @transform :datetime = DateTime.(:year, :month, :day, :hour)
+        # replace -99999 with missing
+        @transform :gauge = ifelse.(abs.(:gauge) .>= 9999, missing, :gauge)
+        select(:datetime, :gauge)
+    end
+    return df
+end
+
+d_sf = load_data("data/surge/h551.csv")
+
+## plot data
+p1 = plot(
+    d_sf.datetime[year.(d_sf.datetime) .== 2000],
+    d_sf.gauge[year.(d_sf.datetime) .== 2000] / 1000;
+    xlabel="Date",
+    ylabel="Tide Level (m)",
+    label=false,
+    marker=:circle,
+    markersize=2
+)
+
+```
+
+## Example: Detrended Data
+
+```{julia}
+#| output: true
+#| echo: true
+#| code-fold: true
+#| code-overflow: wrap
+#| fig-align: center
+#| label: fig-norfolk-data-detrend
+#| fig-cap: 2015 detrended tide gauge data from the Norfolk, VA tide gauge.
+
+# detrend the data to remove the effects of sea-level rise and seasonal dynamics
+ma_length = 366
+ma_offset = Int(floor(ma_length/2))
+moving_average(series,n) = [mean(@view series[i-n:i+n]) for i in n+1:length(series)-n]
+dat_ma = DataFrame(datetime=d_sf.datetime[ma_offset+1:end-ma_offset], residual=d_sf.gauge[ma_offset+1:end-ma_offset] .- moving_average(d_sf.gauge, ma_offset))
+
+# group data by year and compute the annual maxima
+dat_ma = dropmissing(dat_ma) # drop missing data
+
+plot(dat_ma.datetime, dat_ma.residual; ylabel="Detrended Gauge Heights (m)", label="Detrended Data", linewidth=3, legend=:topleft,  xlabel="Date/Time", bottom_margin=5mm, left_margin=5mm, right_margin=5mm)
+```
+
+
+## Declustering
+
+A GPD models conditional exceedances **assuming they are independent realizations.**
+
+But events which result in clustered exceedances (heat waves, TCs) don't result in independent exceedances.
+
+
+## Extremal Index
+
+The most common is the **extremal index** $\theta(u)$, which measures the inter-exceedance time for a given threshold $u$.
+
+$$0 \leq \theta(u) \leq 1,$$
+
+where $\theta(u) = 1$ means independence and $\theta(u) = 0$ means the entire dataset is one cluster.
+
+## Extremal Index
+
+$\theta(u)$ has two meanings:
+
+1.  The "propensity to cluster": $\theta$ is the probability that the process has left one exceedance cluster;
+2.  The "reciprocal of the clustering duration": $1/\theta$ is the mean time between clusters.
+
+
+## Computing the Extremal Index
+
+This estimator is taken from @Ferro2003-jm.
+
+Let $N = \sum_{i=1}^n \mathbb{I}(X_i > u)$ be the total number of exceedances.
+
+Denote by $1 \leq S_1 < \ldots < S_N \leq n$ the exceedance times.
+
+Then the inter-exceedance times are $$T_i = S_{i+1} - S_i, \quad 1 \leq i \leq N-1.$$
+
+## Computing the Extremal Index
+
+$$\hat{\theta}(u) = \frac{2\left(\sum_{i=1}^{N-1} T_i\right)^2}{(N-1)\sum_{i=1}^{N-1}T_i^2}$$
+
+```{julia}
+#| echo: true
+#| output: false
+#| code-fold: true
+
+# find total number of exceedances and exceedance times
+thresh = 1.0
+dat_ma.residual = dat_ma.residual ./ 1000 # convert to m
+S = findall(dat_ma.residual .> thresh)
+N = length(S)
+T = diff(S) # get difference between adjacent exceedances
+θ = 2 * sum(T)^2 / ((N-1) * sum(T.^2)) # extremal index
+```
+
+
+For the SF tide gauge data and $u=1.0 \text{m}$, we get an extremal index ($\theta(u)$) of `{julia} round(θ, digits=2)` and a declustering time ($1/\theta(u)$) of `{julia} round(1 / θ, digits=0)` hours. 
+
+## Mapping Data To Clusters
+
+```{julia}
+#| echo: true
+#| code-fold: false
+#| output: false
+#| label: pot-exceedances-decluster
+
+# cluster data points which occur within period
+function assign_cluster(dat, period)
+    cluster_index = 1
+    clusters = zeros(Int, length(dat))
+    for i in 1:length(dat)
+        if clusters[i] == 0
+            clusters[findall(abs.(dat .- dat[i]) .<= period)] .= cluster_index
+            cluster_index += 1
+        end
+    end
+    return clusters
+end
+
+# cluster exceedances that occur within a four-hour window
+# @transform is a macro from DataFramesMeta.jl which adds a new column based on a data transformation
+dat_exceed = dat_ma[dat_ma.residual .> thresh, :]
+dat_exceed = @transform dat_exceed :cluster = assign_cluster(:datetime, Dates.Hour(4))
+# find maximum value within cluster
+dat_decluster = combine(dat_exceed -> dat_exceed[argmax(dat_exceed.residual), :], 
+    groupby(dat_exceed, :cluster))
+dat_decluster
+```
+
+
+
+# Generalized Pareto-Poisson Processes
+
+## But What About Exceedance Frequency?
+
+:::: {.columns}
+::: {.column width=50%}
+The GPD fit gives a distribution for how extreme threshold exceedances are when they occur.
+
+But how often do they occur?
+:::
+
+::: {.column width=50%}
+```{julia}
+#| echo: true
+#| code-fold: true
+#| label: fig-tide-exceedance-count
+#| fig-align: center
+#| fig-cap: histogram of number of exceedances in each year
+
+# add column with years of occurrence
+dat_decluster = @transform dat_decluster :year = Dates.year.(dat_decluster.datetime)
+# group by year and add up occurrences
+exceed_counts = combine(groupby(dat_decluster, :year), nrow => :count)
+delete!(exceed_counts, nrow(exceed_counts)) # including 2023 will bias the count estimate
+p = histogram(exceed_counts.count, legend=:false, 
+    xlabel="Yearly Exceedances",
+    ylabel="Count",
+    left_margin=5mm,
+    bottom_margin=10mm
+)
+plot!(size=(600, 400))
+```
+:::
+::::
+
+## Poisson - Generalized Pareto Process
+
+Model the number of new exceedances with a Poisson distribution
+
+$$n \sim \text{Poisson}(\lambda_u),$$
+
+The MLE for $\lambda_u$ is the mean of the count data, in this case `{julia} round(mean(exceed_counts.count), digits=1)`.
+
+Then, for each $i=1, \ldots, n$, sample
+$$X_i \sim \text{GeneralizedPareto}(u, \sigma, \xi).$$
+
+## Poisson - Generalized Pareto Process Return Levels
+
+Then the return level for return period $m$ years can be obtained by solving the quantile equation (see @Coles2001-sg for details):
+
+$$\text{RL}_m = \begin{cases}u + \frac{\sigma}{\xi} \left((m\lambda_u)^\xi - 1\right) & \text{if}\  \xi \neq 0 \\ u + \sigma \log(m\lambda_u) & \text{if}\  \xi = 0.\end{cases}$$
+
+## Poisson-GPP Example
+
+:::: {.columns}
+::: {.column width=50%}
+Question: What is the 100-year return period of the SF data?
+:::
+::: {.column width=50%}
+```{julia}
+#| echo: true
+#| code-fold: true
+#| label: fig-tide-exceedance-poisson
+#| fig-align: center
+#| fig-cap: Histogram of number of exceedances in each year with Poisson fit
+
+
+# fit GPD
+init_θ = [1.0, 1.0]
+low_bds = [0.0, -Inf]
+up_bds = [Inf, Inf]
+gpd_lik(θ) = -sum(logpdf(GeneralizedPareto(0.0, θ[1], θ[2]), dat_decluster.residual .- thresh))
+θ_mle = Optim.optimize(gpd_lik, low_bds, up_bds, init_θ).minimizer
+count_dist = fit(Poisson, exceed_counts.count)
+λ = params(count_dist)[1]
+
+p = histogram(exceed_counts.count, legend=:false, 
+    xlabel="Yearly Exceedances",
+    ylabel="Count",
+    normalize=:pdf,
+    left_margin=5mm,
+    bottom_margin=10mm
+)
+plot!(size=(600, 500))
+plot!(p, count_dist)
+```
+:::
+::::
+
+## Poisson-GPP Example
+
+:::: {.columns}
+::: {.column width=40%}
+Poisson: $\lambda =$ `{julia} round(λ; digits=0)`
+
+GPD parameters:
+
+- $\mu = 0$ (fixed)
+- $\sigma =$ `{julia} round(θ_mle[1]; digits=2)`
+- $\xi =$ `{julia} round(θ_mle[2]; digits=2)`
+
+:::
+::: {.column width=60%}
+$$
+\begin{align*}
+\text{RL}_{\text{100}} &= 1 + \frac{\sigma}{\xi} \left((m\lambda)^\xi - 1\right) \\
+&= 1 - \frac{0.11}{0.17}\left((100 * 50)^{-0.17} - 1\right) \\
+&\approx 1.5 \text{m}
+\end{align*}
+$$
+:::
+::::
+
+# Nonstationary Extremes
+
+## What is Nonstationarity?
+
+:::: {.columns}
+::: {.column width=50%}
+**Nonstationarity**: extremes are not fixed in place, but can become more or less common over time.
+:::
+::: {.column width=50%}
+![Nonstationary Example](https://www.researchgate.net/profile/Ina-Keggenhoff/publication/289954180/figure/fig1/AS:614348737241094@1523483561488/The-effects-of-changes-in-temperature-distribution-on-extremes-with-and-without-climate.png)
+
+::: {.caption}
+Source: [Keggenhoff (2015)](https://www.researchgate.net/publication/289954180_Temperature_extremes_over_Georgia_changes_patterns_and_driving_forces)
+:::
+:::
+
+
+## Nonstationary GEVs
+
+Suppose block maxima can change with the block (*e.g.* climate change).
+
+$$Y_i \sim GEV(\mu(x_i), \sigma(x_i), \xi(x_i))$$
+
+Common to use generalized linear framework, *e.g.*
+
+$$Y_i \sim GEV(\mu_0 + \mu_1 x_i, \sigma_0 + \sigma_1 x_i, \xi_0 + \xi_1 x_i)$$
+
+## Be Careful with Nonstationary GEVs
+
+- GEV parameters are already subject to large uncertainties; nonstationarity makes this worse.
+- **Be particularly careful with non-stationary $\xi$ (shape).**
+- Most common approach: only treat $\mu$ as non-stationary, $$Y_i \sim GEV(\mu_0 + \mu_1 x_i, \sigma, \xi)$$
+
+## Nonstationary Return Levels
+
+No non-conditional return periods since distribution depends on $x$.
+
+First specify a covariate value $x$, then can calculate return levels based on that value.
+
+For example: what are 100-year return levels of temperatures in 2020, 2050, and 2100?
+
+## Nonstationary POT
+
+Non-stationarity could influence either the Poisson (how many exceedances occur each year) or GPD (when exceedances occur how are they distributed)?
+
+Often simplest to use a Poisson GLM:
+
+$$\lambda_t = \text{Poisson}(\lambda_0 + \lambda_1 x_t)$$
+
+and let the GPD be stationary.
+
+## Nonstationary Return Levels
+
+Then the $m$-year return level associated with covariate $x_t$ becomes
+
+$$\text{RL}_m = \begin{cases}u + \frac{\sigma}{\xi} \left((m(\lambda_0 + \lambda_1 x_t))^\xi - 1\right) & \text{if}\  \xi \neq 0 \\ u + \sigma \log(m(\lambda_0 + \lambda_1 x_t)) & \text{if}\  \xi = 0.\end{cases}$$
+
+## Nonstationary Example
+
+:::: {.columns}
+::: {.column width=40%}
+We might ask how the SF tide extremes depend on the Pacific Decadal Oscillation (PDO).
+
+$y_t \sim \text{GEV}(\mu_0 + \mu_1 \text{PDO}_t, \sigma, \xi)$
+:::
+::: {.column width=60%}
+
+```{julia}
+#| echo: true
+#| code-fold: true
+#| label: fig-pdo
+#| fig-label: Pacific Decadal Oscillation Series
+
+function load_pdo(fname)
+    # This uses the DataFramesMeta.jl package, which makes it easy to string together commands to load and process data
+    df = CSV.read(fname, DataFrame, delim=" ", ignorerepeated=true, header=2)
+    # take yearly average
+    @transform!(df, :PDO = mean(AsTable(names(df)[2:13])))
+    @select!(df, $[:Year, :PDO])
+    @rsubset!(df, :Year != 2023)
+    return df
+end
+
+pdo = load_pdo("data/surge/ersst.v5.pdo.dat")
+# get maxima
+dat_annmax = combine(dat_ma -> dat_ma[argmax(dat_ma.residual), :], groupby(transform(dat_ma, :datetime => x->year.(x)), :datetime_function))
+delete!(dat_annmax, nrow(dat_annmax)) # delete 2023; haven't seen much of that year yet
+rename!(dat_annmax, :datetime_function => :Year)
+select!(dat_annmax, [:Year, :residual])
+
+# subset for years that match the tide gauge data
+years = dat_annmax[!, :Year]
+@rsubset!(pdo, :Year in years)
+
+plot(pdo.Year, pdo.PDO, xlabel="Year", ylabel="PDO Index", lw=3, label=false, size=(500, 450))
+```
+
+## Fitting The Model
+
+```{julia}
+#| output: true
+#| echo: true
+
+function gev_nonstat_loglik(p, y, pdo) 
+    μ₀, μ₁, σ, ξ = p
+    μ = μ₀ .+ μ₁ .* pdo
+    ll = sum(logpdf.(GeneralizedExtremeValue.(μ, σ, ξ), y))
+    return ll
+end
+
+lb = [-40.0, -1.0, 0.1, -1.0]
+ub = [40.0, 1.0, 10.0, 1.0]
+x₀ = [10.0, 0.5, 5.0, 0.0]
+optim_out = Optim.optimize(p -> -gev_nonstat_loglik(p, dat_annmax.residual, pdo.PDO), lb, ub, x₀)
+θ_nonstat = optim_out.minimizer
+@show round.(θ_nonstat; digits=1);
+```
+
+# Key Points and Upcoming Schedule
+
+## Key Points
+
+- Peaks Over Thresholds usually modeled with a Generalized Pareto-Poisson process
+- Return level calculations can be complicated
+- Nonstationary extremes are a form of GLM
+- Be careful about which parameters you make nonstationary
+
+## Upcoming Schedule
+
+**Next Week**: Model Assessment and Comparison

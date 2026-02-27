@@ -31,4 +31,4 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 | | 2/20 | Inference for Time Series | [{{< fa sharp presentation-screen >}}](slides/lecture05-2-timeseries-inference.qmd) | | | | |
 | 6 | 2/23 | Extreme Values and Block Maxima | [{{< fa sharp presentation-screen >}}](slides/lecture06-1-modeling-extremes.qmd) | [@Arns2013-tl](http://dx.doi.org/10.1016/j.coastaleng.2013.07.003) | [{{< fa sharp pen-field >}}](hw/hw03/hw03.qmd) | | |
 |   | 2/25 | Peaks Over Thresholds | [{{< fa sharp presentation-screen >}}](slides/lecture06-2-peaks-thresholds.qmd) | | | | |
-|   | 2/27 | Nonstationary Extremes | | | | | |
+|   | 2/27 | Nonstationary Extremes | [{{< fa sharp presentation-screen >}}](slides/lecture06-3-nonstationary-extremes.qmd) | | | | |
