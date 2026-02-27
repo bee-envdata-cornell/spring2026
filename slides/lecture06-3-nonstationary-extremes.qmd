@@ -443,7 +443,7 @@ $$
 ::: {.caption}
 Source: [Keggenhoff (2015)](https://www.researchgate.net/publication/289954180_Temperature_extremes_over_Georgia_changes_patterns_and_driving_forces)
 :::
-:::
+::::
 
 
 ## Nonstationary GEVs
@@ -525,6 +525,8 @@ years = dat_annmax[!, :Year]
 
 plot(pdo.Year, pdo.PDO, xlabel="Year", ylabel="PDO Index", lw=3, label=false, size=(500, 450))
 ```
+:::
+::::
 
 ## Fitting The Model
 
