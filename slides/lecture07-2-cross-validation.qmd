@@ -118,151 +118,299 @@ Source: Richard McElreath
 :::
 ::::
 
-# Quantifying Prediction Skill
 
-## What Makes A Good Prediction?
+# Bias and Variance
 
-What do we want to see in a probabilistic projection $F$? 
+## Impact of Increasing Model Complexity
+
+```{julia}
+#| label: fig-true-data
+#| fig-cap: True data and the data-generating curve.
+#| echo: true
+#| code-fold: true
+#| warning: false
+#| error: false
+
+ntrain = 20
+x = rand(Uniform(-2, 2), ntrain)
+f(x) = x.^3 .- 5x.^2 .+ 1
+y = f(x) + rand(Normal(0, 2), length(x))
+p0 = scatter(x, y, label="Data", markersize=5)
+xrange = -2:0.01:2
+plot!(p0, xrange, f.(xrange), lw=3, color=:gray, label="True Curve")
+plot!(p0, size=(1000, 450))
+```
+
+## Impact of Increasing Model Complexity
+
+```{julia}
+#| label: fig-true-data-1
+#| fig-cap: Impact of increasing model complexity on model fits
+#| echo: true
+#| code-fold: true
+#| layout-ncol: 2
+#| warning: false
+#| error: false
+
+function polyfit(d, x, y)
+    function m(d, θ, x)
+        mout = zeros(length(x), d + 1)
+        for j in eachindex(x)
+            for i = 0:d
+                mout[j, i + 1] = θ[i + 1] * x[j]^i
+            end
+        end
+        return sum(mout; dims=2)
+    end
+    θ₀ = [zeros(d+1); 1.0]
+    lb = [-10.0 .+ zeros(d+1); 0.01]
+    ub = [10.0 .+ zeros(d+1); 20.0]
+    optim_out = optimize(θ -> -sum(logpdf.(Normal.(m(d, θ[1:end-1], x), θ[end]), y)), lb, ub, θ₀)
+    θmin = optim_out.minimizer
+    mfit(x) = sum([θmin[i + 1] * x^i for i in 0:d])
+    return (mfit, θmin[end])
+end
+
+function plot_polyfit(d, x, y)
+    m, σ = polyfit(d, x, y)
+    p = scatter(x, y, label="Data", markersize=5, ylabel=L"$y$", xlabel=L"$x$", title="Degree $d")
+    plot!(p, xrange, m.(xrange), ribbon = 1.96 * σ, fillalpha=0.2, lw=3, label="Fit")
+    ylims!(p, (-30, 15))
+    plot!(p, size=(600, 450))
+    return p
+end
+
+p1 = plot_polyfit(1, x, y)
+p2 = plot_polyfit(2, x, y)
+
+display(p1)
+display(p2)
+```
+
+## Impact of Increasing Model Complexity
+
+```{julia}
+#| label: fig-true-data-2
+#| fig-cap: Impact of increasing model complexity on model fits
+#| echo: true
+#| code-fold: true
+#| layout-ncol: 2
+#| warning: false
+#| error: false
+
+p3 = plot_polyfit(3, x, y)
+p4 = plot_polyfit(4, x, y)
+
+display(p3)
+display(p4)
+```
+
+## Impact of Increasing Model Complexity
+
+```{julia}
+#| label: fig-true-data-3
+#| fig-cap: Impact of increasing model complexity on model fits
+#| echo: true
+#| code-fold: true
+#| layout-ncol: 2
+#| warning: false
+#| error: false
+
+p5 = plot_polyfit(6, x, y)
+p6 = plot_polyfit(10, x, y)
+
+display(p5)
+display(p6)
+```
+
+## What Is Happening?
+
+We can think of a model as a form of **data compression**.
+
+Instead of storing coordinates of individual points, project onto parameters of functional form.
+
+The degree to which we can "tune" the model by adjusting parameters are called the **model degrees of freedom** (DOF), which is one measure of model complexity.
+
+## Implications of Model DOF
+
+Higher DOF &Rightarrow; more ability to represent complex patterns.
 
 ::: {.fragment .fade-in}
+:::: {.columns}
+::: {.column width=50%}
+If DOF is too low, the model can't capture meaningful data-generating signals (**underfitting**).
+:::
+::: {.column width=50%}
 
-- **Calibration**: Does the predicted CDF $F(y)$ align with the "true" distribution of observations $y$? 
-  $$\mathbb{P}(y \leq F^{-1}(\tau)) = \tau \qquad \forall \tau \in [0, 1]$$
-- **Dispersion**: Is the concentration (variance) of $F$ aligned with the concentration of observations?
-- **Sharpness**: How concentrated are the forecasts $F$?
+```{julia}
+#| label: fig-true-data-underfit
+#| fig-cap: Impact of increasing model complexity on model fits
+#| echo: false
+#| warning: false
+#| error: false
+
+p1
+```
+:::
+::::
 :::
 
-## Probability Integral Transform (PIT)
+## Implications of Model DOF
 
-Common to use the PIT to make these more concrete: $Z_F = F(y)$.
+Higher DOF &Rightarrow; more ability to represent complex patterns.
 
-The forecast is **probabilistically calibrated** if $Z_F \sim Uniform(0, 1)$.
+:::: {.columns}
+::: {.column width=50%}
+But if DOF is too high, the model will "learn" the noise rather than the signal, resulting in poor generalization (**overfitting**).
+:::
 
-The forecast is **properly dispersed** if $\text{Var}(Z_F) = 1/12$.
-
-**Sharpness** can be measured by the width of a particular prediction interval. **A good forecast is a sharp as possible subject to calibration** [@Gneiting2007-my].
-
-## PIT Example: Well-Calibrated
-
+::: {.column width=50%}
 ```{julia}
-#| label: fig-pit-2
-#| fig-cap: Comparison of "proper" and overdispersed PIT.
-#| echo: true
-#| code-fold: true
-#| layout-ncol: 2
+#| label: fig-true-data-overfit
+#| fig-cap: Impact of increasing model complexity on model fits
+#| echo: false
+#| warning: false
+#| error: false
 
-# "true" observation distribution is N(2, 0.5)
-obs = rand(Normal(2, 0.5), 50)
-# forecast according to the "correct" distribution and obtain PIT
-pit_corr = cdf(Normal(2, 0.45), obs)
-p_corr = histogram(pit_corr, bins=10, label=false, xlabel=L"$y$", ylabel="Count", size=(500, 500))
-
-xrange = 0:0.01:5
-p_cdf1 = plot(xrange, cdf.(Normal(2, 0.4), xrange), xlabel=L"$y$", ylabel="Cumulative Density", label="Forecast", size=(500, 500))
-plot!(p_cdf1, xrange, cdf.(Normal(2, 0.5), xrange), label="Truth")
-
-display(p_cdf1)
-display(p_corr)
+p6
 ```
 
-## PIT Example: Underdispersed
+:::
+::::
+
+## In- Vs. Out-Of-Sample Error
 
 ```{julia}
-#| label: fig-pit-3
-#| fig-cap: Comparison of "proper" and overdispersed PIT.
+#| label: fig-sample-error
+#| fig-cap: Impact of increasing model complexity on in and out of sample error
 #| echo: true
 #| code-fold: true
-#| layout-ncol: 2
+#| warning: false
+#| error: false
 
-# forecast according to an underdispersed distribution and obtain PIT
-pit_under = cdf(Normal(2, 0.1), obs)
-p_under = histogram(pit_under, bins=10, label=false, xlabel=L"$y$", ylabel="Count", size=(500, 500))
+ntest = 20
+xtest = rand(Uniform(-2, 2), ntest)
+ytest = f(xtest) + rand(Normal(0, 2), length(xtest))
 
-xrange = 0:0.01:5
-p_cdf2 = plot(xrange, cdf.(Normal(2, 0.1), xrange), xlabel=L"$y$", ylabel="Cumulative Density", label="Forecast", size=(500, 500))
-plot!(p_cdf2, xrange, cdf.(Normal(2, 0.5), xrange), label="Truth")
+in_error = zeros(11)
+out_error = zeros(11)
+#calculate sum of squared errors
+for d = 0:10
+    m, σ = polyfit(d, x, y)
+    in_error[d+1] = sum((m.(x) .- y).^2)
+    out_error[d+1] = sum((m.(xtest) .- ytest).^2)
+end
 
-display(p_cdf2)
-display(p_under)
+plot(0:10, in_error / length(y), marker=(:circle, :blue, 8), line=(:blue, 3), label="In-Sample Error", xlabel="Polynomial Degree", ylabel="Mean Squared Error", legend=:topleft)
+plot!(0:10, out_error / length(y), marker=(:circle, :red, 8), line=(:red, 3), label="Out-of-Sample Error")
+plot!(yaxis=:log)
+plot!(xticks=0:1:10)
 ```
 
+## Why Is Overfitting A Problem?
 
-## PIT Example: Overdispersed
+Example from *The Signal and the Noise* by Nate Silver:
 
-```{julia}
-#| label: fig-pit-1
-#| fig-cap: Comparison of "proper" and overdispersed PIT.
-#| echo: true
-#| code-fold: true
-#| layout-ncol: 2
-
-# forecast according to an overdispersed distribution and obtain PIT
-pit_over = cdf(Normal(2, 1), obs)
-p_over = histogram(pit_over, bins=10, label=false, xlabel=L"$y$", ylabel="Count", size=(500, 500))
-
-xrange = 0:0.01:5
-p_cdf3 = plot(xrange, cdf.(Normal(2, 1), xrange), xlabel=L"$y$", ylabel="Cumulative Density", label="Forecast", size=(500, 500))
-plot!(p_cdf3, xrange, cdf.(Normal(2, 0.5), xrange), label="Truth")
-
-display(p_cdf3)
-display(p_over)
-```
+- Engineers at Fukushima used a non-linear regression on historical earthquake data (theory suggests a linear model).
+- This model predicted a >9 Richter earthquake would only happen once every 13,000 years; engineers therefore designed nuclear plant to withstand an 8.6 Richter earthquake.
+- Theoretical linear relationship suggests that a >9 Richter earthquake would happen every 300 years.
 
 
-## Scoring Rules
+# Key Points and Upcoming Schedule
 
-**Scoring rules** compare observations against an entire probabilistic forecast.
+## Key Points (Bias)
 
-A scoring rule $S(F, y)$ measures the "loss" of a predicted probability distribution $F$ once an observation $y$ is obtained. 
+- Bias: Discrepancy between expected model output and observations. 
+- Related to approximation error and underfitting.
+- "Simpler" models tend to have higher bias.
+- High bias suggests less sensitivity to specifics of dataset.
 
-Typically oriented so smaller = better.
+## Key Points (Variance)
 
-## Scoring Rule Examples
+- Variance: How much the model predictions vary around the mean. 
+- Related to estimation error and overfitting.
+- "More complex" models tend to have higher variance.
+- High variance suggests high sensitivity to specifics of dataset.
+
+## Key Points (Bias-Variance Tradeoff)
+
+- Error can be decomposed into bias, variance, and irreducible error.
+- "Tradeoff" reflects this decomposition (but it's not really a tradeoff).
+- Useful conceptual to think about the balance between not picking up on meaningful signals (underfitting) and modeling noise (overfitting).
+
+## Bias vs. Variance
+
+The difference between low and high DOFs can be formalized using **bias** and **variance**.
+
+Suppose we have a data-generating model $$y = f(x) + \varepsilon, \varepsilon \sim N(0, \sigma).$$ We want to fit a model $\hat{y} \approx \hat{f}(x)$.
+
+## Bias
+
+**Bias** is error from mismatches between the model predictions and the data ($\text{Bias}[\hat{f}] = \mathbb{E}[\hat{f}] - y$).
+
+Bias comes from under-fitting meaningful relationships between inputs and outputs:
+
+- too few degrees of freedom ("too simple")
+- neglected processes.
+
+## Variance
+
+**Variance** is error from over-sensitivity to small fluctuations in training inputs $D$ ($\text{Variance} = \text{Var}_D(\hat{f}(x; D)$).
+
+Variance can come from over-fitting noise in the data:
+
+- too many degrees of freedom ("too complex")
+- poor identifiability
+
+## "Bias-Variance Tradeoff"
+
+Can decompose MSE into bias and variance terms:
+
+$$
+\begin{align*}
+\text{MSE} &= \mathbb{E}[y - \hat{f}^2] \\
+&= \mathbb{E}[y^2 - 2y\hat{f}(x) + \hat{f}^2] \\
+&= \mathbb{E}[y^2] - 2\mathbb{E}[y\hat{f}] + E[\hat{f}^2] \\
+&= \mathbb{E}[(f + \varepsilon)^2] - \mathbb{E}[(f + \varepsilon)\hat{f}] + E[\hat{f}^2] \\
+&= \vdots \\
+&= \text{Bias}(\hat{f})^2 + \text{Var}(\hat{f}) + \sigma^2
+\end{align*}
+$$
+
+## "Bias-Variance Tradeoff"
+
+This means that **for a fixed error level**, you can reduce bias (increasing model complexity) or decrease variance (simplifying model) but one comes at the cost of the other.
+
+This is the so-called "bias-variance tradeoff."
+
+## More General B-V Tradeoff
+
+This decomposition is for MSE, but the **principle holds more generally**.
+
+- Models which perform better "on average" over the training data (low bias) are more likely to overfit (high variance);
+- Models which have less uncertainty for training data (low variance) are more likely to do worse "on average" (high bias).
+
+## Common Story: Complexity and Bias-Variance
+
+::: {.center}
+![Bias-Variance Tradeoff](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Bias_and_variance_contributing_to_total_error.svg/1920px-Bias_and_variance_contributing_to_total_error.svg.png){width=55%}
+
+::: {.caption}
+Source: [Wikipedia](https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff)
+:::
+:::
 
 
-1. Logarithmic: $S(F, y) = -\log F(y)$
-2. Quadratic (Brier): $S(F, y) = -2F(y) - \int_{-\infty}^\infty F^2(z) dz$ / $B(F, y) = \sum_i (y_i - F(y_i))^2$
-3. Continous Ranked Probability Score (CRPS): 
-   $$\begin{align*}
-   S(F, y) &= -\int (F(z) - \mathbb{I}(y \leq z))^2 dz \\
-   &= \mathbb{E}_F |Y -y| - \frac{1}{2} E_F | Y - Y'|
-   \end{align*}$$
+## Is "Bias-Variance Tradeoff" Useful?
 
-## Proper Scoring Rules
+::: {.incremental}
 
-**Proper** scoring rules are intended to encourage forecasters to provide their full (and honest) forecasts.
+- **Tautology**: total error is the sum of bias, variance, and irreducible error.
+- But error isn't actually "conserved": changing models changes all three terms.
+- **Bias and variance do not directly tell us anything about generalizability** (prediction error is not necessarily monotonic; see *e.g.*  @Belkin2019-xy, @Mei2019-hb).
+- Instead, think about **approximation** vs. **estimation** error.
+:::
 
-Minimized when the forecasted distribution matches the observed distribution:
-
-$$\mathbb{E}_Y(S(G, G)) \leq \mathbb{E}_Y(S(F, G)) \qquad \forall F.$$
-
-It is **strictly proper** if equality holds only if $F = G$.
-
-## Sidenote: Why Not Use Classification Accuracy?
-
-Most classification algorithms produce a probability (*e.g.* logistic regression) of different outcomes. 
-
-A common skill metric for classification models is **accuracy** (sensitivity/specificity): given these probabilities and some threshold to translate them into categorical prediction.
-
-## The Problem With Classification Accuracy
-
-**The problem**: This translation is a *decision* problem, not a *statistical problem*. A probabilistic scoring rule over the predicted probabilities more accurately reflects the skill of the statistical model.
-
-## Logarithmic Score As Scoring Rule
-
-The **logarithmic score** $S(F, y) = -\log F(y)$ is (up to equivalence) the only **local** strictly proper scoring rule (locality &Rightarrow; score depends only on the observation).
-
-This is the negative log-probability: straightforward to use for the likelihood (frequentist forecasts) or posterior (Bayesian forecasts) and generalizes MSE.
-
-We will focus on the logarithmic score.
-
-## Important Caveat
-
-**A model can predict well without being "correct"!**
-
-For example, model selection using predictive criteria **does not mean** you are selecting the "true" model.
-
-**The causes of the data cannot be found in the data alone.**
 
 # Cross-Validation
 

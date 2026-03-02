@@ -1,0 +1,367 @@
+---
+title: "Loss Functions and Scoring Rules"
+subtitle: "Lecture 16"
+author: "Vivek Srikrishnan"
+course: "BEE 4850"
+institution: "Cornell University"
+date: "March 02, 2026"
+format:
+    revealjs:
+        slide-number: c/t
+        show-slide-number: all
+        center-title-slide: true
+        width: 1280
+        height: 720
+        transition: none
+        toc: true
+        toc-depth: 1
+        toc-title: "Overview"
+        history: false
+        link-external-newwindow: true
+        theme: ../sass/slides.scss
+        template-partials:
+            - title-slide.html
+        menu:
+            numbers: true
+        html-math-method: mathjax
+        include-in-header: mathjax-config.html
+        date-format: long
+        email-obfuscation: javascript
+        chalkboard:
+            theme: whiteboard
+            buttons: true
+        mermaid: 
+            theme: dark
+engine: julia
+filters:
+  - code-fullscreen
+---
+
+```{julia}
+#| output: false
+
+import Pkg
+Pkg.activate(@__DIR__)
+Pkg.instantiate()
+```
+
+```{julia}
+#| output: false
+
+using Random
+using DataFrames
+using DataFramesMeta
+using CSV
+using Dates
+using Distributions
+using ColorSchemes
+using Plots
+using StatsPlots
+using StatsBase
+using Optim
+using LaTeXStrings
+using Measures
+
+Random.seed!(1)
+ENV["GKSwstype"] = "nul"
+
+plot_font = "Computer Modern"
+default(
+    fontfamily=plot_font,
+    linewidth=3, 
+    framestyle=:box, 
+    label=nothing, 
+    grid=false,
+    guidefontsize=18,
+    legendfontsize=16,
+    tickfontsize=16,
+    titlefontsize=20,
+    bottom_margin=10mm,
+    left_margin=5mm
+)
+```
+
+# Last Classes
+
+## Modeling Extremes
+
+**Values with a very low probability of occurring**, not necessarily high-impact events (which don't have to be rare!).
+
+1. "Block" extremes, *e.g.* annual maxima (**block maxima**): Generalized Extreme Value distributions
+2. Values which exceed a certain threshold (**peaks over threshold**): Poisson-Generalized Pareto processes
+
+## Return Levels and Periods
+
+The **$T$-year return level** is the value expected to be observed **on average** once every $T$ years.
+
+The **return period** of an extreme value is the inverse of the exceedance probability.
+
+**Example**: The 100-year return period has an exceedance probability of 1%, *e.g.* the 0.99 quantile.
+
+Return levels are associated with the analogous return period.
+
+## Nonstationary Models
+
+- Generalized linear models for extreme values; e.g. $$y_i \sim \text{GEV}(\mu_0 + \mu_1 x_i, \sigma, \xi)$$
+- Return periods are now dependent on covariate value $x_i$
+- Usually good practice to not make $\xi$ nonconstant.
+
+
+# How Can Modeling Go Wrong?
+
+## What Are Models For?
+
+::: {.incremental}
+- Data summaries/compression;
+- Inference about parameters/processes;
+- Predictors of other/new data;
+- Simulators of counterfactuals (causal analysis).
+:::
+
+
+## Why Predictive Skill?
+
+:::: {.columns}
+::: {.column width=50%}
+- In general, we use predictive skill to evaluate models because it gives us a principled approach and a model that is better ought to predict better.
+- Examining predictions is usually the best way to evaluate a statistical model.
+- However, models that are "right" may do less well at prediction than models that are "wrong" due to noise or confounding factors.
+:::
+::: {.column width=50%}
+
+![Causality Correlation Metric](memes/causation_not_correlation.jpg){width=60%}
+
+::: {.caption}
+Source: Richard McElreath
+:::
+:::
+::::
+
+
+# Measuring Model Skill
+
+## $R^2$ for Point Predictions
+
+$$R^2 = (\sigma^2_\text{model}/\sigma^2_\text{data})$$ 
+
+- Probably most common, also only meaningful for linear Gaussian models $y \sim N(\beta_0 + \beta_1 x, \sigma^2)$.
+- Increasing predictors **always** increases $R^2$, making it useless for model selection. 
+- Can adjust for increasing complexity, substitute $$R^2_\text{adj} = 1 - ((n / (n-2)) \sigma^2_\text{residuals} / \sigma^2_\text{data})$$
+- **Does not do what people think it does except in very limited cases**.
+
+## Gaming Statistics with Outliers
+
+![SMBC: Take It Off](https://www.smbc-comics.com/comics/1679856918-20230326.png)
+
+::: {.caption}
+Source: [Saturday Morning Breakfast Cereal](https://www.smbc-comics.com/comic/take-it-off)
+:::
+
+## Anscombe's Quartet Illustrates Problems With $R^2$
+
+:::: {.columns}
+::: {.column width=40%}
+Anscombe's Quartet [@Anscombe1973-pp] consists of datasets which have the same summary statistics (including $R^2$) but very different graphs.
+:::
+::: {.column width=60%}
+
+![Anscombe's Quartet](https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Anscombe%27s_quartet_3.svg/1920px-Anscombe%27s_quartet_3.svg.png){width=80%}
+
+::: {.caption}
+Source: [Wikipedia](https://en.wikipedia.org/wiki/Anscombe%27s_quartet)
+:::
+:::
+::::
+
+## Alternatives to $R^2$
+
+In pretty much every case where $R^2$ *might* be useful, **(root) mean squared error ((R)MSE)** is better:
+
+More generally, we want to think about measures which capture the skill of a **probabilistic prediction**.
+
+These are commonly called **scoring rules** [@Gneiting2014-wh]  (more on this next class).
+
+## Measuring Errors
+
+Suppose we have a dataset $\mathbf{z}_n = \{z_1, z_2, \ldots, z_n\}$ and various models $\mathcal{M} = \{M_1, M_2, \ldots, M_k\}$ parameterized by $\theta_i, \ldots, \theta_k$.
+
+Then the prediction our model makes at a new predictor $\mathbf{x}$ is $M_i(\mathbf{x}; \theta_i)$.
+
+Finally, we have a **loss function** $L$ which tells us how to penalize errors, *e.g.* for MSE use the **quadratic loss** $$L(z, M, \theta) = \left(y - M(\mathbf{x}; \theta)\right)^2.$$
+
+## Other Examples of Loss Functions
+
+- Mean Absolute Error: $$L(z, M, \theta) = \left|y - M(\mathbf{x}; \theta)\right|.$$
+- 0-1 Loss: $$L(z, M, \theta) = \begin{cases}1 & \text{if}\ y = M(\mathbf{x}, \theta) \\ 0 & \text{if}\ y \neq M(\mathbf{x}, \theta).\end{cases}$$
+
+## Other Examples of Loss Functions
+
+- Log Loss: $$L(z, M, \theta) = -\log(p(y; M(\mathbf{x}; \theta))).$$
+
+## Loss and Learning Theory
+
+- We would like to have zero errors if possible; this is impossible.
+- Ideally, we would calculate the **expected error** or **risk**: $$\mathbb{E}[L(Z, M, \theta) = \int_Z L(z, M, \theta) p(z)\,dz.$$ But this would require us to know the full distribution of $Z = (X, Y)$.
+
+## Loss and Learning Theory
+
+- Instead, try to find the parameters/models which **minimize the in-sample loss**:
+
+$$\hat{\theta_n} = \text{argmin}_{\theta \in \Theta} \bar{L}(\mathbf{y}_n, M, \theta).$$
+
+This means minimizing MSE/SSE or maximizing likelihood for the quadratic or log losses.
+
+# Probabilistic Prediction Skill
+
+## What Makes A Good Prediction?
+
+What do we want to see in a probabilistic projection $F$? 
+
+::: {.fragment .fade-in}
+
+- **Calibration**: Does the predicted CDF $F(y)$ align with the "true" distribution of observations $y$? 
+  $$\mathbb{P}(y \leq F^{-1}(\tau)) = \tau \qquad \forall \tau \in [0, 1]$$
+- **Dispersion**: Is the concentration (variance) of $F$ aligned with the concentration of observations?
+- **Sharpness**: How concentrated are the forecasts $F$?
+:::
+
+## Probability Integral Transform (PIT)
+
+Common to use the PIT to make these more concrete: $Z_F = F(y)$.
+
+The forecast is **probabilistically calibrated** if $Z_F \sim Uniform(0, 1)$.
+
+The forecast is **properly dispersed** if $\text{Var}(Z_F) = 1/12$.
+
+**Sharpness** can be measured by the width of a particular prediction interval. **A good forecast is a sharp as possible subject to calibration** [@Gneiting2007-my].
+
+## PIT Example: Well-Calibrated
+
+```{julia}
+#| label: fig-pit-2
+#| fig-cap: Comparison of "proper" and overdispersed PIT.
+#| echo: true
+#| code-fold: true
+#| layout-ncol: 2
+
+# "true" observation distribution is N(2, 0.5)
+obs = rand(Normal(2, 0.5), 50)
+# forecast according to the "correct" distribution and obtain PIT
+pit_corr = cdf(Normal(2, 0.45), obs)
+p_corr = histogram(pit_corr, bins=10, label=false, xlabel=L"$y$", ylabel="Count", size=(500, 500))
+
+xrange = 0:0.01:5
+p_cdf1 = plot(xrange, cdf.(Normal(2, 0.4), xrange), xlabel=L"$y$", ylabel="Cumulative Density", label="Forecast", size=(500, 500))
+plot!(p_cdf1, xrange, cdf.(Normal(2, 0.5), xrange), label="Truth")
+
+display(p_cdf1)
+display(p_corr)
+```
+
+## PIT Example: Underdispersed
+
+```{julia}
+#| label: fig-pit-3
+#| fig-cap: Comparison of "proper" and overdispersed PIT.
+#| echo: true
+#| code-fold: true
+#| layout-ncol: 2
+
+# forecast according to an underdispersed distribution and obtain PIT
+pit_under = cdf(Normal(2, 0.1), obs)
+p_under = histogram(pit_under, bins=10, label=false, xlabel=L"$y$", ylabel="Count", size=(500, 500))
+
+xrange = 0:0.01:5
+p_cdf2 = plot(xrange, cdf.(Normal(2, 0.1), xrange), xlabel=L"$y$", ylabel="Cumulative Density", label="Forecast", size=(500, 500))
+plot!(p_cdf2, xrange, cdf.(Normal(2, 0.5), xrange), label="Truth")
+
+display(p_cdf2)
+display(p_under)
+```
+
+
+## PIT Example: Overdispersed
+
+```{julia}
+#| label: fig-pit-1
+#| fig-cap: Comparison of "proper" and overdispersed PIT.
+#| echo: true
+#| code-fold: true
+#| layout-ncol: 2
+
+# forecast according to an overdispersed distribution and obtain PIT
+pit_over = cdf(Normal(2, 1), obs)
+p_over = histogram(pit_over, bins=10, label=false, xlabel=L"$y$", ylabel="Count", size=(500, 500))
+
+xrange = 0:0.01:5
+p_cdf3 = plot(xrange, cdf.(Normal(2, 1), xrange), xlabel=L"$y$", ylabel="Cumulative Density", label="Forecast", size=(500, 500))
+plot!(p_cdf3, xrange, cdf.(Normal(2, 0.5), xrange), label="Truth")
+
+display(p_cdf3)
+display(p_over)
+```
+
+
+## Scoring Rules
+
+**Scoring rules** compare observations against an entire probabilistic forecast.
+
+A scoring rule $S(F, y)$ measures the "loss" of a predicted probability distribution $F$ once an observation $y$ is obtained. 
+
+Typically oriented so smaller = better.
+
+## Scoring Rule Examples
+
+
+1. Logarithmic: $S(F, y) = -\log F(y)$
+2. Quadratic (Brier): $S(F, y) = -2F(y) - \int_{-\infty}^\infty F^2(z) dz$ / $B(F, y) = \sum_i (y_i - F(y_i))^2$
+3. Continous Ranked Probability Score (CRPS): 
+   $$\begin{align*}
+   S(F, y) &= -\int (F(z) - \mathbb{I}(y \leq z))^2 dz \\
+   &= \mathbb{E}_F |Y -y| - \frac{1}{2} E_F | Y - Y'|
+   \end{align*}$$
+
+## Proper Scoring Rules
+
+**Proper** scoring rules are intended to encourage forecasters to provide their full (and honest) forecasts.
+
+Minimized when the forecasted distribution matches the observed distribution:
+
+$$\mathbb{E}_Y(S(G, G)) \leq \mathbb{E}_Y(S(F, G)) \qquad \forall F.$$
+
+It is **strictly proper** if equality holds only if $F = G$.
+
+## Sidenote: Why Not Use Classification Accuracy?
+
+Most classification algorithms produce a probability (*e.g.* logistic regression) of different outcomes. 
+
+A common skill metric for classification models is **accuracy** (sensitivity/specificity): given these probabilities and some threshold to translate them into categorical prediction.
+
+## The Problem With Classification Accuracy
+
+**The problem**: This translation is a *decision* problem, not a *statistical problem*. A probabilistic scoring rule over the predicted probabilities more accurately reflects the skill of the statistical model.
+
+## Logarithmic Score As Scoring Rule
+
+The **logarithmic score** $S(F, y) = -\log F(y)$ is (up to equivalence) the only **local** strictly proper scoring rule (locality &Rightarrow; score depends only on the observation).
+
+This is the negative log-probability: straightforward to use for the likelihood (frequentist forecasts) or posterior (Bayesian forecasts) and generalizes MSE.
+
+### Key Points and Upcoming Schedule
+
+
+## Upcoming Schedule
+
+**Wednesday**: Bias and Variance and Tradeoffs
+
+**Friday**: Cross-Validation
+
+## Assessments
+
+**HW3**: Due Friday
+
+**Quiz 2**: **Next** Friday, 3/13
+
+# References
+
+## Refernences (Scroll for Full List)
