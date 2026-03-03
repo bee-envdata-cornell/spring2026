@@ -33,5 +33,5 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 |   | 2/25 | Peaks Over Thresholds | [{{< fa sharp presentation-screen >}}](slides/lecture06-2-peaks-thresholds.qmd) | | | | |
 |   | 2/27 | Nonstationary Extremes | [{{< fa sharp presentation-screen >}}](slides/lecture06-3-nonstationary-extremes.qmd) | | | | |
 | 7 | 3/02 | Loss Functions and Scoring Rules | [{{< fa sharp presentation-screen >}}](slides/lecture07-1-model-skill.qmd) | [@Roberts2017-lr](http://dx.doi.org/10.1111/ecog.02881) | | | |
-|   | 3/04 | Bias and Variance  | | | | | |
+|   | 3/04 | Bias and Variance  | [{{< fa sharp presentation-screen >}}](slides/lecture07-2-bias-variance.qmd) | | | | |
 |   | 3/06 | Cross-Validation |  | | | | |
