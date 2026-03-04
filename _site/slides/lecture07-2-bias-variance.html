@@ -558,11 +558,38 @@ Figure&nbsp;7: Impact of increasing model complexity on in and out of sample err
 <section id="why-is-overfitting-a-problem" class="slide level2">
 <h2>Why Is Overfitting A Problem?</h2>
 <p>Example from <em>The Signal and the Noise</em> by Nate Silver:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
 <ul>
-<li>Engineers at Fukushima used a non-linear regression on historical earthquake data (theory suggests a linear model).</li>
-<li>Model predicted a &gt;9 Richter earthquake had a 13,000-year RP; engineers therefore designed nuclear plant to withstand an 8.6 Richter earthquake.</li>
-<li>Theoretical linear relationship suggests that a &gt;9 Richter earthquake has a RP of 300 years.</li>
+<li>Fukishima engineers used a nonlinear model which predicted a &gt;9 M<sub>W</sub> earthquake had a 13,000-year RP</li>
+<li>Nuclear plant was designed to withstand an 8.6 M<sub>W</sub> earthquake.</li>
 </ul>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/fukishima-nonlinear.png"></p>
+<figcaption>Fukushima Nonlinear Fit</figcaption>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="why-is-overfitting-a-problem-1" class="slide level2">
+<h2>Why Is Overfitting a Problem</h2>
+<p>Example from <em>The Signal and the Noise</em> by Nate Silver:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Theoretical linear relationship suggests that a &gt;9 M<sub>W</sub> earthquake has a RP of 300 years.</li>
+<li>Using this model would have designed the plant to survive the 2011 9.1 M<sub>W</sub> earthquake.</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/fukushima-linear.png"></p>
+<figcaption>Fukushima Linear Fit</figcaption>
+</figure>
+</div>
+</div></div>
 </section></section>
 <section>
 <section id="bias-variance-tradeoff" class="title-slide slide level1 center">

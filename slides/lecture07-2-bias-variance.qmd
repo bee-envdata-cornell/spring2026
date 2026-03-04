@@ -282,9 +282,29 @@ plot!(xticks=0:1:10)
 
 Example from *The Signal and the Noise* by Nate Silver:
 
-- Engineers at Fukushima used a non-linear regression on historical earthquake data (theory suggests a linear model).
-- Model predicted a >9 Richter earthquake had a 13,000-year RP; engineers therefore designed nuclear plant to withstand an 8.6 Richter earthquake.
-- Theoretical linear relationship suggests that a >9 Richter earthquake has a RP of 300 years.
+:::: {.columns}
+::: {.column width=50%}
+- Fukishima engineers used a nonlinear model which predicted a >9 M~W~ earthquake had a 13,000-year RP
+- Nuclear plant was designed to withstand an 8.6 M~W~ earthquake.
+:::
+::: {.column width=50%}
+![Fukushima Nonlinear Fit](figures/fukishima-nonlinear.png)
+:::
+::::
+
+## Why Is Overfitting a Problem
+
+Example from *The Signal and the Noise* by Nate Silver:
+
+:::: {.columns}
+::: {.column width=50%}
+- Theoretical linear relationship suggests that a >9 M~W~ earthquake has a RP of 300 years.
+- Using this model would have designed the plant to survive the 2011 9.1 M~W~ earthquake.
+:::
+::: {.column width=50%}
+![Fukushima Linear Fit](figures/fukushima-linear.png)
+:::
+::::
 
 # Bias-Variance Tradeoff
 
