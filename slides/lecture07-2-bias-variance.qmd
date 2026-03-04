@@ -385,6 +385,13 @@ Source: [Wikipedia](https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff
 - **Bias and variance do not directly tell us anything about generalizability** (prediction error is not necessarily monotonic; see *e.g.*  @Belkin2019-xy, @Mei2019-hb).
 :::
 
+## Approaches to Reducing Variance
+
+- **Dimensionality reduction/feature selection**: Use hypotheses and domain knowledge, PCA
+- **Regularization**: e.g. LASSO or ridge regression, maximize likelihood subject to constraint like $$\sum_{j=1}^k \beta_k \leq t.$$
+- Use ensembles of "smaller" models and average instead of fitting one huge model (*e.g.* random forests or bagging instead of big CARTs or ANNs)
+- **Cross-validation**: Friday
+
 # Key Points and Upcoming Schedule
 
 ## Key Points (Bias)
@@ -409,6 +416,7 @@ Source: [Wikipedia](https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff
 
 ## Upcoming Schedule
 
+- **Friday**: Cross-Validation
 - HW3 Due Friday (3/6)
 - Quiz 2: Friday (3/13)
 

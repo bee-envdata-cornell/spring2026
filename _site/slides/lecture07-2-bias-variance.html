@@ -663,6 +663,15 @@ Figure&nbsp;7: Impact of increasing model complexity on in and out of sample err
 <li class="fragment"><strong>Tautology</strong>: total error is the sum of bias, variance, and irreducible error.</li>
 <li class="fragment"><strong>Bias and variance do not directly tell us anything about generalizability</strong> (prediction error is not necessarily monotonic; see <em>e.g.</em> <span class="citation" data-cites="Belkin2019-xy">Belkin et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2019</a>)</span>, <span class="citation" data-cites="Mei2019-hb">Mei &amp; Montanari (<a href="#/references-1" role="doc-biblioref" onclick="">2019</a>)</span>).</li>
 </ul>
+</section>
+<section id="approaches-to-reducing-variance" class="slide level2">
+<h2>Approaches to Reducing Variance</h2>
+<ul>
+<li><strong>Dimensionality reduction/feature selection</strong>: Use hypotheses and domain knowledge, PCA</li>
+<li><strong>Regularization</strong>: e.g.&nbsp;LASSO or ridge regression, maximize likelihood subject to constraint like <span class="math display">\[\sum_{j=1}^k \beta_k \leq t.\]</span></li>
+<li>Use ensembles of “smaller” models and average instead of fitting one huge model (<em>e.g.</em> random forests or bagging instead of big CARTs or ANNs)</li>
+<li><strong>Cross-validation</strong>: Friday</li>
+</ul>
 </section></section>
 <section>
 <section id="key-points-and-upcoming-schedule" class="title-slide slide level1 center">
@@ -698,6 +707,7 @@ Figure&nbsp;7: Impact of increasing model complexity on in and out of sample err
 <section id="upcoming-schedule" class="slide level2">
 <h2>Upcoming Schedule</h2>
 <ul>
+<li><strong>Friday</strong>: Cross-Validation</li>
 <li>HW3 Due Friday (3/6)</li>
 <li>Quiz 2: Friday (3/13)</li>
 </ul>
