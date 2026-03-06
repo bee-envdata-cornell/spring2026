@@ -1,10 +1,10 @@
 ---
-title: "Scoring and Cross-Validation"
-subtitle: "Lecture 17"
+title: "Cross-Validation"
+subtitle: "Lecture 18"
 author: "Vivek Srikrishnan"
 course: "BEE 4850"
 institution: "Cornell University"
-date: "March 24, 2024"
+date: "March 06, 2026"
 format:
     revealjs:
         slide-number: c/t
@@ -106,7 +106,7 @@ Instead, think of **degrees of freedom**: how much flexibility is there given th
 :::: {.columns}
 ::: {.column width=50%}
 
-Can reduce degrees of freedom with **regularization**: tighter/more skeptical priors, shrinkage of estimates (*e.g.* LASSO) vs. "raw" MLE.
+Can reduce degrees of freedom with **regularization** (shrinkage of estimates (*e.g.* LASSO) vs. "raw" MLE) or **dimensionality reduction** (model simplification).
 
 :::
 ::: {.column width=50%}
@@ -117,299 +117,6 @@ Source: Richard McElreath
 :::
 :::
 ::::
-
-
-# Bias and Variance
-
-## Impact of Increasing Model Complexity
-
-```{julia}
-#| label: fig-true-data
-#| fig-cap: True data and the data-generating curve.
-#| echo: true
-#| code-fold: true
-#| warning: false
-#| error: false
-
-ntrain = 20
-x = rand(Uniform(-2, 2), ntrain)
-f(x) = x.^3 .- 5x.^2 .+ 1
-y = f(x) + rand(Normal(0, 2), length(x))
-p0 = scatter(x, y, label="Data", markersize=5)
-xrange = -2:0.01:2
-plot!(p0, xrange, f.(xrange), lw=3, color=:gray, label="True Curve")
-plot!(p0, size=(1000, 450))
-```
-
-## Impact of Increasing Model Complexity
-
-```{julia}
-#| label: fig-true-data-1
-#| fig-cap: Impact of increasing model complexity on model fits
-#| echo: true
-#| code-fold: true
-#| layout-ncol: 2
-#| warning: false
-#| error: false
-
-function polyfit(d, x, y)
-    function m(d, θ, x)
-        mout = zeros(length(x), d + 1)
-        for j in eachindex(x)
-            for i = 0:d
-                mout[j, i + 1] = θ[i + 1] * x[j]^i
-            end
-        end
-        return sum(mout; dims=2)
-    end
-    θ₀ = [zeros(d+1); 1.0]
-    lb = [-10.0 .+ zeros(d+1); 0.01]
-    ub = [10.0 .+ zeros(d+1); 20.0]
-    optim_out = optimize(θ -> -sum(logpdf.(Normal.(m(d, θ[1:end-1], x), θ[end]), y)), lb, ub, θ₀)
-    θmin = optim_out.minimizer
-    mfit(x) = sum([θmin[i + 1] * x^i for i in 0:d])
-    return (mfit, θmin[end])
-end
-
-function plot_polyfit(d, x, y)
-    m, σ = polyfit(d, x, y)
-    p = scatter(x, y, label="Data", markersize=5, ylabel=L"$y$", xlabel=L"$x$", title="Degree $d")
-    plot!(p, xrange, m.(xrange), ribbon = 1.96 * σ, fillalpha=0.2, lw=3, label="Fit")
-    ylims!(p, (-30, 15))
-    plot!(p, size=(600, 450))
-    return p
-end
-
-p1 = plot_polyfit(1, x, y)
-p2 = plot_polyfit(2, x, y)
-
-display(p1)
-display(p2)
-```
-
-## Impact of Increasing Model Complexity
-
-```{julia}
-#| label: fig-true-data-2
-#| fig-cap: Impact of increasing model complexity on model fits
-#| echo: true
-#| code-fold: true
-#| layout-ncol: 2
-#| warning: false
-#| error: false
-
-p3 = plot_polyfit(3, x, y)
-p4 = plot_polyfit(4, x, y)
-
-display(p3)
-display(p4)
-```
-
-## Impact of Increasing Model Complexity
-
-```{julia}
-#| label: fig-true-data-3
-#| fig-cap: Impact of increasing model complexity on model fits
-#| echo: true
-#| code-fold: true
-#| layout-ncol: 2
-#| warning: false
-#| error: false
-
-p5 = plot_polyfit(6, x, y)
-p6 = plot_polyfit(10, x, y)
-
-display(p5)
-display(p6)
-```
-
-## What Is Happening?
-
-We can think of a model as a form of **data compression**.
-
-Instead of storing coordinates of individual points, project onto parameters of functional form.
-
-The degree to which we can "tune" the model by adjusting parameters are called the **model degrees of freedom** (DOF), which is one measure of model complexity.
-
-## Implications of Model DOF
-
-Higher DOF &Rightarrow; more ability to represent complex patterns.
-
-::: {.fragment .fade-in}
-:::: {.columns}
-::: {.column width=50%}
-If DOF is too low, the model can't capture meaningful data-generating signals (**underfitting**).
-:::
-::: {.column width=50%}
-
-```{julia}
-#| label: fig-true-data-underfit
-#| fig-cap: Impact of increasing model complexity on model fits
-#| echo: false
-#| warning: false
-#| error: false
-
-p1
-```
-:::
-::::
-:::
-
-## Implications of Model DOF
-
-Higher DOF &Rightarrow; more ability to represent complex patterns.
-
-:::: {.columns}
-::: {.column width=50%}
-But if DOF is too high, the model will "learn" the noise rather than the signal, resulting in poor generalization (**overfitting**).
-:::
-
-::: {.column width=50%}
-```{julia}
-#| label: fig-true-data-overfit
-#| fig-cap: Impact of increasing model complexity on model fits
-#| echo: false
-#| warning: false
-#| error: false
-
-p6
-```
-
-:::
-::::
-
-## In- Vs. Out-Of-Sample Error
-
-```{julia}
-#| label: fig-sample-error
-#| fig-cap: Impact of increasing model complexity on in and out of sample error
-#| echo: true
-#| code-fold: true
-#| warning: false
-#| error: false
-
-ntest = 20
-xtest = rand(Uniform(-2, 2), ntest)
-ytest = f(xtest) + rand(Normal(0, 2), length(xtest))
-
-in_error = zeros(11)
-out_error = zeros(11)
-#calculate sum of squared errors
-for d = 0:10
-    m, σ = polyfit(d, x, y)
-    in_error[d+1] = sum((m.(x) .- y).^2)
-    out_error[d+1] = sum((m.(xtest) .- ytest).^2)
-end
-
-plot(0:10, in_error / length(y), marker=(:circle, :blue, 8), line=(:blue, 3), label="In-Sample Error", xlabel="Polynomial Degree", ylabel="Mean Squared Error", legend=:topleft)
-plot!(0:10, out_error / length(y), marker=(:circle, :red, 8), line=(:red, 3), label="Out-of-Sample Error")
-plot!(yaxis=:log)
-plot!(xticks=0:1:10)
-```
-
-## Why Is Overfitting A Problem?
-
-Example from *The Signal and the Noise* by Nate Silver:
-
-- Engineers at Fukushima used a non-linear regression on historical earthquake data (theory suggests a linear model).
-- This model predicted a >9 Richter earthquake would only happen once every 13,000 years; engineers therefore designed nuclear plant to withstand an 8.6 Richter earthquake.
-- Theoretical linear relationship suggests that a >9 Richter earthquake would happen every 300 years.
-
-
-# Key Points and Upcoming Schedule
-
-## Key Points (Bias)
-
-- Bias: Discrepancy between expected model output and observations. 
-- Related to approximation error and underfitting.
-- "Simpler" models tend to have higher bias.
-- High bias suggests less sensitivity to specifics of dataset.
-
-## Key Points (Variance)
-
-- Variance: How much the model predictions vary around the mean. 
-- Related to estimation error and overfitting.
-- "More complex" models tend to have higher variance.
-- High variance suggests high sensitivity to specifics of dataset.
-
-## Key Points (Bias-Variance Tradeoff)
-
-- Error can be decomposed into bias, variance, and irreducible error.
-- "Tradeoff" reflects this decomposition (but it's not really a tradeoff).
-- Useful conceptual to think about the balance between not picking up on meaningful signals (underfitting) and modeling noise (overfitting).
-
-## Bias vs. Variance
-
-The difference between low and high DOFs can be formalized using **bias** and **variance**.
-
-Suppose we have a data-generating model $$y = f(x) + \varepsilon, \varepsilon \sim N(0, \sigma).$$ We want to fit a model $\hat{y} \approx \hat{f}(x)$.
-
-## Bias
-
-**Bias** is error from mismatches between the model predictions and the data ($\text{Bias}[\hat{f}] = \mathbb{E}[\hat{f}] - y$).
-
-Bias comes from under-fitting meaningful relationships between inputs and outputs:
-
-- too few degrees of freedom ("too simple")
-- neglected processes.
-
-## Variance
-
-**Variance** is error from over-sensitivity to small fluctuations in training inputs $D$ ($\text{Variance} = \text{Var}_D(\hat{f}(x; D)$).
-
-Variance can come from over-fitting noise in the data:
-
-- too many degrees of freedom ("too complex")
-- poor identifiability
-
-## "Bias-Variance Tradeoff"
-
-Can decompose MSE into bias and variance terms:
-
-$$
-\begin{align*}
-\text{MSE} &= \mathbb{E}[y - \hat{f}^2] \\
-&= \mathbb{E}[y^2 - 2y\hat{f}(x) + \hat{f}^2] \\
-&= \mathbb{E}[y^2] - 2\mathbb{E}[y\hat{f}] + E[\hat{f}^2] \\
-&= \mathbb{E}[(f + \varepsilon)^2] - \mathbb{E}[(f + \varepsilon)\hat{f}] + E[\hat{f}^2] \\
-&= \vdots \\
-&= \text{Bias}(\hat{f})^2 + \text{Var}(\hat{f}) + \sigma^2
-\end{align*}
-$$
-
-## "Bias-Variance Tradeoff"
-
-This means that **for a fixed error level**, you can reduce bias (increasing model complexity) or decrease variance (simplifying model) but one comes at the cost of the other.
-
-This is the so-called "bias-variance tradeoff."
-
-## More General B-V Tradeoff
-
-This decomposition is for MSE, but the **principle holds more generally**.
-
-- Models which perform better "on average" over the training data (low bias) are more likely to overfit (high variance);
-- Models which have less uncertainty for training data (low variance) are more likely to do worse "on average" (high bias).
-
-## Common Story: Complexity and Bias-Variance
-
-::: {.center}
-![Bias-Variance Tradeoff](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Bias_and_variance_contributing_to_total_error.svg/1920px-Bias_and_variance_contributing_to_total_error.svg.png){width=55%}
-
-::: {.caption}
-Source: [Wikipedia](https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff)
-:::
-:::
-
-
-## Is "Bias-Variance Tradeoff" Useful?
-
-::: {.incremental}
-
-- **Tautology**: total error is the sum of bias, variance, and irreducible error.
-- But error isn't actually "conserved": changing models changes all three terms.
-- **Bias and variance do not directly tell us anything about generalizability** (prediction error is not necessarily monotonic; see *e.g.*  @Belkin2019-xy, @Mei2019-hb).
-- Instead, think about **approximation** vs. **estimation** error.
-:::
 
 
 # Cross-Validation
@@ -436,7 +143,7 @@ where $L(x, \theta)$ is an error function capturing the discrepancy between $\ha
 
 ## In-Sample Error
 
-Since we don't know the "true" distribution of $y$, we could try to approximate it using the training data:
+Since we don't know the "true" distribution of $y$, we usually try to approximate it using the training data:
 
 $$\hat{L} = \min_{\theta \in \Theta} L(x_n, \theta)$$
 
@@ -444,12 +151,116 @@ But: **This is minimizing in-sample error and is likely to result an optimistic 
 
 ## Held Out Data
 
+:::: {.columns}
+::: {.column width=50%}
 Instead, let's divide our data into a training dataset $y_k$ and testing dataset $\tilde{y}_l$.
 
 1. Fit the model to $y_k$;
 2. Evaluate error on $\tilde{y}_l$.
 
-This results in an unbiased estimate of $\hat{L}$ but is noisy.
+
+:::
+::: {.column width=50%}
+```{julia}
+#| label: fig-holdout-data-1
+#| fig-cap: Data for CV example.
+
+tds = let
+    fname = "data/tds/cuyaTDS.csv" # CHANGE THIS!
+    tds = DataFrame(CSV.File(fname))
+    tds[!, [:date, :discharge_cms, :tds_mgL]]
+end
+xx = [2, 5, 10, 20, 50, 100]
+
+p = scatter(
+    tds.discharge_cms,
+    tds.tds_mgL,
+    xlabel=L"Discharge (m$^3$/s)",
+    ylabel="Total dissolved solids (mg/L)",
+    markersize=5,
+    label="Training Data",
+    xaxis=:log, 
+    xticks=(xx, string.(xx)),
+    ylims=(0, 750),
+    xlims=(1, 60)
+)
+plot!(p, size=(600, 600))
+p1 = deepcopy(p)
+train_idx1 = sample(1:nrow(tds), Int(nrow(tds) / 2), replace=false)
+test_idx1 = setdiff(1:nrow(tds), train_idx1)
+scatter!(p1, tds.discharge_cms[test_idx1], tds.tds_mgL[test_idx1], color=:red, markersize=5, label="Testing Data")
+
+```
+:::
+::::
+
+## Held Out Data
+
+:::: {.columns}
+::: {.column width=50%}
+```{julia}
+#| label: fig-holdout-data-2
+#| fig-cap: Data for CV example.
+function cv_tds(tds_dat, train_idx)
+    function tds_riverflow_loglik(θ, tds, flow)
+        β₀, β₁, σ = θ # unpack parameter vector
+        μ = β₀ .+ β₁ * log.(flow) # find mean
+        ll = sum(logpdf.(Normal.(μ, σ), tds)) # compute log-likelihood
+        return ll
+    end
+
+    lb = [0.0, -1000.0, 1.0]
+    ub = [1000.0, 1000.0, 100.0]
+    θ₀ = [500.0, 0.0, 50.0]
+    optim_out = Optim.optimize(θ -> -tds_riverflow_loglik(θ, tds.tds_mgL[train_idx], tds.discharge_cms[train_idx]), lb, ub, θ₀)
+    θ_mle = round.(optim_out.minimizer; digits=0)
+
+    # simulate 10,000 predictions
+    x = 1:0.1:60
+    μ = θ_mle[1] .+ θ_mle[2] * log.(x)
+    y_pred = zeros(length(x), 10_000)
+    for i = 1:length(x)
+        y_pred[i, :] = rand(Normal(μ[i], θ_mle[3]), 10_000)
+    end
+    return (θ_mle, y_pred)
+end
+
+θ_drop1, fit_drop1 = cv_tds(tds, train_idx1)
+
+# calculate in- and out-of sample scores
+μ_pred1 = θ_drop1[1] .+ θ_drop1[2] * log.(tds.discharge_cms[test_idx1])
+score_drop1 = mean((μ_pred1 .- tds.tds_mgL[test_idx1]).^2)
+
+μ_insamp1 = θ_drop1[1] .+ θ_drop1[2] * log.(tds.discharge_cms[train_idx1])
+score_insamp1 = mean((μ_pred1 .- tds.tds_mgL[train_idx1]).^2)
+
+# take quantiles to find prediction intervals
+y_q = mapslices(v -> quantile(v, [0.05, 0.5, 0.95]), fit_drop1; dims=2)
+x = 1:0.1:60
+
+plot!(p1, 
+    x,
+    y_q[:, 2],
+    ribbon = (y_q[:, 2] - y_q[:, 1], y_q[:, 3] - y_q[:, 2]),
+    linewidth=3, 
+    fillalpha=0.2, 
+    label="CV Fit",
+    color=:red,
+    size=(600, 600))
+```
+:::
+::: {.column width=50%}
+**Training Data MSE**: `{julia} round(score_insamp1; digits=1)`
+
+**Testing Data MSE**: `{julia} round(score_drop1; digits=1)`
+:::
+
+::::
+
+
+**Training Data Score**: `{julia} round(score_insamp1; digits=1)`
+
+**Testing Data Score**: `{julia} round(score_drop1; digits=1)`
 
 ## $k$-Fold Cross-Validation
 
@@ -460,9 +271,92 @@ What if we repeated this procedure for multiple held-out sets?
 
 If data are large, this is a good approximation.
 
-## Leave-One-Out Cross-Validation (LOOCV)
+## Random Division of Data
 
-The problem with $k$-fold CV, when data is scarce, is withholding $n/k$ points.
+**Why do we want to randomly divide the data and test over all splits?**
+
+## Consistency of C-V
+
+```{julia}
+#| label: fig-true-data-1
+#| fig-cap: Impact of increasing model complexity on model fits
+#| echo: true
+#| code-fold: true
+#| warning: false
+#| error: false
+
+# create data set
+Random.seed!(1)
+ntrain = 20
+x = rand(Uniform(-2, 2), ntrain)
+f(x) = x.^3 .- 5x.^2 .+ 1
+y = f(x) + rand(Normal(0, 2), length(x))
+
+# function to fit polynomial model
+function polyfit(d, x, y)
+    function m(d, θ, x)
+        mout = zeros(length(x), d + 1)
+        for j in eachindex(x)
+            for i = 0:d
+                mout[j, i + 1] = θ[i + 1] * x[j]^i
+            end
+        end
+        return sum(mout; dims=2)
+    end
+    θ₀ = [zeros(d+1); 1.0]
+    lb = [-10.0 .+ zeros(d+1); 0.01]
+    ub = [10.0 .+ zeros(d+1); 20.0]
+    optim_out = optimize(θ -> -sum(logpdf.(Normal.(m(d, θ[1:end-1], x), θ[end]), y)), lb, ub, θ₀)
+    θmin = optim_out.minimizer
+    mfit(x) = sum([θmin[i + 1] * x^i for i in 0:d])
+    return (mfit, θmin[end])
+end
+
+# create out-of-sample data for testing generalizability
+ntest = 20
+xtest = rand(Uniform(-2, 2), ntest)
+ytest = f(xtest) + rand(Normal(0, 2), length(xtest))
+
+# calculate cross-validation fits and scores
+function cv_poly(d, x, y, nfolds=5)
+    # split data into folds
+    labels = repeat(1:nfolds, outer=Int(length(x) / nfolds))
+    fold_labels = shuffle(labels) # randomly permute the labels
+    # do C-V
+    cv_error = zeros(nfolds)
+    for fold in 1:nfolds
+        test_idx = findall(fold_labels .== fold)
+        train_idx = setdiff(1:length(x), test_idx)
+        m, σ = polyfit(d, x[train_idx], y[train_idx])
+        cv_error[fold] = mean((m.(x[test_idx]) .- y[test_idx]).^2)
+    end
+    return cv_error
+end
+
+in_error = zeros(11)
+out_error = zeros(11)
+cv_error = zeros(11)
+nfold = 4
+#calculate sum of squared errors
+for d = 0:10
+    m, σ = polyfit(d, x, y)
+    in_error[d+1] = mean((m.(x) .- y).^2)
+    out_error[d+1] = mean((m.(xtest) .- ytest).^2)
+    cv_error[d+1] = mean(cv_poly(d, x, y, nfold))
+end
+
+plot(0:10, in_error, marker=(:circle, :blue, 8), line=(:blue, 3), label="In-Sample Error", xlabel="Polynomial Degree", ylabel="Mean Squared Error", legend=:top)
+plot!(0:10, out_error, marker=(:circle, :red, 8), line=(:red, 3), label="Out-of-Sample Error")
+plot!(0:10, cv_error, marker=(:circle, :purple, 8), line=(:purple, 3), label="C-V Error")
+plot!(yaxis=:log)
+plot!(xticks=0:1:10)
+plot!(size=(900, 450))
+```
+
+
+## Leave-One-Out Cross-Validation (LOO-CV)
+
+The problem with $k$-fold CV, when data is scarce, is withholding $n/k$ points, which results in more biased estimates.
 
 **LOO-CV**: Set $k=n$
 
@@ -471,6 +365,8 @@ The problem with $k$-fold CV, when data is scarce, is withholding $n/k$ points.
 **The benefit**: LOO-CV approximates seeing "the next datum".
 
 ## LOO-CV Algorithm
+
+We focus here on the log score, but any error metric can be used.
 
 1. Drop one value $y_i$.
 2. Refit model on rest of data $y_{-i}$.
@@ -489,15 +385,8 @@ $$S = f(D, U)$$
 
 ::: {.column width=50%}
 ```{julia}
-#| label: fig-cv-data
+#| label: fig-loocv-data
 #| fig-cap: Data for CV example.
-
-tds = let
-	fname = "data/tds/cuyaTDS.csv" # CHANGE THIS!
-	tds = DataFrame(CSV.File(fname))
-	tds[!, [:date, :discharge_cms, :tds_mgL]]
-end
-xx = [2, 5, 10, 20, 50, 100]
 
 p = scatter(
 	tds.discharge_cms,
@@ -532,7 +421,7 @@ plot!(p, size=(600, 600))
 
 ::: {.column width=50%}
 ```{julia}
-#| label: fig-cv-data-1
+#| label: fig-loocv-data-1
 #| fig-cap: Data for CV example.
 
 p1 = deepcopy(p)
@@ -632,7 +521,7 @@ $p(y_i | y_{-i})$ = `{julia} round(score_drop1[1]; digits=1)`
 
 **In Sample**:
 
- $p(\hat{y}_{-i} | y_{-i})$ = `{julia} round(score_insamp1; digits=1)`
+ $p(y_{-i} | y_{-i})$ = `{julia} round(score_insamp1; digits=1)`
 
 :::
 ::::
@@ -669,17 +558,6 @@ This is the **average log-likelihood of out-of-sample data**.
 :::
 ::::
 
-## Bayesian LOO-CV
-
-Bayesian LOO-CV involves using the posterior predictive distribution
-
-$$\begin{align*}
-\text{lppd}_\text{cv} &= \sum_{i=1}^N \log p_{\text{post}}(y_i | \theta_{-i}) \\
-&\approx \sum_{i=1}^N \frac{1}{S} \sum_{s=1}^S log p_{\text{post}}(y_i | \theta_{-i, s}),
-\end{align*}$$
-
-which requires refitting the model without $y_i$ for every data point.
-
 
 ## Leave-$k$-Out Cross-Validation
 
@@ -688,47 +566,203 @@ Drop $k$ values, refit model on rest of data, check for predictive skill.
 As $k \to n$, this reduces to the prior predictive distribution
 $$p(y^{\text{rep}}) = \int_{\theta} p(y^{\text{rep}} | \theta) p(\theta) d\theta.$$
 
-## Cross-Validation and Model Tuning
-
-Can use cross-validation to evaluate overfitting instead of using different model structure.
-
-What happens to CV error with tighter priors/regularization penalty?
-
-But remember, **prediction is not the same as scientific inference**: try to balance both considerations.
- 
 ## Challenges with Cross-Validation
 
 ::: {.incremental}
 - This can be very computationally expensive!
 - We often don't have a lot of data for calibration, so holding some back can be a problem.
-- Can have a negative bias for future prediction.
-- How to divide data with spatial or temporal structure? This can be addressed by partitioning the data more cleverly:
-  $$y = \{y_{1:t}, y_{-((t+1):T)}\}$$
-  but this makes the data problem worse.
+- Best score still be over-optimistic.
+- Can fail if you try to compare too many different models.
 ::: 
+
+## C-V and Feature Selection
+
+Every step of model "tuning" must be subject to C-V: this includes any statistical feature selection.
+
+In other words: construct held-out data sets, then do feature selection + model training + evaluation **all at once** for each fold.
+
+Otherwise the C-V evaluation is biased by the "full knowledge" of which features to use.
+
+
+# Cross-Validation for Dependent Data
+
+## Challenges with C-V With Structured Data
+
+:::: {.columns}
+::: {.column width=50%}
+
+- Data structure creates dependencies: holding out a random subset of data might not align properly.
+- **Example**: What if we randomly hold out data in the middle of a time series?
+
+:::
+
+::: {.column width=50%}
+```{julia}
+#| code-fold: true
+#| echo: true
+#| label: fig-cv-structure
+#| fig-label: Problem with holding out random data for a time series
+
+μ = 0.01
+ρ = 0.7
+σ = 0.5
+ar_var = sqrt(σ^2 / (1 - ρ^2))
+T = 100
+ts_stat = zeros(T)
+for i = 1:T
+    if i == 1
+        ts_stat[i] = rand(Normal(0, ar_var))
+    else
+        ts_stat[i] = ρ * ts_stat[i-1] + rand(Normal(0, σ))
+    end
+end
+
+p = plot(1:T, ts_stat, marker=:circle, markersize=8, color=:blue, label="Training Data", xlabel="Time", linewidth=3, size=(600, 500))
+p1 = deepcopy(p)
+test_idx1 = sample(1:nrow(tds), 5, replace=false)
+scatter!(p1, test_idx1, ts_stat[test_idx1], color=:red, markersize=8, label="Testing Data")
+```
+:::
+::::
+
+## TS Approach: Leave-Future-Out C-V
+
+**Idea**: Use model fit on data $\{y_1, \ldots, y_i\}$ and predict $y_{i+1}$
+
+Can also look at multi-step prediction: predict $y_{i+h}$ for some forecast horizon $h$.
+
+## LFO-CV Example
+
+:::: {.columns}
+::: {.column width=50%}
+
+1. Set minimum length $m$.
+2. **Refit model on $\{y_1, y_m\}$**.
+3. **Predict $p(\hat{y}_{m+1} | y_{1:m})$**.
+4. **Evaluate $-\log p(y_{m+1} | y_{1:m})$**
+5. Increment $m$ by 1 and repeat until end is hit.
+6. Take mean of individual scores.
+:::
+::: {.column width=50%}
+
+```{julia}
+#| code-fold: true
+#| echo: true
+#| label: fig-cv-lfo-1
+#| fig-label: Leave-future-out CV
+
+function cv_lfo(dat, m)
+    ts_pred = zeros(length(dat) - m, 10_000)
+    log_p = zeros(length(dat) - m)
+    function ar1_loglik_whitened(θ, dat)
+        # might need to include mean or trend parameters as well
+        # subtract trend from data to make this mean-zero in this case
+        α, ρ, σ = θ
+        T = length(dat)
+        ll = 0 # initialize log-likelihood counter
+        for i = 1:T
+            if i == 1
+                ll += logpdf(Normal(α / (1 - ρ), sqrt(σ^2 / (1 - ρ^2))), dat[i])
+            else
+                r = dat[i] - (α + ρ * dat[i-1])
+                ll += logpdf(Normal(0, σ), r)
+            end
+        end
+        return ll
+    end
+
+    lb = [-5.0, -0.99, 0.01]
+    ub = [5.0, 0.99, 5]
+    init = [0.0, 0.6, 0.3]
+
+    for i = (m+1):T
+        optim_whitened = Optim.optimize(θ -> -ar1_loglik_whitened(θ, dat[1:(i-1)]), lb, ub, init)
+        θ = optim_whitened.minimizer
+        # get log score of data
+        log_p[i - m] = -logpdf(Normal(θ[1] .+ θ[2] * dat[i-1], θ[3]), dat[i])
+        # simulate predictions
+        ts_pred[i - m, :] = θ[1] .+ θ[2] * dat[i-1] .+ rand(Normal(0, θ[3]), 10_000)
+
+    end
+    return (log_p, ts_pred)
+end
+
+m = 10
+log_p, ts_lfo = cv_lfo(ts_stat, m)
+p = plot(1:m, ts_stat[1:m], marker=:circle, markersize=8, color=:blue, label="Training Data", xlabel="Time", linewidth=3, size=(600, 500))
+pred_quantile = quantile(ts_lfo[1, :], [0.05, 0.95])
+scatter!(p, [m+1], [ts_stat[m+1]], yerr = pred_quantile .+ ts_stat[m+1], marker=:circle, markersize=8, color=:red, label="Testing Data")
+
+```
+
+:::
+::::
+
+## LFO-CV Example
+
+:::: {.columns}
+::: {.column width=50%}
+
+1. Set minimum length $m$.
+2. Refit model on $\{y_1, y_m\}$.
+3. Predict $p(\hat{y}_{m+1} | y_{1:m})$.
+4. Evaluate $-\log p(y_{m+1} | y_{1:m})$
+5. **Increment $m$ by 1 and repeat until end is hit**.
+6. Take mean of individual scores.
+:::
+::: {.column width=50%}
+
+```{julia}
+#| code-fold: true
+#| echo: true
+#| label: fig-cv-lfo-2
+#| fig-label: Leave-future-out CV
+
+i = m + 1
+p = plot(1:i, ts_stat[1:i], marker=:circle, markersize=8, color=:blue, label="Training Data", xlabel="Time", linewidth=3, size=(600, 500))
+pred_quantile = quantile(ts_lfo[i - m + 1, :], [0.05, 0.95])
+scatter!(p, [i+1], [ts_stat[i+1]], yerr = pred_quantile .+ ts_stat[i+1], marker=:circle, markersize=8, color=:red, label="Testing Data")
+```
+:::
+::::
+
+## LFO-CV Example
+
+:::: {.columns}
+::: {.column width=50%}
+
+1. Set minimum length $m$.
+2. Refit model on $\{y_1, y_m\}$.
+3. Predict $p(\hat{y}_{m+1} | y_{1:m})$.
+4. Evaluate $-\log p(y_{m+1} | y_{1:m})$
+5. Increment $m$ by 1 and repeat until end is hit.
+6. **Take mean of individual scores**.
+:::
+::: {.column width=50%}
+
+**LFO-CV score**: `{julia} round(mean(log_p); digits=1)`
+:::
+::::
 
 
 # Key Points and Upcoming Schedule
 
-## Key Points (Scoring Rules)
-
-- Probabilistic forecasts should be assessed based on both calibration and sharpness.
-- Scoring rules as measures of probabilistic forecast skill.
-- Logarithmic score (negative log-probability) is the unique locally proper scoring rule.
-
 ## Key Points (Cross-Validation)
 
-- Gold standard for predictive skill assessment.
 - Hold out data (one or more points) randomly, refit model, and quantify predictive skill.
 - LOO-CV maximizes use of data but can be computationally expensive.
+- Be thoughtful about "blocking" for structured data to avoid information leakage.
+- **All parts of statistical modeling must be included in C-V workflow**.
 
 ## Next Classes
 
-**Wednesday**: Entropy and Information Criteria
+**Monday**: Hypothesis Testing
 
 ## Assessments
 
-**HW4**: Due on 4/11 at 9pm.
+**HW3**: Due today.
+
+**Quiz 2**: Next Friday (3/16)
 
 # References
 
