@@ -35,3 +35,4 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 | 7 | 3/02 | Loss Functions and Scoring Rules | [{{< fa sharp presentation-screen >}}](slides/lecture07-1-model-skill.qmd) | [@Roberts2017-lr](http://dx.doi.org/10.1111/ecog.02881) | | | |
 |   | 3/04 | Bias and Variance  | [{{< fa sharp presentation-screen >}}](slides/lecture07-2-bias-variance.qmd) | | | | |
 |   | 3/06 | Cross-Validation | [{{< fa sharp presentation-screen >}}](slides/lecture07-3-cross-validation.qmd) | | | | |
+| 8 | 3/09 | Hypothesis Testing | | | | | |
