@@ -1,10 +1,10 @@
 ---
-title: "Information Criteria"
-subtitle: "Lecture 18"
+title: "Model Comparison and Information Criteria"
+subtitle: "Lecture 20"
 author: "Vivek Srikrishnan"
 course: "BEE 4850"
 institution: "Cornell University"
-date: "April 7, 2025"
+date: "March 11, 2026"
 format:
     revealjs:
         slide-number: c/t
@@ -215,40 +215,6 @@ In other words:
 - Do not select features based on the entire dataset, then do C-V on that model.
 - Must treat variable/feature selection as part of the C-V process.
 - *A priori* model specification (before looking at the data) avoids this problem.
-
-# Out of Sample Predictive Accuracvy
-
-## Expected Out-Of-Sample Predictive Accuracy
-
-We want to compute the *expected out-of-sample log-predictive density*
-
-$$
-\begin{align}
-\text{elpd} &= \text{expected log-predictive density for } \tilde{y}_i \\
-&= \mathbb{E}_P \left[\log p(\tilde{y}_i)\right] \\
-&= \int \log\left(p(\tilde{y}_i)\right) P(\tilde{y}_i)\,d\tilde{y}.
-\end{align}
-$$
-
-## Expected Out-Of-Sample Predictive Accuracy
-
-What is the challenge?
-
-::: {.fragment .fade-in}
-We don't know $P$ (the distribution of new data)!
-
-:::
-
-## Expected Out-Of-Sample Predictive Accuracy
-
-We need some measure of the error induced by using an approximating distribution $Q$ from some model.
-
-$$\begin{align}
-Q(\tilde{y}_i) &= \mathbb{E}_\theta \left[p(\tilde{y}_i | \theta)\right] \\
-&= \int p(\tilde{y_i} | \theta) p(\theta)\,d\theta.
-\end{align}$$
-
-Here $\theta$ can be the MLE or integrated over the sampling or posterior.
 
 # Information Criteria
 
@@ -467,7 +433,7 @@ model_aic = DataFrame(Model=["Stationary", "Time", "PDO"], LogLik=trunc.(Int64, 
 
 This means **AIC selects for predictive performance, not "truth".**
 
-AIC can tend to overfit due to this prioritization of efficiency.
+AIC/LOO-CV can tend to overfit due to this prioritization of efficiency.
 
 ## AIC for Small Samples
 
@@ -516,17 +482,8 @@ Model projections can then be weighted based on $w_i$, which can be interpreted 
 
 $$\text{BIC} = -2 \left(\log p(y | \hat{\theta}_\text{MLE})\right) + k\log n$$
 
-Approximation of **log-marginal likelihood** $$\log p(\mathcal{M}) = \log \int_\theta p(y | \theta, \mathcal{M}) p(\theta | \mathcal{M}) d\theta$$ under a whole host of assumptions related to large-sample approximation (so priors don't matter).
+BIC is an approximation to $k$-fold cross-validation for a particular choice of $k$
 
-Note that $\log p(\mathcal{M})$ is the *prior* predictive density, which is why BIC penalizes model complexity more than AIC.
-
-## BIC For Model Comparison
-
-When comparing two models $\mathcal{M}_1$, $\mathcal{M}_2$, get an approximation of the **log-Bayes Factor (BF)**:
-
-$$\Delta \text{BIC} = \text{BIC}_1 - \text{BIC}_2 \approx \log \left(\frac{p(\mathcal{M}_1)}{p(\mathcal{M_2})}\right)$$
-
-This means that $\Delta \text{BIC}$ gives an approximation of the posterior model probabilities across a model set assuming equal prior probabilities.
 
 ## BIC vs. AIC
 
@@ -534,60 +491,12 @@ This means that $\Delta \text{BIC}$ gives an approximation of the posterior mode
 - AIC will tend to overfit, BIC to underfit.
 - BIC is **consistent** but **not efficient**.
 
+In other words, if the "true" model is among the choices, AIC may not choose it, but BIC will. But AIC will choose the model with better predictive skill.
+
 ::: {.fragment .fade-in}
 BIC vs. AIC is analogous to the tradeoff between causal vs. predictive analyses. **Generally not coherent to use both for the same problem**.
 :::
 
-## Other Information Criteria
-
-Follow the same pattern: compute $\text{elpd}$ based on some estimate and penalize for model degrees of freedom.
-
-## Deviance Information Criteria (DIC)
-
-The Deviance Information Criterion (DIC) is a more Bayesian generalization of AIC which uses the posterior mean 
-$$\hat{\theta}_\text{Bayes} = \mathbb{E}\left[\theta | y\right]$$
-and a bias correction derived from the data.
-
-## DIC Formula
-
-$$\widehat{\text{elpd}}_\text{DIC} = \log p(y | \hat{\theta}_\text{Bayes}) - d_{\text{DIC}},$$
-where
-$$d_\text{DIC} = 2\left(\log p(y | \hat{\theta}_\text{Bayes}) - \mathbb{E}_\text{post}\left[\log p(y | \theta)\right]\right).$$
-
-Then, as with AIC, $$\text{DIC} = -2\widehat{\text{elpd}}_\text{DIC}.$$
-
-##  DIC: Effective Number of Parameters
-
-**What is the meaning of $p_\text{DIC}$?**
-
-- The difference between the average log-likelihood (across parameters) and the log-likelihood at a parameter average measures "degrees of freedom".
-- The DIC adjustment assumes independence of residuals for fixed $\theta$.
-
-## AIC vs. DIC
-
-AIC and DIC often give similar results, but don't have to. 
-
-The key difference is the impact of priors on parameter estimation and model degrees of freedom.
-
-## Watanabe-Akaike Information Criterion (WAIC)
-
-$$\widehat{\text{elpd}}_\text{WAIC} = \sum_{i=1}^n \log \int p(y_i | \theta) p_\text{post}(\theta)\,d\theta - d_{\text{WAIC}},$$
-
-where
-$$d_\text{WAIC} = \sum_{i=1}^n \text{Var}_\text{post}\left(\log p(y_i | \theta)\right).$$
-
-## WAIC Correction Factor
-
-$p_\text{WAIC}$ is an estimate of the number of "unconstrained" parameters in the model.
-
-- A parameter counts as 1 if its estimate is "independent" of the prior;
-- A parameter counts as 0 if it is fully constrained by the prior.
-- A parameter gives a partial value if both the data and prior are informative.
-
-## WAIC vs. AIC and DIC
-
-- WAIC can be viewed as an approximation to leave-one-out CV, and averages over the entire posterior, vs. AIC and DIC which use point estimates.
-- But it doesn't work well with highly structured data; no real alternative to more clever uses of Bayesian cross-validation.
 
 
 # Key Takeaways and Upcoming Schedule
@@ -602,7 +511,7 @@ $p_\text{WAIC}$ is an estimate of the number of "unconstrained" parameters in th
 
 ## Next Classes
 
-**Wednesday**: Modeling Extreme Values
+**Friday**: Quiz 2, Random Sampling
 
 # References
 

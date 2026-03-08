@@ -1,10 +1,10 @@
 ---
 title: "Information and Entropy"
-subtitle: "Lecture 17"
+subtitle: "Lecture 19"
 author: "Vivek Srikrishnan"
 course: "BEE 4850"
 institution: "Cornell University"
-date: "March 26, 2024"
+date: "March 09, 2026"
 format:
     revealjs:
         slide-number: c/t
@@ -422,6 +422,41 @@ display(p1)
 display(p2)
 ```
 
+# Out of Sample Predictive Accuracvy
+
+## Expected Out-Of-Sample Predictive Accuracy
+
+We want to compute the *expected out-of-sample log-predictive density*
+
+$$
+\begin{align}
+\text{elpd} &= \text{expected log-predictive density for } \tilde{y}_i \\
+&= \mathbb{E}_P \left[\log p(\tilde{y}_i)\right] \\
+&= \int \log\left(p(\tilde{y}_i)\right) P(\tilde{y}_i)\,d\tilde{y}.
+\end{align}
+$$
+
+## Expected Out-Of-Sample Predictive Accuracy
+
+What is the challenge?
+
+::: {.fragment .fade-in}
+We don't know $P$ (the distribution of new data)!
+
+:::
+
+## Expected Out-Of-Sample Predictive Accuracy
+
+We need some measure of the error induced by using an approximating distribution $Q$ from some model.
+
+$$\begin{align}
+Q(\tilde{y}_i) &= \mathbb{E}_\theta \left[p(\tilde{y}_i | \theta)\right] \\
+&= \int p(\tilde{y_i} | \theta) p(\theta)\,d\theta.
+\end{align}$$
+
+Here $\theta$ is typically the MLE.
+
+
 # Key Points and Upcoming Schedule
 
 ## Key Points 
@@ -433,15 +468,15 @@ display(p2)
 
 ## Next Classes
 
-**Next Week**: Spring Break
+**Wednesday**: Information Criteria for Model Comparison
 
-**Week After**: Information Criteria for Model Comparison
-
-**Rest of Semester**: Specific topics useful for environmental data analysis (extremes, missing data, etc).
+**Friday**: Finish Information Criteria or Random Sampling
 
 ## Assessments
 
-**HW4**: Due on 4/11 at 9pm.
+**HW4**: Will be assigned next week, due on 3/27 at 9pm.
+
+**Quiz 2**: Friday, 3/13
 
 # References
 

@@ -1,10 +1,10 @@
 ---
-title: "Statistics as Decision-Making"
-subtitle: "Lecture 03"
+title: "(Null) Hypothesis Testing"
+subtitle: "Lecture 19"
 author: "Vivek Srikrishnan"
 course: "BEE 4850"
 institution: "Cornell University"
-date: "January 26, 2026"
+date: "March 9, 2026"
 format:
     revealjs: default
 engine: julia
@@ -57,13 +57,9 @@ default(
 
 # Review
 
-## Probability Fundamentals
+## Model Assessment
 
-- Bayesian vs. Frequentist Interpretations
-- Distributions reflect assumptions on probability of data.
-- PDFs, CDFs, quantiles
-- Likelihood
-- Communicating uncertainty: confidence vs. predictive intervals.
+## Overfitting vs. Underfitting
 
 # Statistics and Decision-Making
 
@@ -86,36 +82,6 @@ Source: [XKCD 2440](https://xkcd.com/2440)
 :::
 :::
 ::::
-
-
-## Data Generation Approximates Reality
-
-:::: {.columns}
-::: {.column width=33%}
-![Estimand Estimator Cake](memes/estimand_cake.png){width=100%}
-:::
-::: {.column width=33%}
-::: {.fragment .fade-in}
-![Estimand Estimator Cake](memes/estimator_cake.png){width=100%}
-:::
-:::
-::: {.column width=33%}
-::: {.fragment .fade-in}
-![Estimate Cake](memes/estimate_cake.png){width=100%}
-:::
-:::
-::::
-
-::: {.caption}
-Source: Richard McElreath
-:::
-
-::: {.notes}
-Goal is to start with some "true" process, then apply a procedure (experimental/observational + statistical) and recover what is hopefully a good estimate.
-
-But lots can go wrong in this process!
-:::
-
   
 ## Questions We Might Like To Answer
 
@@ -124,6 +90,8 @@ But lots can go wrong in this process!
 - Does some environmental condition have an effect on water quality/etc?
 - Does a drug or treatment have some effect?
 :::
+
+# The Common Framing: Null Hypothesis Testing
 
 ## Onus probandi incumbit ei qui dicit, non ei qui negat
 
@@ -274,7 +242,7 @@ $\mathcal{H}$:
 ::: {.fragment .fade-in}
 - Statistically: 
 
-$$y = a \times t + b + \varepsilon, \qquad \varepsilon \sim Normal(0, \sigma^2) $$
+$$y = \alpha + \beta \times t + \varepsilon, \qquad \varepsilon \sim Normal(0, \sigma^2) $$
 
 :::
 
@@ -282,8 +250,8 @@ $$y = a \times t + b + \varepsilon, \qquad \varepsilon \sim Normal(0, \sigma^2) 
 
 Comparing $\mathcal{H}$ with $\mathcal{H}_0$:
 
-- $\mathcal{H}$: $a \neq 0$
-- $\mathcal{H}_0$: $a = 0$
+- $\mathcal{H}$: $\beta \neq 0$
+- $\mathcal{H}_0$: $\beta = 0$
 
 ::: {.note}
 In this example, our null is an example of a *point-null* hypothesis.
@@ -291,20 +259,18 @@ In this example, our null is an example of a *point-null* hypothesis.
 
 ## Computing the Test Statistic
 
-For this type of null hypothesis test, our **test statistic** is the slope of the linear fit. OLS estimate: $$\hat{a} = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{(x_i - \bar{x})^2}.$$
+For this type of null hypothesis test, our **test statistic** is the slope of the linear fit. OLS estimate: $$\hat{\beta} = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{(x_i - \bar{x})^2}.$$
 
 Idea is that even **assuming the null hypothesis**, we could obtain many different datasets, **some of which will have a non-zero slope by chance**.
 
 
 ## Sampling Distribution of Test Statistic
 
-The distribution of all of these slopes is the **sampling distribution**.
-
 Standard result (don't worry if this isn't familiar to you):
 
 **Assuming the null**, the **sampling distribution** of the slope statistic is given by a t-distribution: 
 
-$$\frac{\hat{a}}{SE_{\hat{a}}} \sim t_{n-2}.$$
+$$\frac{\hat{\beta}}{SE_{\hat{\beta}}} \sim t_{n-2}.$$
 
 ## Statistical Significance
 
@@ -453,6 +419,12 @@ Over repeated experiments, reasoning about validity of the null should have the 
 
 # Problems with Null Hypothesis Testing
 
+
+## What Is Included In Statistical Significance?
+
+1. Is the model right?
+2. Conditional on the model being right, is the 
+
 ## Statistical Significance &ne; Scientific Significance
 
 :::: {.columns}
@@ -468,6 +440,7 @@ Statistical significance does not mean anything about whether the alternative hy
 ![Hypothesis vs. Causal Meme](memes/godzilla_doge_causal.png)
 :::
 :::
+
 
 ## What is Any Statistical Test Doing?
 
