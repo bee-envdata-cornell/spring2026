@@ -208,15 +208,28 @@ display(p2)
 
 **Cross-Validation and related measures cannot detect overfitting when information leaks from the full dataset to the trained model**.
 
-## Cross-Validation and Over-/Under-Fitting
-
-In other words:
-
-- Do not select features based on the entire dataset, then do C-V on that model.
-- Must treat variable/feature selection as part of the C-V process.
-- *A priori* model specification (before looking at the data) avoids this problem.
-
 # Information Criteria
+
+## Expected Out-Of-Sample Predictive Accuracy
+
+We want to compute the *expected out-of-sample log-predictive density* (elpd)
+
+What is the challenge?
+
+::: {.fragment .fade-in}
+We don't know the distribution of new data $p(\tilde{y})$!
+
+:::
+
+## Expected Out-Of-Sample Predictive Accuracy
+
+We need some measure of the error induced in estimating elpd using an approximating distribution $Q$ from some model.
+
+$$\begin{align}
+Q(\tilde{y}_i) &= \mathbb{E}_Y \left[p(\tilde{y} | \theta_{MLE})\right] \\
+&= \int_Y p(\tilde{y} | \theta_{\text{MLE}}) p(\tilde{y})\,d\tilde{y}.
+\end{align}$$
+
 
 ## Information Criteria
 
@@ -476,13 +489,13 @@ $$w_i = \frac{\exp(-\Delta_i/2)}{\sum_{m=1}^M \exp(-\Delta_m/2)}.$$
 
 Model projections can then be weighted based on $w_i$, which can be interpreted as the probability that $M_i$ is the best (in the sense of approximating the "true" predictive distribution) model in $\mathcal{M}$.
 
-# Other Information Criteria
+# Bayesian Information Criterion
 
-## Bayesian Information Criteria (BIC)
+## Bayesian Information Criterion (BIC)
 
 $$\text{BIC} = -2 \left(\log p(y | \hat{\theta}_\text{MLE})\right) + k\log n$$
 
-BIC is an approximation to $k$-fold cross-validation for a particular choice of $k$
+BIC is an approximation to $k$-fold cross-validation for a particular choice of $$k = n \left(1 - \frac{1}{\log(n)-1}\right).$$
 
 
 ## BIC vs. AIC

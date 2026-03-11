@@ -267,7 +267,7 @@
 <ul>
 <li><a href="#/review-of-last-class" id="/toc-review-of-last-class">Review of Last Class</a></li>
 <li><a href="#/information-criteria" id="/toc-information-criteria">Information Criteria</a></li>
-<li><a href="#/other-information-criteria" id="/toc-other-information-criteria">Other Information Criteria</a></li>
+<li><a href="#/bayesian-information-criterion" id="/toc-bayesian-information-criterion">Bayesian Information Criterion</a></li>
 <li><a href="#/key-takeaways-and-upcoming-schedule" id="/toc-key-takeaways-and-upcoming-schedule">Key Takeaways and Upcoming Schedule</a></li>
 <li><a href="#/references" id="/toc-references">References</a></li>
 </ul>
@@ -423,20 +423,27 @@ Figure&nbsp;1
 <section id="cross-validation-and-over-under-fitting" class="slide level2">
 <h2>Cross-Validation and Over-/Under-Fitting</h2>
 <p><strong>Cross-Validation and related measures cannot detect overfitting when information leaks from the full dataset to the trained model</strong>.</p>
-</section>
-<section id="cross-validation-and-over-under-fitting-1" class="slide level2">
-<h2>Cross-Validation and Over-/Under-Fitting</h2>
-<p>In other words:</p>
-<ul>
-<li>Do not select features based on the entire dataset, then do C-V on that model.</li>
-<li>Must treat variable/feature selection as part of the C-V process.</li>
-<li><em>A priori</em> model specification (before looking at the data) avoids this problem.</li>
-</ul>
 </section></section>
 <section>
 <section id="information-criteria" class="title-slide slide level1 center">
 <h1>Information Criteria</h1>
 
+</section>
+<section id="expected-out-of-sample-predictive-accuracy" class="slide level2">
+<h2>Expected Out-Of-Sample Predictive Accuracy</h2>
+<p>We want to compute the <em>expected out-of-sample log-predictive density</em> (elpd)</p>
+<p>What is the challenge?</p>
+<div class="fragment fade-in">
+<p>We don’t know the distribution of new data <span class="math inline">\(p(\tilde{y})\)</span>!</p>
+</div>
+</section>
+<section id="expected-out-of-sample-predictive-accuracy-1" class="slide level2">
+<h2>Expected Out-Of-Sample Predictive Accuracy</h2>
+<p>We need some measure of the error induced in estimating elpd using an approximating distribution <span class="math inline">\(Q\)</span> from some model.</p>
+<p><span class="math display">\[\begin{align}
+Q(\tilde{y}_i) &amp;= \mathbb{E}_Y \left[p(\tilde{y} | \theta_{MLE})\right] \\
+&amp;= \int_Y p(\tilde{y} | \theta_{\text{MLE}}) p(\tilde{y})\,d\tilde{y}.
+\end{align}\]</span></p>
 </section>
 <section id="information-criteria-1" class="slide level2">
 <h2>Information Criteria</h2>
@@ -695,14 +702,14 @@ Figure&nbsp;3: San Francisco tide gauge data
 <p>Model projections can then be weighted based on <span class="math inline">\(w_i\)</span>, which can be interpreted as the probability that <span class="math inline">\(M_i\)</span> is the best (in the sense of approximating the “true” predictive distribution) model in <span class="math inline">\(\mathcal{M}\)</span>.</p>
 </section></section>
 <section>
-<section id="other-information-criteria" class="title-slide slide level1 center">
-<h1>Other Information Criteria</h1>
+<section id="bayesian-information-criterion" class="title-slide slide level1 center">
+<h1>Bayesian Information Criterion</h1>
 
 </section>
-<section id="bayesian-information-criteria-bic" class="slide level2">
-<h2>Bayesian Information Criteria (BIC)</h2>
+<section id="bayesian-information-criterion-bic" class="slide level2">
+<h2>Bayesian Information Criterion (BIC)</h2>
 <p><span class="math display">\[\text{BIC} = -2 \left(\log p(y | \hat{\theta}_\text{MLE})\right) + k\log n\]</span></p>
-<p>BIC is an approximation to <span class="math inline">\(k\)</span>-fold cross-validation for a particular choice of <span class="math inline">\(k\)</span></p>
+<p>BIC is an approximation to <span class="math inline">\(k\)</span>-fold cross-validation for a particular choice of <span class="math display">\[k = n \left(1 - \frac{1}{\log(n)-1}\right).\]</span></p>
 </section>
 <section id="bic-vs.-aic" class="slide level2">
 <h2>BIC vs.&nbsp;AIC</h2>
