@@ -36,5 +36,5 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 |   | 3/04 | Bias and Variance  | [{{< fa sharp presentation-screen >}}](slides/lecture07-2-bias-variance.qmd) | | | | |
 |   | 3/06 | Cross-Validation | [{{< fa sharp presentation-screen >}}](slides/lecture07-3-cross-validation.qmd) | | | | |
 | 8 | 3/09 | Information and Entropy | [{{< fa sharp presentation-screen >}}](slides/lecture08-1-information-models.qmd) | | [@Anderson2002-um](http://dx.doi.org/10.2307/3803155) | | |
-|   | 3/11 | Information Criteria | [{{< fa sharp presentation-screen >}}](slides/lecture08-2-information-criteria.qmd) | | | | |
-|   | 3/13 | Random Sampling | | | | Quiz 2 | |
+|   | 3/11 | Akaike Information Criterion | [{{< fa sharp presentation-screen >}}](slides/lecture08-2-information-criteria.qmd) | | | | |
+|   | 3/13 | Bayesian Information Criterion | [{{< fa sharp presentation-screen >}}](slides/lecture08-3-bic.qmd) | | | Quiz 2 | |

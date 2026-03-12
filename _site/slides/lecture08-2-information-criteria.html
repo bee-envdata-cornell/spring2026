@@ -267,7 +267,6 @@
 <ul>
 <li><a href="#/review-of-last-class" id="/toc-review-of-last-class">Review of Last Class</a></li>
 <li><a href="#/information-criteria" id="/toc-information-criteria">Information Criteria</a></li>
-<li><a href="#/bayesian-information-criterion" id="/toc-bayesian-information-criterion">Bayesian Information Criterion</a></li>
 <li><a href="#/key-takeaways-and-upcoming-schedule" id="/toc-key-takeaways-and-upcoming-schedule">Key Takeaways and Upcoming Schedule</a></li>
 <li><a href="#/references" id="/toc-references">References</a></li>
 </ul>
@@ -702,28 +701,6 @@ Figure&nbsp;3: San Francisco tide gauge data
 <p>Model projections can then be weighted based on <span class="math inline">\(w_i\)</span>, which can be interpreted as the probability that <span class="math inline">\(M_i\)</span> is the best (in the sense of approximating the “true” predictive distribution) model in <span class="math inline">\(\mathcal{M}\)</span>.</p>
 </section></section>
 <section>
-<section id="bayesian-information-criterion" class="title-slide slide level1 center">
-<h1>Bayesian Information Criterion</h1>
-
-</section>
-<section id="bayesian-information-criterion-bic" class="slide level2">
-<h2>Bayesian Information Criterion (BIC)</h2>
-<p><span class="math display">\[\text{BIC} = -2 \left(\log p(y | \hat{\theta}_\text{MLE})\right) + k\log n\]</span></p>
-<p>BIC is an approximation to <span class="math inline">\(k\)</span>-fold cross-validation for a particular choice of <span class="math display">\[k = n \left(1 - \frac{1}{\log(n)-1}\right).\]</span></p>
-</section>
-<section id="bic-vs.-aic" class="slide level2">
-<h2>BIC vs.&nbsp;AIC</h2>
-<ul>
-<li>BIC tends to select more parsimonious models due to stronger penalty;</li>
-<li>AIC will tend to overfit, BIC to underfit.</li>
-<li>BIC is <strong>consistent</strong> but <strong>not efficient</strong>.</li>
-</ul>
-<p>In other words, if the “true” model is among the choices, AIC may not choose it, but BIC will. But AIC will choose the model with better predictive skill.</p>
-<div class="fragment fade-in">
-<p>BIC vs.&nbsp;AIC is analogous to the tradeoff between causal vs.&nbsp;predictive analyses. <strong>Generally not coherent to use both for the same problem</strong>.</p>
-</div>
-</section></section>
-<section>
 <section id="key-takeaways-and-upcoming-schedule" class="title-slide slide level1 center">
 <h1>Key Takeaways and Upcoming Schedule</h1>
 
@@ -734,12 +711,11 @@ Figure&nbsp;3: San Francisco tide gauge data
 <li>LOO-CV is ideal for navigating bias-variance tradeoff but can be computationally prohibitive.</li>
 <li>Information Criteria are an approximation to LOO-CV based on “correcting” for model complexity.</li>
 <li>Approximation to out of sample predictive error as a penalty for <em>potential to overfit</em>.</li>
-<li>Some ICs approximate K-L Divergence/LOO-CV, others approximate marginal likelihood. Different implications for predictive vs.&nbsp;causal modeling.</li>
 </ul>
 </section>
 <section id="next-classes" class="slide level2">
 <h2>Next Classes</h2>
-<p><strong>Friday</strong>: Quiz 2, Random Sampling</p>
+<p><strong>Friday</strong>: Quiz 2, BIC</p>
 </section></section>
 <section>
 <section id="references" class="title-slide slide level1 center">

@@ -489,28 +489,6 @@ $$w_i = \frac{\exp(-\Delta_i/2)}{\sum_{m=1}^M \exp(-\Delta_m/2)}.$$
 
 Model projections can then be weighted based on $w_i$, which can be interpreted as the probability that $M_i$ is the best (in the sense of approximating the "true" predictive distribution) model in $\mathcal{M}$.
 
-# Bayesian Information Criterion
-
-## Bayesian Information Criterion (BIC)
-
-$$\text{BIC} = -2 \left(\log p(y | \hat{\theta}_\text{MLE})\right) + k\log n$$
-
-BIC is an approximation to $k$-fold cross-validation for a particular choice of $$k = n \left(1 - \frac{1}{\log(n)-1}\right).$$
-
-
-## BIC vs. AIC
-
-- BIC tends to select more parsimonious models due to stronger penalty;
-- AIC will tend to overfit, BIC to underfit.
-- BIC is **consistent** but **not efficient**.
-
-In other words, if the "true" model is among the choices, AIC may not choose it, but BIC will. But AIC will choose the model with better predictive skill.
-
-::: {.fragment .fade-in}
-BIC vs. AIC is analogous to the tradeoff between causal vs. predictive analyses. **Generally not coherent to use both for the same problem**.
-:::
-
-
 
 # Key Takeaways and Upcoming Schedule
 
@@ -519,12 +497,11 @@ BIC vs. AIC is analogous to the tradeoff between causal vs. predictive analyses.
 - LOO-CV is ideal for navigating bias-variance tradeoff but can be computationally prohibitive.
 - Information Criteria are an approximation to LOO-CV based on "correcting" for model complexity.
 - Approximation to out of sample predictive error as a penalty for *potential to overfit*.
-- Some ICs approximate K-L Divergence/LOO-CV, others approximate marginal likelihood. Different implications for predictive vs. causal modeling.
 
 
 ## Next Classes
 
-**Friday**: Quiz 2, Random Sampling
+**Friday**: Quiz 2, BIC
 
 # References
 
