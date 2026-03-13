@@ -1,0 +1,534 @@
+---
+title: "Homework 3 Solutions"
+subtitle: "BEE 4850/5850"
+format:
+    html:        
+        warning: false
+        error: true
+        fig-format: svg
+engine: julia
+julia:
+    exeflags: ["+1.11.5"]
+freeze: false
+---
+
+## Overview
+
+::: {.cell .markdown}
+
+### Instructions
+
+The goal of this homework assignment is to practice developing and working with probability models for data.
+
+* Problem 1 asks you to diagnose autocorrelation and develop an AR model for the weather-based variability at the Sewell's Point tide gauge.
+* Problem 2 asks you to fit a sea-level rise model under both assumptions of Gaussian i.i.d. residuals and autocorrelated residuals.
+* Problem 3 asks you to conduct an analysis of extreme temperatures in Ithaca under both stationary and non-stationary assumptions.
+* Problem 4 asks you to model how often Ithaca temperatures exceed thresholds.
+
+:::
+
+
+::: {.cell .markdown}
+### Load Environment
+
+The following code loads the environment and makes sure all needed packages are installed. This should be at the start of most Julia scripts.
+
+:::
+
+```{julia}
+#| output: false
+
+import Pkg
+Pkg.activate(@__DIR__)
+Pkg.instantiate()
+```
+
+::: {.cell .markdown}
+The following packages are included in the environment (to help you find other similar packages in other languages). The code below loads these packages for use in the subsequent notebook (the desired functionality for each package is commented next to the package).
+
+:::
+
+```{julia}
+#| output: false
+
+using Random # random number generation and seed-setting
+using DataFrames # tabular data structure
+using DataFramesMeta
+using CSV # reads/writes .csv files
+using Distributions # interface to work with probability distributions
+using Plots # plotting library
+using StatsBase # statistical quantities like mean, median, etc
+using StatsPlots # some additional statistical plotting tools
+using Optim # optimization tools
+using Dates # date-time interface
+
+Random.seed!(1)
+```
+
+## Problems
+
+### Scoring
+
+* Problem 1 is worth 5 points.
+* Problem 2 is worth 8 points.
+* Problem 3 is worth 7 points.
+* Problem 4 is worth 5 points.
+
+### Problem 1
+
+#### Problem 1.1
+
+To load and process the data:
+
+```{julia}
+#| echo: true
+#| label: fig-p1-data
+#| fig-cap: Plot of the weather-related variability from the 2015 Sewell's Point hourly tide gauge data.
+
+tide_dat = CSV.read(joinpath("data", "norfolk-hourly-surge-2015.csv"), DataFrame)
+surge_resids = tide_dat[:, 5] - tide_dat[:, 3]
+plot(surge_resids; ylabel="Gauge Measurement (m)", label="Weather-Related Residual", legend=:topleft, xlabel="Hour Number")
+```
+
+Let's look at the partial autocorrelation function of the residuals to determine what the autoregressive lag should be.
+
+```{julia}
+#| echo: true
+#| label: fig-p1-acf
+#| fig-cap: Autocorrelation plot of the tide gauge residuals.
+
+resid_acf = pacf(surge_resids, 1:5)
+plot(resid_acf , marker=:circle, line=:stem, linewidth=3, markersize=5, legend=false, ylabel="Partial Autocorrelation", xlabel="Time Lag")
+```
+
+There is clearly a strong lag-1 autocorrelation in @fig-p1-acf, so we would need to at least use an AR(1) model. You could also argue that we should include a second lag, as well, as the lag-2 partial autocorrelation is non-negligible, but this is less critical than the AR(1).
+
+
+#### Problem 1.2
+
+This AR(1) model is 
+$$\begin{aligned}
+y_t &= \alpha + \rho y_{t+1} + \varepsilon \\
+\varepsilon &\sim N(0, \sigma) \\
+y_0 &\sim N\left(\frac{\alpha}{1 - \rho}, \frac{\sigma^2}{1-\rho^2}\right).
+\end{aligned}$$
+
+ Let's implement this model and fit it. We'll specify the likelihood based on whitening the residuals and computing the individual normal likelihoods of the resulting terms, but you should get the same parameters if you used the joint likelihood of the entire time series.
+
+```{julia}
+#| echo: true
+
+function llik_ar(params, y)
+    a, p, s = params # <1>
+    ll = 0 # initialize log-likelihood counter
+    ll += logpdf(Normal(a / (1 - p), s/sqrt(1-p^2)), y[1]) # Normal() in Distributions.jl is parameterized with the standard deviation, not the variance
+    for i = 1:length(y)-1
+        residual_whitened = y[i+1] - (a + p * y[i]) 
+        ll += logpdf(Normal(0, s), residual_whitened)
+    end
+    return ll
+end
+
+# set up lower and upper bounds for the parameters for the optimization
+lbds = [0.0, 0.0, 0.1]
+ubds = [5.0, 1.0, 5.0]
+p0 = [1.0, 0.4, 0.5]
+optim_out = Optim.optimize(p -> -llik_ar(p, surge_resids), lbds, ubds, p0)
+p_tide_mle = optim_out.minimizer
+@show round(p_tide_mle; digits=2)
+```
+1. This syntax is useful as it lets us unpack a vector or tuple into named variables, which increases readability of the subsequent code (versus only referring to e.g. `p[1]`).
+
+Now we can simulate these residuals and add them back to the NOAA model predictions using the `mapslices()` function. The resulting histograms of the maximum and median values is shown in @fig-p2-histogram.
+
+```{julia}
+#| echo: true
+#| output: true
+#| label: fig-p2-histogram
+#| fig-cap: Histogram of the maximum and median simulated tide gauge measurements.
+
+# T is the length of the simulated series, N the number of simulations
+function simulate_ar1(a, p, s, T, N)
+    y = zeros(T, N) # initialize storage
+    y[1, :] = rand(Normal(a / (1 - p), s/sqrt(1-p^2)), N) # sample initial value
+    # simulate the remaining residuals
+    for t = 2:T
+        y[t, :] = a .+ p * y[t-1, :] + rand(Normal(0, s), N)
+    end
+    return y
+end
+
+# simulate new observations
+simulated_resids = simulate_ar1(p_tide_mle[1], p_tide_mle[2], p_tide_mle[3], length(surge_resids), 10_000)
+simulated_obs = mapslices(col -> col + tide_dat[:, 3], simulated_resids, dims=1)
+# plot histogram
+max_obs = [maximum(simulated_obs[:, n]) for n in 1:size(simulated_obs, 2)]
+med_obs = [median(simulated_obs[:, n]) for n in 1:size(simulated_obs, 2)]
+p1 = histogram(max_obs, xlabel="Maximum Simulated Gauge Level (m)", ylabel="Count", label="Simulations")
+vline!([maximum(tide_dat[:, 5])], color=:red, linestyle=:dash, label="Observation")
+p2 = histogram(med_obs, xlabel="Median Simulated Gauge Level (m)", ylabel="Count", label="Simulations")
+vline!([median(tide_dat[:, 5])], color=:red, linestyle=:dash, label="Observation")
+plot(p1, p2, layout=(2, 1))
+```
+
+The median distribution fits the data well, but the observed maximum `{julia} round(maximum(tide_dat[:, 5]), digits=2)` is below all of the simulations, which could be due to a model structural problem. For example, an AR(2) might have been a better fit.
+
+### Problem 2
+
+#### Problem 2.1
+
+First, load the data and normalize. We'll plot the resulting series (though this wasn't required).
+
+```{julia}
+#| label: fig-p2-data
+#| fig-cap: Global mean sea level and temperature data for Problem 2.
+
+norm_yrs = 1880:1900
+
+sl_dat = DataFrame(CSV.File(joinpath("data",  "CSIRO_Recons_gmsl_yr_2015.csv")))
+
+rename!(sl_dat, [:Year, :GMSLR, :SD]) # rename to make columns easier to work with
+sl_dat[!, :Year] .-= 0.5 # shift year to line up with years instead of being half-year 
+sl_dat[!, :GMSLR] .-= mean(filter(row -> row.Year ∈ norm_yrs, sl_dat)[!, :GMSLR]) # rescale to be relative to 1880-1900 mean for consistency with temperature anomaly
+
+# load temperature data
+temp_dat = DataFrame(CSV.File(joinpath("data", "HadCRUT.5.0.2.0.analysis.summary_series.global.annual.csv")))
+rename!(temp_dat, [:Year, :Temp, :Lower, :Upper]) # rename to make columns easier to work with
+filter!(row -> row.Year ∈ sl_dat[!, :Year], temp_dat) # reduce to the same years that we have SL data for
+temp_normalize = mean(filter(row -> row.Year ∈ norm_yrs, temp_dat)[!, :Temp]) # get renormalization to rescale temperature to 1880-1900 mean
+temp_dat[!, :Temp] .-= temp_normalize
+
+
+sl_plot = scatter(sl_dat[!, :Year], sl_dat[!, :GMSLR], color=:black, label="Observations", ylabel="(mm)", xlabel="Year", title="Sea Level Anomaly")
+
+temp_plot = scatter(temp_dat[!, :Year], temp_dat[!, :Temp], color=:black, label="Observations", ylabel="(°C)", xlabel="Year", title="Temperature")
+
+plot(sl_plot, temp_plot, layout=(2, 1))
+```
+
+#### Problem 2.2
+
+The discretized model is:
+
+$$
+\begin{aligned}
+S(t+1) &= S(t) + \Delta t \frac{S_\text{eq}(t) - S(t)}{\tau} \\
+S\text{eq}(t) &= a T(t) + b,
+\end{aligned}
+$$
+
+where we take $\delta t = 1$. Then in Julia (as an example), this might look like the following function.
+
+```{julia}
+function grinsted_slr(params, temps; Δt=1)
+    a, b, l, S₀ = params # <1>
+    S = zeros(length(temps)) # initialize storage
+    Seq = a * temps .+ b
+    S[1] = S₀
+    for i = 2:length(S)
+        S[i] = S[i-1] +  Δt * (Seq[i] - S[i-1]) / l
+    end
+    return S[1:end]
+end
+```
+1. This syntax is useful as it lets us unpack a vector or tuple into named variables, which increases readability of the subsequent code (versus only referring to e.g. `p[1]`).
+
+The next function lets us calculate the log-likelihood if we assume i.i.d. Gaussian residuals. Note the inclusion of the observation errors
+
+```{julia}
+function gaussian_iid_loglik(params, temp_dat, slr_obs, Δt=1.0)
+    a, b, l, S₀, s = params 
+    slr_sim = grinsted_slr((a, b, l, S₀), temp_dat; Δt = Δt)
+    ll = sum(logpdf.(Normal.(slr_sim, s), slr_obs)) # <1>
+    return ll
+end
+```
+1. This line makes *heavy* use of broadcasting. A loop would work just as well.
+
+Now, let's find the MLE by optimizing the `gaussian_iid_loglik` function. 
+
+```{julia}
+low_bds = [100.0, 100.0, 0.1, -100.0, 0.0]
+up_bds = [2000.0, 500.0, 2500.0, 100.0, 100.0]
+p₀ = [1000.0, 200.0, 1500.0, 0.0, 10.0]
+
+mle_optim = optimize(p -> -gaussian_iid_loglik(p, temp_dat.Temp, sl_dat.GMSLR), low_bds, up_bds, p₀)
+p_mle_iid = mle_optim.minimizer
+@show round.(p_mle_iid; digits=2)
+```
+
+
+The sensitivity of GMSLR to increases in GMT is $a / \tau$:
+
+$$S(t+1) = S(t) + \frac{\overbrace{(aT + b)}^{S_\text{eq}} - S(t)}{\tau}.$$
+
+This value is `{julia} round(p_mle_iid[1] / p_mle_iid[2]; digits=1)` mm/(yr$\cdot ^\circ$C).
+
+Finally, the i.i.d. Gaussian model had two key assumptions: Gaussian-distributed residuals and independent residuals. To check the first, we can use a Gaussian Q-Q plot, and the second, a partial autocorrelation plot.
+
+```{julia}
+#| label: fig-p1-residuals
+#| fig-cap: Diagnostics for the model residuals.
+#| fig-subcap:
+#|  - Q-Q Plot vs. a Theoretical Normal Distribution
+#|  - Partial Autocorrelation Plot
+#| layout-ncol: 2
+
+grinsted_proj_mle = grinsted_slr(p_mle_iid, temp_dat.Temp)
+resids = sl_dat.GMSLR - grinsted_proj_mle
+p1 = qqnorm(resids, ylabel="Theoretical Values", xlabel="Empirical Values")
+pacf_resids = pacf(resids, 1:5)
+p2 = plot(1:5, pacf_resids, marker=:circle, line=:stem, markersize=5, legend=false, ylabel="Partial Autocorrelation", xlabel="Time Lag")
+
+display(p1)
+display(p2)
+```
+
+We can see that while the residuals appear pretty-well described by a Gaussian distribution based on the Q-Q plot, they have a reasonable lag-1 autocorrelation of about `{julia} round(pacf_resids[1]; digits=2)`, so this may be an inappropriate assumption. 
+
+#### Problem 2.3
+
+This will look like the previous problem, only with an AR(1) likelihood for the residuals instead of the Gaussian residuals. We will assume that the residual model is mean-zero, so $\alpha = 0$.
+
+```{julia}
+function gaussian_ar_loglik(params, temp_dat, slr_obs, Δt=1.0)
+    a, b, l, S₀, p, s = params 
+    slr_sim = grinsted_slr((a, b, l, S₀), temp_dat; Δt = Δt)
+    slr_resids = slr_obs - slr_sim
+    ll = logpdf(Normal(0, s / sqrt(1 - p^2)), slr_resids[1])
+    for i = 2:length(slr_sim)
+        ll += logpdf(Normal(0, s), slr_resids[i] - p * slr_resids[i-1])
+    end
+    return ll
+end
+```
+
+Now, let's find the MLE by optimizing the `gaussian_iid_loglik` function. 
+
+```{julia}
+low_bds = [100.0, 100.0, 0.1, -100.0, 0.0, 0.1]
+up_bds = [2000.0, 500.0, 2500.0, 100.0, 1.0, 100.0]
+p₀ = [1000.0, 200.0, 1500.0, 0.0, 0.5, 10.0]
+
+mle_optim = optimize(p -> -gaussian_ar_loglik(p, temp_dat.Temp, sl_dat.GMSLR), low_bds, up_bds, p₀)
+p_mle_ar = mle_optim.minimizer
+@show round.(p_mle_ar; digits=2)
+```
+
+Comparing these parameters to those from Problem 2.2, all of the parameters are a little smaller in the AR(1) residual model. The resulting sensitivity of GMSLR to increases in GMT:
+
+$$S(t+1) = S(t) + \frac{\overbrace{(aT + b)}^{S_\text{eq}} - S(t)}{\tau}.$$
+
+This value is `{julia} round(p_mle_ar[1] / p_mle_ar[2]; digits=1)` mm/(yr$\cdot ^\circ$C), which is just a little larger than with the Gaussian residuals and is unlikely to make a meaningful difference to SLR projections; with even 4$\cdot ^\circ$C of warming this would result only in an additional projected 0.4mm of GMSLR. This can matter more in other examples, however!
+
+### Problem 3
+
+#### Problem 3.1
+
+Let's load the data from 'data/gfdl-esm4-tempmax-ithaca.csv'.
+
+```{julia}
+#| output: true
+#| echo: true
+
+dat = CSV.read(joinpath("data", "gfdl-esm4-tempmax-ithaca.csv"), DataFrame, delim=",")
+```
+
+First, we want to find the annual maxima.
+
+```{julia}
+#| output: true
+#| echo: true
+
+dat.Year = year.(dat.Day)
+dat_gp = @groupby(dat, :Year)
+dat_max = @combine(dat_gp, :AnnMax=maximum(:TempMax))
+plot(dat_max.Year, dat_max.AnnMax, lw=2, marker=:o, markersize=3, xlabel="Year", ylabel="Annual Maximum Temperature (°C)")
+```
+
+#### Problem 3.2
+
+Now, let's fit a stationary GEV model. 
+
+```{julia}
+#| output: true
+#| echo: true
+
+function gev_stat_loglik(p, x) 
+    u, s, xi = p
+    ll = sum(logpdf.(GeneralizedExtremeValue(u, s, xi), x))
+    return ll
+end
+
+lb = [0.0, 0.1, -1.0]
+ub = [50.0, 10.0, 1.0]
+x₀ = [30.0, 5.0, 0.0]
+optim_out = Optim.optimize(p -> -gev_stat_loglik(p, dat_max.AnnMax), lb, ub, x₀)
+p_stat = optim_out.minimizer
+@show round.(p_stat; digits=1);
+```
+
+This is a Weibull distribution due to the negative shape parameter $\xi$, and the 100-year return level is the 0.99 quantile, or `{julia} round(quantile(GeneralizedExtremeValue(p_stat[1], p_stat[2], p_stat[3]), 0.99); digits=1)`$^\circ C$.
+
+Let's plot the fitted distribution and the data.
+
+```{julia}
+#| output: true
+#| echo: true
+#| label: fig-stat-gev
+#| 
+
+histogram(dat_max.AnnMax, normalize=:pdf, label="Data", xlabel="Annual Maximal Temperature (°C)", ylabel="PDF", color=:lightblue)
+plot!(GeneralizedExtremeValue(p_stat[1], p_stat[2], p_stat[3]), color=:red, label="Fitted Stationary GEV", lw=2)
+```
+
+#### Problem 3.3
+
+Now, let's fit a nonstationary GEV, where the location parameter $\mu$ is a function of time, *e.g.* $\mu = \mu_0 + \mu_1 t$.
+
+```{julia}
+#| output: true
+#| echo: true
+
+function gev_nonstat_loglik(p, x, yr) 
+    u₀, u₁, s, xi = p
+    t = yr .- yr[1]
+    u = u₀ .+ u₁ .* t
+    ll = sum(logpdf.(GeneralizedExtremeValue.(u, s, xi), x))
+    return ll
+end
+
+lb = [0.0, 0.0, 0.1, -1.0]
+ub = [40.0, 1.0, 10.0, 1.0]
+x₀ = [10.0, 0.5, 5.0, 0.0]
+optim_out = Optim.optimize(p -> -gev_nonstat_loglik(p, dat_max.AnnMax, dat_max.Year), lb, ub, x₀)
+p_nonstat = optim_out.minimizer
+@show round.(p_nonstat; digits=1);
+```
+
+We want to calculate and plot how the 100-year return level changed over time according to this model. We also want to compare to the 100-year return level from Problem 3.3
+
+```{julia}
+#| output: true
+#| echo: true
+
+u = collect(p_nonstat[1] .+ p_nonstat[2] * (1:nrow(dat_max)))
+nonstat_rl = quantile.(GeneralizedExtremeValue.(u, p_nonstat[3], p_nonstat[4]), 0.99)
+
+plot(dat_max.Year, nonstat_rl, color=:black, lw=2, xlabel="Year", ylabel="100-Year Return Level", label="Nonstationary Model")
+hline!([quantile(GeneralizedExtremeValue(p_stat[1], p_stat[2], p_stat[3]), 0.99)], color=:red, linestyle=:dash, lw=2, label="Stationary Model")
+```
+
+The non-stationary return levels increase from about 30.6$^\circ C$ to closer to 31$^\circ C$, while the stationary return level is about the average of that range. 
+
+### Problem 4
+
+#### Problem 4.1
+
+We don't need to re-load the dataset, so let's find the exceedances over 28$^\circ$ C.
+
+```{julia}
+#| output: true
+#| echo: true
+
+temp_high = dat[dat.TempMax .> 28, :]
+```
+
+To decluster, we calculate the extremal index using the estimator
+$$\hat{\theta}(u) = \frac{2\left(\sum_{i-1}^{N-1} T_i\right)^2}{(N-1)\sum_{i=1}^{N-1}T_i^2}.$$
+
+```{julia}
+#| echo: true
+#| output: true
+
+S = findall(dat.TempMax .> 28)
+N = length(S)
+T = diff(S)
+θ = 2 * sum(T)^2 / ((N-1) * sum(T.^2))
+```
+
+This means that the declustering time is `{julia} round(1 / θ, digits=0)` days. Now we want to assign data that is within that period to appropriate clusters. Let's write a function to do that and then take the maximum value of the exceedances within each cluster.
+
+```{julia}
+#| echo: true
+#| output: true
+
+# cluster data points which occur within period
+function assign_cluster(dat, period)
+    cluster_index = 1
+    clusters = zeros(Int, length(dat))
+    for i in 1:length(dat)
+        if clusters[i] == 0
+            clusters[findall(abs.(dat .- dat[i]) .<= period)] .= cluster_index
+            cluster_index += 1
+        end
+    end
+    return clusters
+end
+
+# cluster exceedances that occur within a two-day window
+# @transform is a macro from DataFramesMeta.jl which adds a new column based on a data transformation
+temp_high = @transform temp_high :cluster = assign_cluster(:Day, Dates.Day(2))
+# find maximum value within cluster
+temp_decluster = combine(temp_high -> temp_high[argmax(temp_high.TempMax), :], groupby(temp_high, :cluster))
+```
+
+Now we want to count the number of exceedances by year and plot how these occurrences are changing over time.
+
+```{julia}
+temp_decluster.Year = year.(temp_decluster.Day)
+temp_count = combine(groupby(temp_decluster, :Year), nrow)
+bar(temp_count.Year, temp_count.nrow, label="Number of Clusters")
+```
+
+Visually, it appears as though there has been an uptick in the number of clusters post-2000, with more years containing 3+ clusters. This would be hard to pull out without a model that depends on a broader warming signal, since the most of the data record looks stationary, so it's unclear whether this is actually a trend. As a result, we might use stationary Poisson process for the occurrences, or we could try to fit one that was based on a covariate like global mean temperature.
+
+#### Problem 4.2
+
+Let's now fit a stationary GPD to see what how the distribution of conditional exceedances looks.
+
+```{julia}
+#| echo: true
+#| output: true
+
+temp_exceedances = temp_high.TempMax .- 28
+gpd_fit = Optim.optimize(p -> -sum(logpdf(GeneralizedPareto(0.0, p[1], p[2]), temp_exceedances)), [0.0, -Inf], [Inf, Inf], [1.0, 1.0]).minimizer
+```
+
+Let's visualize this distribution (@fig-gpd-fit).
+
+```{julia}
+#| echo: true
+#| output: true
+#| label: fig-gpd-fit
+#| fig-cap: GPD fit for temperature exceedances over 28°C.  
+
+histogram(temp_decluster.TempMax, normalize=:pdf, label="Data", xlabel="Conditional Excess Distribution (°C)", ylabel="PDF", color=:lightblue)
+plot!(GeneralizedPareto(0.0, gpd_fit[1], gpd_fit[2]) .+ 28, color=:red, label="Fitted Stationary GPD", lw=2)
+
+```
+
+Now, let's fit a Poisson model for the number of exceedances in each year.
+
+```{julia}
+#| echo: true
+#| output: true
+
+poisson_fit = Optim.optimize(p -> -sum(logpdf.(Poisson(p[1]), temp_count.nrow)), [0.1], [10.0], [2.0]).minimizer
+@show round(poisson_fit[1]; digits=2);
+```
+
+The 100-year return level is given by the solution to the quantile equation,
+
+$$
+\begin{aligned}
+\text{RL}_{100} &= u + \frac{\sigma}{\xi}\left((100\lambda)^\xi - 1\right)
+\\ &= 28 - \frac{0.85}{0.19}\left(100 * 1.73)^{-0.19} - 1\right) \\
+&= 30.8^\circ \text{C}
+\end{aligned}
+$$
+
+This is effectively the same as the result from the stationary GEV analysis in Problem 3 (the difference is down to the second decimal place).
+
+
+## References
