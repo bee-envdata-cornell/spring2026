@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://envdata.viveks.me/spring2026/schedule.html</loc>
-    <lastmod>2026-03-12T23:42:00.529Z</lastmod>
+    <lastmod>2026-03-15T21:41:39.392Z</lastmod>
   </url>
   <url>
     <loc>https://envdata.viveks.me/spring2026/tutorials/julia-plots.html</loc>
@@ -53,12 +53,12 @@
     <lastmod>2026-02-11T12:26:58.008Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2026/slides/lecture06-1-modeling-extremes.html</loc>
-    <lastmod>2026-02-23T15:39:16.343Z</lastmod>
+    <loc>https://envdata.viveks.me/spring2026/slides/lecture06-2-random-simulation.html</loc>
+    <lastmod>2025-10-25T18:16:36.977Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2026/slides/lecture08-2-nhst.html</loc>
-    <lastmod>2026-03-08T15:20:37.703Z</lastmod>
+    <loc>https://envdata.viveks.me/spring2026/slides/lecture02-1-eda.html</loc>
+    <lastmod>2026-01-27T15:29:13.916Z</lastmod>
   </url>
   <url>
     <loc>https://envdata.viveks.me/spring2026/slides/lecture07-2-bias-variance.html</loc>
@@ -137,12 +137,16 @@
     <lastmod>2026-02-21T22:52:33.877Z</lastmod>
   </url>
   <url>
+    <loc>https://envdata.viveks.me/spring2026/hw/index.html</loc>
+    <lastmod>2026-03-15T21:32:48.246Z</lastmod>
+  </url>
+  <url>
     <loc>https://envdata.viveks.me/spring2026/hw/hw01/hw01.html</loc>
     <lastmod>2025-12-27T23:16:05.610Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2026/hw/index.html</loc>
-    <lastmod>2026-03-12T23:55:44.015Z</lastmod>
+    <loc>https://envdata.viveks.me/spring2026/hw/hw04/hw04.html</loc>
+    <lastmod>2026-03-15T21:31:30.110Z</lastmod>
   </url>
   <url>
     <loc>https://envdata.viveks.me/spring2026/hw/hw02/hw02.html</loc>
@@ -225,12 +229,12 @@
     <lastmod>2025-10-25T18:16:36.978Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2026/slides/lecture02-1-eda.html</loc>
-    <lastmod>2026-01-27T15:29:13.916Z</lastmod>
+    <loc>https://envdata.viveks.me/spring2026/slides/lecture06-1-modeling-extremes.html</loc>
+    <lastmod>2026-02-23T15:39:16.343Z</lastmod>
   </url>
   <url>
-    <loc>https://envdata.viveks.me/spring2026/slides/lecture06-2-random-simulation.html</loc>
-    <lastmod>2025-10-25T18:16:36.977Z</lastmod>
+    <loc>https://envdata.viveks.me/spring2026/slides/lecture09-1-nhst.html</loc>
+    <lastmod>2026-03-14T21:34:13.380Z</lastmod>
   </url>
   <url>
     <loc>https://envdata.viveks.me/spring2026/slides/lecture02-2-data-viz.html</loc>
@@ -254,7 +258,7 @@
   </url>
   <url>
     <loc>https://envdata.viveks.me/spring2026/slides/lecture08-3-bic.html</loc>
-    <lastmod>2026-03-12T23:41:02.411Z</lastmod>
+    <lastmod>2026-03-14T20:52:43.049Z</lastmod>
   </url>
   <url>
     <loc>https://envdata.viveks.me/spring2026/slides/lecture06-3-nonstationary-extremes.html</loc>

@@ -10,3 +10,6 @@
 [submodule "hw/hw03"]
 	path = hw/hw03
 	url = https://github.com/bee-envdata-cornell/hw03.git
+[submodule "hw/hw04"]
+	path = hw/hw04
+	url = https://github.com/bee-envdata-cornell/hw04.git

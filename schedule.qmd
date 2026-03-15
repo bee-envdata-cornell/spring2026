@@ -38,6 +38,6 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 | 8 | 3/09 | Information and Entropy | [{{< fa sharp presentation-screen >}}](slides/lecture08-1-information-models.qmd) |  [@Anderson2002-um](http://dx.doi.org/10.2307/3803155) | | | |
 |   | 3/11 | Akaike Information Criterion | [{{< fa sharp presentation-screen >}}](slides/lecture08-2-information-criteria.qmd) | | | | |
 |   | 3/13 | Bayesian Information Criterion | [{{< fa sharp presentation-screen >}}](slides/lecture08-3-bic.qmd) | | | Quiz 2 | |
-| 9 | 3/16 | (Null) Hypothesis Testing| [{{< fa sharp presentation-screen >}}](slides/lecture09-1-nhst.qmd) | [Rosner et al (2014)](http://dx.doi.org/10.1002/2013WR014561) | | | |
+| 9 | 3/16 | (Null) Hypothesis Testing| [{{< fa sharp presentation-screen >}}](slides/lecture09-1-nhst.qmd) | [Rosner et al (2014)](http://dx.doi.org/10.1002/2013WR014561) | [{{< fa sharp pen-field >}}](hw/hw04/hw04.qmd) | | |
 |   | 3/18 | Random Sampling |  | | | | |
 |   | 3/20 | Monte Carlo| | | | | |
