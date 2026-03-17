@@ -99,27 +99,7 @@
     code span.va { color: #111111; } /* Variable */
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
-    /* CSS for citations */
-    div.csl-bib-body { }
-    div.csl-entry {
-      clear: both;
-      margin-bottom: 0em;
-    }
-    .hanging-indent div.csl-entry {
-      margin-left:2em;
-      text-indent:-2em;
-    }
-    div.csl-left-margin {
-      min-width:2em;
-      float:left;
-    }
-    div.csl-right-inline {
-      margin-left:2em;
-      padding-left:1em;
-    }
-    div.csl-indent {
-      margin-left: 2em;
-    }  </style>
+  </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-99469881743cb8bd1bf840c72478da80.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
@@ -247,7 +227,6 @@
 <li><a href="#/statistics-and-decision-making" id="/toc-statistics-and-decision-making">Statistics and Decision-Making</a></li>
 <li><a href="#/null-hypothesis-testing" id="/toc-null-hypothesis-testing">Null Hypothesis Testing</a></li>
 <li><a href="#/statistical-significance-1" id="/toc-statistical-significance-1">Statistical Significance</a></li>
-<li><a href="#/problems-with-null-hypothesis-testing" id="/toc-problems-with-null-hypothesis-testing">Problems with Null Hypothesis Testing</a></li>
 <li><a href="#/key-points" id="/toc-key-points">Key Points</a></li>
 <li><a href="#/upcoming-schedule" id="/toc-upcoming-schedule">Upcoming Schedule</a></li>
 <li><a href="#/references" id="/toc-references">References</a></li>
@@ -659,215 +638,6 @@ True positive (probability <span class="math inline">\(1-\beta\)</span>)
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
-<section id="p-value-and-significance" class="slide level2">
-<h2>p-Value and Significance</h2>
-<p><strong>Common practice</strong>: If the p-value is sufficiently small (below <span class="math inline">\(\alpha\)</span>), <strong>reject the null hypothesis</strong> with <span class="math inline">\(1-\alpha\)</span> confidence, or declare that <strong>the alternative hypothesis is statistically significant</strong> at the <span class="math inline">\(1-\alpha\)</span> level.</p>
-<p>This can mean:</p>
-<div class="fade-in fragment">
-<ol type="1">
-<li>The null hypothesis is not true for that data-generating process;</li>
-<li>The null hypothesis <em>is</em> true but the data is an outlying sample.</li>
-</ol>
-</div>
-<aside class="notes">
-<p>This is a strange hybrid of two schools of frequentist statistics, that of Fisher and of Neyman-Pearson. Fisher viewed p-values as weak evidence which was part of an inductive process (even when assuming unbiased sampling and accurate measurement), while the Neyman-Pearson significance framework was based on quantitative specifications of alternative hypotheses with explicitly calculated power.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="what-p-values-are-not" class="slide level2">
-<h2>What p-Values Are Not</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<ol type="1">
-<li>Probability that the null hypothesis is true (this is <strong>never computed</strong>);</li>
-<li>An indication of the effect size (or the stakes of that effect).</li>
-</ol>
-</div><div class="column" style="width:50%;">
-<p><span class="math display">\[ \underbrace{p(S \geq \hat{S}) | \mathcal{H}_0)}_{\text{p-value}} \neq \underbrace{p(\mathcal{H}_0 | S \geq \hat{S})}_{\substack{\text{probability of} \\ \text{null}}}!\]</span></p>
-</div></div>
-<aside class="notes">
-<p>A p-value is a random variable which depends on the data. It’s evidence which can be collected from a single experiment but can not establish truth.</p>
-<p>Over repeated experiments, reasoning about validity of the null should have the right properties assuming the experiments are conducted faithfully.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section></section>
-<section>
-<section id="problems-with-null-hypothesis-testing" class="title-slide slide level1 center">
-<h1>Problems with Null Hypothesis Testing</h1>
-
-</section>
-<section id="what-is-included-in-statistical-significance" class="slide level2">
-<h2>What Is Included In Statistical Significance?</h2>
-<ol type="1">
-<li>Is the model right?</li>
-<li>Did I estimate the parameter correctly?</li>
-<li>Conditional on the model being right and my estimation being right, could the data have come from</li>
-</ol>
-</section>
-<section id="statistical-significance-scientific-significance" class="slide level2">
-<h2>Statistical Significance ≠ Scientific Significance</h2>
-<p>After a test like whether <span class="math inline">\(\beta = 0\)</span> or not, it is common to hear people say something like “<span class="math inline">\(\beta\)</span> is [statistically] significant.”</p>
-<p>This is true in a technical sense, but e.g.&nbsp;non-rejection of the null hypothesis <strong>does not mean</strong> that <span class="math inline">\(\beta\)</span> is trivial or can be ignored.</p>
-<p><strong>Why</strong>?</p>
-</section>
-<section id="why-might-a-null-be-retained" class="slide level2">
-<h2>Why Might A Null Be Retained?</h2>
-<ol type="1">
-<li><span class="math inline">\(\beta = 0\)</span> in reality;</li>
-<li><span class="math inline">\(\beta \neq 0\)</span> but the standard errors are large and zero is within them.</li>
-</ol>
-<p>For example: <span class="math inline">\(\beta\)</span> can be quite large, but with large standard errors, and the null hypothesis would be retained.</p>
-<p>You actually need to look at the sampling distribution/confidence intervals to know this!</p>
-</section>
-<section id="statistical-significance-scientific-significance-1" class="slide level2">
-<h2>Statistical Significance ≠ Scientific Significance</h2>
-<p>This shows that <strong>statistical significance mixes together a number of different concepts</strong>:</p>
-<ol type="1">
-<li>How big is the coefficient?</li>
-<li>How big is the sample?</li>
-<li>How much noise is there around the regression line (relevant for <span class="math inline">\(\text{se}[\beta]\)</span>;</li>
-<li>How spread out is the data along the <span class="math inline">\(x\)</span>-axis (relevant for <span class="math inline">\(\text{se}[\beta]\)</span>)?</li>
-</ol>
-</section>
-<section id="statistical-significance-scientific-significance-2" class="slide level2">
-<h2>Statistical Significance ≠ Scientific Significance</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p>Statistical significance also does not mean anything about whether the alternative hypothesis is:</p>
-<ol type="1">
-<li>“true”;</li>
-<li>an accurate reflection of the data-generating process.</li>
-</ol>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="memes/godzilla_doge_causal.png"></p>
-<figcaption>Hypothesis vs.&nbsp;Causal Meme</figcaption>
-</figure>
-</div>
-</div></div>
-</section>
-<section id="what-is-any-statistical-test-doing" class="slide level2">
-<h2>What is Any Statistical Test Doing?</h2>
-<ol type="1">
-<li>Assume the null hypothesis <span class="math inline">\(\mathcal{H}_0\)</span>.</li>
-<li>Compute the test statistic <span class="math inline">\(\hat{S}\)</span> for the sample.</li>
-<li><strong>Obtain the sampling distribution of the test statistic <span class="math inline">\(S\)</span> under <span class="math inline">\(H_0\)</span>.</strong></li>
-<li>Calculate <span class="math inline">\(\mathbb{P}(S &gt; \hat{S})\)</span> (<em>the p-value</em>).</li>
-</ol>
-</section>
-<section id="non-uniqueness-of-null-models" class="slide level2">
-<h2>Non-Uniqueness of “Null” Models</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p>Is there a trend in the SF tide gauge trend data?</p>
-<ul>
-<li>Trend as regression (<span class="math inline">\(p\text{-value} \approx 0.02\)</span>)</li>
-<li>Mann-Kendall test for monotonic trend (<span class="math inline">\(p\text{-value} \approx 0.5\)</span>)</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="figures/mcelreath_hypothesis_nonunique.png"></p>
-<figcaption>Non-Uniqueness of Null Models</figcaption>
-</figure>
-</div>
-<div class="caption">
-<p>Source: <span class="citation" data-cites="mcelreath2020statistical">McElreath (<a href="#/references-scroll-for-full-list" role="doc-biblioref" onclick="">2020, fig. 1.2</a>)</span></p>
-</div>
-</div></div>
-</section>
-<section id="multiple-comparisons" class="slide level2">
-<h2>Multiple Comparisons</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p>If you conduct multiple statistical tests, you <strong>must</strong> account for all of these in the p-value computation and assessment of significance.</p>
-<p><strong>Important</strong>: This includes model selection!</p>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="memes/multiple_comparisons.png"></p>
-<figcaption>Multiple Comparisons Meme</figcaption>
-</figure>
-</div>
-</div></div>
-<aside class="notes">
-<p>The core issue is the standard test statistics have the right Type I/Type II properties for each individual test, but multiple tests distort these frequencies, sometimes quite dramatically.</p>
-<p>For example, suppose each individual test has a 5% Type I error rate. If you test 100 different models, and the errors are independent, you would expect 5 false positives, one of which would be selected by minimizing the p-value. The probability of at least one type I error is &gt;99%.</p>
-<p>There are a number of corrections (Bonferroni being the most common), but sometimes stepwise tests are subtle, including cases of model selection followed by model fitting. You can also use simulation to estimate the false-positive rate for the procedure under a null data-generating process, which ties into the broader methods we’ll discuss.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="results-are-flashy-but-meaningless-without-methods" class="slide level2">
-<h2>Results Are Flashy, But Meaningless Without Methods</h2>
-
-<img data-src="memes/elton_john_results.jpg" class="r-stretch quarto-figure-center"><p class="caption">Elton John Results Section Meme</p><div class="caption">
-<p>Source: Richard McElreath</p>
-</div>
-</section>
-<section id="note-this-does-not-mean-null-hypothesis-testing-is-useless" class="slide level2">
-<h2>Note: This Does Not Mean Null Hypothesis Testing Is Useless!</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p>Examining and testing the implications of competing models is important, including “null” models!</p>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="memes/geordi_null_choice.png" style="width:75.0%"></p>
-<figcaption>Null Hypothesis Selection Good Vs. Bad</figcaption>
-</figure>
-</div>
-</div></div>
-<aside class="notes">
-<p>Deborah Mayo discusses this interpretation as “severe testing”: apply different levels of scrutiny to a scientific model to see what level of severity breaks the model.</p>
-<p>The idea of a p-value (not necessarily “significance”) being a piece of inductive evidence rather than a threshold for validity (especially for an individual experiment) reflects the original views of Fisher.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="what-can-we-do-instead" class="slide level2">
-<h2>What Can We Do Instead?</h2>
-<p><strong>Simulation</strong>:</p>
-<ol type="1">
-<li>Develop sampling distributions and confidence intervals for more arbitrary models;</li>
-<li>Compare model predictive performance involving more meaningful “null”-ish/alternative hypotheses.</li>
-</ol>
 </section></section>
 <section>
 <section id="key-points" class="title-slide slide level1 center">
@@ -911,15 +681,10 @@ True positive (probability <span class="math inline">\(1-\beta\)</span>)
 <h1>References</h1>
 
 </section>
-<section id="references-scroll-for-full-list" class="slide level2 smaller scrollable">
+<section id="references-scroll-for-full-list" class="slide level2">
 <h2>References (Scroll for Full List)</h2>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
-<div id="ref-mcelreath2020statistical" class="csl-entry" role="listitem">
-McElreath, R. (2020). <em>Statistical rethinking : A bayesian course with examples in <span>R</span> and <span>Stan</span></em> (Second). Boca Raton, Florida: CRC. Retrieved from <a href="https://www.routledge.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919">https://www.routledge.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919</a>
-</div>
-</div>
 </section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">

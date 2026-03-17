@@ -1,0 +1,391 @@
+---
+title: "(Null) Hypothesis Testing"
+subtitle: "Lecture 22"
+author: "Vivek Srikrishnan"
+course: "BEE 4850"
+institution: "Cornell University"
+date: "March 16, 2026"
+format:
+    revealjs: default
+engine: julia
+filters:
+  - code-fullscreen
+---
+
+```{julia}
+#| output: false
+
+import Pkg
+Pkg.activate(@__DIR__)
+Pkg.instantiate()
+```
+
+```{julia}
+#| output: false
+
+using Random
+using DataFrames
+using DataFramesMeta
+using CSV
+using Dates
+using Distributions
+using ColorSchemes
+using Plots
+using StatsPlots
+using StatsBase
+using GLM
+using LaTeXStrings
+using Measures
+
+Random.seed!(1)
+
+plot_font = "Computer Modern"
+default(
+    fontfamily=plot_font,
+    linewidth=3, 
+    framestyle=:box, 
+    label=nothing, 
+    grid=false,
+    guidefontsize=18,
+    legendfontsize=16,
+    tickfontsize=16,
+    titlefontsize=20,
+    bottom_margin=10mm,
+    left_margin=5mm
+)
+```
+
+# Review
+
+  
+## Questions We Might Like To Answer
+
+::: {.incremental}
+- Are high water levels influenced by environmental change?
+- Does some environmental condition have an effect on water quality/etc?
+- Does a drug or treatment have some effect?
+:::
+
+::: {.fragment .fade-in}
+Each of these is a **hypothesis** about causation or influence.
+:::
+
+
+## Null Hypothesis Significance Testing
+
+:::: {.columns}
+::: {.column width=60%}
+- Check if the data is consistent with a "null" model;
+- If the data is unlikely from the null model (to some level of **significance**), this is evidence for the alternative.
+- If the data is consistent with the null, there is no need for an alternative hypothesis.
+:::
+
+::: {.column width=40%}
+![Alternative Hypothesis Meme](memes/mordor_alternative_hypothesis.png)
+:::
+::::
+
+::: {.notes}
+For scientific hypotheses, this has been encoded in the NHST paradigm:
+
+- Think of a "null" hypothesis and look for evidence that it is reasonably consistent with the data.
+- If the data can be explained by the null, then we have no clear evidence for the alternative hypothesis.
+- If the data is highly unlikely under the null hypothesis, then that gives us reason to reject the null and favor the alternative.
+
+:::
+
+
+## p-Values: Quantification of "Surprise"
+
+:::: {.columns}
+::: {.column width=50%}
+
+One-Tailed Test: 
+
+```{julia}
+#| output: true
+#| echo: false
+#| label: fig-p-value-one-tail
+#| fig-cap: Illustration of a p-value
+
+test_dist = Normal(0, 3)
+x = -10:0.01:10
+plot(x, pdf.(test_dist, x), linewidth=3, legend=false, color=:black, xticks=false,  yticks=false, ylabel="Probability", xlabel="Test Statistic", bottom_margin=10mm, left_margin=10mm, guidefontsize=16)
+vline!([5], linestyle=:dash, color=:purple, linewidth=3, )
+areaplot!(5:0.01:10, pdf.(test_dist, 5:0.01:10), color=:green, alpha=0.4)
+quiver!([-4.5], [0.095], quiver=([1], [-0.02]), color=:black, linewidth=2)
+annotate!([-5], [0.11], text("Null\nSampling\nDistribution", color=:black))
+quiver!([6.5], [0.03], quiver=([-1], [-0.015]), color=:green, linewidth=2)
+annotate!([6.85], [0.035], text("p-value", :green))
+quiver!([3.5], [0.02], quiver=([1.5], [0]), color=:purple, linewidth=2)
+annotate!([2], [0.02], text("Observed\nTest Statistic", :purple))
+plot!(size=(600, 400))
+```
+:::
+::: {.column width=50%}
+Two-Tailed Test:
+
+```{julia}
+#| output: true
+#| echo: false
+#| label: fig-p-value-two-tail
+#| fig-cap: Illustration of a two-tailed p-value
+
+vline!([-5], linestyle=:dash, color=:purple, linewidth=3, )
+areaplot!(-10:0.01:-5, pdf.(test_dist, -10:0.01:-5), color=:green, alpha=0.4)
+plot!(size=(600, 400))
+```
+:::
+::::
+
+
+# Statistical Significance
+
+## Error Types
+
+<table>
+  <tr>
+    <td></td>
+    <td></td>
+    <td colspan="2">**Null Hypothesis Is**</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td>True</td>
+    <td>False </td>
+  </tr>
+  <tr>
+    <td rowspan="2">**Decision About Null Hypothesis**</td>
+    <td>Don't reject</td>
+    <td>True negative (probability $1-\alpha$)</td>
+    <td>Type II error (probability $\beta$)</td>
+  </tr>
+  <tr>
+    <td>Reject</td>
+    <td>Type I Error (probability $\alpha$)</td>
+    <td>True positive (probability $1-\beta$)</td>
+  </tr>
+</table>
+
+::: {.notes}
+The general testing framework is built around Type I (false positive) and Type II (false negative) errors.
+:::
+
+## Navigating Type I and II Errors
+
+The standard null hypothesis significance framework is based on balancing the chance of making **Type I (false positive)** and **Type II (false negative)** errors.
+
+**Idea**: Set a significance level $\alpha$ which is an "acceptable" probability of making a Type I error.
+
+**Aside**: The probability $1-\beta$ of correctly rejecting $H_0$ is the *power*.
+
+::: {.notes}
+Note that these are frequentist concepts, not applicable to a single dataset (which give rise to p-values, which are random values).
+
+If we only run a single experiment all we can claim is that if we had run a long series of experiments we would have had 100α% false positives had H0 been true and 100β% false negatives had H1 been true provided we got the power calculations right. Note the conditionals.
+:::
+
+## p-Value and Significance
+
+**Common practice**: If the p-value is sufficiently small (below $\alpha$), **reject the null hypothesis** with $1-\alpha$ confidence, or declare that **the alternative hypothesis is statistically significant** at the $1-\alpha$ level.
+
+This can mean:
+
+::: {.fade-in .fragment}
+1. The null hypothesis is not true for that data-generating process;
+2. The null hypothesis *is* true but the data is an outlying sample.
+:::
+
+::: {.notes}
+This is a strange hybrid of two schools of frequentist statistics, that of Fisher and of Neyman-Pearson. Fisher viewed p-values as weak evidence which was part of an inductive process (even when assuming unbiased sampling and accurate measurement), while the Neyman-Pearson significance framework was based on quantitative specifications of alternative hypotheses with explicitly calculated power.
+:::
+
+## What p-Values Are Not
+
+:::: {.columns}
+::: {.column width=50%}
+1. Probability that the null hypothesis is true (this is **never computed**);
+2. An indication of the effect size (or the stakes of that effect).
+:::
+::: {.column width=50%}
+$$ \underbrace{p(S \geq \hat{S}) | \mathcal{H}_0)}_{\text{p-value}} \neq \underbrace{p(\mathcal{H}_0 | S \geq \hat{S})}_{\substack{\text{probability of} \\ \text{null}}}!$$
+:::
+::::
+
+::: {.notes}
+A p-value is a random variable which depends on the data. It's evidence which can be collected from a single experiment but can not establish truth. 
+
+Over repeated experiments, reasoning about validity of the null should have the right properties assuming the experiments are conducted faithfully.
+:::
+
+
+# Problems with Null Hypothesis Testing
+
+
+## What Is Included In Statistical Significance?
+
+1. Is the model right?
+2. Did I estimate the parameter correctly?
+3. Conditional on the model being right and my estimation being right, could the data have come from 
+
+## Statistical Significance &ne; Scientific Significance
+
+After a test like whether $\beta = 0$ or not, it is common to hear people say something like "$\beta$ is [statistically] significant."
+
+This is true in a technical sense, but e.g. non-rejection of the null hypothesis **does not mean** that $\beta$ is trivial or can be ignored.
+
+**Why**?
+
+## Why Might A Null Be Retained?
+
+1. $\beta = 0$ in reality;
+2. $\beta \neq 0$ but the standard errors are large and zero is within them.
+
+For example: $\beta$ can be quite large, but with large standard errors, and the null hypothesis would be retained.
+
+You actually need to look at the sampling distribution/confidence intervals to know this!
+
+## Statistical Significance &ne; Scientific Significance
+
+This shows that **statistical significance mixes together a number of different concepts**:
+
+1. How big is the coefficient?
+2. How big is the sample?
+3. How much noise is there around the regression line (relevant for $\text{se}[\beta]$;
+4. How spread out is the data along the $x$-axis (relevant for $\text{se}[\beta]$)?
+
+## Statistical Significance &ne; Scientific Significance
+
+:::: {.columns}
+::: {.column width=50%}
+
+Statistical significance also does not mean anything about whether the alternative hypothesis is:
+
+1. "true";
+2. an accurate reflection of the data-generating process.
+
+:::
+::: {.column width=50%}
+![Hypothesis vs. Causal Meme](memes/godzilla_doge_causal.png)
+:::
+:::
+
+
+
+## What is Any Statistical Test Doing?
+
+1. Assume the null hypothesis $\mathcal{H}_0$.
+2. Compute the test statistic $\hat{S}$ for the sample.
+3. **Obtain the sampling distribution of the test statistic $S$ under $H_0$.**
+4. Calculate $\mathbb{P}(S > \hat{S})$ (*the p-value*).
+
+
+## Non-Uniqueness of "Null" Models
+
+:::: {.columns}
+::: {.column width=50%}
+Is there a trend in the SF tide gauge trend data?
+
+- Trend as regression ($p\text{-value} \approx 0.02$)
+- Mann-Kendall test for monotonic trend ($p\text{-value} \approx 0.5$)
+:::
+::: {.column width=50%}
+![Non-Uniqueness of Null Models](figures/mcelreath_hypothesis_nonunique.png)
+
+::: {.caption}
+Source: @mcelreath2020statistical [Fig. 1.2]
+:::
+:::
+::::
+
+
+## Multiple Comparisons
+
+:::: {.columns}
+::: {.column width=50%}
+If you conduct multiple statistical tests, you **must** account for all of these in the p-value computation and assessment of significance.
+
+**Important**: This includes model selection!
+:::
+
+::: {.column width=50%}
+![Multiple Comparisons Meme](memes/multiple_comparisons.png)
+:::
+::::
+
+::: {.notes}
+The core issue is the standard test statistics have the right Type I/Type II properties for each individual test, but multiple tests distort these frequencies, sometimes quite dramatically.
+
+For example, suppose each individual test has a 5% Type I error rate. If you test 100 different models, and the errors are independent, you would expect 5 false positives, one of which would be selected by minimizing the p-value. The probability of at least one type I error is >99%.
+
+There are a number of corrections (Bonferroni being the most common), but sometimes stepwise tests are subtle, including cases of model selection followed by model fitting. You can also use simulation to estimate the false-positive rate for the procedure under a null data-generating process, which ties into the broader methods we'll discuss.
+:::
+
+## Results Are Flashy, But Meaningless Without Methods
+
+![Elton John Results Section Meme](memes/elton_john_results.jpg)
+
+::: {.caption}
+Source: Richard McElreath
+:::
+
+
+## Note: This Does Not Mean Null Hypothesis Testing Is Useless!
+
+:::: {.columns}
+::: {.column width=50%}
+Examining and testing the implications of competing models is important, including "null" models!
+
+:::
+::: {.column width=50%}
+![Null Hypothesis Selection Good Vs. Bad](memes/geordi_null_choice.png){width=75%}
+:::
+::::
+
+::: {.notes}
+Deborah Mayo discusses this interpretation as "severe testing": apply different levels of scrutiny to a scientific model to see what level of severity breaks the model.
+
+The idea of a p-value (not necessarily "significance") being a piece of inductive evidence rather than a threshold for validity (especially for an individual experiment) reflects the original views of Fisher.
+:::
+
+## What Can We Do Instead?
+
+**Simulation**: 
+
+1. Develop sampling distributions and confidence intervals for more arbitrary models;
+2. Compare model predictive performance involving more meaningful "null"-ish/alternative hypotheses.
+
+
+# Key Points
+
+## Hypothesis Testing
+
+- Classical framework: Compare a null hypothesis (no effect) to an alternative (some effect)
+- $p$-value: probability (under $H_0$) of more extreme test statistic than observed.
+- "Significant" if $p$-value is below a significance level reflecting acceptable Type I error rate.
+
+## Problems with NHST framework
+
+- Real "null" hypotheses are often more nuanced than in typical tests (which were often developed for controlled experiments or for computational convenience).
+- Decisions are often not binary ("significant/not significant").
+- $p$-values are often over-interpreted and are often be incorrectly calculated, with negative outcomes!
+- **Important**: "Big" data can make things worse, as NHST is highly sensitive to small but evidence effects.
+
+# Upcoming Schedule
+
+## Next Classes
+
+**Wednesday**: Introduction to Simulation and Random Sampling
+
+**Friday**: Sampling and Monte Carlo
+
+**Next Week** The Bootstrap
+
+## Assessments
+
+HW4 assigned, due 3/27.
+
+# References
+
+## References (Scroll for Full List)
