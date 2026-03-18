@@ -248,12 +248,12 @@ You actually need to look at the sampling distribution/confidence intervals to k
 
 ## Statistical Significance &ne; Scientific Significance
 
-This shows that **statistical significance mixes together a number of different concepts**:
+Statistical significance mixes together a number of different concepts:
 
 1. How big is the coefficient?
 2. How big is the sample?
-3. How much noise is there around the regression line (relevant for $\text{se}[\beta]$;
-4. How spread out is the data along the $x$-axis (relevant for $\text{se}[\beta]$)?
+3. How much noise is there around the regression line;
+4. How spread out is the data along the $x$-axis?
 
 ## Statistical Significance &ne; Scientific Significance
 
@@ -280,15 +280,122 @@ Statistical significance also does not mean anything about whether the alternati
 3. **Obtain the sampling distribution of the test statistic $S$ under $H_0$.**
 4. Calculate $\mathbb{P}(S > \hat{S})$ (*the p-value*).
 
+## A Parametric Test Statistic for Non-Stationarity
 
-## Non-Uniqueness of "Null" Models
+Fit a regression 
+
+$$
+\begin{gather*}
+y_i = \beta_0 + \beta_1 t + \varepsilon_i, \\
+\varepsilon_i \sim \mathcal{N}(0, \sigma^2\mathbb{I}).
+\end{gather*}
+$$
+
+SF Tide Gauge Data: $(\hat{\beta}_0, \hat{\beta}_1) \approx (1.26, 4 \times 10^{-4})$
+
+## Parametric Null Hypothesis
+
+
+:::: {.columns}
+::: {.column width=50%}
+$\mathcal{H}_0: \beta_1 = 0$
+
+Use the $t$-statistic:
+
+$$\hat{t} = \frac{\hat{\beta_1}}{se(\hat{\beta_1)}}, \quad \hat{t} \sim t_{n-2}.$$
+
+SF Data: $\hat{t} = 2.31$, $p\text{-value} \approx 0.01$.
+:::
+::: {.column width=50%}
+```{julia}
+#| output: true
+#| echo: false
+#| fig-align: center
+#| label: fig-surge-test
+#| fig-cap: Test statistic and null distribution for surge stationary detection with a linear regression.
+#| layout-nrow: 2
+
+# load SF tide gauge data
+# read in data and get annual maxima
+function load_data(fname)
+    date_format = DateFormat("yyyy-mm-dd HH:MM:SS")
+    # This uses the DataFramesMeta.jl package, which makes it easy to string together commands to load and process data
+    df = @chain fname begin
+        CSV.read(DataFrame; header=false)
+        rename("Column1" => "year", "Column2" => "month", "Column3" => "day", "Column4" => "hour", "Column5" => "gauge")
+        # need to reformat the decimal date in the data file
+        @transform :datetime = DateTime.(:year, :month, :day, :hour)
+        # replace -99999 with missing
+        @transform :gauge = ifelse.(abs.(:gauge) .>= 9999, missing, :gauge)
+        select(:datetime, :gauge)
+    end
+    return df
+end
+
+dat = load_data("data/surge/h551.csv")
+
+# detrend the data to remove the effects of sea-level rise and seasonal dynamics
+ma_length = 366
+ma_offset = Int(floor(ma_length/2))
+moving_average(series,n) = [mean(@view series[i-n:i+n]) for i in n+1:length(series)-n]
+dat_ma = DataFrame(datetime=dat.datetime[ma_offset+1:end-ma_offset], residual=dat.gauge[ma_offset+1:end-ma_offset] .- moving_average(dat.gauge, ma_offset))
+
+# group data by year and compute the annual maxima
+dat_ma = dropmissing(dat_ma) # drop missing data
+dat_annmax = combine(dat_ma -> dat_ma[argmax(dat_ma.residual), :], groupby(transform(dat_ma, :datetime => x->year.(x)), :datetime_function))
+delete!(dat_annmax, nrow(dat_annmax)) # delete 2023; haven't seen much of that year yet
+rename!(dat_annmax, :datetime_function => :Year)
+select!(dat_annmax, [:Year, :residual])
+dat_annmax.residual = dat_annmax.residual / 1000 # convert to m
+
+
+n = nrow(dat_annmax)
+linfit = lm(@formula(residual ~ Year), dat_annmax)
+pred = coef(linfit)[1] .+ coef(linfit)[2] * dat_annmax.Year
+
+null_test = TDist(n-2)
+p1 = plot(null_test, linewidth=3, label=L"$t_{n-2}$", xlabel=L"$t$", ylabel="Density")
+p2 = plot(2:0.01:3, 1 .- cdf.(null_test, 2:0.01:3), linewidth=3, label=L"$t_{n-2}$", xlabel=L"$t$", ylabel="1 - CDF", yaxis=:log, legend=:topright)
+vline!(p1, [coef(linfit)[2] / stderror(linfit)[2]], color=:red, label="Test Statistic")
+vline!(p2, [coef(linfit)[2] / stderror(linfit)[2]], color=:red, label="Test Statistic")
+plot!(p1, size=(600, 300))
+plot!(p2, size=(600, 300))
+
+display(p1)
+display(p2)
+```
+:::
+::::
+
+## Non-Parametric Test for Non-Stationary
+
+A non-parametric alternative is the **Mann-Kendall Test**:
+
+Assume data is independent and no periodic signals, but no specific distributional assumption. Test statistic $S$:
+
+$$S = \sum_{i=1}^{n-1} \sum_{j={1+1}}^n \text{sgn}\left(y_j - y_i\right).$$
+
+SF Tide Gauge Data: $S=921$.
+
+## Non-Parametric Null Hypothesis
+
+$\mathcal{H}_0: S = 0$ (no average trend).
+
+The null sampling distribution of $S$ is $N(0, \sqrt{\text{Var}(S)})$, where
+$$\text{Var}(S) = \frac{n(n-1)(2n+5)}{18} - \sum_{i=1}^g t_i(t_i - 1)(2t_i + 5),$$
+
+$g$ are the number of equal values and $t_i$ is the size of tie group $i$
+
+SF Tide Gauge Data: $Var(S) = 224875$
+
+## Difference in $p$-Values
 
 :::: {.columns}
 ::: {.column width=50%}
 Is there a trend in the SF tide gauge trend data?
 
-- Trend as regression ($p\text{-value} \approx 0.02$)
-- Mann-Kendall test for monotonic trend ($p\text{-value} \approx 0.5$)
+- Trend as regression ($p\text{-value} \approx 0.01$)
+- Mann-Kendall test for monotonic trend ($p\text{-value} \approx 0.03$)
 :::
 ::: {.column width=50%}
 ![Non-Uniqueness of Null Models](figures/mcelreath_hypothesis_nonunique.png)
@@ -305,14 +412,25 @@ Source: @mcelreath2020statistical [Fig. 1.2]
 :::: {.columns}
 ::: {.column width=50%}
 If you conduct multiple statistical tests, you **must** account for all of these in the p-value computation and assessment of significance.
-
-**Important**: This includes model selection!
 :::
 
 ::: {.column width=50%}
 ![Multiple Comparisons Meme](memes/multiple_comparisons.png)
 :::
 ::::
+
+## Multiple Comparisons
+
+:::: {.columns}
+::: {.column width=50%}
+For example: an appropriate applied test at a 5% significance level will result in a 5% Type I error rate. But if you do 100 **independent** tests, the Type I rate is 99.4%!
+:::
+
+::: {.column width=50%}
+![Multiple Comparisons Meme](memes/multiple_comparisons.png)
+:::
+::::
+
 
 ::: {.notes}
 The core issue is the standard test statistics have the right Type I/Type II properties for each individual test, but multiple tests distort these frequencies, sometimes quite dramatically.
@@ -351,11 +469,11 @@ The idea of a p-value (not necessarily "significance") being a piece of inductiv
 
 ## What Can We Do Instead?
 
-**Simulation**: 
+Use computing for **simulation**: 
 
-1. Develop sampling distributions and confidence intervals for more arbitrary models;
-2. Compare model predictive performance involving more meaningful "null"-ish/alternative hypotheses.
-
+1. Develop sampling distributions and confidence intervals for more arbitrary models which reflect meaningful hypotheses about data-generating processes;
+2. Compare model predictive performance involving models chosen based on scientific hypotheses.
+3. When desired, compute $p$-values (including for multiple comparisons) by simulating Type I error rates.
 
 # Key Points
 
