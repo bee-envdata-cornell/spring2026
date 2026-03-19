@@ -1,10 +1,10 @@
 ---
 title: "Simulating Random Variables"
-subtitle: "Lecture 10"
+subtitle: "Lecture 23"
 author: "Vivek Srikrishnan"
 course: "BEE 4850"
 institution: "Cornell University"
-date: "February 26, 2024"
+date: "March 20, 2026"
 format:
     revealjs:
         slide-number: c/t
@@ -84,12 +84,19 @@ default(
 
 # Review
 
-## Bayesian Statistics
+## Null Hypothesis Testing and Statistical Significance
 
-- Focused on conditional probability (conditioned on the data)
-- Bayes' Theorem to update priors using likelihood.
-- Priors can be finicky: use predictive simulations.
-- Outstanding question: how do we sample from the posterior (versus just taking the MAP?)
+- NHST framework: ideally develop a **null hypothesis** $\mathcal{H}_0$ which is an alternative to your hypothesis $\mathcal{H}$.
+- Choose test statistic $S$ and estimage $\hat{S}$ from your data, then obtain null distribution of $S$ under the assumption of $\mathcal{H}_0$.
+- Estimate $p$-value $\mathbb{P}\left[S \geq \hat{S} | \mathcal{H}_0 \right]$.
+- If $p$-value is less than pre-specified significance level $\alpha$, declare your finding "statistically significant".
+
+## Problems With This Framework
+
+- Null models often chosen for computational convenience, not because it's scientifically interesting (*e.g.* do we care if a coefficient is simply non-zero?)
+- Null models are also not necessarily unique, which impacts test statistic and distribution.
+- Type I error rates can be much higher than anticipated due to multiple comparisons or improperly applied tests.
+- If null is not truly complementary to the alternative, says nothing about whether the alternative is a good hypothesis.
 
 # Random Variable Simulation
 
@@ -102,38 +109,6 @@ default(
 
 **Generally**: Turns calculus/analytical problems into data summary problems.
 
-## Example: Posterior Sampling
-
-:::: {.columns}
-::: {.column width=50%}
-$p(\theta)$ and $p(y | \theta)$ are often "nice" distributions, but nothing says $$p(\theta | y) \propto p(\theta) \times p(y | \theta)$$
-
-has to be!
-:::
-::: {.column width=50%}
-```{julia}
-#| echo: true
-#| code-fold: true
-#| label: fig-posterior
-#| fig-cap: Comparison of prior, posterior, and likelihood.
-
-normal_samples = rand(Normal(2, 0.5), 10)
-
-lik(σ) = prod(pdf(Normal.(2, σ), normal_samples))
-prior(σ) = pdf(LogNormal(log(0.25), 0.25), σ)
-posterior(σ) = lik(σ) * prior(σ)
-
-σ_range = 0.1:0.01:1
-plot(σ_range, posterior.(σ_range) / maximum(posterior.(σ_range)), color=:black, label="Posterior", linewidth=3)
-plot!(σ_range, lik.(σ_range) / maximum(lik.(σ_range)), color=:blue, label="Likelihood", linewidth=3, linestyle=:dash)
-plot!(σ_range, prior.(σ_range) / maximum(prior.(σ_range)), color=:orange, label="Prior", linewidth=3, linestyle=:dot)
-xlabel!(L"$\sigma$")
-ylabel!("Scaled Log-Density")
-plot!(size=(550, 500))
-```
-
-:::
-::::
 
 ## Built-In Sampling Functions
 
@@ -492,12 +467,7 @@ Pseudo-random numbers are deterministic, so can be repeated. The sequence depend
 
 # Key Points and Upcoming Schedule
 
-## Key Points: Bayesian Statistics
-
-- Use prior predictive simulations to refine priors.
-- Priors matter less when likelihood is highly informative.
-
-## Key Points: Random Numbers
+## Simulating Random Variates
 
 - Can generate uniform distributions using pseudorandom number generators (unstable dynamical systems).
 - Transform into other distributions using:
@@ -505,18 +475,14 @@ Pseudo-random numbers are deterministic, so can be repeated. The sequence depend
   - Rejection method.
 - Default functions work well; only really have to worry about any of this when sampling from "non-nice" distributions
 
+
 # Upcoming Schedule
 
 ## Next Classes
 
-**Next Week**: Monte Carlo Simulation and the Bootstrap
+**Next Week**: Monte Carlo Simulation
 
-## Term Project
 
-- Can work in groups of 1-2
-- Proposal due 3/21.
-- Max three pages, should include background and problem statement, data overview, proposed probability models, and research plan.
-- Deliverables include presentations (in class, last 2-3 sessions) and written report (during finals week).
 
 # References
 
