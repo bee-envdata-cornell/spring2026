@@ -41,3 +41,6 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 | 9 | 3/16 | (Null) Hypothesis Testing| [{{< fa sharp presentation-screen >}}](slides/lecture09-1-nhst.qmd) | [Rosner et al (2014)](http://dx.doi.org/10.1002/2013WR014561) | [{{< fa sharp pen-field >}}](hw/hw04/hw04.qmd) | | |
 |   | 3/18 | Statistical Significance | [{{< fa sharp presentation-screen >}}](slides/lecture09-2-significance.qmd)  | | | | |
 |   | 3/20 | Simulation and Random Sampling | [{{< fa sharp presentation-screen >}}](slides/lecture09-3-random-simulation.qmd) | | | | |
+| 10 | 3/23 | Monte Carlo | [{{< fa sharp presentation-screen >}}](slides/lecture10-1-monte-carlo.qmd) |  |  | | |
+|   | 3/25 | Advanced Monte Carlo|   | | | | |
+|   | 3/27 | Monte Carlo Examples|  | | | | |

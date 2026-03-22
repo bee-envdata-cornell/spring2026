@@ -1,10 +1,10 @@
 ---
 title: "Monte Carlo"
-subtitle: "Lecture 11"
+subtitle: "Lecture 24"
 author: "Vivek Srikrishnan"
 course: "BEE 4850"
 institution: "Cornell University"
-date: "March 03, 2024"
+date: "March 23, 2026"
 format:
     revealjs:
         slide-number: c/t
@@ -54,6 +54,7 @@ using DataFramesMeta
 using CSV
 using Dates
 using Distributions
+using SpecialFunctions
 using ColorSchemes
 using Plots
 using StatsPlots
@@ -92,7 +93,78 @@ default(
 
 # Monte Carlo Simulation
 
-## Stochastic Simulation
+## "Math Is Hard, Let's Go Simulating"
+
+Suppose we wanted to calculate the probability that a standard Gaussian random variable falls within $(0.8, 0.9)$.
+
+:::: {.columns}
+
+::: {.column width=50%}
+
+```{julia}
+#| echo: false
+#| label: fig-gauss-prob
+#| fig-cap: "Illustration of integral problem"
+#| fig-height: 100%
+
+f = x -> exp(-x^2 / 2) / sqrt(2π)
+
+plot(Normal(0, 1), linewidth=3, color=:black, legend=false, ylabel="PDF", xlabel=L"$x$")
+plot!([0.8, 0.8], [0, f(0.8)], linestyle=:dash, color=:red)
+plot!([0.9, 0.9], [0, f(0.9)], linestyle=:dash, color=:red)
+xlims!((0, 1))
+plot!(size=(550, 425))
+```
+
+:::
+
+::: {.column width=50%}
+
+$$\int_{0.8}^{0.9} \frac{1}{2\pi} \exp\left(-x^2/2\right)dx$$
+
+::: {.fragment .fade-in}
+
+It turns out $\Phi(a) = \int_{-\infty}^a \frac{1}{2\pi} \exp\left(-x^2/2\right)dx$ has no closed form expression.
+
+:::
+:::
+::::
+
+## An Alternative Approach To Calculating Integrals
+
+Can we reframe this integral as a probability of some outcome?
+
+::: {.fragment .fade-in}
+
+1. Generate a "large number" of Gaussian-distributed 
+2. Calculate the proportion that are between 0.8 and 0.9.
+
+:::
+
+## Using Simulation Instead of Integrating
+
+:::: {.columns}
+::: {.column width=50%}
+```{julia}
+#| echo: false
+#| label: fig-gauss-mc
+#| fig-cap: "Histogram of samples from Gaussian distribution"
+#| fig-height: 100%
+#| code-fold: true
+
+norm_samp = rand(Normal(0, 1), 100_000)
+histogram(norm_samp, legend=false)
+vline!([0.8, 0.9], linewidth=2, color=:red)
+```
+:::
+::: {.column width=50%}
+The "true" value: `{julia} round(cdf(Normal(0, 1), 0.9) - cdf(Normal(0, 1), 0.8); digits=5)`.
+
+The simulated value: `{julia} round(mean((norm_samp .<= 0.9) .& (norm_samp .>= 0.8)); digits=5)`.
+:::
+::::
+
+## Approximating Integrals By Simulation
 
 **Goal**: Estimate $\mathbb{E}_p\left[h(x)\right]$, $x \sim f(x)$
 
@@ -144,12 +216,6 @@ digraph G {
 
 ```
 
-## Goals of Monte Carlo
-
-Monte Carlo is a broad method, which can be used to:
-
-1. Obtain probability distributions of outputs;
-2. Estimate deterministic quantities (***Monte Carlo estimation***).
 
 ## MC Example: Finding $\pi$
 
@@ -162,7 +228,7 @@ How can we use MC to estimate $\pi$?
 :::: {.columns}
 ::: {.column width=50%}
 ::: {.fragment .fade-in}
-Finding $\pi$ by sampling random values from the unit square and computing the fraction in the unit circle. This is an example of **Monte Carlo integration**.
+Finding $\pi$ by sampling random values from the unit square and computing the fraction in the unit circle. 
 
 $$\frac{\text{Area of Circle}}{\text{Area of Square}} = \frac{\pi}{4}$$
 :::
@@ -312,11 +378,14 @@ gif(mc_anim, "figures/mc_dice.gif", fps=10)
 :::
 ::::
 
+
 ## Monte Carlo and Uncertainty Propagation
 
-**Monte Carlo simulation**: propagate uncertainties from inputs through a model to outputs.
+**Monte Carlo Simulation**: propagate uncertainties from inputs through a model to outputs.
 
 This is an example of **uncertainty propagation**: draw samples from some distribution, and run them through one or more models to find the (conditional) probability of outcomes of interest (for good or bad).
+
+This is a useful technique particularly when models are nonlinear, making analytic transformations and integrals cumbersome.
 
 # Why Monte Carlo Works
 
@@ -330,10 +399,13 @@ $$\tilde{\mu}_n = \frac{1}{n}\sum_{i=1}^n Y_i$$
 
 ## What Makes a Good Statistical Estimator?
 
-Statistical estimators are **random**, which means we can't ever guarantee that we get back the "true" value 
+Statistical estimators are **random**, which means we can't ever guarantee that we get back the "true" value.
 
-- No bias ($\text{Bias} = \mathbb{E}_g[\tilde{\mu}] - \mu$)
-- Well-characterized, ideally small, variance ($\text{Var}(\tilde{\mu})$)
+However, we might want:
+
+1. No bias ($\text{Bias} = \mathbb{E}_g[\tilde{\mu}] - \mu$)
+2. Consistency ($\tilde{\mu}_n \to \mu$ as $n \to \infty$)
+2. Well-characterized, ideally small, variance ($\text{Var}(\tilde{\mu})$)
 
 ## The Law of Large Numbers
 
@@ -349,7 +421,7 @@ $$\lim_{n \to \infty} \mathbb{P}\left(\left|\tilde{\mu}_n - \mu\right| \leq \var
 
 ## The Law of Large Numbers
 
-In other words, *eventually* Monte Carlo estimates will get within an arbitrary error of the true expectation. 
+In other words, *eventually* Monte Carlo estimates will get within an arbitrary error of the true expectation (which shows consistency). 
 
 But how large is large enough?
 
@@ -361,7 +433,7 @@ The sample mean $\tilde{\mu}_n = \frac{1}{n}\sum_{i=1}^n Y_i$ is itself a random
 ::: {.fragment .fade-in}
 With some assumptions (the mean of $Y$ exists and $Y$ has finite variance), the expected Monte Carlo sample mean $\mathbb{E}[\tilde{\mu}_n]$ is
 
-$$\frac{1}{n}\sum_{i=1}^n \mathbb{E}[Y_i] = \frac{1}{n} n \mu = \mu$$
+$$\mathbb{E}\left[\frac{1}{n}\sum_{i=1}^n Y_i\right] = \frac{1}{n} \sum_{i=1}^n \mathbb{E}\left[\mathbb{Y}_i\right] = \mu$$
 
 :::
 
@@ -372,7 +444,7 @@ We'd like to know more about the error of this estimate for a given sample size.
 $$\tilde{\sigma}_n^2 = \text{Var}\left(\tilde{\mu}_n\right) = \mathbb{E}\left((\tilde{\mu}_n - \mu)^2\right) = \frac{\sigma_Y^2}{n}$$
 
 ::: {.fragment .fade-in}
-So as $n$ increases, the *standard error* decreases:
+So as $n$ increases, the *Monte Carlo standard error (MCSE)* decreases:
 
 $$\tilde{\sigma}_n = \frac{\sigma_Y}{\sqrt{n}}$$
 :::
@@ -422,9 +494,28 @@ For example, the 95% confidence interval is $$\tilde{\mu}_n \pm 1.96 \frac{\sigm
 
 ## Sidebar: Estimating $\sigma_Y$
 
-We don't know the standard deviation $\sigma_Y$.
+We don't know the population standard deviation $\sigma_Y$.
 
-But we can estimate it using the simulation standard deviation:
+But we can estimate it using the simulation variance:
+
+$$\tilde{\sigma}_n^2 = \frac{1}{n-1} \sum_{i=1}^n \left(Y_i - \tilde{\mu}_n)^2$$
+
+## How Many Samples Do I Need?
+
+Notice that we can't figure this out ahead of time: if we want to get the MCSE $\tilde{\sigma}_n$ below $\varepsilon$, we can solve
+
+$$n \leq \frac{1}{\varepsilon^2}\mathbb{V}\left[Y_i\right],$$
+
+but we can't even estimate $\mathbb{V}\left[Y_i\right]$ without doing Monte Carlo!
+
+## How Many Samples Do I Need?
+
+Try:
+
+1. Run a "pilot" MC with a relatively small number of samples to estimate $\mathbb{V}\left[Y_i\right]$.
+2. Pick a target MCSE $\varepsilon$, then we need $N \approx \mathbb{V}\left[Y_i\right] / \varepsilon^2$ samples.
+3. Run the "real" MC with sample size $N$ and check if the MCSE is right ($N$ might be off due to error in the variance estimate).
+4. If not, run more.
 
 ## Implications of Monte Carlo Error
 
@@ -433,217 +524,6 @@ Converging at a rate of $1/\sqrt{n}$ is not great. But:
 - All models are wrong, and so there always exists some irreducible model error. 
 - We often need a lot of simulations. Do we have enough computational power?
 
-# Monte Carlo Example
-
-## Airshed Model
-
-:::: {.columns}
-::: {.column width=50%}
-![Illustration of the airshed, including notation.](figures/airshed-box.svg){#fig-airshed}
-:::
-
-::: {.column width=50%}
-**Goal**: Find the probability of exceeding the 1-hour SO~2~ average exposure concentration standard, which is 0.14 ppm.
-
-
-:::
-::::
-
-::: {.fragment .fade-in}
-$$\mathbb{P}[\text{SO}_2(\theta) > 0.14] = \int \mathbb{I}(\text{SO}_2(\theta) > 0.14) p(\theta) d\theta$$
-:::
-
-## Airshed Model
-
-![Illustration of the airshed, including notation.](figures/airshed-box.svg){#fig-airshed}
-
-$$\frac{dC}{dt} = \frac{u}{L} C_\text{in} + \frac{S-D}{WHL} - \left(\frac{u}{L} + k\right)C$$
-
-## Forward Euler Discretization
-
-$$
-\frac{dC}{dt} = \frac{u}{L} C_\text{in}(t) + \frac{S-D}{WHL} - \left(\frac{u}{L} + k\right)C$$
-
-. . .
-
-
-$$\Rightarrow \frac{C(t+1) - C(t)}{\Delta t} = \frac{u}{L} C_\text{in}(t) + \frac{R}{WHL} - \left(\frac{u}{L} + k\right)C(t)$$
-
-. . .
-
-$$\bbox[yellow, 10px, border:5px solid red]{C(t+1) = \left(1 - \Delta t\left(\frac{u}{L} + k\right)\right)C(t) + \Delta t \left(\frac{u}{L} C_\text{in}(t) + \frac{R}{WHL}\right)}
-$$
-
-## Monte Carlo Samples
-
-```{julia}
-#| echo: true
-#| code-fold: true
-#| label: fig-mc-samples
-#| fig-cap: Monte Carlo samples for the airshed model.
-#| layout-ncol: 3
-
-nsamp = 1000
-u = rand(LogNormal(log(2), 1), nsamp)
-Cin = rand(LogNormal(log(0.16), 0.12), nsamp)
-R = rand(Normal(0.5, 0.5), nsamp)
-
-p1 = histogram(u, ylabel="count", xlabel=L"$u$ (m/s)", label=false, tickfontsize=16, guidefontsize=18, size=(400, 450))
-p2 = histogram(Cin, ylabel="count", xlabel=L"$C_{in}$ (ppm)", label=false, tickfontsize=16, guidefontsize=18, size=(400, 450))
-p3 = histogram(R, ylabel="count", xlabel=L"$R$ (ppm/hr)", label=false, tickfontsize=16, guidefontsize=18, size=(400, 450))
-display(p1)
-display(p2)
-display(p3)
-```
-
-## Simulation Results
-
-```{julia}
-#| echo: true
-#| code-fold: true
-#| label: fig-mc-simulation
-#| fig-cap: Monte Carlo samples for the airshed model.
-#| layout-ncol: 2
-
-# other parameters
-C₀ = 0.07
-T = 60
-k = 0.3
-W = 4
-H = 5
-L = 4
-# conduct simulation
-P = u / L .* Cin
-l = u / L .+ k
-C2 = zeros(T*100 + 1, nsamp)
-S = 0:0.01:T
-for (i, t) in pairs(S)
-    if i == 1
-        C2[i, :] .= C₀
-    else
-        C2[i, :] = (1 .- 0.01*l) .* C2[i-1, :] .+ 0.01 * P .+ 0.01 * R / (H * W * L)
-    end
-end
-mean_SO2 = map(mean, eachcol(C2)) # calculate means
-# plot histogram
-p1 = histogram(mean_SO2, xlabel="1-Hour Average Exposure (ppm)", ylabel="Count", legend=false, tickfontsize=16, guidefontsize=18)
-vline!(p1, [0.14], color=:red, linestyle=:dash, linewidth=3)
-xticks!(p1, 0:0.04:0.3)
-xaxis!(p1, xminorticks=2)
-plot!(p1, size=(600, 450))
-# plot cdf
-p2 = plot(sort(mean_SO2), (1:nsamp) ./ nsamp, xlabel="1-Hour Average Exposure (ppm)", ylabel="Cumulative Probability", legend=false, tickfontsize=17, guidefontsize=18, linewidth=3)
-vline!(p2, [0.14], linestyle=:dash, color=:red, linewidth=3, minorgrid=true)
-xticks!(p2, 0:0.04:0.3)
-xaxis!(p2, xminorticks=2)
-yaxis!(p2, yminorticks=5)
-plot!(p2, size=(600, 450))
-
-display(p1)
-display(p2)
-```
-
-## Monte Carlo Estimation
-
-:::: {.columns}
-::: {.column width=50%}
-$$\hat{\mu}_n = \frac{1}{n}\sum_{i=1}^n \mathbb{I}[x_i > 0.14]$$
-
-$$\hat{\sigma}_n = \sqrt{\frac{\text{Var}(\mathbb{I}[x_{1:n} > 0.14])}{n}}$$
-:::
-::: {.column width=50%}
-```{julia}
-#| echo: true
-#| code-fold: true
-#| label: fig-mc-estimate
-#| fig-cap: Monte Carlo estimation for the airshed model.
-
-# show Monte Carlo estimate stabilization
-avg_mc_out = zeros(nsamp)
-avg_mc_out[1] = mean_SO2[1] > 0.14
-std_mc_out = zeros(nsamp)
-std_mc_out[1] = 0
-for i = 2:nsamp
-    avg_mc_out[i] = (avg_mc_out[i-1] * (i-1) + (mean_SO2[i] > 0.14)) / i
-    std_mc_out[i] = 1/sqrt(i) * std(mean_SO2[1:i] .> 0.14)
-end
-p = plot(avg_mc_out, xlabel="Monte Carlo Iteration", ylabel="Probability", left_margin=3mm, legend=:false, ribbon=1.96*std_mc_out, fillalpha=0.3, linewidth=2, tickfontsize=16, guidefontsize=18, fillcolor=:red, right_margin=5mm, minorgrid=true)
-ylims!(p, (0, 0.3))
-yaxis!(p, yminorticks=5)
-plot!(p, size=(600, 450))
-display(p)
-```
-:::
-:::
-
-## Monte Carlo Optimization
-
-Can also use Monte Carlo to estimate expected values for optimization problems 
-
-For example: in previous problem, might try to optimize a control strategy with an objective of minimizing violations. But no closed form representation of the distribution, so use MC.
-
-# Estimating Quantiles with Monte Carlo
-
-## MC Estimate of the CDF
-
-Would like to estimate the CDF $F$ with some approximation $\hat{F}_n$, then compute $\hat{z}^\alpha_n = \hat{F}_n^{-1}(\alpha)$ as an estimator of the $\alpha$-quantile $z^\alpha$.
-
-Given samples $\hat{\mathbf{y}} = y_1, \ldots, y_n \sim F$, define $$\hat{F}_(y) = \frac{1}{n} \sum_{i=1}^n \mathbb{I}(y_i \leq y).$$
-
-## Is This An Unbiased Estimator?
-
-$$
-\begin{align*}
-\mathbb{E}[\hat{F}_(y)] &= \frac{1}{n} \sum_{i=1}^n \mathbb{I}(y_i \leq y) \\
-&= \frac{1}{n} \sum_{i=1}^n \mathbb{P}(y_i \leq y) \\
-&= F(y)
-\end{align*}
-$$
-
-## Monte Carlo Quantile Estimation Error
-
-From the CLT and some (not super important) theory about order statistics:
-$$\text{Var}(\hat{z}^\alpha_n) \to \frac{\sigma^2_y}{n}\frac{\alpha (1 - \alpha)}{f^2(z^\alpha)}$$
-
-In other words, **the smaller the density at the "true" quantile $z^\alpha$, the greater the error**.
-
-# More Advanced Monte Carlo Methods (Teasers)
-
-## What If We Can't Sample From The Distribution?
-
-- May not be able to generate samples $X \sim f(x)$ efficiently
-- Think of sampling from tails:
-
-$$P(X > k) \approx \frac{1}{M} \sum_{i=1}^M \mathbb{I}(X_i > k)$$
-
-## Importance Sampling
-
-Extension of rejection sampling without requiring "rejection": 
-
-1. Draw samples from *importance distribution* g(x);
-2. Reweight samples:
-    $$
-    \begin{align*}
-    \mathbb{E}_f[h(x)] &= \int_x \frac{f(x)}{g(x)} g(x)h(x) dx \\
-    &\approx \frac{1}{M} \sum_{i=1}^M \frac{f(x)}{g(x)}h(x)
-    \end{align*}
-    $$
-
-## Importance Sampling Needs
-
-Technically works with any proposal $g$, but more efficient if $g$ "covers" $f$ (like with rejection sampling):
-
-$$f(x)/g(x) < M  < \infty$$
-
-## Antithetic Variates
-
-If target values of pairs of samples $h(X_i$) and $h(Y_i)$ are negatively correlated, can increase rate of convergence of $$\frac{1}{2M} \sum_{i=1}^M [h(X_i) + h(Y_i)]$$ relative to $\frac{1}{2M} h(X_i)$ alone.
-
-## Antithetic Variate Generation Can Be Difficult in Practice
-
-- Ensuring anti-correlation can be difficult to verify in general;
-- Gains in efficiency are dependent on effectiveness of antithetical variate generation and shape of $h(x)$
-
 # Key Points
 
 ## Key Points
@@ -651,17 +531,17 @@ If target values of pairs of samples $h(X_i$) and $h(Y_i)$ are negatively correl
 - Monte Carlo: stochastic simulation instead of integration to estimate expected values
 - Monte Carlo is an unbiased estimator; confidence intervals given by CLT.
 - Be mindful of Monte Carlo standard error for "naive" MC with iid samples.
-- **Advanced**: Variance reduction techniques to improve convergence, see e.g. <https://artowen.su.domains/mc/Ch-var-basic.pdf>.
 
-## Perhaps Most Importantly...
-
-**Always report Monte Carlo error!**
 
 # Upcoming Schedule
 
 ## Next Classes
 
-**Wednesday**: The Bootstrap
+**Wednesday**: Some Advanced Monte Carlo Methods
+
+**Friday**: Monte Carlo Examples
+
+**HW4**: Due Friday
 
 
 # References
