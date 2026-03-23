@@ -136,7 +136,7 @@ Can we reframe this integral as a probability of some outcome?
 
 ::: {.fragment .fade-in}
 
-1. Generate a "large number" of Gaussian-distributed 
+1. Generate a "large number" of Gaussian-distributed random variables;
 2. Calculate the proportion that are between 0.8 and 0.9.
 
 :::
@@ -155,6 +155,7 @@ Can we reframe this integral as a probability of some outcome?
 norm_samp = rand(Normal(0, 1), 100_000)
 histogram(norm_samp, legend=false)
 vline!([0.8, 0.9], linewidth=2, color=:red)
+plot!(size=(550, 425))
 ```
 :::
 ::: {.column width=50%}
@@ -166,12 +167,12 @@ The simulated value: `{julia} round(mean((norm_samp .<= 0.9) .& (norm_samp .>= 0
 
 ## Approximating Integrals By Simulation
 
-**Goal**: Estimate $\mathbb{E}_p\left[h(x)\right]$, $x \sim f(x)$
+**Goal**: Estimate $\mathbb{E}_p\left[f(x)\right]$, $x \sim p(X)$
 
 **Monte Carlo principle**: 
 
-- Sample $x^1, x^2, \ldots, x^N \sim f(x)$
-- Estimate $\mathbb{E}_p\left[h(x)\right] \approx \sum_{n=1}^N h(x^n)$ / N
+- Sample $x^1, x^2, \ldots, x^N \sim p(X)$
+- Estimate $\mathbb{E}_p\left[f(x)\right] \approx \sum_{n=1}^N f(x^n)$ / N
 
 **In other words**: replace calculus with data summaries!
 
@@ -215,6 +216,84 @@ digraph G {
 }
 
 ```
+
+## MC Example: Dice
+
+:::: {.columns}
+::: {.column width=50%}
+What is the probability of rolling 4 dice for a total of 19?
+
+::: {.fragment .fade-in}
+Can simulate dice rolls and find the frequency of 19s among the samples.
+:::
+:::
+::: {.column width=50%}
+
+::: {.fragment .fade-in}
+```{julia}
+#| echo: true
+#| fig-width: 100%
+#| label: fig-mcmc-dice
+#| fig-cap: "MCMC Estimation of pi"
+#| fig-height: 100%
+#| code-fold: true
+
+function dice_roll_repeated(n_trials, n_dice)
+    dice_dist = DiscreteUniform(1, 6) 
+    roll_results = zeros(n_trials)
+    for i=1:n_trials
+        roll_results[i] = sum(rand(dice_dist, n_dice))
+    end
+    return roll_results
+end
+
+nsamp = 10000
+# roll four dice 10000 times
+rolls = dice_roll_repeated(nsamp, 4) 
+
+# calculate probability of 19
+sum(rolls .== 19) / length(rolls)
+
+# initialize storage for frequencies by sample length
+avg_freq = zeros(length(rolls)) 
+std_freq = zeros(length(rolls)) 
+
+# compute average frequencies of 19
+avg_freq[1] = (rolls[1] == 19)
+count = 1
+for i=2:length(rolls)
+    avg_freq[i] = (avg_freq[i-1] * (i-1) + (rolls[i] == 19)) / i
+    std_freq[i] = 1/sqrt(i-1) * std(rolls[1:i] .== 19)
+end
+
+plt = plot(
+    1,
+    xlim = (1, nsamp),
+    ylim = (0, 0.1),
+    legend = :false,
+    tickfontsize=16,
+    guidefontsize=16,
+    xlabel="Iteration",
+    ylabel="Estimate",
+    right_margin=8mm,
+    color=:black,
+    linewidth=3,
+    size=(600, 400)
+)
+hline!(plt, [0.0432], color="red", 
+    linestyle=:dash) 
+
+mc_anim = @animate for i = 1:nsamp
+    push!(plt, 1, i, avg_freq[i])
+end every 100
+
+gif(mc_anim, "figures/mc_dice.gif", fps=10)
+
+```
+:::
+:::
+::::
+
 
 
 ## MC Example: Finding $\pi$
@@ -301,91 +380,15 @@ gif(mc_anim, "figures/mc_pi.gif", fps=3)
 :::
 ::::
 
-## MC Example: Dice
-
-:::: {.columns}
-::: {.column width=50%}
-What is the probability of rolling 4 dice for a total of 19?
-
-::: {.fragment .fade-in}
-Can simulate dice rolls and find the frequency of 19s among the samples.
-:::
-:::
-::: {.column width=50%}
-
-::: {.fragment .fade-in}
-```{julia}
-#| echo: true
-#| fig-width: 100%
-#| label: fig-mcmc-dice
-#| fig-cap: "MCMC Estimation of pi"
-#| fig-height: 100%
-#| code-fold: true
-
-function dice_roll_repeated(n_trials, n_dice)
-    dice_dist = DiscreteUniform(1, 6) 
-	roll_results = zeros(n_trials)
-	for i=1:n_trials
-		roll_results[i] = sum(rand(dice_dist, n_dice))
-	end
-	return roll_results
-end
-
-nsamp = 10000
-# roll four dice 10000 times
-rolls = dice_roll_repeated(nsamp, 4) 
-
-# calculate probability of 19
-sum(rolls .== 19) / length(rolls)
-
-# initialize storage for frequencies by sample length
-avg_freq = zeros(length(rolls)) 
-std_freq = zeros(length(rolls)) 
-
-# compute average frequencies of 19
-avg_freq[1] = (rolls[1] == 19)
-count = 1
-for i=2:length(rolls)
-    avg_freq[i] = (avg_freq[i-1] * (i-1) + (rolls[i] == 19)) / i
-    std_freq[i] = 1/sqrt(i-1) * std(rolls[1:i] .== 19)
-end
-
-plt = plot(
-    1,
-    xlim = (1, nsamp),
-    ylim = (0, 0.1),
-    legend = :false,
-    tickfontsize=16,
-    guidefontsize=16,
-    xlabel="Iteration",
-    ylabel="Estimate",
-    right_margin=8mm,
-    color=:black,
-    linewidth=3,
-    size=(600, 400)
-)
-hline!(plt, [0.0432], color="red", 
-    linestyle=:dash) 
-
-mc_anim = @animate for i = 1:nsamp
-    push!(plt, 1, i, avg_freq[i])
-end every 100
-
-gif(mc_anim, "figures/mc_dice.gif", fps=10)
-
-```
-:::
-:::
-::::
-
 
 ## Monte Carlo and Uncertainty Propagation
 
 **Monte Carlo Simulation**: propagate uncertainties from inputs through a model to outputs.
 
-This is an example of **uncertainty propagation**: draw samples from some distribution, and run them through one or more models to find the (conditional) probability of outcomes of interest (for good or bad).
+This is an example of **uncertainty propagation**: 
 
-This is a useful technique particularly when models are nonlinear, making analytic transformations and integrals cumbersome.
+Draw samples from some distribution, and run them through one or more models to find the (conditional) probability of outcomes of interest (for good or bad).
+
 
 # Why Monte Carlo Works
 
@@ -433,24 +436,28 @@ The sample mean $\tilde{\mu}_n = \frac{1}{n}\sum_{i=1}^n Y_i$ is itself a random
 ::: {.fragment .fade-in}
 With some assumptions (the mean of $Y$ exists and $Y$ has finite variance), the expected Monte Carlo sample mean $\mathbb{E}[\tilde{\mu}_n]$ is
 
-$$\mathbb{E}\left[\frac{1}{n}\sum_{i=1}^n Y_i\right] = \frac{1}{n} \sum_{i=1}^n \mathbb{E}\left[\mathbb{Y}_i\right] = \mu$$
+$$\mathbb{E}\left[\frac{1}{n}\sum_{i=1}^n Y_i\right] = \frac{1}{n} \sum_{i=1}^n \mathbb{E}\left[Y_i\right] = \mu$$
 
 :::
 
 ## Monte Carlo Error
 
-We'd like to know more about the error of this estimate for a given sample size. The variance of this estimator is
+We'd like to know more about the error of this estimate for a given sample size. 
 
-$$\tilde{\sigma}_n^2 = \text{Var}\left(\tilde{\mu}_n\right) = \mathbb{E}\left((\tilde{\mu}_n - \mu)^2\right) = \frac{\sigma_Y^2}{n}$$
+$$\begin{aligned}
+\tilde{\sigma}_n^2 = \mathbb{V}\left[\tilde{\mu}_n\right] &= \mathbb{V}\left[\frac{1}{n}\sum_{i=1}^n Y_i\right] \\
+&= \left(\frac{1}{n}\right)^2 \sum_{i=1}^n \mathbb{V}\left[Y_i\right] \\
+&= \frac{\sigma_Y^2}{n}
+\end{aligned}$$
 
-::: {.fragment .fade-in}
+## Monte Carlo Standard Error
+
 So as $n$ increases, the *Monte Carlo standard error (MCSE)* decreases:
 
 $$\tilde{\sigma}_n = \frac{\sigma_Y}{\sqrt{n}}$$
-:::
 
 
-## Monte Carlo Error
+## Implications of MCSE
 
 In other words, if we want to decrease the Monte Carlo error by 10x, we need 100x additional samples. **This is not an ideal method for high levels of accuracy.** 
 
@@ -498,7 +505,10 @@ We don't know the population standard deviation $\sigma_Y$.
 
 But we can estimate it using the simulation variance:
 
-$$\tilde{\sigma}_n^2 = \frac{1}{n-1} \sum_{i=1}^n \left(Y_i - \tilde{\mu}_n)^2$$
+$$\begin{aligned}
+\tilde{\sigma}^2_n &= \frac{1}{n-1} \mathbb{V}\left[Y_i\right] \\
+&= \frac{1}{n-1} \sum_{i=1}^n \left(Y_i - \tilde{\mu}_n\right)^2
+\end{aligned}$$
 
 ## How Many Samples Do I Need?
 
