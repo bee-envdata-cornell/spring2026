@@ -49,10 +49,6 @@ Pkg.instantiate()
 #| output: false
 
 using Random
-using DataFrames
-using DataFramesMeta
-using CSV
-using Dates
 using Distributions
 using ColorSchemes
 using Plots
@@ -61,8 +57,6 @@ using StatsBase
 using Optim
 using LaTeXStrings
 using Measures
-using Animations
-using Logging
 
 Random.seed!(1)
 
@@ -84,328 +78,25 @@ default(
 
 # Review
 
-## Random Variable Generation
+## Monte Carlo
 
-- Quantile transform method turns uniforms into known distributions.
-- Rejection sampling can be used when quantiles are difficult to compute (but requires proposal covering target distribution).
-- Pseudorandom number generation and importance of seeds.
+- Stochastic simulation: propagate random variables $X$ through model $f$ and want to estimate $\mathbb{E}[f(X)] \approx \sum_{i=1}^n f(X_i)$ using samples $X_1, \ldots, X_n$.
+- Example: probability of a standard Gaussian between $[0.8, 0.9]$: draw $X_1, \ldots, X_n \sim N(0, 1)$, $$f(x) = \mathbb{I}_{[0.8, 0.9]}(x).$$
 
-# Monte Carlo Simulation
+## Statistics of Monte Carlo
 
-## Stochastic Simulation
+- Denote $Y = f(X)$, $\mathbb{E}[Y] = \mu$, and $\sum_{i=1}^n Y_i = \tilde{\mu}_n$.
+- MC is **unbiased**: $\mathbb{E}[\tilde{\mu}_n] = \mu$;
+- Monte Carlo standard error (MCSE): $Y_i$ i.i.d., then $\text{SE}(\tilde{\mu}_n) = \sigma_Y / \sqrt{n}$.
 
-**Goal**: Estimate $\mathbb{E}_p\left[h(x)\right]$, $x \sim f(x)$
+## When Would We Want To Use Monte Carlo?
 
-**Monte Carlo principle**: 
+1. Ugly integrands: $f(X)$ is highly nonlinear or not smooth;
+2. Ugly domains;
+3. Higher dimensions;
+4. Distribution of $X$ is implicit.
 
-- Sample $x^1, x^2, \ldots, x^N \sim f(x)$
-- Estimate $\mathbb{E}_p\left[h(x)\right] \approx \sum_{n=1}^N h(x^n)$ / N
-
-**In other words**: replace calculus with data summaries!
-
-## Monte Carlo Process Schematic
-
-```{dot}
-//| fig-width: 12
-digraph G {
-    graph [
-        rankdir=LR
-        layout=dot
-    ]
-    node [
-        fontname = "IBM Plex Sans, sans-serif"
-        fontsize=25
-    ]
-    edge [
-        arrowsize=0.75
-        labeldistance=3
-        penwidth=3
-        fontname = "IBM Plex Sans, sans-serif"
-        fontsize=25
-        style=dashed
-        color="#b31b1b"
-        fontcolor="#b31b1b"
-    ]
-    a [label="Probability\n Distribution"]
-    b [label = "Random\n Samples"]
-    c [label="Model"]
-    d [label="Outputs"]
-
-    a -> b [
-        label="Sample"
-    ]
-    b -> c [
-        label="Input"
-    ]
-    c -> d [
-        label="Simulate"
-    ]
-}
-
-```
-
-## Goals of Monte Carlo
-
-Monte Carlo is a broad method, which can be used to:
-
-1. Obtain probability distributions of outputs;
-2. Estimate deterministic quantities (***Monte Carlo estimation***).
-
-## MC Example: Finding $\pi$
-
-How can we use MC to estimate $\pi$?
-
-**Hint**: Think of $\pi$ as an expected value...
-
-## MC Example: Finding $\pi$
-
-:::: {.columns}
-::: {.column width=50%}
-::: {.fragment .fade-in}
-Finding $\pi$ by sampling random values from the unit square and computing the fraction in the unit circle. This is an example of **Monte Carlo integration**.
-
-$$\frac{\text{Area of Circle}}{\text{Area of Square}} = \frac{\pi}{4}$$
-:::
-:::
-::: {.column width=50%}
-:::{.fragment .fade-in}
-```{julia}
-#| echo: true
-#| label: fig-mcmc-pi
-#| fig-cap: "MCMC Estimation of pi"
-#| fig-height: 100%
-#| code-fold: true
-
-
-Logging.disable_logging(Logging.Info)
-
-function circleShape(r)
-    θ = LinRange(0, 2 * π, 500)
-    r * sin.(θ), r * cos.(θ)
-end
-
-nsamp = 3000
-unif = Uniform(-1, 1)
-x = rand(unif, (nsamp, 2))
-l = mapslices(v -> sum(v.^2), x, dims=2)
-in_circ = l .< 1
-pi_est = [4 * mean(in_circ[1:i]) for i in 1:nsamp]
-
-plt1 = plot(
-    1,
-    xlim = (-1, 1),
-    ylim = (-1, 1),
-    legend = false,
-    markersize = 4,
-    framestyle = :origin,
-    tickfontsize=16,
-    grid=:false
-    )
-plt2 = plot(
-    1,
-    xlim = (1, nsamp),
-    ylim = (3, 3.5),
-    legend = :false,
-    linewidth=3, 
-    color=:black,
-    tickfontsize=16,
-    guidefontsize=16,
-    xlabel="Iteration",
-    ylabel="Estimate",
-    right_margin=5mm
-)
-hline!(plt2, [π], color=:red, linestyle=:dash)
-plt = plot(plt1, plt2, layout=Plots.grid(2, 1, heights=[2/3, 1/3]), size=(600, 500))
-
-plot!(plt, circleShape(1), linecolor=:blue, lw=1, aspectratio=1, subplot=1)
-
-
-mc_anim = @animate for i = 1:nsamp
-    if l[i] < 1
-        scatter!(plt[1], Tuple(x[i, :]), color=:blue, markershape=:x, subplot=1)
-    else
-        scatter!(plt[1], Tuple(x[i, :]), color=:red, markershape=:x, subplot=1)
-    end
-    push!(plt, 2, i, pi_est[i])
-end every 100
-
-gif(mc_anim, "figures/mc_pi.gif", fps=3)
-```
-:::
-:::
-::::
-
-## MC Example: Dice
-
-:::: {.columns}
-::: {.column width=50%}
-What is the probability of rolling 4 dice for a total of 19?
-
-::: {.fragment .fade-in}
-Can simulate dice rolls and find the frequency of 19s among the samples.
-:::
-:::
-::: {.column width=50%}
-
-::: {.fragment .fade-in}
-```{julia}
-#| echo: true
-#| fig-width: 100%
-#| label: fig-mcmc-dice
-#| fig-cap: "MCMC Estimation of pi"
-#| fig-height: 100%
-#| code-fold: true
-
-function dice_roll_repeated(n_trials, n_dice)
-    dice_dist = DiscreteUniform(1, 6) 
-	roll_results = zeros(n_trials)
-	for i=1:n_trials
-		roll_results[i] = sum(rand(dice_dist, n_dice))
-	end
-	return roll_results
-end
-
-nsamp = 10000
-# roll four dice 10000 times
-rolls = dice_roll_repeated(nsamp, 4) 
-
-# calculate probability of 19
-sum(rolls .== 19) / length(rolls)
-
-# initialize storage for frequencies by sample length
-avg_freq = zeros(length(rolls)) 
-std_freq = zeros(length(rolls)) 
-
-# compute average frequencies of 19
-avg_freq[1] = (rolls[1] == 19)
-count = 1
-for i=2:length(rolls)
-    avg_freq[i] = (avg_freq[i-1] * (i-1) + (rolls[i] == 19)) / i
-    std_freq[i] = 1/sqrt(i-1) * std(rolls[1:i] .== 19)
-end
-
-plt = plot(
-    1,
-    xlim = (1, nsamp),
-    ylim = (0, 0.1),
-    legend = :false,
-    tickfontsize=16,
-    guidefontsize=16,
-    xlabel="Iteration",
-    ylabel="Estimate",
-    right_margin=8mm,
-    color=:black,
-    linewidth=3,
-    size=(600, 400)
-)
-hline!(plt, [0.0432], color="red", 
-    linestyle=:dash) 
-
-mc_anim = @animate for i = 1:nsamp
-    push!(plt, 1, i, avg_freq[i])
-end every 100
-
-gif(mc_anim, "figures/mc_dice.gif", fps=10)
-
-```
-:::
-:::
-::::
-
-## Monte Carlo and Uncertainty Propagation
-
-**Monte Carlo simulation**: propagate uncertainties from inputs through a model to outputs.
-
-This is an example of **uncertainty propagation**: draw samples from some distribution, and run them through one or more models to find the (conditional) probability of outcomes of interest (for good or bad).
-
-# Why Monte Carlo Works
-
-## Monte Carlo: Formal Approach
-
-**Formally**: Monte Carlo estimation as the computation of the expected value of a random quantity $Y = f(X)$, $\mu = \mathbb{E}[Y]$.
-
-To do this, generate $n$ independent and identically distributed values $Y_1, \ldots, Y_n$.  Then the sample estimate is
-
-$$\tilde{\mu}_n = \frac{1}{n}\sum_{i=1}^n Y_i$$
-
-## What Makes a Good Statistical Estimator?
-
-Statistical estimators are **random**, which means we can't ever guarantee that we get back the "true" value 
-
-- No bias ($\text{Bias} = \mathbb{E}_g[\tilde{\mu}] - \mu$)
-- Well-characterized, ideally small, variance ($\text{Var}(\tilde{\mu})$)
-
-## The Law of Large Numbers
-
-If 
-
-(1) $Y$ is a random variable and its expectation exists and 
-
-(2) $Y_1, \ldots, Y_n$ are independently and identically distributed
-
-Then by the **weak law of large numbers**:
-
-$$\lim_{n \to \infty} \mathbb{P}\left(\left|\tilde{\mu}_n - \mu\right| \leq \varepsilon \right) = 1$$
-
-## The Law of Large Numbers
-
-In other words, *eventually* Monte Carlo estimates will get within an arbitrary error of the true expectation. 
-
-But how large is large enough?
-
-
-## Monte Carlo Sample Mean
-
-The sample mean $\tilde{\mu}_n = \frac{1}{n}\sum_{i=1}^n Y_i$ is itself a random variable.
-
-::: {.fragment .fade-in}
-With some assumptions (the mean of $Y$ exists and $Y$ has finite variance), the expected Monte Carlo sample mean $\mathbb{E}[\tilde{\mu}_n]$ is
-
-$$\frac{1}{n}\sum_{i=1}^n \mathbb{E}[Y_i] = \frac{1}{n} n \mu = \mu$$
-
-:::
-
-## Monte Carlo Error
-
-We'd like to know more about the error of this estimate for a given sample size. The variance of this estimator is
-
-$$\tilde{\sigma}_n^2 = \text{Var}\left(\tilde{\mu}_n\right) = \mathbb{E}\left((\tilde{\mu}_n - \mu)^2\right) = \frac{\sigma_Y^2}{n}$$
-
-::: {.fragment .fade-in}
-So as $n$ increases, the *standard error* decreases:
-
-$$\tilde{\sigma}_n = \frac{\sigma_Y}{\sqrt{n}}$$
-:::
-
-
-## Monte Carlo Error
-
-In other words, if we want to decrease the Monte Carlo error by 10x, we need 100x additional samples. **This is not an ideal method for high levels of accuracy.** 
-
-::: {.fragment .fade-in}
-::: {.quote}
-> Monte Carlo is an extremely bad method. It should only be used when all alternative methods are worse.
-
-::: {.cite}
---- Sokal, *Monte Carlo Methods in Statistical Mechanics*, 1996
-:::
-:::
-:::
-
-::: {.fragment .fade-in}
-
-But...often most alternatives *are* worse!
-:::
-
-
-## When Might We Want to Use Monte Carlo?
-
-If you can compute your integrals analytically or through quadrature, you probably should. 
-
-But for *many* "real" problems, this is either
-
-1. Not possible (or computationally intractable);
-2. Requires a lot of stylization and simplification.
+# Monte Carlo Confidence Intervals
 
 ## Monte Carlo Confidence Intervals
 
@@ -422,9 +113,31 @@ For example, the 95% confidence interval is $$\tilde{\mu}_n \pm 1.96 \frac{\sigm
 
 ## Sidebar: Estimating $\sigma_Y$
 
-We don't know the standard deviation $\sigma_Y$.
+We don't know the population standard deviation $\sigma_Y$.
 
-But we can estimate it using the simulation standard deviation:
+But we can estimate it using the simulation variance:
+
+$$\begin{aligned}
+\tilde{\sigma}^2_n &= \frac{1}{n-1} \mathbb{V}\left[Y_i\right] \\
+&= \frac{1}{n-1} \sum_{i=1}^n \left(Y_i - \tilde{\mu}_n\right)^2
+\end{aligned}$$
+
+## How Many Samples Do I Need?
+
+Notice that we can't figure this out ahead of time: if we want to get the MCSE $\tilde{\sigma}_n$ below $\varepsilon$, we can solve
+
+$$n \leq \frac{1}{\varepsilon^2}\mathbb{V}\left[Y_i\right],$$
+
+but we can't even estimate $\mathbb{V}\left[Y_i\right]$ without doing Monte Carlo!
+
+## How Many Samples Do I Need?
+
+Try:
+
+1. Run a "pilot" MC with a relatively small number of samples to estimate $\mathbb{V}\left[Y_i\right]$.
+2. Pick a target MCSE $\varepsilon$, then we need $N \approx \mathbb{V}\left[Y_i\right] / \varepsilon^2$ samples.
+3. Run the "real" MC with sample size $N$ and check if the MCSE is right ($N$ might be off due to error in the variance estimate).
+4. If not, run more.
 
 ## Implications of Monte Carlo Error
 
@@ -433,154 +146,6 @@ Converging at a rate of $1/\sqrt{n}$ is not great. But:
 - All models are wrong, and so there always exists some irreducible model error. 
 - We often need a lot of simulations. Do we have enough computational power?
 
-# Monte Carlo Example
-
-## Airshed Model
-
-:::: {.columns}
-::: {.column width=50%}
-![Illustration of the airshed, including notation.](figures/airshed-box.svg){#fig-airshed}
-:::
-
-::: {.column width=50%}
-**Goal**: Find the probability of exceeding the 1-hour SO~2~ average exposure concentration standard, which is 0.14 ppm.
-
-
-:::
-::::
-
-::: {.fragment .fade-in}
-$$\mathbb{P}[\text{SO}_2(\theta) > 0.14] = \int \mathbb{I}(\text{SO}_2(\theta) > 0.14) p(\theta) d\theta$$
-:::
-
-## Airshed Model
-
-![Illustration of the airshed, including notation.](figures/airshed-box.svg){#fig-airshed}
-
-$$\frac{dC}{dt} = \frac{u}{L} C_\text{in} + \frac{S-D}{WHL} - \left(\frac{u}{L} + k\right)C$$
-
-## Forward Euler Discretization
-
-$$
-\frac{dC}{dt} = \frac{u}{L} C_\text{in}(t) + \frac{S-D}{WHL} - \left(\frac{u}{L} + k\right)C$$
-
-. . .
-
-
-$$\Rightarrow \frac{C(t+1) - C(t)}{\Delta t} = \frac{u}{L} C_\text{in}(t) + \frac{R}{WHL} - \left(\frac{u}{L} + k\right)C(t)$$
-
-. . .
-
-$$\bbox[yellow, 10px, border:5px solid red]{C(t+1) = \left(1 - \Delta t\left(\frac{u}{L} + k\right)\right)C(t) + \Delta t \left(\frac{u}{L} C_\text{in}(t) + \frac{R}{WHL}\right)}
-$$
-
-## Monte Carlo Samples
-
-```{julia}
-#| echo: true
-#| code-fold: true
-#| label: fig-mc-samples
-#| fig-cap: Monte Carlo samples for the airshed model.
-#| layout-ncol: 3
-
-nsamp = 1000
-u = rand(LogNormal(log(2), 1), nsamp)
-Cin = rand(LogNormal(log(0.16), 0.12), nsamp)
-R = rand(Normal(0.5, 0.5), nsamp)
-
-p1 = histogram(u, ylabel="count", xlabel=L"$u$ (m/s)", label=false, tickfontsize=16, guidefontsize=18, size=(400, 450))
-p2 = histogram(Cin, ylabel="count", xlabel=L"$C_{in}$ (ppm)", label=false, tickfontsize=16, guidefontsize=18, size=(400, 450))
-p3 = histogram(R, ylabel="count", xlabel=L"$R$ (ppm/hr)", label=false, tickfontsize=16, guidefontsize=18, size=(400, 450))
-display(p1)
-display(p2)
-display(p3)
-```
-
-## Simulation Results
-
-```{julia}
-#| echo: true
-#| code-fold: true
-#| label: fig-mc-simulation
-#| fig-cap: Monte Carlo samples for the airshed model.
-#| layout-ncol: 2
-
-# other parameters
-C₀ = 0.07
-T = 60
-k = 0.3
-W = 4
-H = 5
-L = 4
-# conduct simulation
-P = u / L .* Cin
-l = u / L .+ k
-C2 = zeros(T*100 + 1, nsamp)
-S = 0:0.01:T
-for (i, t) in pairs(S)
-    if i == 1
-        C2[i, :] .= C₀
-    else
-        C2[i, :] = (1 .- 0.01*l) .* C2[i-1, :] .+ 0.01 * P .+ 0.01 * R / (H * W * L)
-    end
-end
-mean_SO2 = map(mean, eachcol(C2)) # calculate means
-# plot histogram
-p1 = histogram(mean_SO2, xlabel="1-Hour Average Exposure (ppm)", ylabel="Count", legend=false, tickfontsize=16, guidefontsize=18)
-vline!(p1, [0.14], color=:red, linestyle=:dash, linewidth=3)
-xticks!(p1, 0:0.04:0.3)
-xaxis!(p1, xminorticks=2)
-plot!(p1, size=(600, 450))
-# plot cdf
-p2 = plot(sort(mean_SO2), (1:nsamp) ./ nsamp, xlabel="1-Hour Average Exposure (ppm)", ylabel="Cumulative Probability", legend=false, tickfontsize=17, guidefontsize=18, linewidth=3)
-vline!(p2, [0.14], linestyle=:dash, color=:red, linewidth=3, minorgrid=true)
-xticks!(p2, 0:0.04:0.3)
-xaxis!(p2, xminorticks=2)
-yaxis!(p2, yminorticks=5)
-plot!(p2, size=(600, 450))
-
-display(p1)
-display(p2)
-```
-
-## Monte Carlo Estimation
-
-:::: {.columns}
-::: {.column width=50%}
-$$\hat{\mu}_n = \frac{1}{n}\sum_{i=1}^n \mathbb{I}[x_i > 0.14]$$
-
-$$\hat{\sigma}_n = \sqrt{\frac{\text{Var}(\mathbb{I}[x_{1:n} > 0.14])}{n}}$$
-:::
-::: {.column width=50%}
-```{julia}
-#| echo: true
-#| code-fold: true
-#| label: fig-mc-estimate
-#| fig-cap: Monte Carlo estimation for the airshed model.
-
-# show Monte Carlo estimate stabilization
-avg_mc_out = zeros(nsamp)
-avg_mc_out[1] = mean_SO2[1] > 0.14
-std_mc_out = zeros(nsamp)
-std_mc_out[1] = 0
-for i = 2:nsamp
-    avg_mc_out[i] = (avg_mc_out[i-1] * (i-1) + (mean_SO2[i] > 0.14)) / i
-    std_mc_out[i] = 1/sqrt(i) * std(mean_SO2[1:i] .> 0.14)
-end
-p = plot(avg_mc_out, xlabel="Monte Carlo Iteration", ylabel="Probability", left_margin=3mm, legend=:false, ribbon=1.96*std_mc_out, fillalpha=0.3, linewidth=2, tickfontsize=16, guidefontsize=18, fillcolor=:red, right_margin=5mm, minorgrid=true)
-ylims!(p, (0, 0.3))
-yaxis!(p, yminorticks=5)
-plot!(p, size=(600, 450))
-display(p)
-```
-:::
-:::
-
-## Monte Carlo Optimization
-
-Can also use Monte Carlo to estimate expected values for optimization problems 
-
-For example: in previous problem, might try to optimize a control strategy with an objective of minimizing violations. But no closed form representation of the distribution, so use MC.
 
 # Estimating Quantiles with Monte Carlo
 
@@ -605,9 +170,126 @@ $$
 From the CLT and some (not super important) theory about order statistics:
 $$\text{Var}(\hat{z}^\alpha_n) \to \frac{\sigma^2_y}{n}\frac{\alpha (1 - \alpha)}{f^2(z^\alpha)}$$
 
-In other words, **the smaller the density at the "true" quantile $z^\alpha$, the greater the error**.
+In other words, **the smaller the density at the "true" quantile $z^\alpha$, the greater the error and the more samples required**.
 
 # More Advanced Monte Carlo Methods (Teasers)
+
+## Can We Reduce Sample Size?
+
+Goal of most advanced MC methods are to reduce the variance so MCSE decays faster than $1/\sqrt{n}$.
+
+Some approaches:
+
+1. Control variates;
+2. Antithetic variates;
+3. Importance sampling.
+
+## Control Variates
+
+Idea is to "anchor" the estimate of $\mathbb{E}[f(X)]$ to some a similar but easier-to-calculate value $\mathbb{E}[g(X)]$.
+
+## Anchoring
+
+Let's play a game:
+
+Write down how long you think it takes to fly from London to New York.
+
+::: {.fragment .fade-in}
+What did you write down?
+:::
+
+## Anchoring
+
+Now suppose you know that it takes 8 hours and 15 minutes to fly from London to Washington, DC.
+
+Write down how long you think it takes to fly from London to New York.
+
+::: {.fragment .fade-in}
+What did you write down?
+:::
+
+## Anchoring and Control Variates
+
+It's easier to estimate a quantity if we can start with a known-but-similar value and tweak it slightly rather than estimating the quantity from scratch.
+
+We want to estimate $\mu = \mathbb{E}[f(X)]$, but suppose we know $\mathbb{E}[g(X)]$ instead. Then:
+
+$$\mu = \mathbb{E}[f(X)] = \mathbb{E}[f(X) - g(X) + g(X)] = \underbrace{\mathbb{E}[f(X) - g(X)]}_{\text{Estimate with MC}} + \underbrace{\mathbb{E}[g(X)]}_{\text{known}}.$$
+
+## Control Variate Estimate
+
+In other words, if $\nu = \mathbb{E}[g(X)]$, we can obtain an estimate
+
+$$\tilde{\mu}_n^{\text{CV}} = \frac{1}{n} \left(f(X) - g(X)\right) + \nu.$$
+
+The level of increased efficiency is related to the correlation between $f$ and $g$.
+
+## Control Variate Example
+
+Suppose we want to estimate $\mathbb{E}[\cos(X)]$, where $X \sim N(0, 1)$.
+
+:::: {.columns}
+::: {.column}
+
+Let's use $g(x) = \frac{1} - \frac{x^2}{2}$ based on the Taylor expansion.
+
+:::
+::: {.column}
+
+```{julia}
+#| echo: true
+#| code-fold: true
+#| label: fig-cv
+#| fig-cap: "Control Variate Example Functions"
+
+x = -5:0.01:5
+f(x) = cos(x)
+g(x) = 1 - x^2/2
+
+plot(x, f.(x), color=:blue, linewidth=3, label=L"$\cos(x)$")
+plot!(x, g.(x), color=:red, linewidth=3, label=L"$g(x)$")
+ylims!((-1.25, 1.25))
+plot!(size=(500, 450))
+```
+
+:::
+::::
+
+## Control Variate Example
+
+We know that if $X \sim N(\mu, \sigma^2)$, $\mathbb{E}[X^2] = \mu^2 + \sigma^2$, so $\mathbb{E}[g(X)] = 1/2$.
+
+```{julia}
+#| echo: true
+#| code-fold: true
+
+n = 1_000
+X = rand(Normal(0, 1), n)
+mu1 = mean(f.(X))
+sigma1 = std(f.(X)) / sqrt(n)
+mu2 = mean(f.(X) .- g.(X)) + 0.5
+sigma2 = std(f.(X) .- g.(X)) / sqrt(n)
+```
+
+1,000 samples:
+
+Naive MC estimate: `{julia} mu1` with MCSE `{julia} sigma1`.
+
+Control variate estimate: `{julia} mu2` with MCSE `{julia} sigma2`.
+
+## Antithetic Variates
+
+If target values of pairs of samples $h(X_i)$ and $h(Y_i)$ are negatively correlated, can increase rate of convergence of $$\frac{1}{2M} \sum_{i=1}^M [h(X_i) + h(Y_i)]$$ relative to $\frac{1}{2M} h(X_i)$ alone:
+
+$$\begin{aligned}
+\mathbb{V}\left[\frac{1}{2}(h(X_i) + h(Y_i)\right] &= \frac{1}{4}\left[\mathbb{V}[h(X_i)] + \mathbb{V}[h(Y_i)] + 2\text{Cov}(h(X_i), h(Y_i)\right] \\
+&= \frac{1}{4}\left(\sigma^2 + \sigma^2 + 2\rho\sigma^2) = \frac{1 + \rho}{2}\sigma^2
+\end{aligned}$$
+
+## Antithetic Variate Generation Can Be Difficult in Practice
+
+- Ensuring anti-correlation can be difficult to verify in general;
+- Gains in efficiency are dependent on effectiveness of antithetical variate generation and shape of $h(x)$
 
 ## What If We Can't Sample From The Distribution?
 
@@ -635,20 +317,11 @@ Technically works with any proposal $g$, but more efficient if $g$ "covers" $f$ 
 
 $$f(x)/g(x) < M  < \infty$$
 
-## Antithetic Variates
-
-If target values of pairs of samples $h(X_i$) and $h(Y_i)$ are negatively correlated, can increase rate of convergence of $$\frac{1}{2M} \sum_{i=1}^M [h(X_i) + h(Y_i)]$$ relative to $\frac{1}{2M} h(X_i)$ alone.
-
-## Antithetic Variate Generation Can Be Difficult in Practice
-
-- Ensuring anti-correlation can be difficult to verify in general;
-- Gains in efficiency are dependent on effectiveness of antithetical variate generation and shape of $h(x)$
 
 # Key Points
 
 ## Key Points
 
-- Monte Carlo: stochastic simulation instead of integration to estimate expected values
 - Monte Carlo is an unbiased estimator; confidence intervals given by CLT.
 - Be mindful of Monte Carlo standard error for "naive" MC with iid samples.
 - **Advanced**: Variance reduction techniques to improve convergence, see e.g. <https://artowen.su.domains/mc/Ch-var-basic.pdf>.

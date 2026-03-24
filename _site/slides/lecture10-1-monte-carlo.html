@@ -662,49 +662,6 @@ Figure&nbsp;4: MCMC Estimation of pi
 <li>Not possible (or computationally intractable);</li>
 <li>Requires a lot of stylization and simplification.</li>
 </ol>
-</section>
-<section id="monte-carlo-confidence-intervals" class="slide level2">
-<h2>Monte Carlo Confidence Intervals</h2>
-<p><strong>Basic Idea</strong>: The <em>Central Limit Theorem</em> says that with enough samples, the errors are normally distributed:</p>
-<p><span class="math display">\[\left\|\tilde{\mu}_n - \mu\right\| \to \mathcal{N}\left(0, \frac{\sigma_Y^2}{n}\right)\]</span></p>
-</section>
-<section id="monte-carlo-confidence-intervals-1" class="slide level2">
-<h2>Monte Carlo Confidence Intervals</h2>
-<p>The <span class="math inline">\(\alpha\)</span>-confidence interval is: <span class="math display">\[\tilde{\mu}_n \pm \Phi^{-1}\left(1 - \frac{\alpha}{2}\right) \frac{\sigma_Y}{\sqrt{n}}\]</span></p>
-<p>For example, the 95% confidence interval is <span class="math display">\[\tilde{\mu}_n \pm 1.96 \frac{\sigma_Y}{\sqrt{n}}.\]</span></p>
-</section>
-<section id="sidebar-estimating-sigma_y" class="slide level2">
-<h2>Sidebar: Estimating <span class="math inline">\(\sigma_Y\)</span></h2>
-<p>We don’t know the population standard deviation <span class="math inline">\(\sigma_Y\)</span>.</p>
-<p>But we can estimate it using the simulation variance:</p>
-<p><span class="math display">\[\begin{aligned}
-\tilde{\sigma}^2_n &amp;= \frac{1}{n-1} \mathbb{V}\left[Y_i\right] \\
-&amp;= \frac{1}{n-1} \sum_{i=1}^n \left(Y_i - \tilde{\mu}_n\right)^2
-\end{aligned}\]</span></p>
-</section>
-<section id="how-many-samples-do-i-need" class="slide level2">
-<h2>How Many Samples Do I Need?</h2>
-<p>Notice that we can’t figure this out ahead of time: if we want to get the MCSE <span class="math inline">\(\tilde{\sigma}_n\)</span> below <span class="math inline">\(\varepsilon\)</span>, we can solve</p>
-<p><span class="math display">\[n \leq \frac{1}{\varepsilon^2}\mathbb{V}\left[Y_i\right],\]</span></p>
-<p>but we can’t even estimate <span class="math inline">\(\mathbb{V}\left[Y_i\right]\)</span> without doing Monte Carlo!</p>
-</section>
-<section id="how-many-samples-do-i-need-1" class="slide level2">
-<h2>How Many Samples Do I Need?</h2>
-<p>Try:</p>
-<ol type="1">
-<li>Run a “pilot” MC with a relatively small number of samples to estimate <span class="math inline">\(\mathbb{V}\left[Y_i\right]\)</span>.</li>
-<li>Pick a target MCSE <span class="math inline">\(\varepsilon\)</span>, then we need <span class="math inline">\(N \approx \mathbb{V}\left[Y_i\right] / \varepsilon^2\)</span> samples.</li>
-<li>Run the “real” MC with sample size <span class="math inline">\(N\)</span> and check if the MCSE is right (<span class="math inline">\(N\)</span> might be off due to error in the variance estimate).</li>
-<li>If not, run more.</li>
-</ol>
-</section>
-<section id="implications-of-monte-carlo-error" class="slide level2">
-<h2>Implications of Monte Carlo Error</h2>
-<p>Converging at a rate of <span class="math inline">\(1/\sqrt{n}\)</span> is not great. But:</p>
-<ul>
-<li>All models are wrong, and so there always exists some irreducible model error.</li>
-<li>We often need a lot of simulations. Do we have enough computational power?</li>
-</ul>
 </section></section>
 <section>
 <section id="key-points" class="title-slide slide level1 center">
@@ -715,7 +672,7 @@ Figure&nbsp;4: MCMC Estimation of pi
 <h2>Key Points</h2>
 <ul>
 <li>Monte Carlo: stochastic simulation instead of integration to estimate expected values</li>
-<li>Monte Carlo is an unbiased estimator; confidence intervals given by CLT.</li>
+<li>Monte Carlo is an unbiased estimator; variance decreases by <span class="math inline">\(1/n\)</span>.</li>
 <li>Be mindful of Monte Carlo standard error for “naive” MC with iid samples.</li>
 </ul>
 </section></section>
