@@ -85,7 +85,7 @@ default(
 
 ## Statistics of Monte Carlo
 
-- Denote $Y = f(X)$, $\mathbb{E}[Y] = \mu$, and $\sum_{i=1}^n Y_i = \tilde{\mu}_n$.
+- Denote $Y = f(X)$, $\mathbb{E}[Y] = \mu$, and $\frac{1}{n}\sum_{i=1}^n Y_i = \tilde{\mu}_n$.
 - MC is **unbiased**: $\mathbb{E}[\tilde{\mu}_n] = \mu$;
 - Monte Carlo standard error (MCSE): $Y_i$ i.i.d., then $\text{SE}(\tilde{\mu}_n) = \sigma_Y / \sqrt{n}$.
 
@@ -106,7 +106,7 @@ $$\left\|\tilde{\mu}_n - \mu\right\| \to \mathcal{N}\left(0, \frac{\sigma_Y^2}{n
 
 ## Monte Carlo Confidence Intervals
 
-The $\alpha$-confidence interval is:
+The $1-\alpha$-confidence interval is:
 $$\tilde{\mu}_n \pm \Phi^{-1}\left(1 - \frac{\alpha}{2}\right) \frac{\sigma_Y}{\sqrt{n}}$$
 
 For example, the 95% confidence interval is $$\tilde{\mu}_n \pm 1.96 \frac{\sigma_Y}{\sqrt{n}}.$$
@@ -118,7 +118,7 @@ We don't know the population standard deviation $\sigma_Y$.
 But we can estimate it using the simulation variance:
 
 $$\begin{aligned}
-\tilde{\sigma}^2_n &= \frac{1}{n-1} \mathbb{V}\left[Y_i\right] \\
+\tilde{\sigma}^2_n &= \mathbb{V}\left[Y_i\right] \\
 &= \frac{1}{n-1} \sum_{i=1}^n \left(Y_i - \tilde{\mu}_n\right)^2
 \end{aligned}$$
 
@@ -126,7 +126,7 @@ $$\begin{aligned}
 
 Notice that we can't figure this out ahead of time: if we want to get the MCSE $\tilde{\sigma}_n$ below $\varepsilon$, we can solve
 
-$$n \leq \frac{1}{\varepsilon^2}\mathbb{V}\left[Y_i\right],$$
+$$n \geq \frac{1}{\varepsilon^2}\mathbb{V}\left[Y_i\right],$$
 
 but we can't even estimate $\mathbb{V}\left[Y_i\right]$ without doing Monte Carlo!
 
@@ -223,7 +223,7 @@ $$\begin{aligned}
 
 In other words, if $\nu = \mathbb{E}[g(X)]$, we can obtain an estimate
 
-$$\tilde{\mu}_n^{\text{CV}} = \frac{1}{n} \left(f(X) - g(X)\right) + \nu.$$
+$$\tilde{\mu}_n^{\text{CV}} = \frac{1}{n}\sum_{i=1}^n \left(f(X) - g(X)\right) + \nu.$$
 
 The level of increased efficiency is related to the correlation between $f$ and $g$.
 
@@ -252,7 +252,7 @@ g(x) = 1 - x^2/2
 plot(x, f.(x), color=:blue, linewidth=3, label=L"$\cos(x)$")
 plot!(x, g.(x), color=:red, linewidth=3, label=L"$g(x)$")
 ylims!((-1.25, 1.25))
-plot!(size=(400, 250))
+plot!(size=(400, 350))
 ```
 
 :::
@@ -288,7 +288,8 @@ If target values of pairs of samples $h(X_i)$ and $h(Y_i)$ are negatively correl
 ## Efficiency of Antithetic Variates
 
 $$\begin{aligned}
-\mathbb{V}\left[\frac{1}{2}(h(X_i) + h(Y_i)\right] &= \frac{1}{4}\left[\mathbb{V}[h(X_i)] + \mathbb{V}[h(Y_i)] + 2\text{Cov}(h(X_i), h(Y_i)\right] \\
+\mathbb{V}\left[\frac{1}{2}(h(X_i) + h(Y_i)\right] &= \frac{1}{4}\left[\mathbb{V}[h(X_i)] + \mathbb{V}[h(Y_i)] + \\
+&\qquad\qquad 2\text{Cov}(h(X_i), h(Y_i)\right] \\
 &= \frac{1}{4}\left(\sigma^2 + \sigma^2 + 2\rho\sigma^2\right) = \frac{1 + \rho}{2}\sigma^2
 \end{aligned}$$
 
@@ -311,7 +312,7 @@ Extension of rejection sampling without requiring "rejection":
 1. Draw samples from *importance distribution* g(x);
 2. Reweight samples:
     $$
-    \mathbb{E}_f[h(x)] &= \int_x \frac{f(x)}{g(x)} g(x)h(x) dx \approx \frac{1}{M} \sum_{i=1}^M \frac{f(x)}{g(x)}h(x)
+    \mathbb{E}_f[h(x)] = \int_x \frac{f(x)}{g(x)} g(x)h(x) dx \approx \frac{1}{M} \sum_{i=1}^M \frac{f(x)}{g(x)}h(x)
     $$
 
 ## Importance Sampling Needs
