@@ -210,11 +210,14 @@ What did you write down?
 
 ## Anchoring and Control Variates
 
-It's easier to estimate a quantity if we can start with a known-but-similar value and tweak it slightly rather than estimating the quantity from scratch.
+It's easier to estimate a quantity if we can start with a known-but-similar value and tweak it slightly.
 
 We want to estimate $\mu = \mathbb{E}[f(X)]$, but suppose we know $\mathbb{E}[g(X)]$ instead. Then:
 
-$$\mu = \mathbb{E}[f(X)] = \mathbb{E}[f(X) - g(X) + g(X)] = \underbrace{\mathbb{E}[f(X) - g(X)]}_{\text{Estimate with MC}} + \underbrace{\mathbb{E}[g(X)]}_{\text{known}}.$$
+$$\begin{aligned}
+\mu &= \mathbb{E}[f(X)] = \mathbb{E}[f(X) - g(X) + g(X)] \\
+&= \underbrace{\mathbb{E}[f(X) - g(X)]}_{\text{Estimate with MC}} + \underbrace{\mathbb{E}[g(X)]}_{\text{known}}.
+\end{aligned}$$
 
 ## Control Variate Estimate
 
@@ -231,7 +234,7 @@ Suppose we want to estimate $\mathbb{E}[\cos(X)]$, where $X \sim N(0, 1)$.
 :::: {.columns}
 ::: {.column}
 
-Let's use $g(x) = \frac{1} - \frac{x^2}{2}$ based on the Taylor expansion.
+Let's use $g(x) = 1 - \frac{x^2}{2}$ based on the Taylor expansion.
 
 :::
 ::: {.column}
@@ -249,7 +252,7 @@ g(x) = 1 - x^2/2
 plot(x, f.(x), color=:blue, linewidth=3, label=L"$\cos(x)$")
 plot!(x, g.(x), color=:red, linewidth=3, label=L"$g(x)$")
 ylims!((-1.25, 1.25))
-plot!(size=(500, 450))
+plot!(size=(400, 250))
 ```
 
 :::
@@ -260,8 +263,9 @@ plot!(size=(500, 450))
 We know that if $X \sim N(\mu, \sigma^2)$, $\mathbb{E}[X^2] = \mu^2 + \sigma^2$, so $\mathbb{E}[g(X)] = 1/2$.
 
 ```{julia}
-#| echo: true
-#| code-fold: true
+#| echo: false
+#| output: false
+
 
 n = 1_000
 X = rand(Normal(0, 1), n)
@@ -273,17 +277,19 @@ sigma2 = std(f.(X) .- g.(X)) / sqrt(n)
 
 1,000 samples:
 
-Naive MC estimate: `{julia} mu1` with MCSE `{julia} sigma1`.
+Naive MC estimate: `{julia} round(mu1; digits=3)` with MCSE `{julia} round(sigma1; digits=3)`.
 
-Control variate estimate: `{julia} mu2` with MCSE `{julia} sigma2`.
+Control variate estimate: `{julia} round(mu2; digits=3)` with MCSE `{julia} round(sigma2; digits=3)`.
 
 ## Antithetic Variates
 
 If target values of pairs of samples $h(X_i)$ and $h(Y_i)$ are negatively correlated, can increase rate of convergence of $$\frac{1}{2M} \sum_{i=1}^M [h(X_i) + h(Y_i)]$$ relative to $\frac{1}{2M} h(X_i)$ alone:
 
+## Efficiency of Antithetic Variates
+
 $$\begin{aligned}
 \mathbb{V}\left[\frac{1}{2}(h(X_i) + h(Y_i)\right] &= \frac{1}{4}\left[\mathbb{V}[h(X_i)] + \mathbb{V}[h(Y_i)] + 2\text{Cov}(h(X_i), h(Y_i)\right] \\
-&= \frac{1}{4}\left(\sigma^2 + \sigma^2 + 2\rho\sigma^2) = \frac{1 + \rho}{2}\sigma^2
+&= \frac{1}{4}\left(\sigma^2 + \sigma^2 + 2\rho\sigma^2\right) = \frac{1 + \rho}{2}\sigma^2
 \end{aligned}$$
 
 ## Antithetic Variate Generation Can Be Difficult in Practice
@@ -305,10 +311,7 @@ Extension of rejection sampling without requiring "rejection":
 1. Draw samples from *importance distribution* g(x);
 2. Reweight samples:
     $$
-    \begin{align*}
-    \mathbb{E}_f[h(x)] &= \int_x \frac{f(x)}{g(x)} g(x)h(x) dx \\
-    &\approx \frac{1}{M} \sum_{i=1}^M \frac{f(x)}{g(x)}h(x)
-    \end{align*}
+    \mathbb{E}_f[h(x)] &= \int_x \frac{f(x)}{g(x)} g(x)h(x) dx \approx \frac{1}{M} \sum_{i=1}^M \frac{f(x)}{g(x)}h(x)
     $$
 
 ## Importance Sampling Needs
