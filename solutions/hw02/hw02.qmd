@@ -6,28 +6,9 @@ format:
         warning: false
         error: true
         fig-format: svg
-    pdf:
-        warning: false
-        error: true
-        keep-tex: true
-        fig-format: svg    
-        include-in-header: 
-            text: |
-                \usepackage{fvextra}
-                \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
-        include-before-body:
-            text: |
-                \RecustomVerbatimEnvironment{verbatim}{Verbatim}{
-                showspaces = false,
-                showtabs = false,
-                breaksymbolleft={},
-                breaklines
-                % Note: setting commandchars=\\\{\} here will cause an error 
-                }
 engine: julia
 julia:
     exeflags: ["+1.11.5"]
-format-links: [pdf]
 freeze: false
 ---
 
