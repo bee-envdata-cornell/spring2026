@@ -43,4 +43,4 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 |   | 3/20 | Simulation and Random Sampling | [{{< fa sharp presentation-screen >}}](slides/lecture09-3-random-simulation.qmd) | | | | |
 | 10 | 3/23 | Monte Carlo | [{{< fa sharp presentation-screen >}}](slides/lecture10-1-monte-carlo.qmd) |  |  | | |
 |   | 3/25 | Monte Carlo Error and Variance Reduction | [{{< fa sharp presentation-screen >}}](slides/lecture10-2-more-monte-carlo.qmd)  | | | | |
-|   | 3/27 | Monte Carlo Examples|  | | | | |
+|   | 3/27 | Monte Carlo Examples| [{{< fa sharp presentation-screen >}}](slides/lecture10-3-monte-carlo-examples.qmd) | | | | |

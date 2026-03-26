@@ -1,0 +1,414 @@
+---
+title: "Monte Carlo Examples"
+subtitle: "Lecture 26"
+author: "Vivek Srikrishnan"
+course: "BEE 4850"
+institution: "Cornell University"
+date: "March 27, 2026"
+format:
+    revealjs:
+        slide-number: c/t
+        show-slide-number: all
+        center-title-slide: true
+        width: 1280
+        height: 720
+        transition: none
+        toc: true
+        toc-depth: 1
+        toc-title: "Overview"
+        history: false
+        link-external-newwindow: true
+        theme: ../sass/slides.scss
+        template-partials:
+            - title-slide.html
+        menu:
+            numbers: true
+        html-math-method: mathjax
+        include-in-header: mathjax-config.html
+        date-format: long
+        email-obfuscation: javascript
+        chalkboard:
+            theme: whiteboard
+            buttons: true
+        mermaid: 
+            theme: dark
+engine: julia
+filters:
+  - code-fullscreen
+---
+
+```{julia}
+#| output: false
+
+import Pkg
+Pkg.activate(@__DIR__)
+Pkg.instantiate()
+```
+
+```{julia}
+#| output: false
+
+using Random
+using Distributions
+using ColorSchemes
+using Plots
+using StatsPlots
+using StatsBase
+using Optim
+using LaTeXStrings
+using Measures
+
+Random.seed!(1)
+
+plot_font = "Computer Modern"
+default(
+    fontfamily=plot_font,
+    linewidth=3, 
+    framestyle=:box, 
+    label=nothing, 
+    grid=false,
+    guidefontsize=18,
+    legendfontsize=16,
+    tickfontsize=16,
+    titlefontsize=20,
+    bottom_margin=10mm,
+    left_margin=5mm
+)
+```
+
+# Review
+
+## Monte Carlo
+
+- Stochastic simulation: propagate random variables $X$ through model $f$ and want to estimate $\mathbb{E}[f(X)] \approx \sum_{i=1}^n f(X_i)$ using samples $X_1, \ldots, X_n$.
+- Example: probability of a standard Gaussian between $[0.8, 0.9]$: draw $X_1, \ldots, X_n \sim N(0, 1)$, $$f(x) = \mathbb{I}_{[0.8, 0.9]}(x).$$
+
+## Statistics of Monte Carlo
+
+- Denote $Y = f(X)$, $\mathbb{E}[Y] = \mu$, and $\sum_{i=1}^n Y_i = \tilde{\mu}_n$.
+- MC is **unbiased**: $\mathbb{E}[\tilde{\mu}_n] = \mu$;
+- Monte Carlo standard error (MCSE): $Y_i$ i.i.d., then $\text{SE}(\tilde{\mu}_n) = \sigma_Y / \sqrt{n}$.
+
+## Monte Carlo Confidence Intervals
+
+The $\alpha$-confidence interval is:
+$$\tilde{\mu}_n \pm \Phi^{-1}\left(1 - \frac{\alpha}{2}\right) \frac{\sigma_Y}{\sqrt{n}}$$
+
+For example, the 95% confidence interval is $$\tilde{\mu}_n \pm 1.96 \frac{\sigma_Y}{\sqrt{n}}.$$
+
+
+## How Many Samples Do I Need?
+
+Try:
+
+1. Run a "pilot" MC with a relatively small number of samples to estimate $\mathbb{V}\left[Y_i\right]$.
+2. Pick a target MCSE $\varepsilon$, then we need $N \approx \mathbb{V}\left[Y_i\right] / \varepsilon^2$ samples.
+3. Run the "real" MC with sample size $N$ and check if the MCSE is right ($N$ might be off due to error in the variance estimate).
+4. If not, run more.
+
+# Airshed Modeling
+
+## Airshed Model
+
+:::: {.columns}
+::: {.column width=50%}
+![Illustration of the airshed, including notation.](figures/airshed-box.svg){#fig-airshed}
+:::
+
+::: {.column width=50%}
+**Goal**: Find the probability of exceeding the 1-hour SO~2~ average exposure concentration standard, which is 0.14 ppm.
+
+
+:::
+::::
+
+::: {.fragment .fade-in}
+$$\mathbb{P}[\text{SO}_2(\theta) > 0.14] = \int \mathbb{I}(\text{SO}_2(\theta) > 0.14) p(\theta) d\theta$$
+:::
+
+## Airshed Model
+
+![Illustration of the airshed, including notation.](figures/airshed-box.svg){#fig-airshed}
+
+$$\frac{dC}{dt} = \frac{u}{L} C_\text{in} + \frac{S-D}{WHL} - \left(\frac{u}{L} + k\right)C$$
+
+## Forward Euler Discretization
+
+$$
+\frac{dC}{dt} = \frac{u}{L} C_\text{in}(t) + \frac{S-D}{WHL} - \left(\frac{u}{L} + k\right)C$$
+
+. . .
+
+
+$$\Rightarrow \frac{C(t+1) - C(t)}{\Delta t} = \frac{u}{L} C_\text{in}(t) + \frac{R}{WHL} - \left(\frac{u}{L} + k\right)C(t)$$
+
+. . .
+
+$$\bbox[yellow, 10px, border:5px solid red]{C(t+1) = \left(1 - \Delta t\left(\frac{u}{L} + k\right)\right)C(t) + \Delta t \left(\frac{u}{L} C_\text{in}(t) + \frac{R}{WHL}\right)}
+$$
+
+## Monte Carlo Samples
+
+```{julia}
+#| echo: true
+#| code-fold: true
+#| label: fig-mc-samples
+#| fig-cap: Monte Carlo samples for the airshed model.
+#| layout-ncol: 3
+
+nsamp = 1000
+u = rand(LogNormal(log(2), 1), nsamp)
+Cin = rand(LogNormal(log(0.16), 0.12), nsamp)
+R = rand(Normal(0.5, 0.5), nsamp)
+
+p1 = histogram(u, ylabel="count", xlabel=L"$u$ (m/s)", label=false, tickfontsize=16, guidefontsize=18, size=(400, 450))
+p2 = histogram(Cin, ylabel="count", xlabel=L"$C_{in}$ (ppm)", label=false, tickfontsize=16, guidefontsize=18, size=(400, 450))
+p3 = histogram(R, ylabel="count", xlabel=L"$R$ (ppm/hr)", label=false, tickfontsize=16, guidefontsize=18, size=(400, 450))
+display(p1)
+display(p2)
+display(p3)
+```
+
+## Simulation Results
+
+```{julia}
+#| echo: true
+#| code-fold: true
+#| label: fig-mc-simulation
+#| fig-cap: Monte Carlo samples for the airshed model.
+#| layout-ncol: 2
+
+# other parameters
+C₀ = 0.07
+T = 60
+k = 0.3
+W = 4
+H = 5
+L = 4
+# conduct simulation
+P = u / L .* Cin
+l = u / L .+ k
+C2 = zeros(T*100 + 1, nsamp)
+S = 0:0.01:T
+for (i, t) in pairs(S)
+    if i == 1
+        C2[i, :] .= C₀
+    else
+        C2[i, :] = (1 .- 0.01*l) .* C2[i-1, :] .+ 0.01 * P .+ 0.01 * R / (H * W * L)
+    end
+end
+mean_SO2 = map(mean, eachcol(C2)) # calculate means
+# plot histogram
+p1 = histogram(mean_SO2, xlabel="1-Hour Average Exposure (ppm)", ylabel="Count", legend=false, tickfontsize=16, guidefontsize=18)
+vline!(p1, [0.14], color=:red, linestyle=:dash, linewidth=3)
+xticks!(p1, 0:0.04:0.3)
+xaxis!(p1, xminorticks=2)
+plot!(p1, size=(600, 450))
+# plot cdf
+p2 = plot(sort(mean_SO2), (1:nsamp) ./ nsamp, xlabel="1-Hour Average Exposure (ppm)", ylabel="Cumulative Probability", legend=false, tickfontsize=17, guidefontsize=18, linewidth=3)
+vline!(p2, [0.14], linestyle=:dash, color=:red, linewidth=3, minorgrid=true)
+xticks!(p2, 0:0.04:0.3)
+xaxis!(p2, xminorticks=2)
+yaxis!(p2, yminorticks=5)
+plot!(p2, size=(600, 450))
+
+display(p1)
+display(p2)
+```
+
+## Monte Carlo Estimation
+
+:::: {.columns}
+::: {.column width=50%}
+$$\hat{\mu}_n = \frac{1}{n}\sum_{i=1}^n \mathbb{I}[x_i > 0.14]$$
+
+$$\hat{\sigma}_n = \sqrt{\frac{\text{Var}(\mathbb{I}[x_{1:n} > 0.14])}{n}}$$
+:::
+::: {.column width=50%}
+```{julia}
+#| echo: true
+#| code-fold: true
+#| label: fig-mc-estimate
+#| fig-cap: Monte Carlo estimation for the airshed model.
+
+# show Monte Carlo estimate stabilization
+avg_mc_out = zeros(nsamp)
+avg_mc_out[1] = mean_SO2[1] > 0.14
+std_mc_out = zeros(nsamp)
+std_mc_out[1] = 0
+for i = 2:nsamp
+    avg_mc_out[i] = (avg_mc_out[i-1] * (i-1) + (mean_SO2[i] > 0.14)) / i
+    std_mc_out[i] = 1/sqrt(i) * std(mean_SO2[1:i] .> 0.14)
+end
+p = plot(avg_mc_out, xlabel="Monte Carlo Iteration", ylabel="Probability", left_margin=3mm, legend=:false, ribbon=1.96*std_mc_out, fillalpha=0.3, linewidth=2, tickfontsize=16, guidefontsize=18, fillcolor=:red, right_margin=5mm, minorgrid=true)
+ylims!(p, (0, 0.3))
+yaxis!(p, yminorticks=5)
+plot!(p, size=(600, 450))
+display(p)
+```
+:::
+:::
+
+# Flood Modeling
+
+## Annual Expected Damages
+
+
+:::: {.columns}
+::: {.column width=50%}
+Suppose we have a client who wants us to advise them on their expected flood losses from a nearby stream. The house is worth $400,000 and floods when stream water levels exceed 1.5m. 
+
+:::
+::: {.column width=50%}
+
+```{julia}
+#| label: fig-waterlevel
+#| fig-cap: "Record of stream water levels"
+#| echo: true
+#| code-fold: true
+
+
+# load data
+true_dist = GeneralizedExtremeValue(0.9, 0.5, 0.16)
+depths = rand(true_dist, 40)
+# fit GEV distribution
+gev_loglik(y, θ) = sum(logpdf.(GeneralizedExtremeValue(θ[1], θ[2], θ[3]), y))
+p0 = [0.1, 2.0, 0.0]
+lb = [0.0, 0.01, -1.0]
+ub = [2.0, 5.0, 1.0]
+mle_out = optimize(p -> -gev_loglik(depths, p), lb, ub, p0)
+θ_mle = mle_out.minimizer
+wl_dist = GeneralizedExtremeValue(θ_mle[1], θ_mle[2], θ_mle[3])
+
+p1 = histogram(depths, legend=false, xlabel="Stream Depth (m)", ylabel="Density", normalize=:pdf, color=:gray)
+plot!(p1, wl_dist, color=:red, linewidth=3, normalize=:pdf)
+plot!(p1, xlims=(0, 5))
+plot!(p1, size=(500, 450))
+```
+
+:::
+::::
+
+## Depth-Damage Functions
+
+:::: {.columns}
+::: {.column width=60%}
+Translating flood depths to damages requires a **depth-damage function**. For this problem:
+
+$$d(h) = \mathbb{I}[h > 0] \frac{1}{1+\exp(-k(x-x_0))},$$ 
+
+where $k=1.25$ and $x_0=2$.
+
+:::
+::: {.column width=40%}
+
+```{julia}
+#| label: fig-depthdamage
+#| fig-cap: Depth-damage function
+#| output: true
+#| echo: true
+#| code-fold: true
+
+h = 0:0.01:5
+dd(h, k, x₀) = (h .> 0) * 1 ./ (1 .+ exp.(-k * (h .- x₀)))
+plot(h, dd(h, 1.25, 2), xlabel="Flood Depth (m)", ylabel="Fraction of Value Damaged", legend=false)
+ylims!(0, 1)
+plot!(size=(500, 450))
+```
+:::
+::::
+
+## Estimating Expected Annual Damages
+
+We want to estimate $\mathbb{E}[d(H)]$, $H + 1.5 \sim \text{GEV}(\mu, \sigma, \xi)$.
+
+How many MC samples do we need? Pilot with 1,000 samples:
+
+:::: {.columns}
+::: {.column width=50%}
+```{julia}
+#| echo: false
+#| label: fig-damage-hist-pilot
+#| fig-cap: Histogram of initial depth-damage functions
+
+nsamp = 1_000
+wl_samples = rand(wl_dist, nsamp)
+dd_samples = 400_000 * dd.(wl_samples .- 1.5, 1.25, 2)
+
+avg_mc_out = zeros(nsamp)
+avg_mc_out[1] = dd_samples[1]
+std_mc_out = zeros(nsamp)
+std_mc_out[1] = 0
+for i = 2:nsamp
+    avg_mc_out[i] = (avg_mc_out[i-1] * (i-1) + dd_samples[i]) / i
+    std_mc_out[i] = 1/sqrt(i) * std(dd_samples[1:i])
+end
+p = plot(avg_mc_out, xlabel="Monte Carlo Samples", ylabel="Damages (\$)", left_margin=3mm, legend=:false, ribbon=1.96*std_mc_out, fillalpha=0.3, linewidth=2, tickfontsize=16, guidefontsize=18, fillcolor=:red, right_margin=5mm, minorgrid=true)
+yaxis!(p, yminorticks=5)
+plot!(p, size=(600, 450))
+```
+:::
+::: {.column width=50%}
+$\tilde{\sigma}_n^2 =$ `{julia} round(var(dd_samples); digits=-7)` 
+
+If we want to get the MCSE less than $100, then we need $N \approx \tilde{\sigma}_n  / 10,000$ samples.
+:::
+::::
+
+## Monte Carlo Estimate
+
+Let's round up and use 300,000 samples:
+
+:::: {.columns}
+::: {.column width=50%}
+```{julia}
+#| echo: false
+#| label: fig-damage-hist-mc
+#| fig-cap: Monte Carlo convergence
+
+nsamp = 300_000
+wl_samples = rand(wl_dist, nsamp)
+dd_samples = 400_000 * dd.(wl_samples .- 1.5, 1.25, 2)
+
+avg_mc_out = zeros(nsamp)
+avg_mc_out[1] = dd_samples[1]
+std_mc_out = zeros(nsamp)
+std_mc_out[1] = 0
+for i = 2:nsamp
+    avg_mc_out[i] = (avg_mc_out[i-1] * (i-1) + dd_samples[i]) / i
+    std_mc_out[i] = 1/sqrt(i) * std(dd_samples[1:i])
+end
+p = plot(avg_mc_out, xlabel="Monte Carlo Samples", ylabel="Damages (\$)", left_margin=3mm, legend=:false, ribbon=1.96*std_mc_out, fillalpha=0.3, linewidth=2, tickfontsize=16, guidefontsize=18, fillcolor=:red, right_margin=5mm, minorgrid=true)
+yaxis!(p, yminorticks=5)
+ylims!(p, (1.35e4, 1.8e4))
+plot!(p, size=(600, 450))
+display(p)
+
+```
+:::
+::: {.column width=50%}
+MCSE: `{julia} round(std(dd_samples) / sqrt(nsamp); digits=0)` 
+
+Estimate: `{julia} round(avg_mc_out[end]; digits=0)` $\pm$ `{julia} round(1.96 * std(dd_samples) / sqrt(nsamp); digits=0)` 
+:::
+::::
+
+
+## Extensions to Optimization
+
+**Monte Carlo Optimization**: Use MC to estimate objective function for a decision.
+
+For example (HW5): what is the expected (discounted) flood damages over a 30 year horizon, and how do you make an "optimal" decision about how much to invest in floodproofing?
+
+# Upcoming Schedule
+
+## Next Classes
+
+**Next Week**: Spring Break
+
+**After That**: The Bootstrap and Sampling Uncertainty
+
+
+# References
+
+## References (Scroll for Full List)

@@ -7,11 +7,11 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/jquery-3.6.3/jquery-3.6.3.min.js"></script>
 <script src="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.js" defer="true"></script>
 <link href="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.33">
+  <meta name="generator" content="quarto-1.8.26">
 
   <meta name="author" content="Vivek Srikrishnan">
   <meta name="dcterms.date" content="2026-02-25">
@@ -120,7 +120,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-7b87de61f0bc8c7187b97021a1ec54e0.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-99469881743cb8bd1bf840c72478da80.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -296,14 +296,14 @@
 <div id="cell-fig-gev-shape" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a>p1 <span class="op">=</span> <span class="fu">plot</span>(<span class="op">-</span><span class="fl">2</span><span class="op">:</span><span class="fl">0.1</span><span class="op">:</span><span class="fl">6</span>, <span class="fu">GeneralizedExtremeValue</span>(<span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.5</span>), linewidth<span class="op">=</span><span class="fl">3</span>, color<span class="op">=:</span>red, label<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span><span class="st">\</span>xi<span class="st"> = 1/2</span><span class="sc">$</span><span class="st">", </span>lw<span class="st">=3)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a>p1 <span class="op">=</span> <span class="fu">plot</span>(<span class="op">-</span><span class="fl">2</span><span class="op">:</span><span class="fl">0.1</span><span class="op">:</span><span class="fl">6</span>, <span class="fu">GeneralizedExtremeValue</span>(<span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.5</span>), linewidth<span class="op">=</span><span class="fl">3</span>, color<span class="op">=:</span>red, label<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span><span class="st">\</span>xi<span class="st"> = 1/2</span><span class="sc">$</span><span class="st">", </span>lw<span class="st">=3)</span></span>
 <span id="cb1-2"><a></a><span class="fu">plot!</span>(<span class="op">-</span><span class="fl">4</span><span class="op">:</span><span class="fl">0.1</span><span class="op">:</span><span class="fl">6</span>, <span class="fu">GeneralizedExtremeValue</span>(<span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>), linewidth<span class="op">=</span><span class="fl">3</span>, color<span class="op">=:</span>green, label<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span><span class="st">\</span>xi<span class="st"> = 0</span><span class="sc">$</span><span class="st">", </span>lw<span class="st">=3)</span></span>
 <span id="cb1-3"><a></a><span class="fu">plot!</span>(<span class="op">-</span><span class="fl">4</span><span class="op">:</span><span class="fl">0.1</span><span class="op">:</span><span class="fl">2</span>, <span class="fu">GeneralizedExtremeValue</span>(<span class="fl">0</span>, <span class="fl">1</span>, <span class="op">-</span><span class="fl">0.5</span>), linewidth<span class="op">=</span><span class="fl">3</span>, color<span class="op">=:</span>blue, label<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span><span class="st">\</span>xi<span class="st"> = -1/2</span><span class="sc">$</span><span class="st">", </span>lw<span class="st">=3)</span></span>
 <span id="cb1-4"><a></a><span class="fu">scatter!</span>((<span class="op">-</span><span class="fl">2</span>, <span class="fl">0</span>), color<span class="op">=:</span>red, label<span class="op">=:</span><span class="cn">false</span>)</span>
 <span id="cb1-5"><a></a><span class="fu">scatter!</span>((<span class="fl">2</span>, <span class="fl">0</span>), color<span class="op">=:</span>blue, label<span class="op">=:</span><span class="cn">false</span>)</span>
 <span id="cb1-6"><a></a><span class="fu">ylabel!</span>(<span class="st">"Density"</span>)</span>
 <span id="cb1-7"><a></a><span class="fu">xlabel!</span>(L<span class="st">"</span><span class="sc">$</span>x<span class="sc">$</span><span class="st">")</span></span>
-<span id="cb1-8"><a></a>plot<span class="st">!(size=(600, 450))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-8"><a></a>plot<span class="st">!(size=(600, 450))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-gev-shape" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -340,7 +340,7 @@ Figure&nbsp;1: Shape of the GEV distribution with different choices of <span cla
 <div id="cell-fig-surge-data" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a></a><span class="co"># load SF tide gauge data</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a></a><span class="co"># load SF tide gauge data</span></span>
 <span id="cb2-2"><a></a><span class="co"># read in data and get annual maxima</span></span>
 <span id="cb2-3"><a></a><span class="kw">function</span> <span class="fu">load_data</span>(fname)</span>
 <span id="cb2-4"><a></a>    date_format <span class="op">=</span> <span class="fu">DateFormat</span>(<span class="st">"yyyy-mm-dd HH:MM:SS"</span>)</span>
@@ -401,7 +401,7 @@ Figure&nbsp;1: Shape of the GEV distribution with different choices of <span cla
 <span id="cb2-59"><a></a><span class="co"># for most distributions we could use Distributions.fit(), but this isn't implemented in Distributions.jl for GEV</span></span>
 <span id="cb2-60"><a></a>init_θ <span class="op">=</span> [<span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>]</span>
 <span id="cb2-61"><a></a><span class="fu">gev_lik</span>(θ) <span class="op">=</span> <span class="fu">-sum</span>(<span class="fu">logpdf</span>(<span class="fu">GeneralizedExtremeValue</span>(θ[<span class="fl">1</span>], θ[<span class="fl">2</span>], θ[<span class="fl">3</span>]), dat_annmax.residual))</span>
-<span id="cb2-62"><a></a>θ_mle <span class="op">=</span> Optim.<span class="fu">optimize</span>(gev_lik, init_θ).minimizer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-62"><a></a>θ_mle <span class="op">=</span> Optim.<span class="fu">optimize</span>(gev_lik, init_θ).minimizer</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-surge-data" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -431,7 +431,7 @@ Figure&nbsp;2: Annual maxima surge data from the San Francisco, CA tide gauge.
 <div id="cell-fig-gev-tide-show" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a></a>p <span class="op">=</span> <span class="fu">histogram</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a></a>p <span class="op">=</span> <span class="fu">histogram</span>(</span>
 <span id="cb4-2"><a></a>    dat_annmax.residual,</span>
 <span id="cb4-3"><a></a>    normalize<span class="op">=:</span>pdf,</span>
 <span id="cb4-4"><a></a>    label<span class="op">=</span><span class="st">"Data"</span>,</span>
@@ -444,7 +444,7 @@ Figure&nbsp;2: Annual maxima surge data from the San Francisco, CA tide gauge.
 <span id="cb4-11"><a></a></span>
 <span id="cb4-12"><a></a><span class="fu">plot!</span>(<span class="fu">GeneralizedExtremeValue</span>(θ_mle[<span class="fl">1</span>], θ_mle[<span class="fl">2</span>], θ_mle[<span class="fl">3</span>]), linewidth<span class="op">=</span><span class="fl">5</span>, label<span class="op">=</span><span class="st">"GEV Fit"</span>, color<span class="op">=:</span>gold4)</span>
 <span id="cb4-13"><a></a><span class="fu">xlims!</span>((<span class="fl">1</span>, <span class="fl">1.75</span>))</span>
-<span id="cb4-14"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">800</span>, <span class="fl">500</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-14"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">800</span>, <span class="fl">500</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-gev-tide-show" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -468,14 +468,14 @@ Figure&nbsp;3: GEV fit to annual maxima of San Francisco Tide Gauge Data
 <div id="cell-fig-gev-tide-cdf" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a></a><span class="fu">gevcdf</span>(x) <span class="op">=</span> <span class="fu">cdf</span>(<span class="fu">GeneralizedExtremeValue</span>(θ_mle[<span class="fl">1</span>], θ_mle[<span class="fl">2</span>], θ_mle[<span class="fl">3</span>]), x) <span class="co"># find quantiles of values</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a></a><span class="fu">gevcdf</span>(x) <span class="op">=</span> <span class="fu">cdf</span>(<span class="fu">GeneralizedExtremeValue</span>(θ_mle[<span class="fl">1</span>], θ_mle[<span class="fl">2</span>], θ_mle[<span class="fl">3</span>]), x) <span class="co"># find quantiles of values</span></span>
 <span id="cb5-2"><a></a>rl_100 <span class="op">=</span> <span class="fu">quantile</span>(<span class="fu">GeneralizedExtremeValue</span>(θ_mle[<span class="fl">1</span>], θ_mle[<span class="fl">2</span>], θ_mle[<span class="fl">3</span>]), <span class="fl">0.99</span>)</span>
 <span id="cb5-3"><a></a></span>
 <span id="cb5-4"><a></a><span class="fu">plot</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">0.01</span><span class="op">:</span><span class="fl">1.75</span>, <span class="fl">1</span> <span class="op">.-</span> <span class="fu">gevcdf</span>.(<span class="fl">1</span><span class="op">:</span><span class="fl">0.01</span><span class="op">:</span><span class="fl">1.75</span>), yaxis<span class="op">=:</span>log, yticks<span class="op">=</span><span class="fl">10</span> <span class="op">.^</span> <span class="fu">collect</span>(<span class="op">-</span><span class="fl">3.0</span><span class="op">:</span><span class="fl">1.0</span><span class="op">:</span><span class="fl">0.0</span>), xlabel<span class="op">=</span><span class="st">"Water Level (m)"</span>, ylabel<span class="op">=</span><span class="st">"Exceedance Probability (1/yr)"</span>, lw<span class="op">=</span><span class="fl">3</span>)</span>
 <span id="cb5-5"><a></a><span class="fu">plot!</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">0.01</span><span class="op">:</span>rl_100, <span class="fl">0.01</span> <span class="op">.+</span> <span class="fu">zeros</span>(<span class="fu">length</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">0.01</span><span class="op">:</span>rl_100)), color<span class="op">=:</span>red, lw<span class="op">=</span><span class="fl">2</span>)</span>
 <span id="cb5-6"><a></a><span class="fu">plot!</span>(rl_100 <span class="op">.+</span> <span class="fu">zeros</span>(<span class="fu">length</span>(<span class="op">-</span><span class="fl">4</span><span class="op">:</span><span class="fl">0.01</span><span class="op">:-</span><span class="fl">2</span>)), <span class="fl">10</span> <span class="op">.^</span><span class="fu">collect</span>(<span class="op">-</span><span class="fl">4.0</span><span class="op">:</span><span class="fl">0.01</span><span class="op">:-</span><span class="fl">2.0</span>), color<span class="op">=:</span>red, lw<span class="op">=</span><span class="fl">2</span>)</span>
 <span id="cb5-7"><a></a><span class="fu">scatter!</span>([rl_100], [<span class="fl">0.01</span>], color<span class="op">=:</span>red, markersize<span class="op">=</span><span class="fl">5</span>)</span>
-<span id="cb5-8"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">800</span>, <span class="fl">500</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-8"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">800</span>, <span class="fl">500</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-gev-tide-cdf" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -495,7 +495,7 @@ Figure&nbsp;4: GEV fit to annual maxima of San Francisco Tide Gauge Data
 <div id="cell-fig-gev-tide-fit" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a></a>p <span class="op">=</span> <span class="fu">histogram</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a></a>p <span class="op">=</span> <span class="fu">histogram</span>(</span>
 <span id="cb6-2"><a></a>    dat_annmax.residual,</span>
 <span id="cb6-3"><a></a>    normalize<span class="op">=:</span>pdf,</span>
 <span id="cb6-4"><a></a>    label<span class="op">=</span><span class="st">"Data"</span>,</span>
@@ -507,7 +507,7 @@ Figure&nbsp;4: GEV fit to annual maxima of San Francisco Tide Gauge Data
 <span id="cb6-10"><a></a>)</span>
 <span id="cb6-11"><a></a><span class="fu">plot!</span>(<span class="fu">GeneralizedExtremeValue</span>(θ_mle[<span class="fl">1</span>], θ_mle[<span class="fl">2</span>], θ_mle[<span class="fl">3</span>]), linewidth<span class="op">=</span><span class="fl">5</span>, label<span class="op">=</span><span class="st">"GEV Fit"</span>, color<span class="op">=:</span>gold4)</span>
 <span id="cb6-12"><a></a><span class="fu">plot!</span>(<span class="fu">fit</span>(LogNormal, dat_annmax.residual), linewidth<span class="op">=</span><span class="fl">5</span>, label<span class="op">=</span><span class="st">"LogNormal Fit"</span>, color<span class="op">=:</span>darkred)</span>
-<span id="cb6-13"><a></a><span class="fu">xlims!</span>((<span class="fl">1</span>, <span class="fl">1.75</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-13"><a></a><span class="fu">xlims!</span>((<span class="fl">1</span>, <span class="fl">1.75</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 
 </div>
@@ -518,7 +518,7 @@ Figure&nbsp;5: GEV fit to annual maxima of San Francisco Tide Gauge Data
 <h2>GEV Q-Q Plot</h2>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a></a>p1 <span class="op">=</span> <span class="fu">qqplot</span>(<span class="fu">GeneralizedExtremeValue</span>(θ_mle[<span class="fl">1</span>], θ_mle[<span class="fl">2</span>], θ_mle[<span class="fl">3</span>]), dat_annmax.residual, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a></a>p1 <span class="op">=</span> <span class="fu">qqplot</span>(<span class="fu">GeneralizedExtremeValue</span>(θ_mle[<span class="fl">1</span>], θ_mle[<span class="fl">2</span>], θ_mle[<span class="fl">3</span>]), dat_annmax.residual, </span>
 <span id="cb7-2"><a></a>    linewidth<span class="op">=</span><span class="fl">3</span>, markersize<span class="op">=</span><span class="fl">5</span>,</span>
 <span id="cb7-3"><a></a>    xlabel<span class="op">=</span><span class="st">"Theoretical Quantile"</span>,</span>
 <span id="cb7-4"><a></a>    ylabel<span class="op">=</span><span class="st">"Empirical Quantile"</span></span>
@@ -551,7 +551,7 @@ Figure&nbsp;5: GEV fit to annual maxima of San Francisco Tide Gauge Data
 <span id="cb7-31"><a></a><span class="fu">plot!</span>(p2, size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">450</span>))</span>
 <span id="cb7-32"><a></a></span>
 <span id="cb7-33"><a></a><span class="fu">display</span>(p1)</span>
-<span id="cb7-34"><a></a><span class="fu">display</span>(p2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-34"><a></a><span class="fu">display</span>(p2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-gev-tide-qq" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
@@ -694,14 +694,14 @@ Figure&nbsp;8: Histogram of conditional excesses
 <div id="cell-fig-gpd-shape" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a></a>p1 <span class="op">=</span> <span class="fu">plot</span>(<span class="op">-</span><span class="fl">2</span><span class="op">:</span><span class="fl">0.1</span><span class="op">:</span><span class="fl">6</span>, <span class="fu">GeneralizedPareto</span>(<span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.5</span>), linewidth<span class="op">=</span><span class="fl">3</span>, color<span class="op">=:</span>red, label<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span><span class="st">\</span>xi<span class="st"> = 1/2</span><span class="sc">$</span><span class="st">", </span>left_margin<span class="st">=5mm, bottom_margin=10mm)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a></a>p1 <span class="op">=</span> <span class="fu">plot</span>(<span class="op">-</span><span class="fl">2</span><span class="op">:</span><span class="fl">0.1</span><span class="op">:</span><span class="fl">6</span>, <span class="fu">GeneralizedPareto</span>(<span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.5</span>), linewidth<span class="op">=</span><span class="fl">3</span>, color<span class="op">=:</span>red, label<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span><span class="st">\</span>xi<span class="st"> = 1/2</span><span class="sc">$</span><span class="st">", </span>left_margin<span class="st">=5mm, bottom_margin=10mm)</span></span>
 <span id="cb8-2"><a></a><span class="fu">plot!</span>(<span class="op">-</span><span class="fl">4</span><span class="op">:</span><span class="fl">0.1</span><span class="op">:</span><span class="fl">6</span>, <span class="fu">GeneralizedPareto</span>(<span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>), linewidth<span class="op">=</span><span class="fl">3</span>, color<span class="op">=:</span>green, label<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span><span class="st">\</span>xi<span class="st"> = 0</span><span class="sc">$</span><span class="st">")</span></span>
 <span id="cb8-3"><a></a>plot<span class="st">!(-4:0.1:2, GeneralizedPareto(0, 1, -0.5), linewidth=3, color=:blue, label=L"</span><span class="op">$\</span>xi <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span><span class="op">$</span><span class="st">")</span></span>
 <span id="cb8-4"><a></a><span class="fu">scatter!</span>((<span class="op">-</span><span class="fl">2</span>, <span class="fl">0</span>), color<span class="op">=:</span>red, label<span class="op">=:</span><span class="cn">false</span>)</span>
 <span id="cb8-5"><a></a><span class="fu">scatter!</span>((<span class="fl">2</span>, <span class="fl">0</span>), color<span class="op">=:</span>blue, label<span class="op">=:</span><span class="cn">false</span>)</span>
 <span id="cb8-6"><a></a><span class="fu">ylabel!</span>(<span class="st">"Density"</span>)</span>
 <span id="cb8-7"><a></a><span class="fu">xlabel!</span>(L<span class="st">"</span><span class="sc">$</span>x<span class="sc">$</span><span class="st">")</span></span>
-<span id="cb8-8"><a></a>plot<span class="st">!(size=(600, 450))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-8"><a></a>plot<span class="st">!(size=(600, 450))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-gpd-shape" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -726,7 +726,7 @@ Figure&nbsp;9: Shape of the GPD distribution with different choices of <span cla
 <div id="cell-fig-tide-pot" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a></a><span class="co"># load SF tide gauge data</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a></a><span class="co"># load SF tide gauge data</span></span>
 <span id="cb9-2"><a></a><span class="co"># read in data and get annual maxima</span></span>
 <span id="cb9-3"><a></a><span class="kw">function</span> <span class="fu">load_data</span>(fname)</span>
 <span id="cb9-4"><a></a>    date_format <span class="op">=</span> <span class="fu">DateFormat</span>(<span class="st">"yyyy-mm-dd HH:MM:SS"</span>)</span>
@@ -760,7 +760,7 @@ Figure&nbsp;9: Shape of the GPD distribution with different choices of <span cla
 <span id="cb9-32"><a></a>dat_ma_plot.residual <span class="op">=</span> dat_ma_plot.residual <span class="op">./</span> <span class="fl">1000</span></span>
 <span id="cb9-33"><a></a>p1 <span class="op">=</span> <span class="fu">plot</span>(dat_ma_plot.datetime, dat_ma_plot.residual; linewidth<span class="op">=</span><span class="fl">2</span>, ylabel<span class="op">=</span><span class="st">"Gauge Weather Variability (m)"</span>, label<span class="op">=</span><span class="st">"Observations"</span>, legend<span class="op">=:</span>bottom, xlabel<span class="op">=</span><span class="st">"Date/Time"</span>, right_margin<span class="op">=</span><span class="fl">10</span>mm, left_margin<span class="op">=</span><span class="fl">5</span>mm, bottom_margin<span class="op">=</span><span class="fl">5</span>mm)</span>
 <span id="cb9-34"><a></a><span class="fu">hline!</span>([thresh], color<span class="op">=:</span>red, linestyle<span class="op">=:</span>dash, label<span class="op">=</span><span class="st">"Threshold"</span>)</span>
-<span id="cb9-35"><a></a><span class="fu">scatter!</span>(dat_ma_plot.datetime[dat_ma_plot.residual <span class="op">.&gt;</span> thresh], dat_ma_plot.residual[dat_ma_plot.residual <span class="op">.&gt;</span> thresh], markershape<span class="op">=:</span>x, color<span class="op">=:</span>black, markersize<span class="op">=</span><span class="fl">3</span>, label<span class="op">=</span><span class="st">"Exceedances"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-35"><a></a><span class="fu">scatter!</span>(dat_ma_plot.datetime[dat_ma_plot.residual <span class="op">.&gt;</span> thresh], dat_ma_plot.residual[dat_ma_plot.residual <span class="op">.&gt;</span> thresh], markershape<span class="op">=:</span>x, color<span class="op">=:</span>black, markersize<span class="op">=</span><span class="fl">3</span>, label<span class="op">=</span><span class="st">"Exceedances"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 
 </div>
@@ -805,12 +805,12 @@ Figure&nbsp;10: Peaks Over Thresholds for the SF Tide Gauge Data
 <div id="26" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a></a><span class="co"># find total number of exceedances and exceedance times</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a></a><span class="co"># find total number of exceedances and exceedance times</span></span>
 <span id="cb10-2"><a></a>dat_ma.residual <span class="op">=</span> dat_ma.residual <span class="op">./</span> <span class="fl">1000</span> <span class="co"># convert to m</span></span>
 <span id="cb10-3"><a></a>S <span class="op">=</span> <span class="fu">findall</span>(dat_ma.residual <span class="op">.&gt;</span> thresh)</span>
 <span id="cb10-4"><a></a>N <span class="op">=</span> <span class="fu">length</span>(S)</span>
 <span id="cb10-5"><a></a>T <span class="op">=</span> <span class="fu">diff</span>(S) <span class="co"># get difference between adjacent exceedances</span></span>
-<span id="cb10-6"><a></a>θ <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="fu">sum</span>(T)<span class="op">^</span><span class="fl">2</span> <span class="op">/</span> ((N<span class="op">-</span><span class="fl">1</span>) <span class="op">*</span> <span class="fu">sum</span>(T<span class="op">.^</span><span class="fl">2</span>)) <span class="co"># extremal index</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-6"><a></a>θ <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="fu">sum</span>(T)<span class="op">^</span><span class="fl">2</span> <span class="op">/</span> ((N<span class="op">-</span><span class="fl">1</span>) <span class="op">*</span> <span class="fu">sum</span>(T<span class="op">.^</span><span class="fl">2</span>)) <span class="co"># extremal index</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>For the SF tide gauge data and <span class="math inline">\(u=1.0 \text{m}\)</span>, we get an extremal index (<span class="math inline">\(\theta(u)\)</span>) of 0.24 and a declustering time (<span class="math inline">\(1/\theta(u)\)</span>) of 4.0 hours.</p>
@@ -818,7 +818,7 @@ Figure&nbsp;10: Peaks Over Thresholds for the SF Tide Gauge Data
 <section id="mapping-data-to-clusters" class="slide level2">
 <h2>Mapping Data To Clusters</h2>
 <div id="pot-exceedances-decluster" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a></a><span class="co"># cluster data points which occur within period</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a></a><span class="co"># cluster data points which occur within period</span></span>
 <span id="cb11-2"><a></a><span class="kw">function</span> <span class="fu">assign_cluster</span>(dat, period)</span>
 <span id="cb11-3"><a></a>    cluster_index <span class="op">=</span> <span class="fl">1</span></span>
 <span id="cb11-4"><a></a>    clusters <span class="op">=</span> <span class="fu">zeros</span>(<span class="dt">Int</span>, <span class="fu">length</span>(dat))</span>
@@ -838,7 +838,7 @@ Figure&nbsp;10: Peaks Over Thresholds for the SF Tide Gauge Data
 <span id="cb11-18"><a></a><span class="co"># find maximum value within cluster</span></span>
 <span id="cb11-19"><a></a>dat_decluster <span class="op">=</span> <span class="fu">combine</span>(dat_exceed <span class="op">-&gt;</span> dat_exceed[<span class="fu">argmax</span>(dat_exceed.residual), <span class="op">:</span>], </span>
 <span id="cb11-20"><a></a>    <span class="fu">groupby</span>(dat_exceed, <span class="op">:</span>cluster))</span>
-<span id="cb11-21"><a></a>dat_decluster</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-21"><a></a>dat_decluster</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="declustered-distribution" class="slide level2">
@@ -846,7 +846,7 @@ Figure&nbsp;10: Peaks Over Thresholds for the SF Tide Gauge Data
 <div id="cell-fig-pot-exceedances" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a></a>p <span class="op">=</span> <span class="fu">histogram</span>(dat_decluster.residual <span class="op">.-</span> thresh,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a></a>p <span class="op">=</span> <span class="fu">histogram</span>(dat_decluster.residual <span class="op">.-</span> thresh,</span>
 <span id="cb12-2"><a></a>    normalize <span class="op">=</span> <span class="op">:</span>pdf,</span>
 <span id="cb12-3"><a></a>    label<span class="op">=</span><span class="st">"Data"</span>,</span>
 <span id="cb12-4"><a></a>    xlabel<span class="op">=</span><span class="st">"Threshold Exceedance (m)"</span>,</span>
@@ -855,7 +855,7 @@ Figure&nbsp;10: Peaks Over Thresholds for the SF Tide Gauge Data
 <span id="cb12-7"><a></a>    left_margin<span class="op">=</span><span class="fl">10</span>mm, </span>
 <span id="cb12-8"><a></a>    right_margin<span class="op">=</span><span class="fl">10</span>mm,</span>
 <span id="cb12-9"><a></a>    bottom_margin<span class="op">=</span><span class="fl">5</span>mm</span>
-<span id="cb12-10"><a></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-10"><a></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 
 </div>
@@ -866,7 +866,7 @@ Figure&nbsp;11: Histogram of clustered exceedances for SF tide gauge data.
 <h2>GPD Fit</h2>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a></a><span class="co"># fit GPD</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a></a><span class="co"># fit GPD</span></span>
 <span id="cb13-2"><a></a>init_θ <span class="op">=</span> [<span class="fl">1.0</span>, <span class="fl">1.0</span>]</span>
 <span id="cb13-3"><a></a>low_bds <span class="op">=</span> [<span class="fl">0.0</span>, <span class="op">-</span><span class="cn">Inf</span>]</span>
 <span id="cb13-4"><a></a>up_bds <span class="op">=</span> [<span class="cn">Inf</span>, <span class="cn">Inf</span>]</span>
@@ -886,7 +886,7 @@ Figure&nbsp;11: Histogram of clustered exceedances for SF tide gauge data.
 <span id="cb13-18"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">450</span>))</span>
 <span id="cb13-19"><a></a></span>
 <span id="cb13-20"><a></a><span class="fu">display</span>(p1)</span>
-<span id="cb13-21"><a></a><span class="fu">display</span>(p2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-21"><a></a><span class="fu">display</span>(p2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-gpd-tide-fit" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
@@ -934,7 +934,7 @@ Figure&nbsp;12
 <div id="cell-fig-tide-exceedance-count" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a></a><span class="co"># add column with years of occurrence</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a></a><span class="co"># add column with years of occurrence</span></span>
 <span id="cb14-2"><a></a>dat_decluster <span class="op">=</span> <span class="pp">@transform</span> dat_decluster <span class="op">:</span>year <span class="op">=</span> <span class="bu">Dates</span>.<span class="fu">year</span>.(dat_decluster.datetime)</span>
 <span id="cb14-3"><a></a><span class="co"># group by year and add up occurrences</span></span>
 <span id="cb14-4"><a></a>exceed_counts <span class="op">=</span> <span class="fu">combine</span>(<span class="fu">groupby</span>(dat_decluster, <span class="op">:</span>year), nrow <span class="op">=&gt;</span> <span class="op">:</span>count)</span>
@@ -945,7 +945,7 @@ Figure&nbsp;12
 <span id="cb14-9"><a></a>    left_margin<span class="op">=</span><span class="fl">5</span>mm,</span>
 <span id="cb14-10"><a></a>    bottom_margin<span class="op">=</span><span class="fl">10</span>mm</span>
 <span id="cb14-11"><a></a>)</span>
-<span id="cb14-12"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">400</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-12"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">400</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-tide-exceedance-count" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -981,7 +981,7 @@ Figure&nbsp;13: histogram of number of exceedances in each year
 <div id="cell-fig-tide-exceedance-poisson" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a></a>count_dist <span class="op">=</span> <span class="fu">fit</span>(Poisson, exceed_counts.count)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a></a>count_dist <span class="op">=</span> <span class="fu">fit</span>(Poisson, exceed_counts.count)</span>
 <span id="cb15-2"><a></a>λ <span class="op">=</span> <span class="fu">params</span>(count_dist)[<span class="fl">1</span>]</span>
 <span id="cb15-3"><a></a></span>
 <span id="cb15-4"><a></a>p <span class="op">=</span> <span class="fu">histogram</span>(exceed_counts.count, legend<span class="op">=:</span><span class="cn">false</span>, </span>
@@ -992,7 +992,7 @@ Figure&nbsp;13: histogram of number of exceedances in each year
 <span id="cb15-9"><a></a>    bottom_margin<span class="op">=</span><span class="fl">10</span>mm</span>
 <span id="cb15-10"><a></a>)</span>
 <span id="cb15-11"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">500</span>))</span>
-<span id="cb15-12"><a></a><span class="fu">plot!</span>(p, count_dist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-12"><a></a><span class="fu">plot!</span>(p, count_dist)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-tide-exceedance-poisson" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -1345,13 +1345,14 @@ Zarekarizi, M., Srikrishnan, V., &amp; Keller, K. (2020). <span class="nocase">N
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy
