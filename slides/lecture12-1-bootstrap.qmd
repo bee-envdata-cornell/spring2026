@@ -145,8 +145,6 @@ This means that even if the model is correctly specified, **the standardized est
 ::: {.column width=50%}
 
 **Fisher Information**: $$\mathcal{I}_x(\theta) = -\mathbb{E}\left[\frac{\partial^2}{\partial \theta_i \partial \theta_j} \log \mathcal{L}(\theta | x)\right]$$
-
-***Observed* Fisher Information** (uses observed data and calculated at the MLE): $$\mathcal{I}_\tilde{x}(\hat{\theta})$$
 :::
 ::: {.column width=50%}
 ```{julia}
@@ -162,6 +160,9 @@ scatter!(p1, pts, fi1.(pts), label=labels, markersize=5)
 ```
 :::
 ::::
+
+***Observed* Fisher Information** (uses observed data and calculated at the MLE): $\mathcal{I}_\tilde{x}(\hat{\theta})$
+
 
 ## Fisher Information and Standard Errors
 

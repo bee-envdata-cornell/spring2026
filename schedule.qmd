@@ -48,4 +48,4 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 |  | 4/04 | **Spring Break** | | | | | | 
 | 11  | 4/06 | The Bootstrap Principle | [{{< fa sharp presentation-screen >}}](slides/lecture12-1-bootstrap.qmd) | [Kysel&yacute; (2008)](https://doi.org/10.1175/2008JAMC1763.1) | [{{< fa sharp pen-field >}}](hw/hw05/hw05.qmd)  | | | 
 |    | 4/08 | The Parametric Bootstrap | | | | | | 
-|    | 4/10 | Structured Bootstraps | | | | | | 
+|    | 4/10 | Structured Bootstraps | | | | | Quiz 3 | 
