@@ -109,6 +109,10 @@ website:
           text: "Homework 2: Probability Models"  
         - href: hw/hw03/hw03.qmd
           text: "Homework 3: Extreme Values and Time Seriesd"  
+        - href: hw/hw04/hw04.qmd
+          text: "Homework 4: Model Evaluation"  
+        - href: hw/hw05/hw05.qmd
+          text: "Homework 5: Hypothesis Testing and Monte Carlo"  
     - title: "Literature Critique"
       href: lit_critique/index.qmd      
     - title: "Project"
