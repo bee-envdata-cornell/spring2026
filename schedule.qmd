@@ -46,6 +46,6 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 |   | 3/27 | Monte Carlo Examples| [{{< fa sharp presentation-screen >}}](slides/lecture10-3-monte-carlo-examples.qmd) | | |  | 3/31 | **Spring Break** | | | | | | 
 |  | 4/02 | **Spring Break** | | | | | | 
 |  | 4/04 | **Spring Break** | | | | | | 
-| 11  | 4/06 | The Bootstrap Principle | [{{< fa sharp presentation-screen >}}](slides/lecture12-1-bootstrap.qmd) | [Kysel&yacute; (2008)](https://doi.org/10.1175/2008JAMC1763.1) | [{{< fa sharp pen-field >}}](hw/hw05/hw05.qmd)  | | | 
-|    | 4/08 | The Parametric Bootstrap | | | | | | 
-|    | 4/10 | Structured Bootstraps | | | | | Quiz 3 | 
+| 11  | 4/06 | Sampling Distributions | [{{< fa sharp presentation-screen >}}](slides/lecture12-1-uq.qmd) | [Kysel&yacute; (2008)](https://doi.org/10.1175/2008JAMC1763.1) | [{{< fa sharp pen-field >}}](hw/hw05/hw05.qmd)  | | | 
+|    | 4/08 | The Bootstrap | [{{< fa sharp presentation-screen >}}](slides/lecture12-2-bootstrap.qmd)  | | | | | 
+|    | 4/10 | The Parametric Bootstrap | | | | | Quiz 3 | 
