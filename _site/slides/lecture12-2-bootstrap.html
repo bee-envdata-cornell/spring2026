@@ -294,12 +294,34 @@
 </ol>
 <p>But for both of these, we need to know the <strong>sampling distribution</strong>: the underlying distribution of estimates across different data replications.</p>
 </section>
+<section id="sampling-distributions" class="slide level2">
+<h2>Sampling Distributions</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>The <strong>sampling distribution</strong> of a statistic captures the uncertainty associated with random samples.</p>
+</div><div class="column" style="width:60%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/true-sampling.png"></p>
+<figcaption>Sampling Distribution</figcaption>
+</figure>
+</div>
+</div></div>
+</section>
 <section id="estimating-sampling-distributions" class="slide level2">
 <h2>Estimating Sampling Distributions</h2>
 <ul>
 <li><strong>Special Cases</strong>: can derive closed-form representations of sampling distributions (think statistical tests)</li>
 <li><strong>Asymptotics</strong>: Central Limit Theorem or Fisher Information</li>
 </ul>
+</section>
+<section id="classical-sampling-distributions" class="slide level2">
+<h2>“Classical” Sampling Distributions</h2>
+<p>This means we need:</p>
+<ol type="1">
+<li>Data that has a special form (<em>e.g.</em> linear regression with Gaussian noise) or can be transformed into that form (which has other problems);</li>
+<li>Recover Gaussian theory asymptotically as <span class="math inline">\(n \to \infty\)</span> via CLT, but this may not hold well for any finite <span class="math inline">\(n\)</span> and we don’t know how large <span class="math inline">\(n\)</span> has to be.</li>
+</ol>
 </section></section>
 <section>
 <section id="the-bootstrap" class="title-slide slide level1 center">
@@ -347,6 +369,11 @@
 <p><span class="math display">\[\mathcal{D}(\tilde{t} - \hat{t}) \approx \mathcal{D}(\hat{t} - t_0)\]</span></p>
 <p>where <span class="math inline">\(t_0\)</span> the “true” value of a statistic, <span class="math inline">\(\hat{t}\)</span> the sample estimate, and <span class="math inline">\((\tilde{t}_i)\)</span> the bootstrap estimates.</p>
 </section>
+<section id="the-fundamental-principle-of-bootstrapping" class="slide level2">
+<h2>The Fundamental Principle of Bootstrapping</h2>
+<p>In other words:</p>
+<p><strong>The population is to the sample what the sample is to the bootstrap samples.</strong></p>
+</section>
 <section id="what-can-we-do-with-the-bootstrap" class="slide level2">
 <h2>What Can We Do With The Bootstrap?</h2>
 <p>Let <span class="math inline">\(t_0\)</span> the “true” value of a statistic, <span class="math inline">\(\hat{t}\)</span> the estimate of the statistic from the sample, and <span class="math inline">\((\tilde{t}_i)\)</span> the bootstrap estimates.</p>
@@ -358,12 +385,48 @@
 <p>Notice that bias correction “shifts” away from the bootstrapped samples.</p>
 </div>
 </section>
-<section id="simple-bootstrap-confidence-intervals" class="slide level2">
-<h2>“Simple” Bootstrap Confidence Intervals</h2>
-<ul>
-<li><strong>Basic Bootstrap CIs</strong> (based on CLT for error distribution <span class="math inline">\(\tilde{t} - \hat{t}\)</span>): <span class="math display">\[\left(\hat{t} - (Q_{\tilde{t}}(1-\alpha/2) - \hat{t}), \hat{t} - (Q_{\tilde{t}}(\alpha/2) - \hat{t})\right)\]</span></li>
-<li><strong>Percentile Bootstrap CIs</strong> (simplest, often wrong coverage): <span class="math display">\[(Q_{\tilde{t}}(1-\alpha/2), Q_{\tilde{t}}(1-\alpha/2))\]</span></li>
-</ul>
+<section id="bootstrap-confidence-intervals" class="slide level2">
+<h2>Bootstrap Confidence Intervals</h2>
+<p>Suppose we want to construct a <span class="math inline">\(1-\alpha\)</span>% CI for <span class="math inline">\(t_0\)</span>. The most naive application of the bootstrap principle suggests that with <span class="math inline">\(1-\alpha\)</span>% probability, then <span class="math inline">\(t_0\)</span> falls inbetween <span class="math inline">\(Q_{\tilde{t}}(\alpha/2)\)</span> and <span class="math inline">\(Q_{\tilde{t}}(1-\alpha/2))\)</span>.</p>
+<p>Therefore, if the distribution for <span class="math inline">\(\tilde{t}\)</span> approximates the sampling distribution of <span class="math inline">\(\hat{t}\)</span>, we get the:</p>
+<p><strong>Percentile Bootstrap CI</strong>: <span class="math display">\[(Q_{\tilde{t}}(\alpha/2), Q_{\tilde{t}}(1-\alpha/2))\]</span></p>
+</section>
+<section id="bootstrap-confidence-intervals-1" class="slide level2">
+<h2>Bootstrap Confidence Intervals</h2>
+<p>The assumption that <span class="math inline">\(\mathcal{D}(\tilde{t}) \approx \mathcal{D}(\hat{t})\)</span> is pretty strong and generally not satisfied! Instead, suppose it’s only the <em>variability</em> in the samples that we assume is similar, <em>e.g.</em> <span class="math display">\[\mathcal{D}(\tilde{t} - \hat{t}) \approx \mathcal{D}(\hat{t} - t_0)\]</span>.</p>
+</section>
+<section id="bootstrap-confidence-intervals-2" class="slide level2">
+<h2>Bootstrap Confidence Intervals</h2>
+<p>Then:</p>
+<p><span class="math display">\[\begin{aligned}
+1 - \alpha &amp;= \mathbb{P}\left[Q_{\tilde{t}}(\alpha/2) \leq \tilde{t} \leq Q_{\tilde{t}}(1 - \alpha/2) \right] \\
+&amp;= \mathbb{P}\left[Q_{\tilde{t}}(\alpha/2) - \hat{t} \leq \tilde{t} - \hat{t} \leq Q_{\tilde{t}}(1 - \alpha/2) - \hat{t} \right] \\
+&amp;= \mathbb{P}\left[\hat{t} - Q_{\tilde{t}}(\alpha/2) \geq \color{red}{\hat{t} - \tilde{t}} \geq \hat{t} - Q_{\tilde{t}}(1 - \alpha/2) \right] \\
+&amp;\approx \mathbb{P}\left[\hat{t} - Q_{\tilde{t}}(\alpha/2) \geq \color{red}{t_0 - \hat{t}} \geq \hat{t} - Q_{\tilde{t}}(1 - \alpha/2) \right] \\
+&amp;= \mathbb{P}\left[2\hat{t} - Q_{\tilde{t}}(\alpha/2) \geq t_0 \geq 2\hat{t} - Q_{\tilde{t}}(1 - \alpha/2) \right]
+\end{aligned}\]</span></p>
+</section>
+<section id="bootstrap-confidence-intervals-3" class="slide level2">
+<h2>Bootstrap Confidence Intervals</h2>
+<p>This gives us the:</p>
+<p><strong>Basic Bootstrap CI</strong>: <span class="math inline">\(\left(2\hat{t} - Q_{\tilde{t}}(1-\alpha/2), 2\hat{t} - Q_{\tilde{t}}(\alpha/2)\right)\)</span></p>
+</section>
+<section id="why-can-the-percentile-ci-go-wrong" class="slide level2">
+<h2>Why Can The Percentile CI Go Wrong?</h2>
+<p>Suppose there is a bias <span class="math inline">\(\mathbb{E}\left[\tilde{t}\right] = \bar{t}^* = \hat{t} + B\)</span> and let <span class="math display">\[Q_{\tilde{t}}(0.05) = \bar{t}^* - \sigma_1\]</span> and <span class="math display">\[Q_{\tilde{t}}(0.95) = \bar{t}^* + \sigma_2.\]</span></p>
+</section>
+<section id="why-can-the-percentile-ci-go-wrong-1" class="slide level2">
+<h2>Why Can The Percentile CI Go Wrong?</h2>
+<p>Then the 90% percentile CI is <span class="math display">\[\left(\hat{t} + B - \sigma_1, \hat{t} + B + \sigma_2\right)\]</span> while the 90% basic bootstrap CI is</p>
+<p><span class="math display">\[\begin{aligned}
+&amp;\left(2\hat{t} - \left(\bar{t}^* + \sigma_2\right), 2 \hat{t} - \left(\bar{t}^* - \sigma_1\right)\right) \\
+&amp;=\left(\hat{t} - B - \sigma_2, \hat{t} - B + \sigma_1\right).
+\end{aligned}\]</span></p>
+</section>
+<section id="why-can-the-percentile-ci-go-wrong-2" class="slide level2">
+<h2>Why Can The Percentile CI Go Wrong?</h2>
+<p>In other words, <strong>the percentile CI will get the bias wrong and flip potential assymetries due to skew</strong>.</p>
+<p>It can be reasonable if you know there is not much bias or skew, but this is hard to guarantee in practice: better to use the basic CI or more advanced CIs (next week).</p>
 </section></section>
 <section>
 <section id="the-non-parametric-bootstrap" class="title-slide slide level1 center">
@@ -673,8 +736,8 @@ Figure&nbsp;5: Block bootstrap with time series data.
 </section>
 <section id="next-classes" class="slide level2">
 <h2>Next Classes</h2>
-<p><strong>Friday</strong>: The Parametric Bootstrap</p>
-<p><strong>Next Week</strong>: Missing and Censored Data</p>
+<p><strong>Friday</strong>: The Non-Parametric Bootstrap</p>
+<p><strong>Next Week</strong>: Parametric Bootstrap and Other Nuances</p>
 </section>
 <section id="assessments" class="slide level2">
 <h2>Assessments</h2>

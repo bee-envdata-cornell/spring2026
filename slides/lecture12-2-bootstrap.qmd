@@ -95,11 +95,29 @@ default(
 
 But for both of these, we need to know the **sampling distribution**: the underlying distribution of estimates across different data replications.
 
+## Sampling Distributions
+
+:::: {.columns}
+::: {.column width=40%}
+The **sampling distribution** of a statistic captures the uncertainty associated with random samples.
+:::
+::: {.column width=60%}
+![Sampling Distribution](figures/true-sampling.png)
+:::
+::::
+
 
 ## Estimating Sampling Distributions
 
 - **Special Cases**: can derive closed-form representations of sampling distributions (think statistical tests)
 - **Asymptotics**: Central Limit Theorem or Fisher Information
+
+## "Classical" Sampling Distributions
+
+This means we need:
+
+1. Data that has a special form (*e.g.* linear regression with Gaussian noise) or can be transformed into that form (which has other problems);
+2. Recover Gaussian theory asymptotically as $n \to \infty$ via CLT, but this may not hold well for any finite $n$ and we don't know how large $n$ has to be.
 
 # The Bootstrap
 
@@ -136,7 +154,6 @@ But for both of these, we need to know the **sampling distribution**: the underl
 ::::
 
 
-
 ## Why Does The Bootstrap Work?
 
 Efron's key insight: due to the Central Limit Theorem, the bootstrap distribution $\mathcal{D}(\tilde{t}_i)$ has the same relationship to the observed estimate $\hat{t}$ as the sampling distribution $\mathcal{D}(\hat{t})$ has to the "true" value $t_0$:
@@ -144,6 +161,12 @@ Efron's key insight: due to the Central Limit Theorem, the bootstrap distributio
 $$\mathcal{D}(\tilde{t} - \hat{t}) \approx \mathcal{D}(\hat{t} - t_0)$$
 
 where $t_0$ the "true" value of a statistic, $\hat{t}$ the sample estimate, and $(\tilde{t}_i)$ the bootstrap estimates.
+
+## The Fundamental Principle of Bootstrapping
+
+In other words:
+
+**The population is to the sample what the sample is to the bootstrap samples.**
 
 ## What Can We Do With The Bootstrap?
 
@@ -158,10 +181,55 @@ Let $t_0$ the "true" value of a statistic, $\hat{t}$ the estimate of the statist
 Notice that bias correction "shifts" away from the bootstrapped samples.
 :::
 
-## "Simple" Bootstrap Confidence Intervals
+## Bootstrap Confidence Intervals
 
-- **Basic Bootstrap CIs** (based on CLT for error distribution $\tilde{t} - \hat{t}$): $$\left(\hat{t} - (Q_{\tilde{t}}(1-\alpha/2) - \hat{t}), \hat{t} - (Q_{\tilde{t}}(\alpha/2) - \hat{t})\right)$$
-- **Percentile Bootstrap CIs** (simplest, often wrong coverage): $$(Q_{\tilde{t}}(1-\alpha/2), Q_{\tilde{t}}(1-\alpha/2))$$
+Suppose we want to construct a $1-\alpha$% CI for $t_0$. The most naive application of the bootstrap principle suggests that with $1-\alpha$% probability, then $t_0$ falls inbetween $Q_{\tilde{t}}(\alpha/2)$ and $Q_{\tilde{t}}(1-\alpha/2))$. 
+
+Therefore, if the distribution for $\tilde{t}$ approximates the sampling distribution of $\hat{t}$, we get the:
+
+**Percentile Bootstrap CI**: $$(Q_{\tilde{t}}(\alpha/2), Q_{\tilde{t}}(1-\alpha/2))$$
+
+## Bootstrap Confidence Intervals
+
+The assumption that $\mathcal{D}(\tilde{t}) \approx \mathcal{D}(\hat{t})$ is pretty strong and generally not satisfied! Instead, suppose it's only the *variability* in the samples that we assume is similar, *e.g.* $$\mathcal{D}(\tilde{t} - \hat{t}) \approx \mathcal{D}(\hat{t} - t_0)$$.
+
+## Bootstrap Confidence Intervals
+
+Then:
+
+$$\begin{aligned}
+1 - \alpha &= \mathbb{P}\left[Q_{\tilde{t}}(\alpha/2) \leq \tilde{t} \leq Q_{\tilde{t}}(1 - \alpha/2) \right] \\
+&= \mathbb{P}\left[Q_{\tilde{t}}(\alpha/2) - \hat{t} \leq \tilde{t} - \hat{t} \leq Q_{\tilde{t}}(1 - \alpha/2) - \hat{t} \right] \\
+&= \mathbb{P}\left[\hat{t} - Q_{\tilde{t}}(\alpha/2) \geq \color{red}{\hat{t} - \tilde{t}} \geq \hat{t} - Q_{\tilde{t}}(1 - \alpha/2) \right] \\
+&\approx \mathbb{P}\left[\hat{t} - Q_{\tilde{t}}(\alpha/2) \geq \color{red}{t_0 - \hat{t}} \geq \hat{t} - Q_{\tilde{t}}(1 - \alpha/2) \right] \\
+&= \mathbb{P}\left[2\hat{t} - Q_{\tilde{t}}(\alpha/2) \geq t_0 \geq 2\hat{t} - Q_{\tilde{t}}(1 - \alpha/2) \right]
+\end{aligned}$$
+
+## Bootstrap Confidence Intervals
+
+This gives us the:
+
+**Basic Bootstrap CI**: $\left(2\hat{t} - Q_{\tilde{t}}(1-\alpha/2), 2\hat{t} - Q_{\tilde{t}}(\alpha/2)\right)$
+
+
+## Why Can The Percentile CI Go Wrong?
+
+Suppose there is a bias $\mathbb{E}\left[\tilde{t}\right] = \bar{t}^* = \hat{t} + B$ and let $$Q_{\tilde{t}}(0.05) = \bar{t}^* - \sigma_1$$ and $$Q_{\tilde{t}}(0.95) = \bar{t}^* + \sigma_2.$$
+
+## Why Can The Percentile CI Go Wrong?
+
+Then the 90% percentile CI is $$\left(\hat{t} + B - \sigma_1, \hat{t} + B + \sigma_2\right)$$ while the 90% basic bootstrap CI is 
+
+$$\begin{aligned}
+&\left(2\hat{t} - \left(\bar{t}^* + \sigma_2\right), 2 \hat{t} - \left(\bar{t}^* - \sigma_1\right)\right) \\
+&=\left(\hat{t} - B - \sigma_2, \hat{t} - B + \sigma_1\right).
+\end{aligned}$$
+
+## Why Can The Percentile CI Go Wrong?
+
+In other words, **the percentile CI will get the bias wrong and flip potential assymetries due to skew**.
+
+It can be reasonable if you know there is not much bias or skew, but this is hard to guarantee in practice: better to use the basic CI or more advanced CIs (next week).
 
 # The Non-Parametric Bootstrap
 
@@ -393,9 +461,9 @@ plot!(p, size=(1200, 500))
 
 ## Next Classes
 
-**Friday**: The Parametric Bootstrap
+**Friday**: The Non-Parametric Bootstrap
 
-**Next Week**: Missing and Censored Data
+**Next Week**: Parametric Bootstrap and Other Nuances
 
 ## Assessments
 
