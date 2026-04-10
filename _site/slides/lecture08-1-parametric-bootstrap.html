@@ -7,11 +7,11 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/jquery-3.6.3/jquery-3.6.3.min.js"></script>
 <script src="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.js" defer="true"></script>
 <link href="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.26">
+  <meta name="generator" content="quarto-1.7.33">
 
   <meta name="author" content="Vivek Srikrishnan">
   <meta name="dcterms.date" content="2024-03-10">
@@ -120,7 +120,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-99469881743cb8bd1bf840c72478da80.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-7b87de61f0bc8c7187b97021a1ec54e0.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -390,7 +390,7 @@
 <div id="cell-fig-surge-data-detrend" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a><span class="co"># read in data and get annual maxima</span></span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a><span class="co"># read in data and get annual maxima</span></span>
 <span id="cb1-2"><a></a><span class="kw">function</span> <span class="fu">load_data</span>(fname)</span>
 <span id="cb1-3"><a></a>    date_format <span class="op">=</span> <span class="fu">DateFormat</span>(<span class="st">"yyyy-mm-dd HH:MM:SS"</span>)</span>
 <span id="cb1-4"><a></a>    <span class="co"># This uses the DataFramesMeta.jl package, which makes it easy to string together commands to load and process data</span></span>
@@ -444,7 +444,7 @@
 <span id="cb1-52"><a></a></span>
 <span id="cb1-53"><a></a>l <span class="op">=</span> <span class="pp">@layout</span> [a{<span class="fl">0.7</span>w} b{<span class="fl">0.3</span>w}]</span>
 <span id="cb1-54"><a></a><span class="fu">plot</span>(p1, p2; layout<span class="op">=</span>l, link<span class="op">=:</span>y, ylims<span class="op">=</span>(<span class="fl">1</span>, <span class="fl">1.7</span>), bottom_margin<span class="op">=</span><span class="fl">10</span>mm, left_margin<span class="op">=</span><span class="fl">5</span>mm)</span>
-<span id="cb1-55"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">1000</span>, <span class="fl">400</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-55"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">1000</span>, <span class="fl">400</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-surge-data-detrend" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -692,7 +692,7 @@ Figure&nbsp;1: Annual maxima surge data from the San Francisco, CA tide gauge.
 <div id="cell-fig-surge-fitted" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a></a><span class="co"># function to fit GEV model for each data set</span></span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a></a><span class="co"># function to fit GEV model for each data set</span></span>
 <span id="cb2-2"><a></a>init_θ <span class="op">=</span> [<span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">0.0</span>]</span>
 <span id="cb2-3"><a></a>lb <span class="op">=</span> [<span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="op">-</span><span class="fl">2.0</span>]</span>
 <span id="cb2-4"><a></a>ub <span class="op">=</span> [<span class="fl">5.0</span>, <span class="fl">10.0</span>, <span class="fl">2.0</span>]</span>
@@ -706,7 +706,7 @@ Figure&nbsp;1: Annual maxima surge data from the San Francisco, CA tide gauge.
 <span id="cb2-12"><a></a><span class="fu">plot!</span>(p, <span class="fu">GeneralizedExtremeValue</span>(θ_gev[<span class="fl">1</span>], θ_gev[<span class="fl">2</span>], θ_gev[<span class="fl">3</span>]), linewidth<span class="op">=</span><span class="fl">3</span>, label<span class="op">=</span><span class="st">"Parametric Model"</span>, color<span class="op">=:</span>orange)</span>
 <span id="cb2-13"><a></a><span class="fu">vline!</span>(p, [rp_emp], color<span class="op">=:</span>red, linewidth<span class="op">=</span><span class="fl">3</span>, linestyle<span class="op">=:</span>dash, label<span class="op">=</span><span class="st">"Empirical Return Level"</span>)</span>
 <span id="cb2-14"><a></a><span class="fu">vline!</span>(p, [<span class="fu">quantile</span>(<span class="fu">GeneralizedExtremeValue</span>(θ_gev[<span class="fl">1</span>], θ_gev[<span class="fl">2</span>], θ_gev[<span class="fl">3</span>]), <span class="fl">0.99</span>)], color<span class="op">=:</span>blue, linewidth<span class="op">=</span><span class="fl">3</span>, linestyle<span class="op">=:</span>dash, label<span class="op">=</span><span class="st">"Model Return Level"</span>)</span>
-<span id="cb2-15"><a></a><span class="fu">xlims!</span>(p, <span class="fl">1</span>, <span class="fl">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-15"><a></a><span class="fu">xlims!</span>(p, <span class="fl">1</span>, <span class="fl">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-surge-fitted" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -810,7 +810,7 @@ Figure&nbsp;2: Fitted GEV Distribution
 <div id="cell-fig-surge-boot1" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a></a>n_boot <span class="op">=</span> <span class="fl">1000</span></span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a></a>n_boot <span class="op">=</span> <span class="fl">1000</span></span>
 <span id="cb3-2"><a></a>boot_samp <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">GeneralizedExtremeValue</span>(θ_gev[<span class="fl">1</span>], θ_gev[<span class="fl">2</span>], θ_gev[<span class="fl">3</span>]), (<span class="fu">nrow</span>(dat_annmax), n_boot))</span>
 <span id="cb3-3"><a></a>rp_boot <span class="op">=</span> <span class="fu">mapslices</span>(col <span class="op">-&gt;</span> <span class="fu">quantile</span>(col, <span class="fl">0.99</span>), boot_samp, dims<span class="op">=</span><span class="fl">1</span>)<span class="ch">'</span></span>
 <span id="cb3-4"><a></a></span>
@@ -819,7 +819,7 @@ Figure&nbsp;2: Fitted GEV Distribution
 <span id="cb3-7"><a></a><span class="fu">xlims!</span>(pfit, <span class="fl">1</span>, <span class="fl">1.75</span>)</span>
 <span id="cb3-8"><a></a><span class="fu">scatter!</span>(pfit, rp_boot[<span class="op">:</span>, <span class="fl">1</span>], <span class="fu">zeros</span>(<span class="fu">nrow</span>(dat_annmax)), color<span class="op">=:</span>orange, label<span class="op">=</span><span class="st">"GEV Bootstrap Replicates"</span>, markersize<span class="op">=</span><span class="fl">3</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
 <span id="cb3-9"><a></a><span class="fu">vline!</span>(pfit, [<span class="fu">mean</span>(rp_boot)], color<span class="op">=:</span>orange, linewidth<span class="op">=</span><span class="fl">3</span>, label<span class="op">=</span><span class="st">"GEV Bootstrap Estimate"</span>)</span>
-<span id="cb3-10"><a></a><span class="fu">vline!</span>(pfit, [<span class="fl">2</span> <span class="op">*</span> rp_emp <span class="op">-</span> <span class="fu">mean</span>(rp_boot)], color<span class="op">=:</span>orange, linewidth<span class="op">=</span><span class="fl">3</span>, linestyle<span class="op">=:</span>dot, label<span class="op">=</span><span class="st">"Bias-Corrected Estimate (GEV)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-10"><a></a><span class="fu">vline!</span>(pfit, [<span class="fl">2</span> <span class="op">*</span> rp_emp <span class="op">-</span> <span class="fu">mean</span>(rp_boot)], color<span class="op">=:</span>orange, linewidth<span class="op">=</span><span class="fl">3</span>, linestyle<span class="op">=:</span>dot, label<span class="op">=</span><span class="st">"Bias-Corrected Estimate (GEV)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-surge-boot1" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -1894,12 +1894,12 @@ Figure&nbsp;3: Initial bootstrap sample
 <div id="cell-fig-surge-boot-hsit" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a></a>phist <span class="op">=</span> <span class="fu">histogram</span>(rp_boot, xlabel<span class="op">=</span><span class="st">"100-Year Return Period Estimate (m)"</span>, ylabel<span class="op">=</span><span class="st">"Count"</span>, right_margin<span class="op">=</span><span class="fl">5</span>mm, label<span class="op">=</span><span class="st">"GEV Bootstrap Samples"</span>, color<span class="op">=:</span>darkorange, alpha<span class="op">=</span><span class="fl">0.4</span>)</span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a></a>phist <span class="op">=</span> <span class="fu">histogram</span>(rp_boot, xlabel<span class="op">=</span><span class="st">"100-Year Return Period Estimate (m)"</span>, ylabel<span class="op">=</span><span class="st">"Count"</span>, right_margin<span class="op">=</span><span class="fl">5</span>mm, label<span class="op">=</span><span class="st">"GEV Bootstrap Samples"</span>, color<span class="op">=:</span>darkorange, alpha<span class="op">=</span><span class="fl">0.4</span>)</span>
 <span id="cb4-2"><a></a><span class="fu">vline!</span>(phist, [rp_emp], color<span class="op">=:</span>black, linewidth<span class="op">=</span><span class="fl">3</span>, linestyle<span class="op">=:</span>dash, label<span class="op">=</span><span class="st">"Empirical Estimate"</span>)</span>
 <span id="cb4-3"><a></a>q_boot <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> rp_emp <span class="op">.-</span> <span class="fu">quantile</span>(rp_boot, [<span class="fl">0.975</span>, <span class="fl">0.025</span>])</span>
 <span id="cb4-4"><a></a><span class="fu">vline!</span>(phist, [<span class="fu">mean</span>(rp_boot)], color<span class="op">=:</span>red, linestyle<span class="op">=:</span>dash, linewidth<span class="op">=</span><span class="fl">3</span>, label<span class="op">=</span><span class="st">"GEV Bootstrap Estimate"</span>)</span>
 <span id="cb4-5"><a></a><span class="fu">vline!</span>(phist, [<span class="fl">2</span> <span class="op">*</span> rp_emp <span class="op">-</span> <span class="fu">mean</span>(rp_boot)], color<span class="op">=:</span>red, linestyle<span class="op">=:</span>dot, linewidth<span class="op">=</span><span class="fl">3</span>, label<span class="op">=</span><span class="st">"Bias-Corrected GEV Estimate"</span>)</span>
-<span id="cb4-6"><a></a><span class="fu">vspan!</span>(phist, q_boot, linecolor<span class="op">=:</span>orange, fillcolor<span class="op">=:</span>orange, lw<span class="op">=</span><span class="fl">3</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, fillalpha<span class="op">=</span><span class="fl">0.3</span>, label<span class="op">=</span><span class="st">"95% GEV Bootstrap CI"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-6"><a></a><span class="fu">vspan!</span>(phist, q_boot, linecolor<span class="op">=:</span>orange, fillcolor<span class="op">=:</span>orange, lw<span class="op">=</span><span class="fl">3</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, fillalpha<span class="op">=</span><span class="fl">0.3</span>, label<span class="op">=</span><span class="st">"95% GEV Bootstrap CI"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-surge-boot-hsit" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -2022,7 +2022,7 @@ Figure&nbsp;4: Bootstrap histogram
 <h2>Impact of Model Choice</h2>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a></a><span class="co">## re-do bootstrap with lognormal distribution</span></span>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a></a><span class="co">## re-do bootstrap with lognormal distribution</span></span>
 <span id="cb5-2"><a></a><span class="co"># function to fit GEV model for each data set</span></span>
 <span id="cb5-3"><a></a>init_θ <span class="op">=</span> [<span class="fl">1.0</span>, <span class="fl">1.0</span>]</span>
 <span id="cb5-4"><a></a>lb <span class="op">=</span> [<span class="fl">0.0</span>, <span class="fl">0.0</span>]</span>
@@ -2058,7 +2058,7 @@ Figure&nbsp;4: Bootstrap histogram
 <span id="cb5-34"><a></a></span>
 <span id="cb5-35"><a></a><span class="fu">display</span>(pfit)</span>
 <span id="cb5-36"><a></a><span class="fu">display</span>(phist)</span>
-<span id="cb5-37"><a></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-37"><a></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-surge-boot-models" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
@@ -2426,7 +2426,7 @@ Figure&nbsp;5
 <h2>Parametric Bootstrapping</h2>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a></a><span class="co"># tds_riverflow_loglik: function to compute the log-likelihood for the tds model</span></span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a></a><span class="co"># tds_riverflow_loglik: function to compute the log-likelihood for the tds model</span></span>
 <span id="cb6-2"><a></a><span class="co"># θ: vector of model parameters (coefficients β₀ and β₁ and stdev σ)</span></span>
 <span id="cb6-3"><a></a><span class="co"># tds, flow: vectors of data</span></span>
 <span id="cb6-4"><a></a><span class="kw">function</span> <span class="fu">tds_riverflow_loglik</span>(θ, tds, flow)</span>
@@ -2485,7 +2485,7 @@ Figure&nbsp;5
 <span id="cb6-57"><a></a><span class="fu">plot!</span>(pboot, xspan, <span class="fu">model_fit</span>(xspan, boot_θ[<span class="op">:</span>, <span class="fl">1</span>]), label<span class="op">=</span><span class="st">"Bootstrap Model Fit"</span>, color<span class="op">=:</span>grey, lw<span class="op">=</span><span class="fl">3</span>)</span>
 <span id="cb6-58"><a></a><span class="fu">xlims!</span>(pboot, <span class="fl">3</span>, <span class="fl">55</span>)</span>
 <span id="cb6-59"><a></a><span class="fu">plot!</span>(pboot, size<span class="op">=</span>(<span class="fl">550</span>, <span class="fl">500</span>))</span>
-<span id="cb6-60"><a></a><span class="fu">display</span>(pboot)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-60"><a></a><span class="fu">display</span>(pboot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-parametric-tds-fit" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
@@ -3137,7 +3137,7 @@ Figure&nbsp;7
 <h2>Parametric vs.&nbsp;Non-Parametric Bootstrap CIs</h2>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a></a><span class="co"># need to get non-parametric bootstrap estimates</span></span>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a></a><span class="co"># need to get non-parametric bootstrap estimates</span></span>
 <span id="cb7-2"><a></a>np_boot_θ <span class="op">=</span> <span class="fu">zeros</span>(<span class="fl">3</span>, nboot)</span>
 <span id="cb7-3"><a></a><span class="cf">for</span> i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>nboot</span>
 <span id="cb7-4"><a></a>    <span class="co"># resample from model</span></span>
@@ -3158,7 +3158,7 @@ Figure&nbsp;7
 <span id="cb7-19"><a></a>parnames <span class="op">=</span> [<span class="st">"β₀"</span>, <span class="st">"β₁"</span>, <span class="st">"σ"</span>]</span>
 <span id="cb7-20"><a></a>boot_ci_str <span class="op">=</span>  <span class="fu">string</span>.(<span class="fu">Int64</span>.(<span class="fu">round</span>.(boot_est; digits<span class="op">=</span><span class="fl">0</span>)), <span class="st">" ("</span>, <span class="fu">Int64</span>.(<span class="fu">round</span>.(boot_ci[<span class="op">:</span>, <span class="fl">1</span>]; digits<span class="op">=</span><span class="fl">0</span>)), <span class="st">","</span>, <span class="fu">Int64</span>.(<span class="fu">round</span>.(boot_ci[<span class="op">:</span>, <span class="fl">2</span>]; digits<span class="op">=</span><span class="fl">0</span>)), <span class="st">")"</span>)</span>
 <span id="cb7-21"><a></a>np_boot_ci_str <span class="op">=</span>  <span class="fu">string</span>.(<span class="fu">Int64</span>.(<span class="fu">round</span>.(np_boot_est; digits<span class="op">=</span><span class="fl">0</span>)), <span class="st">" ("</span>, <span class="fu">Int64</span>.(<span class="fu">round</span>.(np_boot_ci[<span class="op">:</span>, <span class="fl">1</span>]; digits<span class="op">=</span><span class="fl">0</span>)), <span class="st">","</span>, <span class="fu">Int64</span>.(<span class="fu">round</span>.(np_boot_ci[<span class="op">:</span>, <span class="fl">2</span>]; digits<span class="op">=</span><span class="fl">0</span>)), <span class="st">")"</span>)</span>
-<span id="cb7-22"><a></a><span class="fu">pretty_table</span>(<span class="fu">DataFrame</span>(Parameters<span class="op">=</span>parnames, NP<span class="op">=</span><span class="fu">vec</span>(np_boot_ci_str), Par<span class="op">=</span><span class="fu">vec</span>(boot_ci_str)); backend<span class="op">=</span><span class="fu">Val</span>(<span class="op">:</span>markdown), show_subheader<span class="op">=</span><span class="cn">false</span>, show_row_number<span class="op">=</span><span class="cn">false</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-22"><a></a><span class="fu">pretty_table</span>(<span class="fu">DataFrame</span>(Parameters<span class="op">=</span>parnames, NP<span class="op">=</span><span class="fu">vec</span>(np_boot_ci_str), Par<span class="op">=</span><span class="fu">vec</span>(boot_ci_str)); backend<span class="op">=</span><span class="fu">Val</span>(<span class="op">:</span>markdown), show_subheader<span class="op">=</span><span class="cn">false</span>, show_row_number<span class="op">=</span><span class="cn">false</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="tbl-bootstrap" class="cell quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-tbl">
@@ -3575,14 +3575,13 @@ Efron, B. (1979). <span class="nocase">Bootstrap methods: Another look at the ja
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-          const outerScaffold = trigger.parentElement.cloneNode(true);
-          const codeEl = outerScaffold.querySelector('code');
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
+            const codeEl = trigger.previousElementSibling.cloneNode(true);
+            for (const childEl of codeEl.children) {
+              if (isCodeAnnotation(childEl)) {
+                childEl.remove();
+              }
             }
-          }
-          return codeEl.innerText;
+            return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

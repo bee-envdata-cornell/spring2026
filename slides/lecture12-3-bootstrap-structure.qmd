@@ -1,0 +1,303 @@
+---
+title: "The Bootstrap for Structured Data"
+subtitle: "Lecture 29"
+author: "Vivek Srikrishnan"
+course: "BEE 4850"
+institution: "Cornell University"
+date: "April 10, 2024"
+format:
+    revealjs:
+        slide-number: c/t
+        show-slide-number: all
+        center-title-slide: true
+        width: 1280
+        height: 720
+        transition: none
+        toc: true
+        toc-depth: 1
+        toc-title: "Overview"
+        history: false
+        link-external-newwindow: true
+        theme: ../sass/slides.scss
+        template-partials:
+            - title-slide.html
+        menu:
+            numbers: true
+        html-math-method: mathjax
+        include-in-header: mathjax-config.html
+        date-format: long
+        email-obfuscation: javascript
+        chalkboard:
+            theme: whiteboard
+            buttons: true
+        mermaid: 
+            theme: dark
+engine: julia
+filters:
+  - code-fullscreen
+---
+
+```{julia}
+#| output: false
+
+import Pkg
+Pkg.activate(@__DIR__)
+Pkg.instantiate()
+```
+
+```{julia}
+#| output: false
+
+using Random
+using DataFrames
+using DataFramesMeta
+using CSV
+using Dates
+using Distributions
+using ColorSchemes
+using Plots
+using StatsPlots
+using StatsBase
+using Optim
+using LaTeXStrings
+using Measures
+
+Random.seed!(1)
+
+plot_font = "Computer Modern"
+default(
+    fontfamily=plot_font,
+    linewidth=3, 
+    framestyle=:box, 
+    label=nothing, 
+    grid=false,
+    guidefontsize=18,
+    legendfontsize=16,
+    tickfontsize=16,
+    titlefontsize=20,
+    bottom_margin=10mm,
+    left_margin=5mm
+)
+```
+
+# Review
+
+
+## The Bootstrap Principle
+
+:::: {.columns}
+::: {.column width=50%}
+@Efron1979-zv suggested combining estimation with simulation: the **bootstrap**.
+
+**Key idea**: use the data to simulate a data-generating mechanism.
+:::
+::: {.column width=50%}
+::: {.center}
+![Xxibit Bootstrap Meme](memes/xxibit_bootstrap.png)
+
+:::
+:::
+::::
+
+## Bootstrap Principle
+
+
+:::: {.columns}
+::: {.column width=40%}
+
+- Assume the existing data is representative of the "true" population, 
+- Simulate based on properties of the data itself
+- Re-estimate statistics from re-samples.
+
+:::
+::: {.column width=60%}
+![Bootstrap Sampling Distribution](figures/npboot-sampling.png)
+:::
+::::
+
+## The Fundamental Principle of Bootstrapping
+
+In other words:
+
+**The population is to the sample what the sample is to the bootstrap samples.**
+
+## What Can We Do With The Bootstrap?
+
+Let $t_0$ the "true" value of a statistic, $\hat{t}$ the estimate of the statistic from the sample, and $(\tilde{t}_i)$ the bootstrap estimates.
+
+::: {.incremental}
+- Estimate Variance: $\text{Var}[\hat{t}] \approx \text{Var}[\tilde{t}]$
+- Bias Correction: $\mathbb{E}[\hat{t}] - t_0 \approx \mathbb{E}[\tilde{t}] - \hat{t}$
+- Hypothesis Testing: Compute $p$-values using bootstrap sampling distribution
+:::
+
+::: {.fragment .fade-in}
+Notice that bias correction "shifts" away from the bootstrapped samples.
+:::
+
+## Bootstrap Confidence Intervals
+
+**Percentile Bootstrap CI**: $$(Q_{\tilde{t}}(\alpha/2), Q_{\tilde{t}}(1-\alpha/2))$$
+
+**Basic Bootstrap CI**: $\left(2\hat{t} - Q_{\tilde{t}}(1-\alpha/2), 2\hat{t} - Q_{\tilde{t}}(\alpha/2)\right)$
+
+## The Non-Parametric Bootstrap
+
+:::: {.columns}
+::: {.column width=40%}
+The non-parametric bootstrap is the most "naive" approach to the bootstrap: **resample-then-estimate**.
+:::
+::: {.column width=60%}
+![Non-Parametric Bootstrap](figures/npboot-sampling.png)
+:::
+::::
+
+## Non-Parametric Bootstrap Algorithm
+
+Have dataset of $m$ points, want $k$ replicates:
+
+1. Resample $m$ points from data with replacement $k$ times;
+2. Estimate statistic from each replicate.
+3. Compute mean, variance, CI, etc.
+
+## Sources of Non-Parametric Bootstrap Error
+
+1. **Sampling error**: error from using finitely many replications
+2. **Statistical error**: error in the bootstrap sampling distribution approximation
+
+
+# Bootstrapping with Structured Data
+
+
+## Simple Bootstrapping Fails with Structured Data
+
+```{julia}
+#| echo: true
+#| code-fold: true
+#| label: fig-ts-bootstrap
+#| fig-cap: Simple bootstrap with time series data.
+#| layout-ncol: 2
+
+tide_dat = CSV.read(joinpath("data", "surge", "norfolk-hourly-surge-2015.csv"), DataFrame)
+surge_resids = tide_dat[:, 5] - tide_dat[:, 3]
+
+p1 = plot(surge_resids, xlabel="Hour", ylabel="(m)", title="Tide Gauge Residuals", label=:false, linewidth=3)
+plot!(p1, size=(600, 450))
+
+resample_index = sample(1:length(surge_resids), length(surge_resids); replace=true)
+p2 = plot(surge_resids[resample_index], xlabel="Hour", ylabel="(m)", title="Tide Gauge Resample", label=:false, linewidth=3)
+plot!(p2, size=(600, 450))
+
+display(p1)
+display(p2)
+```
+
+## Block Bootstraps
+
+Clever idea from @Kunsch1989-ll: Divide time series $y_{1:T}$ into overlapping blocks of length $k$.
+
+$$\{y_{1:k}, y_{2:k+1}, \ldots y_{n-k+1:n}\}$$
+
+Then draw $m = n / k$ of these blocks with replacement and construct replicate time series:
+
+$$\hat{y}_{1:n} = (y_{b_1}, \ldots, y_{b_m}) $$
+
+**Note**: Your series must not have a trend!
+
+## Block Bootstrap Example
+
+:::: {.columns}
+::: {.column width=50%}
+
+```{julia}
+#| echo: true
+#| code-fold: true
+
+k = 20
+n_blocks = length(surge_resids) - k + 1
+blocks = zeros(Float64, (k, n_blocks))
+for i = 1:n_blocks
+    blocks[:, i] = surge_resids[i:(k+i-1)]
+end
+blocks[:, 1:5]
+```
+:::
+::: {.column width=50%}
+```{julia}
+#| echo: true
+#| code-fold: true
+#| label: fig-ts-block-replicate
+#| fig-cap: Comparison of original data with block bootstrap replicate.
+
+m = Int64(ceil(length(surge_resids) / k))
+n_boot = 1_000
+surge_bootstrap = zeros(length(surge_resids), n_boot)
+for i = 1:n_boot
+    block_sample_idx = sample(1:n_blocks, m; replace=true)
+    surge_bootstrap[:, i] = reduce(vcat, blocks[:, block_sample_idx])
+end
+
+p = plot(surge_resids, color=:black, lw=3, label="Data", xlabel="Hour", ylabel="(m)", title="Tide Gauge Residuals", alpha=0.5)
+plot!(p, surge_bootstrap[:, 1], color=:blue, lw=3, label="Replicate", alpha=0.5)
+plot!(p, size=(600, 500))
+```
+:::
+::::
+
+## Block Bootstrap Replicates
+
+```{julia}
+#| echo: true
+#| code-fold: true
+#| label: fig-ts-block-bootstrap
+#| fig-cap: Block bootstrap with time series data.
+
+p = plot(xlabel="Hour", ylabel="(m)", title="Tide Gauge Residuals")
+for i = 1:10
+    label = i == 1 ? "Replicate" : false
+    plot!(p, surge_bootstrap[:, i], label=label, color=:gray, alpha=0.2, lw=2)
+end
+plot!(p, surge_resids, label="Data", color=:black, lw=3)
+plot!(p, size=(1200, 500))
+```
+
+## Generalizing the Block Bootstrap
+
+- **Circular Bootstrap**: "Wrap" the time series in a circle, $y_1, y_2, \ldots, y_n, y_1, y_2, \ldots$ then divide into blocks and resample.
+- **Stationary Bootstrap**: Use random block lengths to avoid systematic boundary transitions.
+- **Block of Blocks Bootstrap**: Divide series into blocks of length $k_2$, then subdivide into blocks of length $k_1$. Sample blocks with replacement then sample sub-blocks within each block with replacement.
+
+# Key Points and Upcoming Schedule
+
+## Key Points
+
+- Bootstrap: Approximate sampling distribution by re-simulating data
+- Non-Parametric Bootstrap: Treat data as representative of population and re-sample.
+- More complicated for structured data: block bootstrap for time series, analogues for spatial data.
+
+## Sources of Non-Parametric Bootstrap Error
+
+1. **Sampling error**: error from using finitely many replications
+2. **Statistical error**: error in the bootstrap sampling distribution approximation
+
+## When To Use The Non-Parametric Bootstrap
+
+- Sample is representative of the sampling distribution
+- Doesn't work well for extreme values!
+- Does not work *at all* for max/mins (or any other case where the CLT fails).
+
+
+## Next Classes
+
+**Next Week**: Parametric Bootstrap and Other Nuances
+
+## Assessments
+
+**Homework 5**: Due next Friday (4/17)
+
+**Project Updates**: Due today (4/10)
+
+
+# References
+
+## References (Scroll for Full List)

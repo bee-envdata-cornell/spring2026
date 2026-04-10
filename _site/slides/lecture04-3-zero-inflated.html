@@ -7,11 +7,11 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/jquery-3.6.3/jquery-3.6.3.min.js"></script>
 <script src="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.js" defer="true"></script>
 <link href="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.26">
+  <meta name="generator" content="quarto-1.7.33">
 
   <meta name="author" content="Vivek Srikrishnan">
   <meta name="dcterms.date" content="2026-02-13">
@@ -100,7 +100,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-99469881743cb8bd1bf840c72478da80.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-7b87de61f0bc8c7187b97021a1ec54e0.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -323,7 +323,7 @@ f(\lambda_i) &amp;= \beta_0 + \beta_1 \text{child}_i + \beta_2 \text{camper}_i
 <section id="fitting-the-model" class="slide level2">
 <h2>Fitting the Model</h2>
 <div id="8" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" data-code-line-numbers="|1-5|7-11"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a><span class="kw">function</span> <span class="fu">fish_model</span>(params, child, camper, fish_caught)</span>
+<div class="sourceCode cell-code" id="cb1" data-code-line-numbers="|1-5|7-11"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a><span class="kw">function</span> <span class="fu">fish_model</span>(params, child, camper, fish_caught)</span>
 <span id="cb1-2"><a></a>    β₀, β₁, β₂ <span class="op">=</span> params</span>
 <span id="cb1-3"><a></a>    λ <span class="op">=</span> <span class="fu">exp</span>.(β₀ <span class="op">.+</span> β₁ <span class="op">*</span> child <span class="op">+</span> β₂ <span class="op">*</span> camper)</span>
 <span id="cb1-4"><a></a>    loglik <span class="op">=</span> <span class="fu">sum</span>(<span class="fu">logpdf</span>.(<span class="fu">Poisson</span>.(λ), fish_caught))</span>
@@ -336,7 +336,7 @@ f(\lambda_i) &amp;= \beta_0 + \beta_1 \text{child}_i + \beta_2 \text{camper}_i
 <span id="cb1-11"><a></a>optim_out <span class="op">=</span> <span class="fu">optimize</span>(θ <span class="op">-&gt;</span> <span class="fu">-fish_model</span>(θ, fish.child, fish.camper, fish.fish_caught), lb, ub, init)</span>
 <span id="cb1-12"><a></a>θ_mle <span class="op">=</span> optim_out.minimizer</span>
 <span id="cb1-13"><a></a><span class="pp">@show</span> <span class="fu">round</span>.(θ_mle; digits<span class="op">=</span><span class="fl">2</span>);</span>
-<span id="cb1-14"><a></a><span class="pp">@show</span> <span class="fu">round</span>.(<span class="fu">exp</span>.(θ_mle); digits<span class="op">=</span><span class="fl">2</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-14"><a></a><span class="pp">@show</span> <span class="fu">round</span>.(<span class="fu">exp</span>.(θ_mle); digits<span class="op">=</span><span class="fl">2</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>round.(θ_mle; digits = 2) = [0.91, -1.23, 1.05]
 round.(exp.(θ_mle); digits = 2) = [2.48, 0.29, 2.87]</code></pre>
@@ -372,7 +372,7 @@ round.(exp.(θ_mle); digits = 2) = [2.48, 0.29, 2.87]</code></pre>
 <div id="cell-fig-fish-skill" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3" data-code-line-numbers="|1-3|5-8"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a></a><span class="co"># simulate samples for each P</span></span>
+<div class="sourceCode cell-code" id="cb3" data-code-line-numbers="|1-3|5-8"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a></a><span class="co"># simulate samples for each P</span></span>
 <span id="cb3-2"><a></a>λ <span class="op">=</span> <span class="fu">exp</span>.(θ_mle[<span class="fl">1</span>] <span class="op">.+</span> θ_mle[<span class="fl">2</span>] <span class="op">*</span> fish.child <span class="op">.+</span> θ_mle[<span class="fl">3</span>] <span class="op">*</span> fish.camper)</span>
 <span id="cb3-3"><a></a><span class="co"># draw 10,000 samples for each</span></span>
 <span id="cb3-4"><a></a>fish_sim <span class="op">=</span> <span class="fu">zeros</span>(<span class="fl">10_000</span>, <span class="fu">nrow</span>(fish)) <span class="co"># initialize matrix to store simulations</span></span>
@@ -383,7 +383,7 @@ round.(exp.(θ_mle); digits = 2) = [2.48, 0.29, 2.87]</code></pre>
 <span id="cb3-9"><a></a><span class="co"># calculate frequency of zeros</span></span>
 <span id="cb3-10"><a></a>fish_zeros <span class="op">=</span> <span class="fu">mapslices</span>(row <span class="op">-&gt;</span> <span class="fu">sum</span>(row <span class="op">.==</span> <span class="fl">0</span>) <span class="op">/</span> <span class="fu">length</span>(row), fish_sim; dims<span class="op">=</span><span class="fl">1</span>)</span>
 <span id="cb3-11"><a></a><span class="fu">histogram</span>(fish_zeros<span class="op">'</span>, xlabel<span class="op">=</span><span class="st">"Proportion of Zeros"</span>, ylabel<span class="op">=</span><span class="st">"Count"</span>, label<span class="op">=</span><span class="cn">false</span>)</span>
-<span id="cb3-12"><a></a><span class="fu">vline!</span>([<span class="fu">sum</span>(fish.fish_caught <span class="op">.==</span> <span class="fl">0</span>) <span class="op">/</span> <span class="fu">nrow</span>(fish)], color<span class="op">=:</span>red, linewidth<span class="op">=</span><span class="fl">3</span>, label<span class="op">=</span><span class="st">"Empirical Statistic"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-12"><a></a><span class="fu">vline!</span>([<span class="fu">sum</span>(fish.fish_caught <span class="op">.==</span> <span class="fl">0</span>) <span class="op">/</span> <span class="fu">nrow</span>(fish)], color<span class="op">=:</span>red, linewidth<span class="op">=</span><span class="fl">3</span>, label<span class="op">=</span><span class="st">"Empirical Statistic"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 
 </div>
@@ -446,7 +446,7 @@ y_i &amp;\sim p_i \text{Dirac}(0) + (1 - p_i) \text{Poisson}(\lambda_i)  \\
 <section id="fitting-zip" class="slide level2">
 <h2>Fitting ZIP</h2>
 <div id="12" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4" data-code-line-numbers="|3|4-10"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a></a><span class="fu">invlogit</span>(x) <span class="op">=</span> <span class="fu">exp</span>(x) <span class="op">/</span> (<span class="fl">1</span> <span class="op">+</span> <span class="fu">exp</span>(x))</span>
+<div class="sourceCode cell-code" id="cb4" data-code-line-numbers="|3|4-10"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a></a><span class="fu">invlogit</span>(x) <span class="op">=</span> <span class="fu">exp</span>(x) <span class="op">/</span> (<span class="fl">1</span> <span class="op">+</span> <span class="fu">exp</span>(x))</span>
 <span id="cb4-2"><a></a><span class="fu">ZeroInflated</span>(p, λ) <span class="op">=</span> <span class="fu">MixtureModel</span>([<span class="fu">Dirac</span>(<span class="fl">0</span>), <span class="fu">Poisson</span>(λ)], [p, <span class="fl">1</span> <span class="op">-</span> p])</span>
 <span id="cb4-3"><a></a><span class="kw">function</span> <span class="fu">fish_model_zip</span>(params, persons, child, camper, fish_caught)</span>
 <span id="cb4-4"><a></a>    α₀, α₁, β₀, β₁, β₂ <span class="op">=</span> params</span>
@@ -463,7 +463,7 @@ y_i &amp;\sim p_i \text{Dirac}(0) + (1 - p_i) \text{Poisson}(\lambda_i)  \\
 <span id="cb4-15"><a></a>optim_out <span class="op">=</span> <span class="fu">optimize</span>(θ <span class="op">-&gt;</span> <span class="fu">-fish_model_zip</span>(θ, fish.persons, fish.child, fish.camper, fish.fish_caught), lb, ub, init)</span>
 <span id="cb4-16"><a></a>θ_mle <span class="op">=</span> optim_out.minimizer</span>
 <span id="cb4-17"><a></a><span class="pp">@show</span> <span class="fu">round</span>.(θ_mle; digits<span class="op">=</span><span class="fl">2</span>);</span>
-<span id="cb4-18"><a></a><span class="pp">@show</span> <span class="fu">round</span>.(<span class="fu">exp</span>.(θ_mle); digits<span class="op">=</span><span class="fl">2</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-18"><a></a><span class="pp">@show</span> <span class="fu">round</span>.(<span class="fu">exp</span>.(θ_mle); digits<span class="op">=</span><span class="fl">2</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>round.(θ_mle; digits = 2) = [1.3, -0.56, 1.6, -1.04, 0.83]
 round.(exp.(θ_mle); digits = 2) = [3.66, 0.57, 4.94, 0.35, 2.3]</code></pre>
@@ -476,7 +476,7 @@ round.(exp.(θ_mle); digits = 2) = [3.66, 0.57, 4.94, 0.35, 2.3]</code></pre>
 <div class="column">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a></a><span class="co"># simulate samples for each P</span></span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a></a><span class="co"># simulate samples for each P</span></span>
 <span id="cb6-2"><a></a>p <span class="op">=</span> <span class="fu">invlogit</span>.(θ_mle[<span class="fl">1</span>] <span class="op">.+</span> θ_mle[<span class="fl">2</span>] <span class="op">*</span> fish.persons)</span>
 <span id="cb6-3"><a></a>λ <span class="op">=</span> <span class="fu">exp</span>.(θ_mle[<span class="fl">3</span>] <span class="op">.+</span> θ_mle[<span class="fl">4</span>] <span class="op">*</span> fish.child <span class="op">.+</span> θ_mle[<span class="fl">5</span>] <span class="op">*</span> fish.camper)</span>
 <span id="cb6-4"><a></a><span class="co"># draw 10,000 samples for each</span></span>
@@ -495,7 +495,7 @@ round.(exp.(θ_mle); digits = 2) = [3.66, 0.57, 4.94, 0.35, 2.3]</code></pre>
 <span id="cb6-17"><a></a><span class="co"># calculate frequency of zeros</span></span>
 <span id="cb6-18"><a></a>fish_zeros <span class="op">=</span> <span class="fu">mapslices</span>(row <span class="op">-&gt;</span> <span class="fu">sum</span>(row <span class="op">.==</span> <span class="fl">0</span>) <span class="op">/</span> <span class="fu">length</span>(row), fish_sim; dims<span class="op">=</span><span class="fl">1</span>)</span>
 <span id="cb6-19"><a></a><span class="fu">histogram</span>(fish_zeros<span class="op">'</span>, xlabel<span class="op">=</span><span class="st">"Proportion of Zeros"</span>, ylabel<span class="op">=</span><span class="st">"Count"</span>, label<span class="op">=</span><span class="cn">false</span>)</span>
-<span id="cb6-20"><a></a><span class="fu">vline!</span>([<span class="fu">sum</span>(fish.fish_caught <span class="op">.==</span> <span class="fl">0</span>) <span class="op">/</span> <span class="fu">nrow</span>(fish)], color<span class="op">=:</span>red, linewidth<span class="op">=</span><span class="fl">3</span>, label<span class="op">=</span><span class="st">"Empirical Statistic"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-20"><a></a><span class="fu">vline!</span>([<span class="fu">sum</span>(fish.fish_caught <span class="op">.==</span> <span class="fl">0</span>) <span class="op">/</span> <span class="fu">nrow</span>(fish)], color<span class="op">=:</span>red, linewidth<span class="op">=</span><span class="fl">3</span>, label<span class="op">=</span><span class="st">"Empirical Statistic"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div><div class="column">
 <div id="fig-fish-skill-2" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
@@ -804,14 +804,13 @@ Figure&nbsp;3: Predictive distribution for fitted fish model.
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-          const outerScaffold = trigger.parentElement.cloneNode(true);
-          const codeEl = outerScaffold.querySelector('code');
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
+            const codeEl = trigger.previousElementSibling.cloneNode(true);
+            for (const childEl of codeEl.children) {
+              if (isCodeAnnotation(childEl)) {
+                childEl.remove();
+              }
             }
-          }
-          return codeEl.innerText;
+            return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

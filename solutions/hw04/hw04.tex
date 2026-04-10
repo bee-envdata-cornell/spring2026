@@ -1,0 +1,1157 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod]{scrartcl}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \setmainfont[]{IBM Plex Sans}
+  \setsansfont[]{IBM Plex Sans}
+  \setmonofont[]{JuliaMono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+\usepackage{fvextra}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\makeatletter
+\definecolor{QuartoInternalColor2}{rgb}{0.00,0.45,0.15}
+\definecolor{QuartoInternalColor1}{rgb}{0,0,0}
+\makeatother
+\makeatletter
+\@ifpackageloaded{tikz}{}{\usepackage{tikz}}
+\makeatother
+        \newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+          \node[shape=circle,draw,inner sep=1pt] (char) {{\scriptsize#1}};}}  
+                  
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Homework 4 Solutions},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Homework 4 Solutions}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{BEE 4850/5850}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+
+\RecustomVerbatimEnvironment{verbatim}{Verbatim}{
+showspaces = false,
+showtabs = false,
+breaksymbolleft={},
+breaklines
+% Note: setting commandchars=\\\{\} here will cause an error
+}
+
+
+\subsection{Overview}\label{overview}
+
+\subsubsection{Instructions}\label{instructions}
+
+The goal of this homework assignment is to practice model evaluation and
+using cross-validation and information criteria to distinguish between
+models.
+
+\begin{itemize}
+\tightlist
+\item
+  Problem 1 asks you to fit a model for cherry blossom bloom dates and
+  use cross-validation to draw conclusions about generalizability.
+\item
+  Problem 2 asks you to compare several linear regression models for
+  environmental influences on non-accidental death data.
+\end{itemize}
+
+\subsubsection{Load Environment}\label{load-environment}
+
+The following code loads the environment and makes sure all needed
+packages are installed. This should be at the start of most Julia
+scripts.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import} \BuiltInTok{Pkg}
+\BuiltInTok{Pkg}\NormalTok{.}\FunctionTok{activate}\NormalTok{(}\PreprocessorTok{@\_\_DIR\_\_}\NormalTok{)}
+\BuiltInTok{Pkg}\NormalTok{.}\FunctionTok{instantiate}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+The following packages are included in the environment (to help you find
+other similar packages in other languages). The code below loads these
+packages for use in the subsequent notebook (the desired functionality
+for each package is commented next to the package).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{using} \BuiltInTok{Random} \CommentTok{\# random number generation and seed{-}setting}
+\ImportTok{using} \BuiltInTok{DataFrames} \CommentTok{\# tabular data structure}
+\ImportTok{using} \BuiltInTok{DataFramesMeta} \CommentTok{\# API which can simplify chains of DataFrames transformations}
+\ImportTok{using} \BuiltInTok{CSV\#}\NormalTok{ reads/writes .csv files}
+\ImportTok{using} \BuiltInTok{Distributions} \CommentTok{\# interface to work with probability distributions}
+\ImportTok{using} \BuiltInTok{Plots} \CommentTok{\# plotting library}
+\ImportTok{using} \BuiltInTok{StatsBase} \CommentTok{\# statistical quantities like mean, median, etc}
+\ImportTok{using} \BuiltInTok{StatsPlots} \CommentTok{\# some additional statistical plotting tools}
+\ImportTok{using} \BuiltInTok{Optim}
+\ImportTok{using} \BuiltInTok{LaTeXStrings}
+\ImportTok{using} \BuiltInTok{Dates}
+
+\BuiltInTok{Random}\NormalTok{.}\FunctionTok{seed!}\NormalTok{(}\FloatTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Problems}\label{problems}
+
+\subsubsection{Problem 1}\label{problem-1}
+
+\paragraph{Problem 1.1}\label{problem-1.1}
+
+Let's load the data from `data/HadCRUT5.1Analysis\_gl.txt' and
+`data/kyoto.csv' and merge the two datasets along common years.
+
+\phantomsection\label{annotated-cell-3}%
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{temp\_dat }\OperatorTok{=}\NormalTok{ CSV.}\FunctionTok{read}\NormalTok{(}\FunctionTok{joinpath}\NormalTok{(}\StringTok{"data"}\NormalTok{, }\StringTok{"HadCRUT5.1Analysis\_gl.txt"}\NormalTok{), DataFrame, delim}\OperatorTok{=}\StringTok{" "}\NormalTok{, ignorerepeated}\OperatorTok{=}\ConstantTok{true}\NormalTok{, header}\OperatorTok{=}\ConstantTok{false}\NormalTok{) }\hspace*{\fill}\NormalTok{\circled{1}}
+\NormalTok{temp\_dat }\OperatorTok{=}\NormalTok{ temp\_dat[}\FloatTok{1}\OperatorTok{:}\FloatTok{2}\OperatorTok{:}\FunctionTok{nrow}\NormalTok{(temp\_dat), [}\FloatTok{1}\NormalTok{, }\FloatTok{4}\NormalTok{]] }\hspace*{\fill}\NormalTok{\circled{2}}
+\FunctionTok{rename!}\NormalTok{(temp\_dat, [}\StringTok{"Year"}\NormalTok{, }\StringTok{"March"}\NormalTok{])}
+
+\NormalTok{kyoto\_dat }\OperatorTok{=}\NormalTok{ CSV.}\FunctionTok{read}\NormalTok{(}\FunctionTok{joinpath}\NormalTok{(}\StringTok{"data"}\NormalTok{, }\StringTok{"kyoto.csv"}\NormalTok{), DataFrame, missingstring}\OperatorTok{=}\StringTok{"NA"}\NormalTok{)}
+\NormalTok{kyoto\_dat }\OperatorTok{=}\NormalTok{ kyoto\_dat[}\OperatorTok{:}\NormalTok{, }\FloatTok{1}\OperatorTok{:}\FloatTok{2}\NormalTok{]}
+\FunctionTok{rename!}\NormalTok{(kyoto\_dat, [}\OperatorTok{:}\NormalTok{Year, }\OperatorTok{:}\NormalTok{DOY]) }\hspace*{\fill}\NormalTok{\circled{3}}
+
+\NormalTok{dat }\OperatorTok{=} \FunctionTok{innerjoin}\NormalTok{(kyoto\_dat, temp\_dat, on }\OperatorTok{=} \OperatorTok{:}\NormalTok{Year) }\hspace*{\fill}\NormalTok{\circled{4}}
+\NormalTok{dat  }\OperatorTok{=}\NormalTok{ dat[}\FunctionTok{completecases}\NormalTok{(dat), }\OperatorTok{:}\NormalTok{] }\hspace*{\fill}\NormalTok{\circled{5}}
+\FunctionTok{disallowmissing!}\NormalTok{(dat) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{description}
+\tightlist
+\item[\circled{1}]
+The data is space-delimited and the number of spaces between columns
+differs in the temperature (odd) and number of station (even) rows, so
+we use \texttt{ignorerepeated=true} to cause the parser to not interpret
+multiple consecutive spaces as delimiting multiple columns.
+\item[\circled{2}]
+We need to only keep the odd rows (which are the temperatures) and the
+year/March anomaly columns.
+\item[\circled{3}]
+The periods in the column names in \texttt{kyoto.csv} are annoying for
+later \texttt{DataFrame} operations, so we'll just rename the columns to
+get rid of them.
+\item[\circled{4}]
+An \texttt{innerjoin} is a type of database join that merges two
+datasets based on the entries of a common ID column which are present in
+both datasets.
+\item[\circled{5}]
+There are still some years with \texttt{missing} DOYs, so we use
+\texttt{completecases} to remove those and \texttt{disallowmissing!} to
+change the column datatype.
+\end{description}
+
+\begin{verbatim}
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 2. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 4. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 6. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 8. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 10. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 12. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 14. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 16. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 18. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 20. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 22. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 24. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 26. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 28. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 30. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 32. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 34. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 36. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 38. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 40. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 42. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 44. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 46. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 48. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 50. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 52. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 54. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 56. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 58. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 60. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 62. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 64. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 66. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 68. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 70. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 72. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 74. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 76. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 78. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 80. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 82. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 84. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 86. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 88. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 90. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 92. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 94. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 96. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 98. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 100. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 102. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 104. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 106. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 108. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 110. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 112. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 114. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 116. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 118. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 120. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 122. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 124. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 126. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 128. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 130. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 132. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 134. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 136. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 138. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 140. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 142. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 144. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 146. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 148. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 150. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 152. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 154. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 156. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 158. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 160. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 162. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 164. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 166. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 168. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 170. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 172. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 174. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 176. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 178. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 180. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 182. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 184. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 186. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 188. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 190. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 192. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 194. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 196. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 198. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 200. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1 warning: only found 13 / 14 columns around data row: 202. Filling remaining columns with `missing`
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:592
+┌ Warning: thread = 1: too many warnings, silencing any further warnings
+└ @ CSV ~/.julia/packages/CSV/LiiJM/src/file.jl:597
+\end{verbatim}
+
+\begin{tabular}{r|ccc}
+    & Year & DOY & March\\
+    \hline
+    & Int64 & Int64 & Float64\\
+    \hline
+    1 & 1850 & 109 & -0.627 \\
+    2 & 1851 & 102 & -0.641 \\
+    3 & 1852 & 113 & -0.567 \\
+    4 & 1853 & 102 & -0.273 \\
+    5 & 1854 & 102 & -0.247 \\
+    6 & 1855 & 101 & -0.345 \\
+    7 & 1856 & 111 & -0.371 \\
+    8 & 1857 & 108 & -0.488 \\
+    9 & 1858 & 104 & -0.566 \\
+    10 & 1859 & 110 & -0.322 \\
+    11 & 1860 & 113 & -0.789 \\
+    12 & 1861 & 100 & -0.422 \\
+    13 & 1862 & 117 & -0.538 \\
+    14 & 1863 & 118 & -0.414 \\
+    15 & 1864 & 105 & -0.531 \\
+    16 & 1865 & 97 & -0.717 \\
+    17 & 1866 & 102 & -0.748 \\
+    18 & 1867 & 101 & -0.712 \\
+    19 & 1868 & 104 & -0.332 \\
+    20 & 1869 & 105 & -0.651 \\
+    21 & 1870 & 99 & -0.495 \\
+    22 & 1871 & 104 & -0.171 \\
+    23 & 1873 & 104 & -0.39 \\
+    24 & 1874 & 107 & -0.664 \\
+    $\dots$ & $\dots$ & $\dots$ & $\dots$ \\
+\end{tabular}
+
+Now let's fit the model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{function} \FunctionTok{cherry\_loglik}\NormalTok{(p, doy, temp)}
+\NormalTok{    b0, b1, s }\OperatorTok{=}\NormalTok{ p}
+\NormalTok{    m }\OperatorTok{=}\NormalTok{ b0 }\OperatorTok{.+}\NormalTok{ b1 }\OperatorTok{*}\NormalTok{ temp}
+\NormalTok{    ll }\OperatorTok{=} \FunctionTok{sum}\NormalTok{(}\FunctionTok{logpdf}\NormalTok{.(}\FunctionTok{Normal}\NormalTok{.(m, s), doy))}
+    \ControlFlowTok{return}\NormalTok{ ll}
+\KeywordTok{end}
+
+\NormalTok{lb }\OperatorTok{=}\NormalTok{ [}\OperatorTok{{-}}\FloatTok{200}\NormalTok{., }\OperatorTok{{-}}\FloatTok{100}\NormalTok{., }\FloatTok{0.01}\NormalTok{]}
+\NormalTok{ub }\OperatorTok{=}\NormalTok{ [}\FloatTok{200}\NormalTok{., }\FloatTok{100}\NormalTok{., }\FloatTok{10}\NormalTok{.]}
+\NormalTok{p0 }\OperatorTok{=}\NormalTok{ [}\FloatTok{100}\NormalTok{., }\FloatTok{5}\NormalTok{., }\FloatTok{5}\NormalTok{.]}
+\NormalTok{optim\_out }\OperatorTok{=} \FunctionTok{optimize}\NormalTok{(p }\OperatorTok{{-}\textgreater{}} \FunctionTok{{-}cherry\_loglik}\NormalTok{(p, dat.DOY, dat.March), lb, ub, p0)}
+\NormalTok{p\_mle }\OperatorTok{=}\NormalTok{ optim\_out.minimizer}
+\PreprocessorTok{@show}\NormalTok{ p\_mle;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+p_mle = [100.6710269629213, -7.84224390609888, 4.717152358910784]
+\end{verbatim}
+
+This suggests that every degree of increased average March temperature
+makes the cherry blossoms flower around 8 days earlier.
+
+\paragraph{Problem 1.2}\label{problem-1.2}
+
+We can get the log-loss metric directly from the optimization, as the
+negative log-likelihood was the optimization objective.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ll }\OperatorTok{=}\NormalTok{ optim\_out.minimum}
+\PreprocessorTok{@show}\NormalTok{ ll;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ll = 478.19315773357795
+\end{verbatim}
+
+For the mean-square error, we need to compute the predictions.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pred }\OperatorTok{=}\NormalTok{ p\_mle[}\FloatTok{1}\NormalTok{] }\OperatorTok{.+}\NormalTok{ p\_mle[}\FloatTok{2}\NormalTok{] }\OperatorTok{*}\NormalTok{ dat.March}
+\NormalTok{mse }\OperatorTok{=} \FunctionTok{mean}\NormalTok{((pred }\OperatorTok{.{-}}\NormalTok{ dat.DOY)}\OperatorTok{.\^{}}\FloatTok{2}\NormalTok{)}
+\PreprocessorTok{@show}\NormalTok{ mse;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+mse = 22.251526373148707
+\end{verbatim}
+
+\paragraph{Problem 1.3}\label{problem-1.3}
+
+To conduct a 5-fold cross-validation, we need to split the data and then
+repeat the earlier workflow and store the metrics. Since we're modeling
+this using a linear regression, which assumes that the observations are
+independent, we can do an independent split by random partitioning of
+the data rows. Let's write a function to do this.
+
+\phantomsection\label{annotated-cell-7}%
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{function} \FunctionTok{cherry\_cv}\NormalTok{(dat, nfolds }\OperatorTok{=} \FloatTok{5}\NormalTok{)}
+    \CommentTok{\# split the data}
+\NormalTok{    labels }\OperatorTok{=} \FunctionTok{repeat}\NormalTok{(}\FloatTok{1}\OperatorTok{:}\NormalTok{nfolds, outer }\OperatorTok{=} \FunctionTok{Int}\NormalTok{(}\FunctionTok{floor}\NormalTok{(}\FunctionTok{nrow}\NormalTok{(dat) }\OperatorTok{/}\NormalTok{ nfolds))) }\hspace*{\fill}\NormalTok{\circled{1}}
+\NormalTok{    labels }\OperatorTok{=}\NormalTok{ [labels; }\FloatTok{1}\NormalTok{] }
+\NormalTok{    fold\_labels }\OperatorTok{=} \FunctionTok{shuffle}\NormalTok{(labels) }\CommentTok{\# randomly permite the labels}
+    \CommentTok{\# create storage for error metrics}
+\NormalTok{    cv\_ll }\OperatorTok{=} \FunctionTok{zeros}\NormalTok{(nfolds)}
+\NormalTok{    cv\_mse }\OperatorTok{=} \FunctionTok{zeros}\NormalTok{(nfolds)}
+    \CommentTok{\# set optimization parameters}
+\NormalTok{    lb }\OperatorTok{=}\NormalTok{ [}\OperatorTok{{-}}\FloatTok{200}\NormalTok{., }\OperatorTok{{-}}\FloatTok{100}\NormalTok{., }\FloatTok{0.01}\NormalTok{]}
+\NormalTok{    ub }\OperatorTok{=}\NormalTok{ [}\FloatTok{200}\NormalTok{., }\FloatTok{100}\NormalTok{., }\FloatTok{10}\NormalTok{.]}
+\NormalTok{    p0 }\OperatorTok{=}\NormalTok{ [}\FloatTok{100}\NormalTok{., }\FloatTok{5}\NormalTok{., }\FloatTok{5}\NormalTok{.]}
+    \ControlFlowTok{for}\NormalTok{ fold }\KeywordTok{in} \FloatTok{1}\OperatorTok{:}\NormalTok{nfolds}
+\NormalTok{        test\_idx }\OperatorTok{=} \FunctionTok{findall}\NormalTok{(fold\_labels }\OperatorTok{.==}\NormalTok{ fold)}
+\NormalTok{        train\_idx }\OperatorTok{=} \FunctionTok{setdiff}\NormalTok{(}\FloatTok{1}\OperatorTok{:}\FunctionTok{nrow}\NormalTok{(dat), test\_idx)}
+        \CommentTok{\# fit model to the fold}
+\NormalTok{        optim\_out }\OperatorTok{=} \FunctionTok{optimize}\NormalTok{(p }\OperatorTok{{-}\textgreater{}} \FunctionTok{{-}cherry\_loglik}\NormalTok{(p, dat[train\_idx, }\OperatorTok{:}\NormalTok{DOY], dat[train\_idx, }\OperatorTok{:}\NormalTok{March]), lb, ub, p0)}
+\NormalTok{        p\_mle }\OperatorTok{=}\NormalTok{ optim\_out.minimizer}
+\NormalTok{        pred }\OperatorTok{=}\NormalTok{ p\_mle[}\FloatTok{1}\NormalTok{] }\OperatorTok{.+}\NormalTok{ p\_mle[}\FloatTok{2}\NormalTok{] }\OperatorTok{*}\NormalTok{ dat[test\_idx, }\OperatorTok{:}\NormalTok{March]}
+\NormalTok{        cv\_ll[fold] }\OperatorTok{=} \FunctionTok{{-}mean}\NormalTok{(}\FunctionTok{logpdf}\NormalTok{.(}\FunctionTok{Normal}\NormalTok{.(pred, p\_mle[}\FloatTok{3}\NormalTok{]), dat[test\_idx, }\OperatorTok{:}\NormalTok{DOY])) }\hspace*{\fill}\NormalTok{\circled{2}}
+\NormalTok{        cv\_mse[fold] }\OperatorTok{=} \FunctionTok{mean}\NormalTok{((pred }\OperatorTok{.{-}}\NormalTok{ dat[test\_idx, }\OperatorTok{:}\NormalTok{DOY])}\OperatorTok{.\^{}}\FloatTok{2}\NormalTok{)}
+    \ControlFlowTok{end}
+    \ControlFlowTok{return}\NormalTok{ cv\_ll, cv\_mse}
+\KeywordTok{end}
+\NormalTok{cv\_ll, cv\_mse }\OperatorTok{=} \FunctionTok{cherry\_cv}\NormalTok{(dat, }\FloatTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{description}
+\tightlist
+\item[\circled{1}]
+The number of data points is not divisible evenly by 5, so we just
+create as close to an even set of splits as we can and then add the last
+data point to one of the remaining folds (in this case the first one).
+\item[\circled{2}]
+We get the mean log score here because the number of data points differs
+between the CV folds and the full-data.
+\end{description}
+
+\begin{verbatim}
+([3.0150202460994526, 3.0283992864632503, 2.8857968018404456, 3.0286095541526157, 2.9459127505005456], [24.20962065059353, 24.765915255574352, 18.289382346763833, 24.772091567081112, 21.155985453526426])
+\end{verbatim}
+
+Now let's compare to the total-data/in-sample tests.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\PreprocessorTok{@show}\NormalTok{ ll }\OperatorTok{/} \FunctionTok{nrow}\NormalTok{(dat);}
+\PreprocessorTok{@show} \FunctionTok{mean}\NormalTok{(cv\_ll);}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ll / nrow(dat) = 2.9701438368545214
+mean(cv_ll) = 2.980747727811262
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\PreprocessorTok{@show}\NormalTok{ mse;}
+\PreprocessorTok{@show} \FunctionTok{mean}\NormalTok{(cv\_mse);}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+mse = 22.251526373148707
+mean(cv_mse) = 22.63859905470785
+\end{verbatim}
+
+We can see that in general, the model's in-sample performance is not too
+different than its average CV performance, suggesting that there is no
+systematic overfitting occurring.
+
+\paragraph{Problem 1.4}\label{problem-1.4}
+
+Since there is no evidence of overfitting from the cross-validation
+test, we might conclude that the model generalizes well.
+
+\subsubsection{Problem 2}\label{problem-2}
+
+\paragraph{Problem 2.1}\label{problem-2.1}
+
+Loading and plotting the deaths data from \texttt{data/chicago.csv}:
+
+\begin{figure}
+
+\centering{
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{chicago\_dat }\OperatorTok{=}\NormalTok{ CSV.}\FunctionTok{read}\NormalTok{(}\FunctionTok{joinpath}\NormalTok{(}\StringTok{"data"}\NormalTok{, }\StringTok{"chicago.csv"}\NormalTok{), DataFrame, delim}\OperatorTok{=}\StringTok{","}\NormalTok{, missingstring}\OperatorTok{=}\StringTok{"NA"}\NormalTok{, header}\OperatorTok{=}\ConstantTok{true}\NormalTok{)}
+\NormalTok{day\_zero }\OperatorTok{=} \FunctionTok{Date}\NormalTok{(}\StringTok{"1993{-}12{-}31"}\NormalTok{)}
+\NormalTok{chicago\_dat.}\DataTypeTok{Date} \OperatorTok{=}\NormalTok{ day\_zero }\OperatorTok{.+} \FunctionTok{Day}\NormalTok{.(chicago\_dat.time }\OperatorTok{.+} \FloatTok{0.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Highlighting}
+\textcolor{black}{UndefVarError: UndefVarError(:Date, Main.Notebook)}
+\textcolor{black}{UndefVarError: `Date` not defined in `Main.Notebook`}
+\textcolor{black}{Suggestion: check for spelling errors or missing imports.}
+\textcolor{black}{Hint: a global variable of this name may be made accessible by importing Dates in the current active module Main}
+\textcolor{black}{Stacktrace:}
+\textcolor{black}{ [1] top-level scope}
+\textcolor{black}{}\textcolor{QuartoInternalColor1}{   @}\textcolor{QuartoInternalColor1}{ }\textcolor{QuartoInternalColor1}{\textasciitilde{}/Teaching/BEE4850/solutions/hw04/}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{hw04.qmd:216}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{}
+\end{Highlighting}
+
+}
+
+\caption{\label{fig-death-data}}
+
+\end{figure}%
+
+To ensure that we use the same observations for the purposes of model
+comparison, let's remove the cases corresponding to missing PM2.5 data.
+
+\begin{figure}
+
+\centering{
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{chicago\_dat }\OperatorTok{=}\NormalTok{ chicago\_dat[.!(ismissing).(chicago\_dat.pm25median), }\OperatorTok{:}\NormalTok{]}
+
+\NormalTok{p\_deaths }\OperatorTok{=} \FunctionTok{plot}\NormalTok{(chicago\_dat.}\DataTypeTok{Date}\NormalTok{, chicago\_dat.death, lw}\OperatorTok{=}\FloatTok{2}\NormalTok{, xlabel}\OperatorTok{=}\StringTok{"Date"}\NormalTok{, ylabel}\OperatorTok{=}\StringTok{"Non{-}Accidental Deaths)"}\NormalTok{, label}\OperatorTok{=}\StringTok{"Data"}\NormalTok{, color}\OperatorTok{=:}\NormalTok{gray)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Highlighting}
+\textcolor{black}{ArgumentError: ArgumentError("column name \textbackslash{}"Date\textbackslash{}" not found in the data frame; existing most similar names are: \textbackslash{}"death\textbackslash{}"")}
+\textcolor{black}{ArgumentError: column name "Date" not found in the data frame; existing most similar names are: "death"}
+\textcolor{black}{Stacktrace:}
+\textcolor{black}{ [1] }\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{lookupname}\textcolor{QuartoInternalColor1}{}
+\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{   @}\textcolor{QuartoInternalColor1}{ }\textcolor{QuartoInternalColor1}{\textasciitilde{}/.julia/packages/DataFrames/b4w9K/src/other/}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{index.jl:434}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{ [inlined]}\textcolor{QuartoInternalColor1}{}
+\textcolor{QuartoInternalColor1}{ [2] }\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{getindex}\textcolor{QuartoInternalColor1}{}
+\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{   @}\textcolor{QuartoInternalColor1}{ }\textcolor{QuartoInternalColor1}{\textasciitilde{}/.julia/packages/DataFrames/b4w9K/src/other/}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{index.jl:440}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{ [inlined]}\textcolor{QuartoInternalColor1}{}
+\textcolor{QuartoInternalColor1}{ [3] }\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{getindex}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{(}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{df}\textcolor{QuartoInternalColor1}{::}\textcolor{QuartoInternalColor1}{DataFrame, ::}\textcolor{QuartoInternalColor1}{typeof(!), }\textcolor{QuartoInternalColor1}{col\_ind}\textcolor{QuartoInternalColor1}{::}\textcolor{QuartoInternalColor1}{Symbol}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{)}\textcolor{QuartoInternalColor1}{}
+\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{   @}\textcolor{QuartoInternalColor1}{ }\textcolor{QuartoInternalColor2}{DataFrames}\textcolor{QuartoInternalColor1}{ }\textcolor{QuartoInternalColor1}{\textasciitilde{}/.julia/packages/DataFrames/b4w9K/src/dataframe/}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{dataframe.jl:557}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{}
+\textcolor{QuartoInternalColor1}{ [4] }\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{getproperty}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{(}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{df}\textcolor{QuartoInternalColor1}{::}\textcolor{QuartoInternalColor1}{DataFrame, }\textcolor{QuartoInternalColor1}{col\_ind}\textcolor{QuartoInternalColor1}{::}\textcolor{QuartoInternalColor1}{Symbol}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{)}\textcolor{QuartoInternalColor1}{}
+\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{   @}\textcolor{QuartoInternalColor1}{ }\textcolor{QuartoInternalColor2}{DataFrames}\textcolor{QuartoInternalColor1}{ }\textcolor{QuartoInternalColor1}{\textasciitilde{}/.julia/packages/DataFrames/b4w9K/src/abstractdataframe/}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{abstractdataframe.jl:448}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{}
+\textcolor{QuartoInternalColor1}{ [5] top-level scope}
+\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{   @}\textcolor{QuartoInternalColor1}{ }\textcolor{QuartoInternalColor1}{\textasciitilde{}/Teaching/BEE4850/solutions/hw04/}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{hw04.qmd:231}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{}
+\end{Highlighting}
+
+}
+
+\caption{\label{fig-death-data-obs}}
+
+\end{figure}%
+
+We could fit the regression models in a few different ways (in Julia, we
+could also use the \texttt{GLM.jl} package), but for consistency's sake
+we'll do this with numerical optimization. First, let's fit a model for
+the impact of time.
+
+\phantomsection\label{annotated-cell-12}%
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# general log{-}likelihood function for a linear regression with covariate x}
+\KeywordTok{function} \FunctionTok{timereg\_loglik}\NormalTok{(p, y, t)}
+\NormalTok{    μ₀, μ₁, σ }\OperatorTok{=}\NormalTok{ p}
+\NormalTok{    μ }\OperatorTok{=}\NormalTok{ μ₀ }\OperatorTok{.+}\NormalTok{ μ₁ }\OperatorTok{*}\NormalTok{ t}
+\NormalTok{    ll }\OperatorTok{=} \FunctionTok{sum}\NormalTok{(}\FunctionTok{logpdf}\NormalTok{.(}\FunctionTok{Normal}\NormalTok{.(μ, σ), y))}
+    \ControlFlowTok{return}\NormalTok{ ll}
+\KeywordTok{end}
+
+\NormalTok{lb }\OperatorTok{=}\NormalTok{ [}\FloatTok{0.0}\NormalTok{, }\OperatorTok{{-}}\FloatTok{100.0}\NormalTok{, }\FloatTok{0.1}\NormalTok{]}
+\NormalTok{ub }\OperatorTok{=}\NormalTok{ [}\FloatTok{200.0}\NormalTok{, }\FloatTok{100.0}\NormalTok{, }\FloatTok{20.0}\NormalTok{]}
+\NormalTok{x₀ }\OperatorTok{=}\NormalTok{ [}\FloatTok{100.0}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{5.0}\NormalTok{]}
+
+\NormalTok{optim\_out }\OperatorTok{=}\NormalTok{ Optim.}\FunctionTok{optimize}\NormalTok{(p }\OperatorTok{{-}\textgreater{}} \FunctionTok{{-}timereg\_loglik}\NormalTok{(p, chicago\_dat.death, chicago\_dat.time), lb, ub, x₀)}
+\NormalTok{ll\_time }\OperatorTok{=} \OperatorTok{{-}}\NormalTok{optim\_out.minimum }\hspace*{\fill}\NormalTok{\circled{1}}
+\NormalTok{θ\_time }\OperatorTok{=}\NormalTok{ optim\_out.minimizer}
+\PreprocessorTok{@show} \FunctionTok{round}\NormalTok{.(θ\_time; digits}\OperatorTok{=}\FloatTok{1}\NormalTok{);}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{description}
+\tightlist
+\item[\circled{1}]
+Since we minimized the \emph{negative} log-likelihood, to get the
+log-likelihood we need to take the negative of the minimum value again.
+\end{description}
+
+\begin{verbatim}
+round.(θ_time; digits = 1) = [101.7, 0.0, 14.1]
+\end{verbatim}
+
+Plotting this regression over the data:
+
+\begin{figure}
+
+\centering{
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot!}\NormalTok{(p\_deaths, chicago\_dat.}\DataTypeTok{Date}\NormalTok{, θ\_time[}\FloatTok{1}\NormalTok{] }\OperatorTok{.+}\NormalTok{ θ\_time[}\FloatTok{2}\NormalTok{] }\OperatorTok{*}\NormalTok{ chicago\_dat.time, lw}\OperatorTok{=}\FloatTok{2}\NormalTok{, linestyle}\OperatorTok{=:}\NormalTok{dash, color}\OperatorTok{=:}\NormalTok{red, label}\OperatorTok{=}\StringTok{"Time Regression"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Highlighting}
+\textcolor{black}{UndefVarError: UndefVarError(:p\_deaths, Main.Notebook)}
+\textcolor{black}{UndefVarError: `p\_deaths` not defined in `Main.Notebook`}
+\textcolor{black}{Suggestion: check for spelling errors or missing imports.}
+\textcolor{black}{Stacktrace:}
+\textcolor{black}{ [1] top-level scope}
+\textcolor{black}{}\textcolor{QuartoInternalColor1}{   @}\textcolor{QuartoInternalColor1}{ }\textcolor{QuartoInternalColor1}{\textasciitilde{}/Teaching/BEE4850/solutions/hw04/}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{hw04.qmd:268}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{}
+\end{Highlighting}
+
+}
+
+\caption{\label{fig-time-regression}}
+
+\end{figure}%
+
+We can see that even though the time coefficient is close to zero,
+suggesting a minimal time-dependent trend, over the course of the
+dataset there is a slight increase over this time (seen in
+Figure~\ref{fig-time-regression}).
+
+\paragraph{Problem 2.2}\label{problem-2.2}
+
+Now let's look at the impact of temperature.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# general log{-}likelihood function for a linear regression with covariate x}
+\KeywordTok{function} \FunctionTok{tempreg\_loglik}\NormalTok{(p, y, temp)}
+\NormalTok{    μ₀, μ₁, σ }\OperatorTok{=}\NormalTok{ p}
+\NormalTok{    μ }\OperatorTok{=}\NormalTok{ μ₀ }\OperatorTok{.+}\NormalTok{ μ₁ }\OperatorTok{*}\NormalTok{ temp}
+\NormalTok{    ll }\OperatorTok{=} \FunctionTok{sum}\NormalTok{(}\FunctionTok{logpdf}\NormalTok{.(}\FunctionTok{Normal}\NormalTok{.(μ, σ), y))}
+    \ControlFlowTok{return}\NormalTok{ ll}
+\KeywordTok{end}
+
+\NormalTok{lb }\OperatorTok{=}\NormalTok{ [}\FloatTok{0.0}\NormalTok{, }\OperatorTok{{-}}\FloatTok{100.0}\NormalTok{, }\FloatTok{0.1}\NormalTok{]}
+\NormalTok{ub }\OperatorTok{=}\NormalTok{ [}\FloatTok{200.0}\NormalTok{, }\FloatTok{100.0}\NormalTok{, }\FloatTok{20.0}\NormalTok{]}
+\NormalTok{x₀ }\OperatorTok{=}\NormalTok{ [}\FloatTok{100.0}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{5.0}\NormalTok{]}
+
+\NormalTok{optim\_out }\OperatorTok{=}\NormalTok{ Optim.}\FunctionTok{optimize}\NormalTok{(p }\OperatorTok{{-}\textgreater{}} \FunctionTok{{-}tempreg\_loglik}\NormalTok{(p, chicago\_dat.death, chicago\_dat.tmpd), lb, ub, x₀)}
+\NormalTok{ll\_temp }\OperatorTok{=} \OperatorTok{{-}}\NormalTok{optim\_out.minimum}
+\NormalTok{θ\_temp }\OperatorTok{=}\NormalTok{ optim\_out.minimizer}
+\PreprocessorTok{@show} \FunctionTok{round}\NormalTok{.(θ\_temp; digits}\OperatorTok{=}\FloatTok{1}\NormalTok{);}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+round.(θ_temp; digits = 1) = [129.2, -0.4, 12.4]
+\end{verbatim}
+
+Adding this regression line to the plot:
+
+\begin{figure}
+
+\centering{
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot!}\NormalTok{(p\_deaths, chicago\_dat.}\DataTypeTok{Date}\NormalTok{, θ\_temp[}\FloatTok{1}\NormalTok{] }\OperatorTok{.+}\NormalTok{ θ\_temp[}\FloatTok{2}\NormalTok{] }\OperatorTok{*}\NormalTok{ chicago\_dat.tmpd, lw}\OperatorTok{=}\FloatTok{2}\NormalTok{, linestyle}\OperatorTok{=:}\NormalTok{dash, color}\OperatorTok{=:}\NormalTok{blue, label}\OperatorTok{=}\StringTok{"Temperature Regression"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Highlighting}
+\textcolor{black}{UndefVarError: UndefVarError(:p\_deaths, Main.Notebook)}
+\textcolor{black}{UndefVarError: `p\_deaths` not defined in `Main.Notebook`}
+\textcolor{black}{Suggestion: check for spelling errors or missing imports.}
+\textcolor{black}{Stacktrace:}
+\textcolor{black}{ [1] top-level scope}
+\textcolor{black}{}\textcolor{QuartoInternalColor1}{   @}\textcolor{QuartoInternalColor1}{ }\textcolor{QuartoInternalColor1}{\textasciitilde{}/Teaching/BEE4850/solutions/hw04/}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{hw04.qmd:308}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{}
+\end{Highlighting}
+
+}
+
+\caption{\label{fig-temp-regression}}
+
+\end{figure}%
+
+Figure~\ref{fig-temp-regression} shows that the temperature regression
+results in some oscillations due to the seasonal impact of temperature,
+which visually appear to align with the oscillations in the deaths data.
+
+\paragraph{Problem 2.3}\label{problem-2.3}
+
+Our last model adds PM2.5 concentrations to the previous temperature
+regression. Here we need to drop the entries corresponding to missing
+data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# general log{-}likelihood function for a linear regression with covariate x}
+\KeywordTok{function} \FunctionTok{multireg\_loglik}\NormalTok{(p, y, temp, pm25)}
+\NormalTok{    μ₀, μ₁, μ₂, σ }\OperatorTok{=}\NormalTok{ p}
+\NormalTok{    μ }\OperatorTok{=}\NormalTok{ μ₀ }\OperatorTok{.+}\NormalTok{ μ₁ }\OperatorTok{*}\NormalTok{ temp }\OperatorTok{.+}\NormalTok{ μ₂ }\OperatorTok{*}\NormalTok{ pm25}
+\NormalTok{    ll }\OperatorTok{=} \FunctionTok{sum}\NormalTok{(}\FunctionTok{logpdf}\NormalTok{.(}\FunctionTok{Normal}\NormalTok{.(μ, σ), y))}
+    \ControlFlowTok{return}\NormalTok{ ll}
+\KeywordTok{end}
+
+\NormalTok{lb }\OperatorTok{=}\NormalTok{ [}\FloatTok{0.0}\NormalTok{, }\OperatorTok{{-}}\FloatTok{100.0}\NormalTok{, }\OperatorTok{{-}}\FloatTok{100.0}\NormalTok{, }\FloatTok{0.1}\NormalTok{]}
+\NormalTok{ub }\OperatorTok{=}\NormalTok{ [}\FloatTok{200.0}\NormalTok{, }\FloatTok{100.0}\NormalTok{, }\FloatTok{100.0}\NormalTok{, }\FloatTok{20.0}\NormalTok{]}
+\NormalTok{x₀ }\OperatorTok{=}\NormalTok{ [}\FloatTok{100.0}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{5.0}\NormalTok{]}
+
+\NormalTok{optim\_out }\OperatorTok{=}\NormalTok{ Optim.}\FunctionTok{optimize}\NormalTok{(p }\OperatorTok{{-}\textgreater{}} \FunctionTok{{-}multireg\_loglik}\NormalTok{(p, chicago\_dat.death, chicago\_dat.tmpd, chicago\_dat.pm25median), lb, ub, x₀)}
+\NormalTok{ll\_multi }\OperatorTok{=} \OperatorTok{{-}}\NormalTok{optim\_out.minimum}
+\NormalTok{θ\_multi }\OperatorTok{=}\NormalTok{ optim\_out.minimizer}
+\PreprocessorTok{@show} \FunctionTok{round}\NormalTok{.(θ\_multi; digits}\OperatorTok{=}\FloatTok{1}\NormalTok{);}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+round.(θ_multi; digits = 1) = [129.3, -0.4, 0.2, 12.3]
+\end{verbatim}
+
+We add this regression to the plot:
+
+\begin{figure}
+
+\centering{
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot!}\NormalTok{(p\_deaths, chicago\_dat.}\DataTypeTok{Date}\NormalTok{, θ\_multi[}\FloatTok{1}\NormalTok{] }\OperatorTok{.+}\NormalTok{ θ\_multi[}\FloatTok{2}\NormalTok{] }\OperatorTok{*}\NormalTok{ chicago\_dat.tmpd }\OperatorTok{.+}\NormalTok{ θ\_multi[}\FloatTok{3}\NormalTok{] }\OperatorTok{*}\NormalTok{ chicago\_dat.pm25median, lw}\OperatorTok{=}\FloatTok{2}\NormalTok{, linestyle}\OperatorTok{=:}\NormalTok{dash, color}\OperatorTok{=:}\NormalTok{violet, label}\OperatorTok{=}\StringTok{"Temperature and PM2.5 Regression"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Highlighting}
+\textcolor{black}{UndefVarError: UndefVarError(:p\_deaths, Main.Notebook)}
+\textcolor{black}{UndefVarError: `p\_deaths` not defined in `Main.Notebook`}
+\textcolor{black}{Suggestion: check for spelling errors or missing imports.}
+\textcolor{black}{Stacktrace:}
+\textcolor{black}{ [1] top-level scope}
+\textcolor{black}{}\textcolor{QuartoInternalColor1}{   @}\textcolor{QuartoInternalColor1}{ }\textcolor{QuartoInternalColor1}{\textasciitilde{}/Teaching/BEE4850/solutions/hw04/}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{hw04.qmd:347}\textcolor{QuartoInternalColor1}{}\textcolor{QuartoInternalColor1}{}
+\end{Highlighting}
+
+}
+
+\caption{\label{fig-multi-regression}}
+
+\end{figure}%
+
+\paragraph{Problem 2.4}\label{problem-2.4}
+
+Now we want to conduct a 5-fold cross-validation to compare each model's
+performance. As set up, we don't need to account for any particular
+structure, as we aren't accounting for any underlying seasonal effects
+that aren't captured by the covariates.
+
+We will write a function to conduct these for each of our models.
+
+\phantomsection\label{annotated-cell-18}%
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{function} \FunctionTok{time\_cv}\NormalTok{(dat, nfolds}\OperatorTok{=}\FloatTok{5}\NormalTok{)}
+    \CommentTok{\# split the data}
+\NormalTok{    labels }\OperatorTok{=} \FunctionTok{repeat}\NormalTok{(}\FloatTok{1}\OperatorTok{:}\NormalTok{nfolds, outer }\OperatorTok{=} \FunctionTok{Int}\NormalTok{(}\FunctionTok{floor}\NormalTok{(}\FunctionTok{nrow}\NormalTok{(dat) }\OperatorTok{/}\NormalTok{ nfolds))) }\hspace*{\fill}\NormalTok{\circled{1}}
+\NormalTok{    labels }\OperatorTok{=}\NormalTok{ [labels; }\FloatTok{1}\NormalTok{; }\FloatTok{2}\NormalTok{] }
+\NormalTok{    fold\_labels }\OperatorTok{=} \FunctionTok{shuffle}\NormalTok{(labels) }\CommentTok{\# randomly permite the labels}
+    \CommentTok{\# create storage for error metrics}
+\NormalTok{    cv\_ll }\OperatorTok{=} \FunctionTok{zeros}\NormalTok{(nfolds)}
+\NormalTok{    cv\_mse }\OperatorTok{=} \FunctionTok{zeros}\NormalTok{(nfolds)}
+    \CommentTok{\# set optimization parameters}
+\NormalTok{    lb }\OperatorTok{=}\NormalTok{ [}\FloatTok{0.0}\NormalTok{, }\OperatorTok{{-}}\FloatTok{100.0}\NormalTok{, }\FloatTok{0.1}\NormalTok{]}
+\NormalTok{    ub }\OperatorTok{=}\NormalTok{ [}\FloatTok{200.0}\NormalTok{, }\FloatTok{100.0}\NormalTok{, }\FloatTok{20.0}\NormalTok{]}
+\NormalTok{    p0 }\OperatorTok{=}\NormalTok{ [}\FloatTok{100.0}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{5.0}\NormalTok{]}
+    \ControlFlowTok{for}\NormalTok{ fold }\KeywordTok{in} \FloatTok{1}\OperatorTok{:}\NormalTok{nfolds}
+\NormalTok{        test\_idx }\OperatorTok{=} \FunctionTok{findall}\NormalTok{(fold\_labels }\OperatorTok{.==}\NormalTok{ fold)}
+\NormalTok{        train\_idx }\OperatorTok{=} \FunctionTok{setdiff}\NormalTok{(}\FloatTok{1}\OperatorTok{:}\FunctionTok{nrow}\NormalTok{(dat), test\_idx)}
+        \CommentTok{\# fit model to the fold}
+\NormalTok{        optim\_out }\OperatorTok{=} \FunctionTok{optimize}\NormalTok{(p }\OperatorTok{{-}\textgreater{}} \FunctionTok{{-}timereg\_loglik}\NormalTok{(p, dat[train\_idx, }\OperatorTok{:}\NormalTok{death], dat[train\_idx, }\OperatorTok{:}\NormalTok{time]), lb, ub, p0)}
+\NormalTok{        p\_mle }\OperatorTok{=}\NormalTok{ optim\_out.minimizer}
+\NormalTok{        pred }\OperatorTok{=}\NormalTok{ p\_mle[}\FloatTok{1}\NormalTok{] }\OperatorTok{.+}\NormalTok{ p\_mle[}\FloatTok{2}\NormalTok{] }\OperatorTok{*}\NormalTok{ dat[test\_idx, }\OperatorTok{:}\NormalTok{time]}
+\NormalTok{        cv\_ll[fold] }\OperatorTok{=} \FunctionTok{{-}mean}\NormalTok{(}\FunctionTok{logpdf}\NormalTok{.(}\FunctionTok{Normal}\NormalTok{.(pred, p\_mle[}\FloatTok{3}\NormalTok{]), dat[test\_idx, }\OperatorTok{:}\NormalTok{death])) }\hspace*{\fill}\NormalTok{\circled{2}}
+\NormalTok{        cv\_mse[fold] }\OperatorTok{=} \FunctionTok{mean}\NormalTok{((pred }\OperatorTok{.{-}}\NormalTok{ dat[test\_idx, }\OperatorTok{:}\NormalTok{death])}\OperatorTok{.\^{}}\FloatTok{2}\NormalTok{)}
+    \ControlFlowTok{end}
+    \ControlFlowTok{return}\NormalTok{ cv\_ll, cv\_mse}
+\KeywordTok{end}
+
+\KeywordTok{function} \FunctionTok{temp\_cv}\NormalTok{(dat, nfolds}\OperatorTok{=}\FloatTok{5}\NormalTok{)}
+    \CommentTok{\# split the data}
+\NormalTok{    labels }\OperatorTok{=} \FunctionTok{repeat}\NormalTok{(}\FloatTok{1}\OperatorTok{:}\NormalTok{nfolds, outer }\OperatorTok{=} \FunctionTok{Int}\NormalTok{(}\FunctionTok{floor}\NormalTok{(}\FunctionTok{nrow}\NormalTok{(dat) }\OperatorTok{/}\NormalTok{ nfolds))) }\hspace*{\fill}\NormalTok{\circled{1}}
+\NormalTok{    labels }\OperatorTok{=}\NormalTok{ [labels; }\FloatTok{1}\NormalTok{; }\FloatTok{2}\NormalTok{] }
+\NormalTok{    fold\_labels }\OperatorTok{=} \FunctionTok{shuffle}\NormalTok{(labels) }\CommentTok{\# randomly permite the labels}
+    \CommentTok{\# create storage for error metrics}
+\NormalTok{    cv\_ll }\OperatorTok{=} \FunctionTok{zeros}\NormalTok{(nfolds)}
+\NormalTok{    cv\_mse }\OperatorTok{=} \FunctionTok{zeros}\NormalTok{(nfolds)}
+    \CommentTok{\# set optimization parameters}
+\NormalTok{    lb }\OperatorTok{=}\NormalTok{ [}\FloatTok{0.0}\NormalTok{, }\OperatorTok{{-}}\FloatTok{100.0}\NormalTok{, }\FloatTok{0.1}\NormalTok{]}
+\NormalTok{    ub }\OperatorTok{=}\NormalTok{ [}\FloatTok{200.0}\NormalTok{, }\FloatTok{100.0}\NormalTok{, }\FloatTok{20.0}\NormalTok{]}
+\NormalTok{    p0 }\OperatorTok{=}\NormalTok{ [}\FloatTok{100.0}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{5.0}\NormalTok{]}
+    \ControlFlowTok{for}\NormalTok{ fold }\KeywordTok{in} \FloatTok{1}\OperatorTok{:}\NormalTok{nfolds}
+\NormalTok{        test\_idx }\OperatorTok{=} \FunctionTok{findall}\NormalTok{(fold\_labels }\OperatorTok{.==}\NormalTok{ fold)}
+\NormalTok{        train\_idx }\OperatorTok{=} \FunctionTok{setdiff}\NormalTok{(}\FloatTok{1}\OperatorTok{:}\FunctionTok{nrow}\NormalTok{(dat), test\_idx)}
+        \CommentTok{\# fit model to the fold}
+\NormalTok{        optim\_out }\OperatorTok{=} \FunctionTok{optimize}\NormalTok{(p }\OperatorTok{{-}\textgreater{}} \FunctionTok{{-}tempreg\_loglik}\NormalTok{(p, dat[train\_idx, }\OperatorTok{:}\NormalTok{death], dat[train\_idx, }\OperatorTok{:}\NormalTok{tmpd]), lb, ub, p0)}
+\NormalTok{        p\_mle }\OperatorTok{=}\NormalTok{ optim\_out.minimizer}
+\NormalTok{        pred }\OperatorTok{=}\NormalTok{ p\_mle[}\FloatTok{1}\NormalTok{] }\OperatorTok{.+}\NormalTok{ p\_mle[}\FloatTok{2}\NormalTok{] }\OperatorTok{*}\NormalTok{ dat[test\_idx, }\OperatorTok{:}\NormalTok{tmpd]}
+\NormalTok{        cv\_ll[fold] }\OperatorTok{=} \FunctionTok{{-}mean}\NormalTok{(}\FunctionTok{logpdf}\NormalTok{.(}\FunctionTok{Normal}\NormalTok{.(pred, p\_mle[}\FloatTok{3}\NormalTok{]), dat[test\_idx, }\OperatorTok{:}\NormalTok{death])) }\hspace*{\fill}\NormalTok{\circled{2}}
+\NormalTok{        cv\_mse[fold] }\OperatorTok{=} \FunctionTok{mean}\NormalTok{((pred }\OperatorTok{.{-}}\NormalTok{ dat[test\_idx, }\OperatorTok{:}\NormalTok{death])}\OperatorTok{.\^{}}\FloatTok{2}\NormalTok{)}
+    \ControlFlowTok{end}
+    \ControlFlowTok{return}\NormalTok{ cv\_ll, cv\_mse}
+\KeywordTok{end}
+
+\KeywordTok{function} \FunctionTok{temp\_pm\_cv}\NormalTok{(dat, nfolds}\OperatorTok{=}\FloatTok{5}\NormalTok{)}
+    \CommentTok{\# split the data}
+\NormalTok{    labels }\OperatorTok{=} \FunctionTok{repeat}\NormalTok{(}\FloatTok{1}\OperatorTok{:}\NormalTok{nfolds, outer }\OperatorTok{=} \FunctionTok{Int}\NormalTok{(}\FunctionTok{floor}\NormalTok{(}\FunctionTok{nrow}\NormalTok{(dat) }\OperatorTok{/}\NormalTok{ nfolds))) }\hspace*{\fill}\NormalTok{\circled{1}}
+\NormalTok{    labels }\OperatorTok{=}\NormalTok{ [labels; }\FloatTok{1}\NormalTok{; }\FloatTok{2}\NormalTok{] }
+\NormalTok{    fold\_labels }\OperatorTok{=} \FunctionTok{shuffle}\NormalTok{(labels) }\CommentTok{\# randomly permite the labels}
+    \CommentTok{\# create storage for error metrics}
+\NormalTok{    cv\_ll }\OperatorTok{=} \FunctionTok{zeros}\NormalTok{(nfolds)}
+\NormalTok{    cv\_mse }\OperatorTok{=} \FunctionTok{zeros}\NormalTok{(nfolds)}
+    \CommentTok{\# set optimization parameters}
+\NormalTok{    lb }\OperatorTok{=}\NormalTok{ [}\FloatTok{0.0}\NormalTok{, }\OperatorTok{{-}}\FloatTok{100.0}\NormalTok{, }\OperatorTok{{-}}\FloatTok{100.0}\NormalTok{, }\FloatTok{0.1}\NormalTok{]}
+\NormalTok{    ub }\OperatorTok{=}\NormalTok{ [}\FloatTok{200.0}\NormalTok{, }\FloatTok{100.0}\NormalTok{, }\FloatTok{100.0}\NormalTok{, }\FloatTok{20.0}\NormalTok{]}
+\NormalTok{    p0 }\OperatorTok{=}\NormalTok{ [}\FloatTok{100.0}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{5.0}\NormalTok{]}
+
+    \ControlFlowTok{for}\NormalTok{ fold }\KeywordTok{in} \FloatTok{1}\OperatorTok{:}\NormalTok{nfolds}
+\NormalTok{        test\_idx }\OperatorTok{=} \FunctionTok{findall}\NormalTok{(fold\_labels }\OperatorTok{.==}\NormalTok{ fold)}
+\NormalTok{        train\_idx }\OperatorTok{=} \FunctionTok{setdiff}\NormalTok{(}\FloatTok{1}\OperatorTok{:}\FunctionTok{nrow}\NormalTok{(dat), test\_idx)}
+        \CommentTok{\# fit model to the fold}
+\NormalTok{        optim\_out }\OperatorTok{=} \FunctionTok{optimize}\NormalTok{(p }\OperatorTok{{-}\textgreater{}} \FunctionTok{{-}multireg\_loglik}\NormalTok{(p, dat[train\_idx, }\OperatorTok{:}\NormalTok{death], dat[train\_idx, }\OperatorTok{:}\NormalTok{tmpd], dat[train\_idx, }\OperatorTok{:}\NormalTok{pm25median]), lb, ub, p0)}
+\NormalTok{        p\_mle }\OperatorTok{=}\NormalTok{ optim\_out.minimizer}
+\NormalTok{        pred }\OperatorTok{=}\NormalTok{ p\_mle[}\FloatTok{1}\NormalTok{] }\OperatorTok{.+}\NormalTok{ p\_mle[}\FloatTok{2}\NormalTok{] }\OperatorTok{*}\NormalTok{ dat[test\_idx, }\OperatorTok{:}\NormalTok{tmpd] }\OperatorTok{.+}\NormalTok{ p\_mle[}\FloatTok{3}\NormalTok{] }\OperatorTok{*}\NormalTok{ dat[test\_idx, }\OperatorTok{:}\NormalTok{pm25median]}
+\NormalTok{        cv\_ll[fold] }\OperatorTok{=} \FunctionTok{{-}mean}\NormalTok{(}\FunctionTok{logpdf}\NormalTok{.(}\FunctionTok{Normal}\NormalTok{.(pred, p\_mle[}\FloatTok{4}\NormalTok{]), dat[test\_idx, }\OperatorTok{:}\NormalTok{death])) }\hspace*{\fill}\NormalTok{\circled{2}}
+\NormalTok{        cv\_mse[fold] }\OperatorTok{=} \FunctionTok{mean}\NormalTok{((pred }\OperatorTok{.{-}}\NormalTok{ dat[test\_idx, }\OperatorTok{:}\NormalTok{death])}\OperatorTok{.\^{}}\FloatTok{2}\NormalTok{)}
+    \ControlFlowTok{end}
+    \ControlFlowTok{return}\NormalTok{ cv\_ll, cv\_mse}
+
+\KeywordTok{end}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+temp_pm_cv (generic function with 2 methods)
+\end{verbatim}
+
+Now let's compare the results for each model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{time\_cv\_ll, time\_cv\_mse }\OperatorTok{=} \FunctionTok{time\_cv}\NormalTok{(chicago\_dat, }\FloatTok{5}\NormalTok{)}
+\NormalTok{temp\_cv\_ll, temp\_cv\_mse }\OperatorTok{=} \FunctionTok{temp\_cv}\NormalTok{(chicago\_dat, }\FloatTok{5}\NormalTok{)}
+\NormalTok{multi\_cv\_ll, multi\_cv\_mse }\OperatorTok{=} \FunctionTok{temp\_pm\_cv}\NormalTok{(chicago\_dat, }\FloatTok{5}\NormalTok{)}
+
+\NormalTok{cv\_models }\OperatorTok{=}\NormalTok{ [}\StringTok{"Time"}\NormalTok{, }\StringTok{"Temperature"}\NormalTok{, }\StringTok{"Temperature + PM 2.5"}\NormalTok{]}
+\NormalTok{cv\_ll\_all }\OperatorTok{=}\NormalTok{ [}\FunctionTok{mean}\NormalTok{(time\_cv\_ll), }\FunctionTok{mean}\NormalTok{(temp\_cv\_ll), }\FunctionTok{mean}\NormalTok{(multi\_cv\_ll)]}
+\NormalTok{cv\_mse\_all }\OperatorTok{=}\NormalTok{ [}\FunctionTok{mean}\NormalTok{(time\_cv\_mse), }\FunctionTok{mean}\NormalTok{(temp\_cv\_mse), }\FunctionTok{mean}\NormalTok{(multi\_cv\_mse)]}
+
+\NormalTok{cv\_results }\OperatorTok{=} \FunctionTok{DataFrame}\NormalTok{(Model}\OperatorTok{=}\NormalTok{cv\_models, LogScore}\OperatorTok{=}\NormalTok{cv\_ll\_all, MSE}\OperatorTok{=}\NormalTok{cv\_mse\_all)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{r|ccc}
+    & Model & LogScore & MSE\\
+    \hline
+    & String & Float64 & Float64\\
+    \hline
+    1 & Time & 4.07372 & 201.236 \\
+    2 & Temperature & 3.94227 & 155.441 \\
+    3 & Temperature + PM 2.5 & 3.93076 & 151.581 \\
+\end{tabular}
+
+By these scores, the temperature + PM 2.5 model scores best for both the
+log score and the MSE, so we might conclude that it would generalize the
+best out-of-sample. The temperature-only model performs similarly, and
+the time model, as we saw in Problem 2.1, does not perform particularly
+well.
+
+\paragraph{Problem 2.5}\label{problem-2.5}
+
+To compute the AIC values we will use the log-likelihoods we computed
+when we fit each model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{aic\_time }\OperatorTok{=} \OperatorTok{{-}}\FloatTok{2} \OperatorTok{*}\NormalTok{ (ll\_time }\OperatorTok{{-}} \FloatTok{3}\NormalTok{)}
+\NormalTok{aic\_temp }\OperatorTok{=} \OperatorTok{{-}}\FloatTok{2} \OperatorTok{*}\NormalTok{ (ll\_temp }\OperatorTok{{-}} \FloatTok{3}\NormalTok{)}
+\NormalTok{aic\_multi }\OperatorTok{=} \OperatorTok{{-}}\FloatTok{2} \OperatorTok{*}\NormalTok{ (ll\_multi }\OperatorTok{{-}} \FloatTok{4}\NormalTok{)}
+\NormalTok{aic\_df }\OperatorTok{=} \FunctionTok{DataFrame}\NormalTok{(Models}\OperatorTok{=}\NormalTok{[}\StringTok{"Time"}\NormalTok{, }\StringTok{"Temperature"}\NormalTok{, }\StringTok{"Temperature and PM2.5"}\NormalTok{], AIC}\OperatorTok{=}\FunctionTok{round}\NormalTok{.([aic\_time, aic\_temp, aic\_multi]; digits}\OperatorTok{=}\FloatTok{0}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{r|cc}
+    & Models & AIC\\
+    \hline
+    & String & Float64\\
+    \hline
+    1 & Time & 5918.0 \\
+    2 & Temperature & 5729.0 \\
+    3 & Temperature and PM2.5 & 5714.0 \\
+\end{tabular}
+
+We can see that the Temperature and PM2.5 model minimizes AIC, and the
+\(\Delta \text{AIC}\) for the temperature-only model is around 15. These
+differences suggest that there is relatively strong evidence for the
+influence of both temperature and PM2.5 compared to a temperature-only
+model, as the predictive skill outweighs the potential overfitting from
+adding the PM2.5 term. This is similar in direction to what we saw from
+the cross-validation as well.
+
+When comparing this quantitative result to the plots, drawing this
+conclusion from Figure~\ref{fig-multi-regression} itself is challenging,
+even if we might be able to squint and see that the fluctuations from
+the PM2.5 model align slightly better with the temperature-only model.
+
+
+
+
+\end{document}

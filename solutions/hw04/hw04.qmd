@@ -1,0 +1,444 @@
+---
+title: "Homework 4 Solutions"
+subtitle: "BEE 4850/5850"
+format:
+    html:        
+        warning: true
+        error: true
+        fig-format: svg
+engine: julia
+freeze: false
+---
+
+## Overview
+
+::: {.cell .markdown}
+
+### Instructions
+
+The goal of this homework assignment is to practice model evaluation and using cross-validation and information criteria to distinguish between models.
+
+* Problem 1 asks you to fit a model for cherry blossom bloom dates and use cross-validation to draw conclusions about generalizability.
+* Problem 2 asks you to compare several linear regression models for environmental influences on non-accidental death data.
+
+
+### Load Environment
+
+The following code loads the environment and makes sure all needed packages are installed. This should be at the start of most Julia scripts.
+
+:::
+
+```{julia}
+#| output: false
+
+import Pkg
+Pkg.activate(@__DIR__)
+Pkg.instantiate()
+```
+
+The following packages are included in the environment (to help you find other similar packages in other languages). The code below loads these packages for use in the subsequent notebook (the desired functionality for each package is commented next to the package).
+
+
+```{julia}
+#| output: false
+
+using Random # random number generation and seed-setting
+using DataFrames # tabular data structure
+using DataFramesMeta # API which can simplify chains of DataFrames transformations
+using CSV# reads/writes .csv files
+using Distributions # interface to work with probability distributions
+using Plots # plotting library
+using StatsBase # statistical quantities like mean, median, etc
+using StatsPlots # some additional statistical plotting tools
+using Optim
+using LaTeXStrings
+using Dates
+
+Random.seed!(1)
+```
+
+## Problems 
+
+### Problem 1
+
+#### Problem 1.1
+
+Let's load the data from 'data/HadCRUT5.1Analysis_gl.txt' and 'data/kyoto.csv' and merge the two datasets along common years.
+
+```{julia}
+#| output: true
+#| echo: true
+
+temp_dat = CSV.read(joinpath("data", "HadCRUT5.1Analysis_gl.txt"), DataFrame, delim=" ", ignorerepeated=true, header=false) # <1>
+temp_dat = temp_dat[1:2:nrow(temp_dat), [1, 4]] # <2>
+rename!(temp_dat, ["Year", "March"])
+
+kyoto_dat = CSV.read(joinpath("data", "kyoto.csv"), DataFrame, missingstring="NA")
+kyoto_dat = kyoto_dat[:, 1:2]
+rename!(kyoto_dat, [:Year, :DOY]) # <3>
+
+dat = innerjoin(kyoto_dat, temp_dat, on = :Year) # <4>
+dat  = dat[completecases(dat), :] # <5>
+disallowmissing!(dat) # <5>
+```
+1. The data is space-delimited and the number of spaces between columns differs in the temperature (odd) and number of station (even) rows, so we use `ignorerepeated=true` to cause the parser to not interpret multiple consecutive spaces as delimiting multiple columns.
+2. We need to only keep the odd rows (which are the temperatures) and the year/March anomaly columns. 
+3. The periods in the column names in `kyoto.csv` are annoying for later `DataFrame` operations, so we'll just rename the columns to get rid of them.
+4. An `innerjoin` is a type of database join that merges two datasets based on the entries of a common ID column which are present in both datasets.
+5. There are still some years with `missing` DOYs, so we use `completecases` to remove those and `disallowmissing!` to change the column datatype.
+
+Now let's fit the model.
+
+```{julia}
+function cherry_loglik(p, doy, temp)
+    b0, b1, s = p
+    m = b0 .+ b1 * temp
+    ll = sum(logpdf.(Normal.(m, s), doy))
+    return ll
+end
+
+lb = [-200., -100., 0.01]
+ub = [200., 100., 10.]
+p0 = [100., 5., 5.]
+optim_out = optimize(p -> -cherry_loglik(p, dat.DOY, dat.March), lb, ub, p0)
+p_mle = optim_out.minimizer
+@show p_mle;
+```
+
+This suggests that every degree of increased average March temperature makes the cherry blossoms flower around 8 days earlier. 
+
+#### Problem 1.2
+
+We can get the log-loss metric directly from the optimization, as the negative log-likelihood was the optimization objective. 
+
+```{julia}
+ll = optim_out.minimum
+@show ll;
+```
+
+For the mean-square error, we need to compute the predictions. 
+
+```{julia}
+pred = p_mle[1] .+ p_mle[2] * dat.March
+mse = mean((pred .- dat.DOY).^2)
+@show mse;
+```
+
+#### Problem 1.3
+
+To conduct a 5-fold cross-validation, we need to split the data and then repeat the earlier workflow and store the metrics. Since we're modeling this using a linear regression, which assumes that the observations are independent, we can do an independent split by random partitioning of the data rows. Let's write a function to do this.
+
+```{julia}
+function cherry_cv(dat, nfolds = 5)
+    # split the data
+    labels = repeat(1:nfolds, outer = Int(floor(nrow(dat) / nfolds))) # <1>
+    labels = [labels; 1] # <1>
+    fold_labels = shuffle(labels) # randomly permite the labels
+    # create storage for error metrics
+    cv_ll = zeros(nfolds)
+    cv_mse = zeros(nfolds)
+    # set optimization parameters
+    lb = [-200., -100., 0.01]
+    ub = [200., 100., 10.]
+    p0 = [100., 5., 5.]
+    for fold in 1:nfolds
+        test_idx = findall(fold_labels .== fold)
+        train_idx = setdiff(1:nrow(dat), test_idx)
+        # fit model to the fold
+        optim_out = optimize(p -> -cherry_loglik(p, dat[train_idx, :DOY], dat[train_idx, :March]), lb, ub, p0)
+        p_mle = optim_out.minimizer
+        pred = p_mle[1] .+ p_mle[2] * dat[test_idx, :March]
+        cv_ll[fold] = -mean(logpdf.(Normal.(pred, p_mle[3]), dat[test_idx, :DOY])) # <2>
+        cv_mse[fold] = mean((pred .- dat[test_idx, :DOY]).^2)
+    end
+    return cv_ll, cv_mse
+end
+cv_ll, cv_mse = cherry_cv(dat, 5)
+```
+1. The number of data points is not divisible evenly by 5, so we just create as close to an even set of splits as we can and then add the last data point to one of the remaining folds (in this case the first one).
+2. We get the mean log score here because the number of data points differs between the CV folds and the full-data.
+
+Now let's compare to the total-data/in-sample tests.
+
+```{julia}
+@show ll / nrow(dat);
+@show mean(cv_ll);
+```
+
+```{julia}
+@show mse;
+@show mean(cv_mse);
+```
+
+We can see that in general, the model's in-sample performance is not too different than its average CV performance, suggesting that there is no systematic overfitting occurring.
+
+#### Problem 1.4
+
+Since there is no evidence of overfitting from the cross-validation test, we might conclude that the model generalizes well.
+
+### Problem 2
+
+#### Problem 2.1
+
+Loading and plotting the deaths data from `data/chicago.csv`:
+
+```{julia}
+#| output: true
+#| echo: true
+#| label: fig-death-data
+#| fig-cap: "Non-accidental deaths data in Chciago from January 1, 1987--December 31, 2000."
+
+chicago_dat = CSV.read(joinpath("data", "chicago.csv"), DataFrame, delim=",", missingstring="NA", header=true)
+day_zero = Date("1993-12-31")
+chicago_dat.Date = day_zero .+ Day.(chicago_dat.time .+ 0.5)
+
+```
+
+To ensure that we use the same observations for the purposes of model comparison, let's remove the cases corresponding to missing PM2.5 data.
+
+```{julia}
+#| output: true
+#| echo: true
+#| label: fig-death-data-obs
+#| fig-cap: "Full cases for the Chicago deaths data."
+
+chicago_dat = chicago_dat[.!(ismissing).(chicago_dat.pm25median), :]
+
+p_deaths = plot(chicago_dat.Date, chicago_dat.death, lw=2, xlabel="Date", ylabel="Non-Accidental Deaths)", label="Data", color=:gray)
+
+```
+
+We could fit the regression models in a few different ways (in Julia, we could also use the `GLM.jl` package), but for consistency's sake we'll do this with numerical optimization. First, let's fit a model for the impact of time. 
+
+```{julia}
+#| output: true
+#| echo: true
+
+# general log-likelihood function for a linear regression with covariate x
+function timereg_loglik(p, y, t)
+    μ₀, μ₁, σ = p
+    μ = μ₀ .+ μ₁ * t
+    ll = sum(logpdf.(Normal.(μ, σ), y))
+    return ll
+end
+
+lb = [0.0, -100.0, 0.1]
+ub = [200.0, 100.0, 20.0]
+x₀ = [100.0, 0.0, 5.0]
+
+optim_out = Optim.optimize(p -> -timereg_loglik(p, chicago_dat.death, chicago_dat.time), lb, ub, x₀)
+ll_time = -optim_out.minimum # <1>
+θ_time = optim_out.minimizer
+@show round.(θ_time; digits=1);
+```
+1. Since we minimized the *negative* log-likelihood, to get the log-likelihood we need to take the negative of the minimum value again.
+
+Plotting this regression over the data:
+
+```{julia}
+#| output: true
+#| echo: true
+#| label: fig-time-regression
+#| fig-cap: Chicago deaths data. The red dashed line is a regression with a time covariate.
+
+plot!(p_deaths, chicago_dat.Date, θ_time[1] .+ θ_time[2] * chicago_dat.time, lw=2, linestyle=:dash, color=:red, label="Time Regression")
+```
+
+We can see that even though the time coefficient is close to zero, suggesting a minimal time-dependent trend, over the course of the dataset there is a slight increase over this time (seen in @fig-time-regression).
+
+#### Problem 2.2
+
+Now let's look at the impact of temperature.
+
+
+```{julia}
+#| output: true
+#| echo: true
+
+# general log-likelihood function for a linear regression with covariate x
+function tempreg_loglik(p, y, temp)
+    μ₀, μ₁, σ = p
+    μ = μ₀ .+ μ₁ * temp
+    ll = sum(logpdf.(Normal.(μ, σ), y))
+    return ll
+end
+
+lb = [0.0, -100.0, 0.1]
+ub = [200.0, 100.0, 20.0]
+x₀ = [100.0, 0.0, 5.0]
+
+optim_out = Optim.optimize(p -> -tempreg_loglik(p, chicago_dat.death, chicago_dat.tmpd), lb, ub, x₀)
+ll_temp = -optim_out.minimum
+θ_temp = optim_out.minimizer
+@show round.(θ_temp; digits=1);
+```
+
+Adding this regression line to the plot:
+
+```{julia}
+#| output: true
+#| echo: true
+#| label: fig-temp-regression
+#| fig-cap: Chicago deaths data. The red dashed line is a regression with a time covariate and the blue dashed line is a regression with a temperature covariate.
+
+plot!(p_deaths, chicago_dat.Date, θ_temp[1] .+ θ_temp[2] * chicago_dat.tmpd, lw=2, linestyle=:dash, color=:blue, label="Temperature Regression")
+```
+
+@fig-temp-regression shows that the temperature regression results in some oscillations due to the seasonal impact of temperature, which visually appear to align with the oscillations in the deaths data.
+
+#### Problem 2.3
+
+Our last model adds PM2.5 concentrations to the previous temperature regression. Here we need to drop the entries corresponding to missing data.
+
+```{julia}
+#| output: true
+#| echo: true
+
+# general log-likelihood function for a linear regression with covariate x
+function multireg_loglik(p, y, temp, pm25)
+    μ₀, μ₁, μ₂, σ = p
+    μ = μ₀ .+ μ₁ * temp .+ μ₂ * pm25
+    ll = sum(logpdf.(Normal.(μ, σ), y))
+    return ll
+end
+
+lb = [0.0, -100.0, -100.0, 0.1]
+ub = [200.0, 100.0, 100.0, 20.0]
+x₀ = [100.0, 0.0, 0.0, 5.0]
+
+optim_out = Optim.optimize(p -> -multireg_loglik(p, chicago_dat.death, chicago_dat.tmpd, chicago_dat.pm25median), lb, ub, x₀)
+ll_multi = -optim_out.minimum
+θ_multi = optim_out.minimizer
+@show round.(θ_multi; digits=1);
+```
+
+We add this regression to the plot:
+
+```{julia}
+#| output: true
+#| echo: true
+#| label: fig-multi-regression
+#| fig-cap: Chicago deaths data. The red dashed line is a regression with a time covariate and the blue dashed line is a regression with a temperature covariate, and the violet line is a regression with both temperature and PM2.5 covariates.
+
+plot!(p_deaths, chicago_dat.Date, θ_multi[1] .+ θ_multi[2] * chicago_dat.tmpd .+ θ_multi[3] * chicago_dat.pm25median, lw=2, linestyle=:dash, color=:violet, label="Temperature and PM2.5 Regression")
+```
+
+#### Problem 2.4
+
+Now we want to conduct a 5-fold cross-validation to compare each model's performance. As set up, we don't need to account for any particular structure, as we aren't accounting for any underlying seasonal effects that aren't captured by the covariates.
+
+We will write a function to conduct these for each of our models.
+
+```{julia}
+function time_cv(dat, nfolds=5)
+    # split the data
+    labels = repeat(1:nfolds, outer = Int(floor(nrow(dat) / nfolds))) # <1>
+    labels = [labels; 1; 2] # <1>
+    fold_labels = shuffle(labels) # randomly permite the labels
+    # create storage for error metrics
+    cv_ll = zeros(nfolds)
+    cv_mse = zeros(nfolds)
+    # set optimization parameters
+    lb = [0.0, -100.0, 0.1]
+    ub = [200.0, 100.0, 20.0]
+    p0 = [100.0, 0.0, 5.0]
+    for fold in 1:nfolds
+        test_idx = findall(fold_labels .== fold)
+        train_idx = setdiff(1:nrow(dat), test_idx)
+        # fit model to the fold
+        optim_out = optimize(p -> -timereg_loglik(p, dat[train_idx, :death], dat[train_idx, :time]), lb, ub, p0)
+        p_mle = optim_out.minimizer
+        pred = p_mle[1] .+ p_mle[2] * dat[test_idx, :time]
+        cv_ll[fold] = -mean(logpdf.(Normal.(pred, p_mle[3]), dat[test_idx, :death])) # <2>
+        cv_mse[fold] = mean((pred .- dat[test_idx, :death]).^2)
+    end
+    return cv_ll, cv_mse
+end
+
+function temp_cv(dat, nfolds=5)
+    # split the data
+    labels = repeat(1:nfolds, outer = Int(floor(nrow(dat) / nfolds))) # <1>
+    labels = [labels; 1; 2] # <1>
+    fold_labels = shuffle(labels) # randomly permite the labels
+    # create storage for error metrics
+    cv_ll = zeros(nfolds)
+    cv_mse = zeros(nfolds)
+    # set optimization parameters
+    lb = [0.0, -100.0, 0.1]
+    ub = [200.0, 100.0, 20.0]
+    p0 = [100.0, 0.0, 5.0]
+    for fold in 1:nfolds
+        test_idx = findall(fold_labels .== fold)
+        train_idx = setdiff(1:nrow(dat), test_idx)
+        # fit model to the fold
+        optim_out = optimize(p -> -tempreg_loglik(p, dat[train_idx, :death], dat[train_idx, :tmpd]), lb, ub, p0)
+        p_mle = optim_out.minimizer
+        pred = p_mle[1] .+ p_mle[2] * dat[test_idx, :tmpd]
+        cv_ll[fold] = -mean(logpdf.(Normal.(pred, p_mle[3]), dat[test_idx, :death])) # <2>
+        cv_mse[fold] = mean((pred .- dat[test_idx, :death]).^2)
+    end
+    return cv_ll, cv_mse
+end
+
+function temp_pm_cv(dat, nfolds=5)
+    # split the data
+    labels = repeat(1:nfolds, outer = Int(floor(nrow(dat) / nfolds))) # <1>
+    labels = [labels; 1; 2] # <1>
+    fold_labels = shuffle(labels) # randomly permite the labels
+    # create storage for error metrics
+    cv_ll = zeros(nfolds)
+    cv_mse = zeros(nfolds)
+    # set optimization parameters
+    lb = [0.0, -100.0, -100.0, 0.1]
+    ub = [200.0, 100.0, 100.0, 20.0]
+    p0 = [100.0, 0.0, 0.0, 5.0]
+
+    for fold in 1:nfolds
+        test_idx = findall(fold_labels .== fold)
+        train_idx = setdiff(1:nrow(dat), test_idx)
+        # fit model to the fold
+        optim_out = optimize(p -> -multireg_loglik(p, dat[train_idx, :death], dat[train_idx, :tmpd], dat[train_idx, :pm25median]), lb, ub, p0)
+        p_mle = optim_out.minimizer
+        pred = p_mle[1] .+ p_mle[2] * dat[test_idx, :tmpd] .+ p_mle[3] * dat[test_idx, :pm25median]
+        cv_ll[fold] = -mean(logpdf.(Normal.(pred, p_mle[4]), dat[test_idx, :death])) # <2>
+        cv_mse[fold] = mean((pred .- dat[test_idx, :death]).^2)
+    end
+    return cv_ll, cv_mse
+
+end
+
+```
+
+Now let's compare the results for each model.
+
+```{julia}
+time_cv_ll, time_cv_mse = time_cv(chicago_dat, 5)
+temp_cv_ll, temp_cv_mse = temp_cv(chicago_dat, 5)
+multi_cv_ll, multi_cv_mse = temp_pm_cv(chicago_dat, 5)
+
+cv_models = ["Time", "Temperature", "Temperature + PM 2.5"]
+cv_ll_all = [mean(time_cv_ll), mean(temp_cv_ll), mean(multi_cv_ll)]
+cv_mse_all = [mean(time_cv_mse), mean(temp_cv_mse), mean(multi_cv_mse)]
+
+cv_results = DataFrame(Model=cv_models, LogScore=cv_ll_all, MSE=cv_mse_all)
+```
+
+By these scores, the temperature + PM 2.5 model scores best for both the log score and the MSE, so we might conclude that it would generalize the best out-of-sample. The temperature-only model performs similarly, and the time model, as we saw in Problem 2.1, does not perform particularly well.
+
+#### Problem 2.5
+
+To compute the AIC values we will use the log-likelihoods we computed when we fit each model.
+
+```{julia}
+#| output: true
+#| echo: true
+
+aic_time = -2 * (ll_time - 3)
+aic_temp = -2 * (ll_temp - 3)
+aic_multi = -2 * (ll_multi - 4)
+aic_df = DataFrame(Models=["Time", "Temperature", "Temperature and PM2.5"], AIC=round.([aic_time, aic_temp, aic_multi]; digits=0))
+```
+
+We can see that the Temperature and PM2.5 model minimizes AIC, and the $\Delta \text{AIC}$ for the temperature-only model is around 15. These differences suggest that there is relatively strong evidence for the influence of both temperature and PM2.5 compared to a temperature-only model, as the predictive skill outweighs the potential overfitting from adding the PM2.5 term. This is similar in direction to what we saw from the cross-validation as well.
+
+When comparing this quantitative result to the plots, drawing this conclusion from @fig-multi-regression itself is challenging, even if we might be able to squint and see that the fluctuations from the PM2.5 model align slightly better with the temperature-only model.

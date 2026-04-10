@@ -1,10 +1,10 @@
 ---
-title: "Uncertainty Quantification and The Bootstrap"
-subtitle: "Lecture 27"
+title: "The Bootstrap"
+subtitle: "Lecture 28"
 author: "Vivek Srikrishnan"
 course: "BEE 4850"
 institution: "Cornell University"
-date: "April 06, 2024"
+date: "April 08, 2024"
 format:
     revealjs:
         slide-number: c/t
@@ -335,109 +335,6 @@ plot!(p, size=(1000, 450))
 - Very extreme values.
 
 Generally, anything very sensitive to outliers which might not be re-sampled.
-
-
-## Bootstrapping with Structured Data
-
-The naive non-parametric bootstrap that we just saw doesn't work if data has structure, e.g. spatial or temporal dependence.
-
-## Simple Bootstrapping Fails with Structured Data
-
-```{julia}
-#| echo: true
-#| code-fold: true
-#| label: fig-ts-bootstrap
-#| fig-cap: Simple bootstrap with time series data.
-#| layout-ncol: 2
-
-tide_dat = CSV.read(joinpath("data", "surge", "norfolk-hourly-surge-2015.csv"), DataFrame)
-surge_resids = tide_dat[:, 5] - tide_dat[:, 3]
-
-p1 = plot(surge_resids, xlabel="Hour", ylabel="(m)", title="Tide Gauge Residuals", label=:false, linewidth=3)
-plot!(p1, size=(600, 450))
-
-resample_index = sample(1:length(surge_resids), length(surge_resids); replace=true)
-p2 = plot(surge_resids[resample_index], xlabel="Hour", ylabel="(m)", title="Tide Gauge Resample", label=:false, linewidth=3)
-plot!(p2, size=(600, 450))
-
-display(p1)
-display(p2)
-```
-
-## Block Bootstraps
-
-Clever idea from @Kunsch1989-ll: Divide time series $y_{1:T}$ into overlapping blocks of length $k$.
-
-$$\{y_{1:k}, y_{2:k+1}, \ldots y_{n-k+1:n}\}$$
-
-Then draw $m = n / k$ of these blocks with replacement and construct replicate time series:
-
-$$\hat{y}_{1:n} = (y_{b_1}, \ldots, y_{b_m}) $$
-
-**Note**: Your series must not have a trend!
-
-## Block Bootstrap Example
-
-:::: {.columns}
-::: {.column width=50%}
-
-```{julia}
-#| echo: true
-#| code-fold: true
-
-k = 20
-n_blocks = length(surge_resids) - k + 1
-blocks = zeros(Float64, (k, n_blocks))
-for i = 1:n_blocks
-    blocks[:, i] = surge_resids[i:(k+i-1)]
-end
-blocks[:, 1:5]
-```
-:::
-::: {.column width=50%}
-```{julia}
-#| echo: true
-#| code-fold: true
-#| label: fig-ts-block-replicate
-#| fig-cap: Comparison of original data with block bootstrap replicate.
-
-m = Int64(ceil(length(surge_resids) / k))
-n_boot = 1_000
-surge_bootstrap = zeros(length(surge_resids), n_boot)
-for i = 1:n_boot
-    block_sample_idx = sample(1:n_blocks, m; replace=true)
-    surge_bootstrap[:, i] = reduce(vcat, blocks[:, block_sample_idx])
-end
-
-p = plot(surge_resids, color=:black, lw=3, label="Data", xlabel="Hour", ylabel="(m)", title="Tide Gauge Residuals", alpha=0.5)
-plot!(p, surge_bootstrap[:, 1], color=:blue, lw=3, label="Replicate", alpha=0.5)
-plot!(p, size=(600, 500))
-```
-:::
-::::
-
-## Block Bootstrap Replicates
-
-```{julia}
-#| echo: true
-#| code-fold: true
-#| label: fig-ts-block-bootstrap
-#| fig-cap: Block bootstrap with time series data.
-
-p = plot(xlabel="Hour", ylabel="(m)", title="Tide Gauge Residuals")
-for i = 1:10
-    label = i == 1 ? "Replicate" : false
-    plot!(p, surge_bootstrap[:, i], label=label, color=:gray, alpha=0.2, lw=2)
-end
-plot!(p, surge_resids, label="Data", color=:black, lw=3)
-plot!(p, size=(1200, 500))
-```
-
-## Generalizing the Block Bootstrap
-
-- **Circular Bootstrap**: "Wrap" the time series in a circle, $y_1, y_2, \ldots, y_n, y_1, y_2, \ldots$ then divide into blocks and resample.
-- **Stationary Bootstrap**: Use random block lengths to avoid systematic boundary transitions.
-- **Block of Blocks Bootstrap**: Divide series into blocks of length $k_2$, then subdivide into blocks of length $k_1$. Sample blocks with replacement then sample sub-blocks within each block with replacement.
 
 # Key Points and Upcoming Schedule
 
