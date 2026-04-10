@@ -7,11 +7,11 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/jquery-3.6.3/jquery-3.6.3.min.js"></script>
 <script src="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.js" defer="true"></script>
 <link href="../site_libs/quarto-contrib/code-fullscreen-1.0.0/code-fullscreen.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.33">
+  <meta name="generator" content="quarto-1.8.26">
 
   <meta name="author" content="Vivek Srikrishnan">
   <meta name="dcterms.date" content="2024-03-19">
@@ -120,7 +120,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-7b87de61f0bc8c7187b97021a1ec54e0.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-99469881743cb8bd1bf840c72478da80.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -431,7 +431,7 @@
 <div id="cell-fig-surge-data" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a><span class="co"># read in data and get annual maxima</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a><span class="co"># read in data and get annual maxima</span></span>
 <span id="cb1-2"><a></a><span class="kw">function</span> <span class="fu">load_data</span>(fname)</span>
 <span id="cb1-3"><a></a>    date_format <span class="op">=</span> <span class="fu">DateFormat</span>(<span class="st">"yyyy-mm-dd HH:MM:SS"</span>)</span>
 <span id="cb1-4"><a></a>    <span class="co"># This uses the DataFramesMeta.jl package, which makes it easy to string together commands to load and process data</span></span>
@@ -489,7 +489,7 @@
 <span id="cb1-56"><a></a></span>
 <span id="cb1-57"><a></a>l <span class="op">=</span> <span class="pp">@layout</span> [a{<span class="fl">0.7</span>w} b{<span class="fl">0.3</span>w}]</span>
 <span id="cb1-58"><a></a><span class="fu">plot</span>(p1, p2; layout<span class="op">=</span>l, link<span class="op">=:</span>y, ylims<span class="op">=</span>(<span class="fl">1</span>, <span class="fl">1.7</span>), bottom_margin<span class="op">=</span><span class="fl">5</span>mm, left_margin<span class="op">=</span><span class="fl">5</span>mm)</span>
-<span id="cb1-59"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">1000</span>, <span class="fl">450</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-59"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">1000</span>, <span class="fl">450</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-surge-data" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -736,7 +736,7 @@ Figure&nbsp;1: Annual maxima surge data from the San Francisco, CA tide gauge.
 <div id="8" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2" data-code-line-numbers="|4|5-7|8-9|10-11|"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a></a><span class="im">using</span> <span class="bu">Turing</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" data-code-line-numbers="|4|5-7|8-9|10-11|"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a></a><span class="im">using</span> <span class="bu">Turing</span></span>
 <span id="cb2-2"><a></a><span class="co">## y: observed data</span></span>
 <span id="cb2-3"><a></a><span class="co">## can also specify covariates or auxiliary data in the function if used</span></span>
 <span id="cb2-4"><a></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">tide_model</span>(y)</span>
@@ -747,7 +747,7 @@ Figure&nbsp;1: Annual maxima surge data from the San Francisco, CA tide gauge.
 <span id="cb2-9"><a></a>    y <span class="op">~</span> <span class="fu">LogNormal</span>(μ, σ)</span>
 <span id="cb2-10"><a></a>    <span class="co"># returning y allows us (later) to generate predictive simulations</span></span>
 <span id="cb2-11"><a></a>    <span class="cf">return</span> y </span>
-<span id="cb2-12"><a></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-12"><a></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
@@ -756,9 +756,9 @@ Figure&nbsp;1: Annual maxima surge data from the San Francisco, CA tide gauge.
 <div id="10" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a></a>m <span class="op">=</span> <span class="fu">tide_model</span>(dat_annmax.residual)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a></a>m <span class="op">=</span> <span class="fu">tide_model</span>(dat_annmax.residual)</span>
 <span id="cb3-2"><a></a><span class="co"># draw 10_000 samples using NUTS() sampler, with 4 chains (using MCMCThreads() for serial sampling)</span></span>
-<span id="cb3-3"><a></a>surge_chain <span class="op">=</span> <span class="fu">sample</span>(m, <span class="fu">NUTS</span>(), <span class="fu">MCMCThreads</span>(), <span class="fl">10_000</span>, <span class="fl">4</span>, progress<span class="op">=</span><span class="cn">false</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a></a>surge_chain <span class="op">=</span> <span class="fu">sample</span>(m, <span class="fu">NUTS</span>(), <span class="fu">MCMCThreads</span>(), <span class="fl">10_000</span>, <span class="fl">4</span>, progress<span class="op">=</span><span class="cn">false</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
@@ -803,7 +803,7 @@ Use `describe(chains)` for summary statistics and quantiles.</code></pre>
 <div id="cell-fig-posterior-visual" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a></a><span class="fu">plot</span>(surge_chain, size<span class="op">=</span>(<span class="fl">1200</span>, <span class="fl">500</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a></a><span class="fu">plot</span>(surge_chain, size<span class="op">=</span>(<span class="fl">1200</span>, <span class="fl">500</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-posterior-visual" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -1085,12 +1085,12 @@ Figure&nbsp;3
 <div id="cell-fig-surge-posterior" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a></a>chn_1 <span class="op">=</span> surge_chain[<span class="op">:</span>, <span class="op">:</span>, <span class="fl">1</span>]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a></a>chn_1 <span class="op">=</span> surge_chain[<span class="op">:</span>, <span class="op">:</span>, <span class="fl">1</span>]</span>
 <span id="cb6-2"><a></a>p1 <span class="op">=</span> <span class="fu">histogram</span>(chn_1[<span class="op">:</span>μ], label<span class="op">=</span><span class="st">"Samples"</span>, normalize<span class="op">=:</span>pdf, legend<span class="op">=:</span>topleft, xlabel<span class="op">=</span>L<span class="st">"μ"</span>, ylabel<span class="op">=</span>L<span class="st">"p(μ|y)"</span>,)</span>
 <span id="cb6-3"><a></a>p2 <span class="op">=</span> <span class="fu">histogram</span>(chn_1[<span class="op">:</span>σ], label<span class="op">=</span><span class="st">"Samples"</span>, normalize<span class="op">=:</span>pdf, legend<span class="op">=:</span>topleft, xlabel<span class="op">=</span>L<span class="st">"σ"</span>, ylabel<span class="op">=</span>L<span class="st">"p(σ|y)"</span>)</span>
 <span id="cb6-4"><a></a>p <span class="op">=</span> <span class="fu">plot</span>(p1, p2, layout <span class="op">=</span> <span class="pp">@layout</span> [a b])</span>
 <span id="cb6-5"><a></a><span class="fu">vline!</span>(p, <span class="fu">mean</span>(chn_1)[<span class="op">:</span>, <span class="fl">2</span>]<span class="ch">', color=:purple, linewidth=3, label="Posterior Mean")</span></span>
-<span id="cb6-6"><a></a><span class="fu">plot!</span>(p, size<span class="op">=</span>(<span class="fl">1200</span>, <span class="fl">450</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-6"><a></a><span class="fu">plot!</span>(p, size<span class="op">=</span>(<span class="fl">1200</span>, <span class="fl">450</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-surge-posterior" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -1487,8 +1487,8 @@ Figure&nbsp;4: Posterior visualization for surge chain
 <div id="cell-fig-surge-correlations" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a></a>p1 <span class="op">=</span> <span class="fu">histogram2d</span>(chn_1[<span class="op">:</span>μ], chn_1[<span class="op">:</span>σ], normalize<span class="op">=:</span>pdf, legend<span class="op">=</span><span class="cn">false</span>, xlabel<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span><span class="st">\</span>mu<span class="sc">$</span><span class="st">", </span>ylabel<span class="st">=L"</span><span class="op">\</span>sigma<span class="st">")</span></span>
-<span id="cb7-2"><a></a><span class="fu">plot!</span>(p1, size<span class="op">=</span>(<span class="fl">1200</span>, <span class="fl">450</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a></a>p1 <span class="op">=</span> <span class="fu">histogram2d</span>(chn_1[<span class="op">:</span>μ], chn_1[<span class="op">:</span>σ], normalize<span class="op">=:</span>pdf, legend<span class="op">=</span><span class="cn">false</span>, xlabel<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span><span class="st">\</span>mu<span class="sc">$</span><span class="st">", </span>ylabel<span class="st">=L"</span><span class="op">\</span>sigma<span class="st">")</span></span>
+<span id="cb7-2"><a></a><span class="fu">plot!</span>(p1, size<span class="op">=</span>(<span class="fl">1200</span>, <span class="fl">450</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-surge-correlations" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -2092,7 +2092,7 @@ Figure&nbsp;5: Posterior correlations
 <div id="cell-fig-surge-posterior-predictive" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a></a>return_periods <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">100</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource julia code-overflow-wrap number-lines code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a></a>return_periods <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">100</span></span>
 <span id="cb8-2"><a></a>return_levels <span class="op">=</span> <span class="fu">zeros</span>(<span class="fl">10_000</span>, <span class="fu">length</span>(return_periods))</span>
 <span id="cb8-3"><a></a>plt_rt <span class="op">=</span> <span class="fu">plot</span>(; ylabel<span class="op">=</span><span class="st">"Return Level (m)"</span>, xlabel<span class="op">=</span><span class="st">"Return Period (yrs)"</span>, legend<span class="op">=:</span>bottomright)</span>
 <span id="cb8-4"><a></a><span class="cf">for</span> idx <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10_000</span></span>
@@ -2109,7 +2109,7 @@ Figure&nbsp;5: Posterior correlations
 <span id="cb8-15"><a></a><span class="co"># plot data</span></span>
 <span id="cb8-16"><a></a><span class="fu">scatter!</span>(plt_rt, return_periods, <span class="fu">quantile</span>(dat_annmax.residual, <span class="fl">1</span> <span class="op">.-</span> (<span class="fl">1</span> <span class="op">./</span> return_periods)), label<span class="op">=</span><span class="st">"Data"</span>, color<span class="op">=:</span>blue)</span>
 <span id="cb8-17"><a></a><span class="fu">plot!</span>(plt_rt, size<span class="op">=</span>(<span class="fl">1200</span>, <span class="fl">500</span>))</span>
-<span id="cb8-18"><a></a>plt_rt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-18"><a></a>plt_rt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-surge-posterior-predictive" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center" data-execution_count="1">
 <figure class="quarto-float quarto-float-fig">
@@ -12580,13 +12580,14 @@ Gelman, A., &amp; Rubin, D. B. (1992). <span class="nocase">Inference from Itera
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

@@ -48,4 +48,4 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 |  | 4/04 | **Spring Break** | | | | | | 
 | 11  | 4/06 | Sampling Distributions | [{{< fa sharp presentation-screen >}}](slides/lecture12-1-uq.qmd) | [Kysel&yacute; (2008)](https://doi.org/10.1175/2008JAMC1763.1) | [{{< fa sharp pen-field >}}](hw/hw05/hw05.qmd)  | | | 
 |    | 4/08 | The Bootstrap | [{{< fa sharp presentation-screen >}}](slides/lecture12-2-bootstrap.qmd)  | | | | | 
-|    | 4/10 | The Parametric Bootstrap | [{{< fa sharp presentation-screen >}}](slides/lecture12-3-bootstrap-structure.qmd) | | | | Quiz 3 | 
+|    | 4/10 | Bootstrapping Structured Data | [{{< fa sharp presentation-screen >}}](slides/lecture12-3-bootstrap-structure.qmd) | | | | Quiz 3 | 
