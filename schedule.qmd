@@ -43,9 +43,11 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 |   | 3/20 | Simulation and Random Sampling | [{{< fa sharp presentation-screen >}}](slides/lecture09-3-random-simulation.qmd) | | | | |
 | 10 | 3/23 | Monte Carlo | [{{< fa sharp presentation-screen >}}](slides/lecture10-1-monte-carlo.qmd) |  |  | | |
 |   | 3/25 | Monte Carlo Error and Variance Reduction | [{{< fa sharp presentation-screen >}}](slides/lecture10-2-more-monte-carlo.qmd)  | | | | |
-|   | 3/27 | Monte Carlo Examples| [{{< fa sharp presentation-screen >}}](slides/lecture10-3-monte-carlo-examples.qmd) | | |  | 3/31 | **Spring Break** | | | | | | 
-|  | 4/02 | **Spring Break** | | | | | | 
-|  | 4/04 | **Spring Break** | | | | | | 
-| 11  | 4/06 | Sampling Distributions | [{{< fa sharp presentation-screen >}}](slides/lecture12-1-uq.qmd) | [Kysel&yacute; (2008)](https://doi.org/10.1175/2008JAMC1763.1) | [{{< fa sharp pen-field >}}](hw/hw05/hw05.qmd)  | | | 
+|   | 3/27 | Monte Carlo Examples| [{{< fa sharp presentation-screen >}}](slides/lecture10-3-monte-carlo-examples.qmd) | | | | | 
+| 11 | 3/30 | **Spring Break** | | | | |  |
+|  | 4/01 | **Spring Break** | | | | | | 
+|  | 4/03 | **Spring Break** | | | | | | 
+| 12  | 4/06 | Sampling Distributions | [{{< fa sharp presentation-screen >}}](slides/lecture12-1-uq.qmd) | [Kysel&yacute; (2008)](https://doi.org/10.1175/2008JAMC1763.1) | [{{< fa sharp pen-field >}}](hw/hw05/hw05.qmd)  | | | 
 |    | 4/08 | The Bootstrap | [{{< fa sharp presentation-screen >}}](slides/lecture12-2-bootstrap.qmd)  | | | | | 
 |    | 4/10 | Bootstrapping Structured Data | [{{< fa sharp presentation-screen >}}](slides/lecture12-3-bootstrap-structure.qmd) | | | | Quiz 3 | 
+| 13 | 4/13 | Parametric Bootstrap | [{{< fa sharp presentation-screen >}}](slides/lecture13-1-parametric-bootstrap.qmd) | [Clark et al (2021)](https://doi.org/10.1029/2020wr029001) | | | Quiz 3 | 

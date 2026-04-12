@@ -1,10 +1,10 @@
 ---
 title: "The Parametric Bootstrap"
-subtitle: "Lecture 13"
+subtitle: "Lecture 30"
 author: "Vivek Srikrishnan"
 course: "BEE 4850"
 institution: "Cornell University"
-date: "March 10, 2024"
+date: "April 13, 2026"
 format:
     revealjs:
         slide-number: c/t
@@ -146,7 +146,7 @@ This lets us use additional information, such as a simulation or statistical mod
 
 :::: {.columns}
 ::: {.column width=40%}
-The parametric bootstrap generates pseudodata using **simulations from a fitted model**.
+The parametric bootstrap generates pseudodata using **simulations from a fitted model** then re-fits the model to each new simulation.
 :::
 ::: {.column width=60%}
 ![Parametric Bootstrap](figures/pboot-sampling.png)
@@ -532,7 +532,7 @@ end
 parnames = ["β₀", "β₁", "σ"]
 boot_ci_str =  string.(Int64.(round.(boot_est; digits=0)), " (", Int64.(round.(boot_ci[:, 1]; digits=0)), ",", Int64.(round.(boot_ci[:, 2]; digits=0)), ")")
 np_boot_ci_str =  string.(Int64.(round.(np_boot_est; digits=0)), " (", Int64.(round.(np_boot_ci[:, 1]; digits=0)), ",", Int64.(round.(np_boot_ci[:, 2]; digits=0)), ")")
-pretty_table(DataFrame(Parameters=parnames, NP=vec(np_boot_ci_str), Par=vec(boot_ci_str)); backend=Val(:markdown), show_subheader=false, show_row_number=false)
+pretty_table(DataFrame(Parameters=parnames, NP=vec(np_boot_ci_str), Par=vec(boot_ci_str)); backend=:markdown)
 ```
 
 ## Which Bootstrap To Use?
@@ -544,7 +544,7 @@ Parametric bootstrap estimates converge faster than non-parametric estimates.
 
 ## Bootstrapping Residuals
 
-Can bootrap residuals from a model versus "full" parametric bootstrap:
+Can boostrap residuals from a model versus "full" parametric bootstrap:
 
 1. Fit model (statistically or numerical).
 2. Calculate residuals from deterministic/expected values.
@@ -572,11 +572,6 @@ Could we use a bootstrap distribution for MC?
 
 :::
 
-## Bootstrap vs. Bayes
-
-**Bootstrap**: "if I had a different sample (*conditional on the bootstrap principle*), what could I have inferred"?
-
-**Bayesian Inference**: "what different parameters could have produced the observed data"?
 
 # Key Points
 
