@@ -596,13 +596,6 @@ Depends on trust in model "correctness":
   - Do we trust that we have enough samples to recover the empirical CDF?
   - Do we trust the data-generating process?
 
-# Discussion of Bankes et al (1993)
-
-## Questions to Seed Discussion
-
-- What are the practical differences between exploratory and consolidative modeling?
-- When do you think each approach is more or less appropriate?
-- How do these approaches impact the choice of your methods?
 
 # Upcoming Schedule
 
