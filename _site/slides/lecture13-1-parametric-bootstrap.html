@@ -265,20 +265,19 @@
 <nav role="doc-toc"> 
 <h2 id="toc-title">Overview</h2>
 <ul>
-<li><a href="#/last-class" id="/toc-last-class">Last Class</a></li>
+<li><a href="#/review" id="/toc-review">Review</a></li>
 <li><a href="#/the-parametric-bootstrap" id="/toc-the-parametric-bootstrap">The Parametric Bootstrap</a></li>
 <li><a href="#/example-100-year-return-periods" id="/toc-example-100-year-return-periods">Example: 100-Year Return Periods</a></li>
 <li><a href="#/comparison-of-parametric-and-non-parametric-bootstrap" id="/toc-comparison-of-parametric-and-non-parametric-bootstrap">Comparison of Parametric and Non-Parametric Bootstrap</a></li>
-<li><a href="#/last-thoughts-on-the-bootstrap" id="/toc-last-thoughts-on-the-bootstrap">Last Thoughts on the Bootstrap</a></li>
-<li><a href="#/key-points" id="/toc-key-points">Key Points</a></li>
-<li><a href="#/upcoming-schedule" id="/toc-upcoming-schedule">Upcoming Schedule</a></li>
+<li><a href="#/bootstrap-vs.-monte-carlo" id="/toc-bootstrap-vs.-monte-carlo">Bootstrap vs.&nbsp;Monte Carlo</a></li>
+<li><a href="#/key-points-and-upcoming-schedule" id="/toc-key-points-and-upcoming-schedule">Key Points and Upcoming Schedule</a></li>
 <li><a href="#/references" id="/toc-references">References</a></li>
 </ul>
 </nav>
 </section>
 <section>
-<section id="last-class" class="title-slide slide level1 center">
-<h1>Last Class</h1>
+<section id="review" class="title-slide slide level1 center">
+<h1>Review</h1>
 
 </section>
 <section id="the-bootstrap" class="slide level2">
@@ -323,19 +322,19 @@
 </div>
 </div></div>
 </section>
-<section id="approaches-to-bootstrapping-structured-data" class="slide level2">
-<h2>Approaches to Bootstrapping Structured Data</h2>
-<ul>
-<li><strong>Correlations</strong>: Transform to uncorrelated data (principal components, etc.), sample, transform back.</li>
-<li><strong>Time Series</strong>: Block bootstrap</li>
-</ul>
-</section>
 <section id="sources-of-non-parametric-bootstrap-error" class="slide level2">
 <h2>Sources of Non-Parametric Bootstrap Error</h2>
 <ol type="1">
 <li><strong>Sampling error</strong>: error from using finitely many replications</li>
 <li><strong>Statistical error</strong>: error in the bootstrap sampling distribution approximation</li>
 </ol>
+</section>
+<section id="approaches-to-non-parametric-bootstrapping-structured-data" class="slide level2">
+<h2>Approaches to Non-Parametric Bootstrapping Structured Data</h2>
+<ul>
+<li><strong>Transformations</strong>: Transform to uncorrelated data (principal components, etc.), sample, transform back.</li>
+<li><strong>Block bootstrap</strong></li>
+</ul>
 </section></section>
 <section>
 <section id="the-parametric-bootstrap" class="title-slide slide level1 center">
@@ -348,7 +347,7 @@
 <li><strong>Non-Parametric Bootstrap</strong>: Resample directly from the data.</li>
 <li><strong>Parametric Bootstrap</strong>: Fit a model to the original data and simulate new samples, then calculate bootstrap estimates.</li>
 </ul>
-<p>This lets us use additional information, such as a simulation or statistical model, instead of relying only on the empirical CDF.</p>
+<p>This lets us use more general probability models, such as a simulation or statistical model, instead of relying only on the empirical CDF.</p>
 </section>
 <section id="parametric-bootstrap-scheme" class="slide level2">
 <h2>Parametric Bootstrap Scheme</h2>
@@ -870,29 +869,29 @@ Table&nbsp;1
 </ol>
 </section></section>
 <section>
-<section id="last-thoughts-on-the-bootstrap" class="title-slide slide level1 center">
-<h1>Last Thoughts on the Bootstrap</h1>
+<section id="bootstrap-vs.-monte-carlo" class="title-slide slide level1 center">
+<h1>Bootstrap vs.&nbsp;Monte Carlo</h1>
 
 </section>
-<section id="bootstrap-vs.-monte-carlo" class="slide level2">
-<h2>Bootstrap vs.&nbsp;Monte Carlo</h2>
-<p><strong>Bootstrap</strong> “if I had a different sample (<em>conditional on the bootstrap principle</em>), what could I have inferred”?</p>
-<p><strong>Monte Carlo</strong>: Given specification of input uncertainty, what data could we generate?</p>
+<section id="bootstrap-as-monte-carlo" class="slide level2">
+<h2>Bootstrap as Monte Carlo</h2>
+<p>The bootstrap is a Monte Carlo procedure, but focused on <strong>inference</strong> vs.&nbsp;<strong>forward simulation</strong>:</p>
+<p><strong>Bootstrap question</strong> “if I had a different sample (<em>conditional on the bootstrap principle</em>), what could I have inferred”?</p>
 </section>
 <section id="bootstrap-distribution-and-monte-carlo" class="slide level2">
 <h2>Bootstrap Distribution and Monte Carlo</h2>
-<p>Could we use a bootstrap distribution for MC?</p>
+<p>Could we use a bootstrap distribution for forward MC?</p>
 <ul>
 <li class="fragment">Sure, that’s just one specification of the data-generating process.</li>
 <li class="fragment">Nothing unique or particularly rigorous in using the bootstrap for this; substituting the bootstrap principle for other assumptions.</li>
 </ul>
 </section></section>
 <section>
-<section id="key-points" class="title-slide slide level1 center">
-<h1>Key Points</h1>
+<section id="key-points-and-upcoming-schedule" class="title-slide slide level1 center">
+<h1>Key Points and Upcoming Schedule</h1>
 
 </section>
-<section id="key-points-1" class="slide level2">
+<section id="key-points" class="slide level2">
 <h2>Key Points</h2>
 <ul>
 <li><strong>Bootstrap</strong>: Use the characteristics of the data to simulate new samples.</li>
@@ -913,23 +912,15 @@ Table&nbsp;1
 <section id="which-bootstrap-to-use-1" class="slide level2">
 <h2>Which Bootstrap To Use?</h2>
 <p>Depends on trust in model “correctness”: - Do we trust the model specification to be reasonably correct? - Do we trust that we have enough samples to recover the empirical CDF? - Do we trust the data-generating process?</p>
-</section></section>
-<section>
-<section id="upcoming-schedule" class="title-slide slide level1 center">
-<h1>Upcoming Schedule</h1>
-
 </section>
 <section id="next-classes" class="slide level2">
 <h2>Next Classes</h2>
-<p><strong>Wednesday</strong>: Markov Chains and Bayesian Computation</p>
-<p><strong>Next Week</strong> (plan): Model Evaluation</p>
+<p><strong>Wednesday</strong>: Bootstrap Example With Residual Resampling</p>
+<p><strong>Friday</strong>: Missing Data</p>
 </section>
 <section id="assessments" class="slide level2">
 <h2>Assessments</h2>
-<ul>
-<li><strong>Homework 3</strong>: Due Friday (3/14)</li>
-<li><strong>Project Proposal</strong>: Due 3/21</li>
-</ul>
+<p><strong>Homework 5</strong>: Due Friday (4/17)</p>
 </section></section>
 <section>
 <section id="references" class="title-slide slide level1 center">

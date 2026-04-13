@@ -81,7 +81,7 @@ default(
 )
 ```
 
-# Last Class
+# Review
 
 ## The Bootstrap 
 
@@ -122,15 +122,17 @@ The non-parametric bootstrap is the most "naive" approach to the bootstrap: **re
 :::
 ::::
 
-## Approaches to Bootstrapping Structured Data
-
-- **Correlations**: Transform to uncorrelated data (principal components, etc.), sample, transform back.
-- **Time Series**: Block bootstrap
 
 ## Sources of Non-Parametric Bootstrap Error
 
 1. **Sampling error**: error from using finitely many replications
 2. **Statistical error**: error in the bootstrap sampling distribution approximation
+
+
+## Approaches to Non-Parametric Bootstrapping Structured Data
+
+- **Transformations**: Transform to uncorrelated data (principal components, etc.), sample, transform back.
+- **Block bootstrap**
 
 
 # The Parametric Bootstrap
@@ -140,7 +142,7 @@ The non-parametric bootstrap is the most "naive" approach to the bootstrap: **re
 - **Non-Parametric Bootstrap**: Resample directly from the data.
 - **Parametric Bootstrap**: Fit a model to the original data and simulate new samples, then calculate bootstrap estimates.
 
-This lets us use additional information, such as a simulation or statistical model, instead of relying only on the empirical CDF.
+This lets us use more general probability models, such as a simulation or statistical model, instead of relying only on the empirical CDF.
 
 ## Parametric Bootstrap Scheme
 
@@ -553,17 +555,17 @@ Can boostrap residuals from a model versus "full" parametric bootstrap:
 5. Refit model to replicates.
 
 
-# Last Thoughts on the Bootstrap
+# Bootstrap vs. Monte Carlo
 
-## Bootstrap vs. Monte Carlo
+## Bootstrap as Monte Carlo
 
-**Bootstrap** "if I had a different sample (*conditional on the bootstrap principle*), what could I have inferred"?
+The bootstrap is a Monte Carlo procedure, but focused on **inference** vs. **forward simulation**:
 
-**Monte Carlo**: Given specification of input uncertainty, what data could we generate?
+**Bootstrap question** "if I had a different sample (*conditional on the bootstrap principle*), what could I have inferred"?
 
 ## Bootstrap Distribution and Monte Carlo
 
-Could we use a bootstrap distribution for MC?
+Could we use a bootstrap distribution for forward MC?
 
 ::: {.incremental}
 
@@ -573,7 +575,7 @@ Could we use a bootstrap distribution for MC?
 :::
 
 
-# Key Points
+# Key Points and Upcoming Schedule
 
 ## Key Points
 
@@ -596,19 +598,15 @@ Depends on trust in model "correctness":
   - Do we trust that we have enough samples to recover the empirical CDF?
   - Do we trust the data-generating process?
 
-
-# Upcoming Schedule
-
 ## Next Classes
 
-**Wednesday**: Markov Chains and Bayesian Computation 
+**Wednesday**: Bootstrap Example With Residual Resampling
 
-**Next Week** (plan): Model Evaluation
+**Friday**: Missing Data
 
 ## Assessments
 
-- **Homework 3**: Due Friday (3/14)
-- **Project Proposal**: Due 3/21
+**Homework 5**: Due Friday (4/17)
 
 # References
 
