@@ -143,7 +143,7 @@ temp_sd = (temp_hi - temp_lo) / 2 # estimate standard deviation using 95% CI
 
 ## Planetary Energy Balance
 
-![Representation of Planetary Energy Balance](https://www.e-education.psu.edu/meteo469/sites/www.e-education.psu.edu.meteo469/files/lesson04/ebm_0_dim.gif)
+![Representation of Planetary Energy Balance](https://courses.ems.psu.edu/meteo469/sites/meteo469/files/lesson04/ebm_0_dim.gif)
 
 ::: {.caption}
 Source: Reprinted from A Climate Modeling Primer, A. Henderson-Sellers and K. McGuffie, Wiley, pg. 58, (1987) via <https://www.e-education.psu.edu/meteo469/node/137>.
@@ -160,7 +160,7 @@ C_D\frac{dT_D}{dt} &= \gamma(T-T_D)
 \end{align*}
 :::
 ::: {.column width=40%}
-![Two Layer EBM Schematic](https://www.researchgate.net/publication/326356068/figure/fig1/AS:1132452110184458@1647009031736/A-physically-based-emulator-the-two-layer-energy-balance-model-The-model-consists-of-an.jpg)
+![Two Layer EBM Schematic](https://content.cld.iop.org/journals/1748-9326/13/8/084003/revision2/erlaad2e4f1_hr.jpg)
 
 ::: {.caption}
 Source: @Palmer2018-ha
@@ -193,6 +193,8 @@ $$\mathbf{y} = \underbrace{\eta(\mathbf{x}; \theta)}_{\text{model}} + \underbrac
 
 
 ## Model-Data Discrepancy
+
+Systematic disagreements between model predictions and system state (vs. random observation errors).
 
 For example, $\delta$ might capture:
 
@@ -274,7 +276,7 @@ temp_iid_q = mapslices(col -> quantile(col, [0.05, 0.5, 0.95]), temp_iid_proj; d
 
 p = scatter(time_obs, temp_obs, color=:black, label="Observations", ylabel="(°C)", xlabel="Year", title="Temperature Anomaly")
 plot!(p, time_obs, temp_iid_q[2, :], lw=3, ribbon=(temp_iid_q[2, :] - temp_iid_q[1, :], temp_iid_q[3, :] - temp_iid_q[2, :]), color=:red, fillalpha=0.3, label="Gaussian Discrepancy")
-plot!(size=(600, 500))
+plot!(size=(600, 450))
 ```
 :::
 ::::
@@ -292,9 +294,9 @@ plot!(size=(600, 500))
 
 resids_homogauss = temp_obs - temp_iid
 
-p1 = qqnorm(resids_homogauss, xlabel="Theoretical Values", ylabel="Empirical Values", title="Normal Q-Q Plot", size=(600, 500))
+p1 = qqnorm(resids_homogauss, xlabel="Theoretical Values", ylabel="Empirical Values", title="Normal Q-Q Plot", size=(600, 450))
 pacf_homogauss = pacf(resids_homogauss, 1:5)
-p2 = plot(1:5, pacf_homogauss, marker=:circle, line=:stem, linewidth=3, markersize=8, tickfontsize=16, guidefontsize=18, legend=false, ylabel="Partial Autocorrelation", xlabel="Time Lag", title="Partial Autocorrelation Plot", size=(600, 500))
+p2 = plot(1:5, pacf_homogauss, marker=:circle, line=:stem, linewidth=3, markersize=8, tickfontsize=16, guidefontsize=18, legend=false, ylabel="Partial Autocorrelation", xlabel="Time Lag", title="Partial Autocorrelation Plot", size=(600, 450))
 hline!(p2, [0], color=:black, linestyle=:dash)
 
 display(p1)
@@ -342,7 +344,7 @@ y_t - \rho y_{t-1}  &\sim N(0, \sigma^2)
 \end{align*}
 $$
 
-When observation errors are given in the data (as in here), this also works.
+When observation error variances are known (as in here, provided in the dataset), this also works.
 
 ## Non-Identifiability of Parameters
 
@@ -367,6 +369,7 @@ $$
 #| output: false
 #| echo: true
 #| code-overflow: wrap
+#| code-fold: false
 
 # temp_obs: temperature data
 # temp_err: standard deviations for temperatures
@@ -396,6 +399,7 @@ end
 #| echo: true
 #| code-overflow: wrap
 #| output: false
+#| code-fold: false
 
 lower = [1.0, 0.5, 0.0, 50.0, 200.0, temp_lo[1], -1.0, 0.0]
 upper = [5.0, 1.5, 2.0, 200.0, 1000.0, temp_hi[1], 1.0, 10.0]
@@ -407,6 +411,8 @@ result = Optim.optimize(params -> -ar_loglik(params, temp_obs, temp_sd, ebm_wrap
 
 ## Comparison of MLE
 
+:::: {.columns}
+::: {.column width=50%}
 ```{julia}
 #| output: asis
 
@@ -418,8 +424,18 @@ result = Optim.optimize(params -> -ar_loglik(params, temp_obs, temp_sd, ebm_wrap
 θ_iid_exp[end] = θ_iid_rd[end]
 
 parnames = ["S", "γ", "α", "d", "D", "T₀", "ρ", "σ"]
-pretty_table(DataFrame(Parameters=parnames, IID=θ_iid_exp, AR=θ_ar_rd); backend=:markdown)
+param_df = DataFrame(Parameters=parnames, IID=θ_iid_exp, AR=θ_ar_rd)
+pretty_table(param_df[1:4, :]; backend=:markdown)
 ```
+:::
+::: {.column width=50%}
+```{julia}
+#| output: asis
+
+pretty_table(param_df[5:end, :]; backend=:markdown)
+```
+:::
+::::
 
 ## AR(1) Hindcast
 
@@ -459,11 +475,12 @@ q90_ar = mapslices(col -> quantile(col, [0.05, 0.5, 0.95]), model_sim_ar; dims=1
 p = scatter(time_obs, temp_obs, yerr=(temp_obs - temp_lo, temp_hi - temp_obs), color=:black, label="Observations", ylabel="(°C)", xlabel="Year", title="Temperature Anomaly", markersize=5)
 plot!(p, hind_years, q90_iid[2, :], ribbon=(q90_iid[2, :] - q90_iid[1, :], q90_iid[3, :] - q90_iid[2, :]), fillalpha=0.2, linewidth=3, label="IID")
 plot!(p, hind_years, q90_ar[2, :], ribbon=(q90_ar[2, :] - q90_ar[1, :], q90_ar[3, :] - q90_ar[2, :]), fillalpha=0.2, linewidth=3, label="AR")
-plot!(size=(700, 550))
+plot!(size=(1200, 500))
 ```
-:::
-::: {.column width=40%}
-Coverage Rates:
+
+## Coverage Rates
+
+Coverage Rates of 90% CIs:
 
 ```{julia}
 #| echo: false
@@ -479,8 +496,6 @@ end
 - IID: `{julia} cover_rate(q90_iid, temp_obs)`%
 - AR(1): `{julia} cover_rate(q90_ar, temp_obs)`%
 
-:::
-::::
 
 ## Have We Captured Residual Autocorrelation?
 
@@ -556,7 +571,7 @@ plot!(p_sim, sim_years, q90_iid_26[2, :], ribbon=(q90_iid_26[2, :] - q90_iid_26[
 plot!(p_sim, sim_years, q90_ar_26[2, :], ribbon=(q90_ar_26[2, :] - q90_ar_26[1, :], q90_ar_26[3, :] - q90_ar_26[2, :]), fillalpha=0.2, linewidth=3, color=:firebrick1, label="AR/SSP1-2.6")
 plot!(p_sim, sim_years, q90_iid_85[2, :], ribbon=(q90_iid_85[2, :] - q90_iid_85[1, :], q90_iid_85[3, :] - q90_iid_85[2, :]), fillalpha=0.2, linewidth=3, color=:blue3, label="IID/SSP5-8.5")
 plot!(p_sim, sim_years, q90_ar_85[2, :], ribbon=(q90_ar_85[2, :] - q90_ar_85[1, :], q90_ar_85[3, :] - q90_ar_85[2, :]), fillalpha=0.2, linewidth=3, color=:firebrick, label="AR/SSP5-8.5")
-plot!(p_sim, size=(1100, 550))
+plot!(p_sim, size=(1200, 500))
 xlims!((2000, 2100))
 ylims!((0.75, 5.5))
 ```
@@ -597,6 +612,7 @@ display(p2)
 
 resids_obs = temp_obs .- temp_ar
 p = scatter(time_obs, resids_obs, color=:black, label="Residuals", ylabel="Temperature Anomaly (°C)", xlabel="Year", right_margin=5mm)
+plot!(p, size=(600, 450))
 ```
 :::
 ::::
@@ -613,9 +629,9 @@ nboot = 1_000 # number of bootstrap replicates
 resids_boot = sample(resids_obs, (length(resids_obs), nboot), replace=true) # bootstrap samples
 ebm_boot = temp_ar .+ resids_boot
 plot(time_obs, temp_ar, lw=3, color=:black, label="Modeled Trend")
-plot!(time_obs, ebm_boot[:, 1], lw=1, label="Bootstrapped Realization")
-plot!(time_obs, ebm_boot[:, 2], lw=1, label=false)
-plot!(time_obs, ebm_boot[:, 3], lw=1, label=false)
+plot!(time_obs, ebm_boot[:, 1], lw=2, label="Bootstrapped Realization")
+plot!(time_obs, ebm_boot[:, 2], lw=2, label=false)
+plot!(time_obs, ebm_boot[:, 3], lw=2, label=false)
 plot!(size=(1200, 500))
 ```
 
@@ -649,10 +665,17 @@ end
 
 p1 = histogram(S, legend=false, ylabel="Count", xlabel=L"S ($^\circ$C)")
 vline!(p1, [θ_ar[1]], color=:red, lw=3, linestyle=:dash)
+q90 = quantile(S, [0.95, 0.05])
+vspan!(p1, 2 * θ_ar[1] .- q90, linecolor=:gray, fillcolor=:gray, lw=3, alpha=0.3, fillalpha=0.3)
 p2 = histogram(α, legend=false, ylabel="Count", xlabel=L"$\alpha$")
 vline!(p2, [θ_ar[3]], color=:red, lw=3, linestyle=:dash)
+q90 = quantile(α, [0.95, 0.05])
+vspan!(p2, 2 * θ_ar[3] .- q90, linecolor=:gray, fillcolor=:gray, lw=3, alpha=0.3, fillalpha=0.3)
 p3 = histogram(d, legend=false, ylabel="Count", xlabel="d (m)")
 vline!(p3, [θ_ar[4]], color=:red, lw=3, linestyle=:dash)
+q90 = quantile(d, [0.95, 0.05])
+vspan!(p3, 2 * θ_ar[4] .- q90, linecolor=:gray, fillcolor=:gray, lw=3, alpha=0.3, fillalpha=0.3)
+
 plot(p1, p2, p3, layout=(1, 3), size=(1200, 500))
 ```
 
