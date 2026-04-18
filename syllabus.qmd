@@ -3,7 +3,7 @@ title: "Syllabus"
 pdf-title: "Environmental Data Analysis & Simulation"
 pdf-subtitle: "BEE 4850/5850 • Spring 2026"
 pdf-note: |
-  The full versions of the course syllabus, schedule, and all course materials are available online at <https://envdata.viveks.me/spring2026/>. This is only a partially complete, static version.
+  The full versions of the course syllabus, schedule, and all course materials are available online at #link("https://envsys.viveks.me/fall2026/"). This is only a partially complete, static version.
 pdf-header-left: BEE 4850/5850
 pdf-header-right: Spring 2026
 pdf-footer-left: Environmental Data Analysis & Simulation

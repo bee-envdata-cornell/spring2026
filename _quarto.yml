@@ -113,6 +113,8 @@ website:
           text: "Homework 4: Model Evaluation"  
         - href: hw/hw05/hw05.qmd
           text: "Homework 5: Hypothesis Testing and Monte Carlo"  
+        - href: hw/hw06/hw06.qmd
+          text: "Homework 6: The Bootstrap and Missing Data"  
     - title: "Literature Critique"
       href: lit_critique/index.qmd      
     - title: "Project"

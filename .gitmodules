@@ -19,3 +19,7 @@
 	path = hw/hw05
 	url = https://github.com/bee-envdata-cornell/hw05.git
 	branch = Spring26
+[submodule "hw/hw06"]
+	path = hw/hw06
+	url = https://github.com/bee-envdata-cornell/hw06.git
+	branch = Spring26

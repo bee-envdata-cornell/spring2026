@@ -32,6 +32,6 @@ Make sure to look over the [standard homework rubric](../policies/rubric.qmd) an
 | HW 2 | Probability Models | [{{< fa sharp pen-field >}}](hw02/hw02.qmd) | [{{< fa sharp key-skeleton >}}](../solutions/hw02/hw02.qmd)  | Feb. 09, 2026 | Feb. 20, 2026 |
 | HW 3 | Extreme Values and Time Series | [{{< fa sharp pen-field >}}](hw03/hw03.qmd) | [{{< fa sharp key-skeleton >}}](../solutions/hw03/hw03.qmd) | Feb. 23, 2026 | Mar. 06, 2026 |
 | HW 4 | Model Evaluation | [{{< fa sharp pen-field >}}](hw04/hw04.qmd) | [{{< fa sharp key-skeleton >}}](../solutions/hw04/hw04.qmd) | Mar. 16, 2026 | Mar. 27, 2026 |
-| HW 5 | Hypothesis Testing and Monte Carlo | [{{< fa sharp pen-field >}}](hw04/hw04.qmd) |  [{{< fa sharp key-skeleton >}}]{style="color: grey;"}  | Apr. 06, 2026 | Apr. 17, 2026 |
-| HW 6 | The Bootstrap | [{{< fa sharp pen-field >}}]{style="color: grey;"}  [{{< fa sharp key-skeleton >}}]{style="color: grey;"} | Apr. 20, 2026 | May. 20, 2026 |
+| HW 5 | Hypothesis Testing and Monte Carlo | [{{< fa sharp pen-field >}}](hw05/hw05.qmd) |  [{{< fa sharp key-skeleton >}}]{style="color: grey;"}  | Apr. 06, 2026 | Apr. 17, 2026 |
+| HW 6 | The Bootstrap and Missing Data | [{{< fa sharp pen-field >}}](hw06/hw06.qmd)  [{{< fa sharp key-skeleton >}}]{style="color: grey;"} | Apr. 20, 2026 | May. 01, 2026 |
 

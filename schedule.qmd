@@ -52,3 +52,5 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 |    | 4/10 | Bootstrapping Structured Data | [{{< fa sharp presentation-screen >}}](slides/lecture12-3-bootstrap-structure.qmd) | | | | Quiz 3 | 
 | 13 | 4/13 | Parametric Bootstrap | [{{< fa sharp presentation-screen >}}](slides/lecture13-1-parametric-bootstrap.qmd) | [Clark et al (2021)](https://doi.org/10.1029/2020wr029001) | | | | 
 |  | 4/15 | Model UQ Example | [{{< fa sharp presentation-screen >}}](slides/lecture13-2-uq-model.qmd) |  | | |  | 
+|  | 4/17 | Model UQ Example Continued | [{{< fa sharp presentation-screen >}}](slides/lecture13-2-uq-model.qmd) |  | | |  | 
+| 14 | 4/20 | Missing Data Mechanisms | [{{< fa sharp presentation-screen >}}](slides/lecture14-1-missing-data.qmd) |  | | |  | 
