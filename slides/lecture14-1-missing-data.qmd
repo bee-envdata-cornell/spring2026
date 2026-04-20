@@ -1,10 +1,10 @@
 ---
-title: "Missing Data"
-subtitle: "Lecture 21"
+title: "Missing Data Mechanisms"
+subtitle: "Lecture 33"
 author: "Vivek Srikrishnan"
 course: "BEE 4850"
 institution: "Cornell University"
-date: "April 16, 2026"
+date: "April 20, 2026"
 format:
     revealjs:
         slide-number: c/t
@@ -83,15 +83,6 @@ default(
 )
 
 ```
-
-# Review
-
-## Extreme Values
-
-**Values with a very low probability of occurring**, not necessarily high-impact events (which don't have to be rare!).
-
-1. "Block" extremes, *e.g.* annual maxima (**block maxima**)
-2. Values which exceed a certain threshold (**peaks over threshold**)
 
 # Missing Data
 
