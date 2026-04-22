@@ -356,103 +356,6 @@ plot!(xpred, y_lm_mnar, color=:blue, lw=3, linestyle=:dot, label="Observed-Data 
 2. **MAR**: More plausible than MCAR, can still justify complete-case analysis as conditional observed distributions are unbiased estimates of conditional complete distributions. 
 3. **MNAR**: **Deletion is a bad idea**. The observed data does not follow the same conditional distribution. Missingness can be informative: try to model the missingness mechanism.
 
-# Checking Assumptions About Missingness
-
-## Checking MCAR
-
-In general, we can't know for sure if missingness $M_Y$ is informative about $Y$ (since we can't see it!).
-
-But we can check if $M_Y$ is independent of $X$: if not, reject MCAR.
-
-**Can we conclude MCAR if, in our dataset, $M_Y$ appears independent of $X$?**
-
-## Distinguishing MAR from MNAR
-
-Can't do this statistically!
-
-MAR: $\mathbb{P}(Y=y | X-x, M_Y=1) = \mathbb{P}(Y=y | X-x, M_Y=0)$
-
-But the data tells us nothing about $\mathbb{P}(Y=y | X-x, M_Y=1)$. Need to bring to bear understanding of data-collection process.
-
-Instead, try a few different models reflecting different assumptions about missingness: do your conclusions change?
-
-
-# Methods for Dealing with Missing Data
-
-## Methods for Dealing with Missing Data
-
-1. **Imputation**: substitute values for missing data before analysis;
-2. **Averaging**: find expected values over all possible values of the missing variables.
- 
-## Imputation
-
-Imputation does not create "new" information, it reuses existing information to allow the use of standard procedures.
-
-**Example**: Missing observations in a time series, want to insert values to fit AR(1) model or estimate autocorrelation using "simple" estimators.
-
-As a result, it's convenient but can create systematic distortions.
-
-## Imputation Under MAR
-
-::: {.incremental}
-- Impute from the marginal distribution (parametrically or non-parametrically), $$p(Y_\text{miss}) = p(Y_\text{obs}).$$ This can create distortions if meaningful relationships are neglected.
-- Impute using a regression model (such as linear imputation). This generalizes relationships but requires missingness being uninformative about $Y$.
-:::
-
-## Imputation Under MAR
-
-::: {.incremental}
-- Impute from the conditional distribution, $$p(Y_\text{miss} | X = x) = p(Y_\text{obs} | X = x).$$ Can be done parametrically or non-parametrically.
-- Impute using **matching**: find a closest predictor and copy value of $Y$. Can work okay or be a terrible idea.
-:::
-
-## Imputation Under MNAR
-
-Need to model missingness mechanism (censoring, etc).
-
-Often need to make assumptions about how the relationship extrapolates.
-
-- Model relationship between predictors and missing data;
-- Add unknown constant to imputed data to reflect biases.
-
-**Ultimately, MNAR requires a sensitivity analysis**.
-
-## Multiple Imputation
-
-::: {.quote}
-> Imputing one value for a missing datum cannot be correct in general, because we don’t know what value to impute with certainty (if we did, it wouldn’t be missing).
-
-::: {.cite}
-—- @Rubin1987-nq
-:::
-:::
-
-
-## Multiple Imputation Steps
-
-1. Generate $m$ imputations $\hat{y}_i$ by sampling missing values;
-2. Estimate statistics $\hat{t}_i$ for each imputation
-3. Pool $\{\hat{t}_i\}$ and estimate $$\bar{t} = \frac{1}{m} \sum_i \hat{t}_i$$ $$\bar{\sigma}^2 = \frac{1}{m}\sum_{i=1}^m \hat{\sigma}_i^2 + (1 + \frac{1}{m}) \text{Var}(\hat{t}_i)$$
-
-## Methods for Multiple Imputation
-
-1. **Prediction with noise**: Fit a regression model and add noise to expected value. Better to use the bootstrap to also include parameter uncertainty.
-2. **Predictive mean matching**: Sample missing values from cases with close values of predictors.
-
-In both cases, important to include as much information as possible in the imputation model!
-
-## Multiple Imputation Models
-
-No need to be limited to linear regression!
-
-- Classification and Regression Trees very common (random forests probably better for additional variation);
-- Could set up time-specific models.
-
-## Bayesian Imputation
-
-Bayesian imputation involves putting a prior over the missing values and treating them as model parameters, resulting in a joint distribution of imputed values and parameters:
-
-$$p(\theta, y_\text{miss} | Y=y_\text{obs}, X=x)$$
 
 
 # Key Points and Upcoming Schedule
@@ -462,20 +365,17 @@ $$p(\theta, y_\text{miss} | Y=y_\text{obs}, X=x)$$
 - Missing data is very common in environmental contexts.
 - Ability to draw unbiased inferences depends on MCAR, MAR, or MNAR/informativeness of missingness.
 - Best approach to missing data is to not have any.
-- Otherwise, try multiple imputation based on understanding/theories of missing mechanisms. Use as much data as possible in these models.
 
 ## Upcoming Schedule
 
-**Monday**: Mixture Models and Model-Based Clustering or Gaussian Processes and Emulation.
+**Wednesday**: More on Missing Data
 
-**Next Wednesday (4/23)**: No Class
+**Friday**: Finishing Missing Data
 
 ## Assessments
 
-**HW5** released, due 5/2.
+**HW6** released, due 5/1.
 
-**Literature Critique**: Due 5/2.
-
-**Project Presentations**: 4/48, 4/30, 5/5.
+**Quiz 4**: Due 5/1
 
 ## References 

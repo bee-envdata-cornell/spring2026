@@ -270,8 +270,6 @@
 <ul>
 <li><a href="#/missing-data" id="/toc-missing-data">Missing Data</a></li>
 <li><a href="#/categories-of-missingness" id="/toc-categories-of-missingness">Categories of Missingness</a></li>
-<li><a href="#/checking-assumptions-about-missingness" id="/toc-checking-assumptions-about-missingness">Checking Assumptions About Missingness</a></li>
-<li><a href="#/methods-for-dealing-with-missing-data" id="/toc-methods-for-dealing-with-missing-data">Methods for Dealing with Missing Data</a></li>
 <li><a href="#/key-points-and-upcoming-schedule" id="/toc-key-points-and-upcoming-schedule">Key Points and Upcoming Schedule</a></li>
 </ul>
 </nav>
@@ -601,106 +599,6 @@ Figure&nbsp;9: Illustration of MCAR Data
 </ol>
 </section></section>
 <section>
-<section id="checking-assumptions-about-missingness" class="title-slide slide level1 center">
-<h1>Checking Assumptions About Missingness</h1>
-
-</section>
-<section id="checking-mcar" class="slide level2">
-<h2>Checking MCAR</h2>
-<p>In general, we can’t know for sure if missingness <span class="math inline">\(M_Y\)</span> is informative about <span class="math inline">\(Y\)</span> (since we can’t see it!).</p>
-<p>But we can check if <span class="math inline">\(M_Y\)</span> is independent of <span class="math inline">\(X\)</span>: if not, reject MCAR.</p>
-<p><strong>Can we conclude MCAR if, in our dataset, <span class="math inline">\(M_Y\)</span> appears independent of <span class="math inline">\(X\)</span>?</strong></p>
-</section>
-<section id="distinguishing-mar-from-mnar" class="slide level2">
-<h2>Distinguishing MAR from MNAR</h2>
-<p>Can’t do this statistically!</p>
-<p>MAR: <span class="math inline">\(\mathbb{P}(Y=y | X-x, M_Y=1) = \mathbb{P}(Y=y | X-x, M_Y=0)\)</span></p>
-<p>But the data tells us nothing about <span class="math inline">\(\mathbb{P}(Y=y | X-x, M_Y=1)\)</span>. Need to bring to bear understanding of data-collection process.</p>
-<p>Instead, try a few different models reflecting different assumptions about missingness: do your conclusions change?</p>
-</section></section>
-<section>
-<section id="methods-for-dealing-with-missing-data" class="title-slide slide level1 center">
-<h1>Methods for Dealing with Missing Data</h1>
-
-</section>
-<section id="methods-for-dealing-with-missing-data-1" class="slide level2">
-<h2>Methods for Dealing with Missing Data</h2>
-<ol type="1">
-<li><strong>Imputation</strong>: substitute values for missing data before analysis;</li>
-<li><strong>Averaging</strong>: find expected values over all possible values of the missing variables.</li>
-</ol>
-</section>
-<section id="imputation" class="slide level2">
-<h2>Imputation</h2>
-<p>Imputation does not create “new” information, it reuses existing information to allow the use of standard procedures.</p>
-<p><strong>Example</strong>: Missing observations in a time series, want to insert values to fit AR(1) model or estimate autocorrelation using “simple” estimators.</p>
-<p>As a result, it’s convenient but can create systematic distortions.</p>
-</section>
-<section id="imputation-under-mar" class="slide level2">
-<h2>Imputation Under MAR</h2>
-<ul>
-<li class="fragment">Impute from the marginal distribution (parametrically or non-parametrically), <span class="math display">\[p(Y_\text{miss}) = p(Y_\text{obs}).\]</span> This can create distortions if meaningful relationships are neglected.</li>
-<li class="fragment">Impute using a regression model (such as linear imputation). This generalizes relationships but requires missingness being uninformative about <span class="math inline">\(Y\)</span>.</li>
-</ul>
-</section>
-<section id="imputation-under-mar-1" class="slide level2">
-<h2>Imputation Under MAR</h2>
-<ul>
-<li class="fragment">Impute from the conditional distribution, <span class="math display">\[p(Y_\text{miss} | X = x) = p(Y_\text{obs} | X = x).\]</span> Can be done parametrically or non-parametrically.</li>
-<li class="fragment">Impute using <strong>matching</strong>: find a closest predictor and copy value of <span class="math inline">\(Y\)</span>. Can work okay or be a terrible idea.</li>
-</ul>
-</section>
-<section id="imputation-under-mnar" class="slide level2">
-<h2>Imputation Under MNAR</h2>
-<p>Need to model missingness mechanism (censoring, etc).</p>
-<p>Often need to make assumptions about how the relationship extrapolates.</p>
-<ul>
-<li>Model relationship between predictors and missing data;</li>
-<li>Add unknown constant to imputed data to reflect biases.</li>
-</ul>
-<p><strong>Ultimately, MNAR requires a sensitivity analysis</strong>.</p>
-</section>
-<section id="multiple-imputation" class="slide level2">
-<h2>Multiple Imputation</h2>
-<div class="quote">
-<blockquote>
-<p>Imputing one value for a missing datum cannot be correct in general, because we don’t know what value to impute with certainty (if we did, it wouldn’t be missing).</p>
-</blockquote>
-<div class="cite">
-<p>—- <span class="citation" data-cites="Rubin1987-nq">Rubin (<a href="#/references" role="doc-biblioref" onclick="">1987</a>)</span></p>
-</div>
-</div>
-</section>
-<section id="multiple-imputation-steps" class="slide level2">
-<h2>Multiple Imputation Steps</h2>
-<ol type="1">
-<li>Generate <span class="math inline">\(m\)</span> imputations <span class="math inline">\(\hat{y}_i\)</span> by sampling missing values;</li>
-<li>Estimate statistics <span class="math inline">\(\hat{t}_i\)</span> for each imputation</li>
-<li>Pool <span class="math inline">\(\{\hat{t}_i\}\)</span> and estimate <span class="math display">\[\bar{t} = \frac{1}{m} \sum_i \hat{t}_i\]</span> <span class="math display">\[\bar{\sigma}^2 = \frac{1}{m}\sum_{i=1}^m \hat{\sigma}_i^2 + (1 + \frac{1}{m}) \text{Var}(\hat{t}_i)\]</span></li>
-</ol>
-</section>
-<section id="methods-for-multiple-imputation" class="slide level2">
-<h2>Methods for Multiple Imputation</h2>
-<ol type="1">
-<li><strong>Prediction with noise</strong>: Fit a regression model and add noise to expected value. Better to use the bootstrap to also include parameter uncertainty.</li>
-<li><strong>Predictive mean matching</strong>: Sample missing values from cases with close values of predictors.</li>
-</ol>
-<p>In both cases, important to include as much information as possible in the imputation model!</p>
-</section>
-<section id="multiple-imputation-models" class="slide level2">
-<h2>Multiple Imputation Models</h2>
-<p>No need to be limited to linear regression!</p>
-<ul>
-<li>Classification and Regression Trees very common (random forests probably better for additional variation);</li>
-<li>Could set up time-specific models.</li>
-</ul>
-</section>
-<section id="bayesian-imputation" class="slide level2">
-<h2>Bayesian Imputation</h2>
-<p>Bayesian imputation involves putting a prior over the missing values and treating them as model parameters, resulting in a joint distribution of imputed values and parameters:</p>
-<p><span class="math display">\[p(\theta, y_\text{miss} | Y=y_\text{obs}, X=x)\]</span></p>
-</section></section>
-<section>
 <section id="key-points-and-upcoming-schedule" class="title-slide slide level1 center">
 <h1>Key Points and Upcoming Schedule</h1>
 
@@ -711,19 +609,17 @@ Figure&nbsp;9: Illustration of MCAR Data
 <li>Missing data is very common in environmental contexts.</li>
 <li>Ability to draw unbiased inferences depends on MCAR, MAR, or MNAR/informativeness of missingness.</li>
 <li>Best approach to missing data is to not have any.</li>
-<li>Otherwise, try multiple imputation based on understanding/theories of missing mechanisms. Use as much data as possible in these models.</li>
 </ul>
 </section>
 <section id="upcoming-schedule" class="slide level2">
 <h2>Upcoming Schedule</h2>
-<p><strong>Monday</strong>: Mixture Models and Model-Based Clustering or Gaussian Processes and Emulation.</p>
-<p><strong>Next Wednesday (4/23)</strong>: No Class</p>
+<p><strong>Wednesday</strong>: More on Missing Data</p>
+<p><strong>Friday</strong>: Finishing Missing Data</p>
 </section>
 <section id="assessments" class="slide level2">
 <h2>Assessments</h2>
-<p><strong>HW5</strong> released, due 5/2.</p>
-<p><strong>Literature Critique</strong>: Due 5/2.</p>
-<p><strong>Project Presentations</strong>: 4/48, 4/30, 5/5.</p>
+<p><strong>HW6</strong> released, due 5/1.</p>
+<p><strong>Quiz 4</strong>: Due 5/1</p>
 </section>
 <section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
@@ -732,9 +628,6 @@ Figure&nbsp;9: Illustration of MCAR Data
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
 <div id="ref-Little2013-dq" class="csl-entry" role="listitem">
 Little, R. J. (2013). <span class="nocase">In praise of simplicity not mathematistry! Ten simple powerful ideas for the statistical scientist</span>. <em>J. Am. Stat. Assoc.</em>, <em>108</em>, 359–369. <a href="https://doi.org/10.1080/01621459.2013.787932">https://doi.org/10.1080/01621459.2013.787932</a>
-</div>
-<div id="ref-Rubin1987-nq" class="csl-entry" role="listitem">
-Rubin, D. B. (1987). <em><span class="nocase">Multiple Imputation for Nonresponse in Surveys</span></em>. (D. B. Rubin, Ed.) (99th ed.). Nashville, TN: John Wiley &amp; Sons. <a href="https://doi.org/10.1002/9780470316696">https://doi.org/10.1002/9780470316696</a>
 </div>
 </div>
 </section></section>
