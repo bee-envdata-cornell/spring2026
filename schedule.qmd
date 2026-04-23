@@ -54,4 +54,5 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 |  | 4/15 | Model UQ Example | [{{< fa sharp presentation-screen >}}](slides/lecture13-2-uq-model.qmd) |  | | |  | 
 |  | 4/17 | Model UQ Example Continued | [{{< fa sharp presentation-screen >}}](slides/lecture13-2-uq-model.qmd) |  | | |  | 
 | 14 | 4/20 | Missing Data Mechanisms | [{{< fa sharp presentation-screen >}}](slides/lecture14-1-missing-data.qmd) |  | [{{< fa sharp pen-field >}}](hw/hw06/hw06.qmd)  | |  | 
-|  | 4/22 | Multiple Imputation | [{{< fa sharp presentation-screen >}}](slides/lecture14-2-multiple-imputation.qmd) |  |  | |  | 
+|  | 4/22 | More Missing Data | [{{< fa sharp presentation-screen >}}](slides/lecture14-2-more-missing-data.qmd) |  |  | |  | 
+|  | 4/24 | Multiple Imputation | [{{< fa sharp presentation-screen >}}](slides/lecture14-3-multiple-imputation.qmd) |  |  | |  | 

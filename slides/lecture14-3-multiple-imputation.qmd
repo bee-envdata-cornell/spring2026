@@ -1,10 +1,10 @@
 ---
 title: "Multiple Imputation"
-subtitle: "Lecture 33"
+subtitle: "Lecture 35"
 author: "Vivek Srikrishnan"
 course: "BEE 4850"
 institution: "Cornell University"
-date: "April 20, 2026"
+date: "April 24, 2026"
 format:
     revealjs:
         slide-number: c/t
@@ -84,203 +84,7 @@ default(
 
 ```
 
-# Review
-
-## Missing Data Notation
-
-Let $M_Y$ be the indicator function for whether $Y$ is missing and let $\pi(x) = \mathbb{P}(M_Y = 0 | X = x)$ be the **inclusion** probability.
-
-**Goal**: Understand the **complete-data** distribution $\mathbb{P}(Y=y | X=x)$.
-
-But we only have the **observed** distribution $\mathbb{P}(Y = y | X=x, M_Y = 0) \pi(x)$. We are missing  $\mathbb{P}(Y = y | X=x, M_Y = 1) (1-\pi(x))$.
-
-## Missingness Complete At Random (MCAR)
-
-:::: {.columns}
-::: {.column width=50%}
-**MCAR**: $M_Y$ is independent of $X=x$ and $Y=y$.
-
-Complete cases are fully representative of the complete data:
-
-$$\mathbb{P}(Y=y) = P(Y=y | M_Y=0)$$
-:::
-::: {.column width=50%}
-```{julia}
-#| label: fig-mcar
-#| fig-cap: Illustration of MCAR Data
-#| echo: true
-#| code-fold: true
-
-n = 50
-x = rand(Uniform(0, 100), n)
-logit(x) = log(x / (1 - x))
-invlogit(x) = exp(x) / (1 + exp(x))
-f(x) = invlogit(0.05 * (x - 50) + rand(Normal(0, 1)))
-
-flin(x) = 0.25 * x + 2 + rand(Normal(0, 7))
-y = flin.(x)
-xpred = collect(0:0.1:100)
-
-lm_all = lm([ones(length(x)) x], y)
-y_lm_all = predict(lm_all, [ones(length(xpred)) xpred])
-
-missing_y = Bool.(rand(Binomial.(1, 0.25), length(y)))
-xobs = x[.!(missing_y)]
-yobs = y[.!(missing_y)]
-lm_mcar = lm([ones(n - sum(missing_y)) xobs], yobs)
-y_lm_mcar = predict(lm_mcar, [ones(length(xpred)) xpred])
-
-
-p1 = scatter(xobs, yobs, xlabel=L"$x$", ylabel=L"$y$", label=false, markersize=5, size=(600, 500), color=:blue)
-scatter!(x[missing_y], y[missing_y], alpha=0.9, color=:lightgrey, label=false, markersize=5)
-plot!(xpred, y_lm_all, color=:red, lw=3, label="Complete-Data Inference", ribbon=GLM.dispersion(lm_all), fillalpha=0.2)
-plot!(xpred, y_lm_mcar, color=:blue, lw=3, linestyle=:dot, label="Observed-Data Inference", ribbon=GLM.dispersion(lm_mcar), fillalpha=0.2)
-
-```
-:::
-::::
-
-## Missingness At Random (MAR)
-
-:::: {.columns}
-::: {.column width=50%}
-**MAR**: $M_Y$ is independent of $Y=y$ **conditional on $X=x$**.
-
-Also called **ignorable** or **uninformative missingness**.
-
-$$
-\begin{align*}
-\mathbb{P}&(Y=y | X=x) \\
-&= \mathbb{P}(Y=y | X=x, M_Y=0)
-\end{align*}
-$$
-:::
-::: {.column width=50%}
-```{julia}
-#| label: fig-mar
-#| fig-cap: Illustration of MAR Data
-#| echo: true
-#| code-fold: true
-
-missing_y = Bool.(rand.(Binomial.(1,  invlogit.(0.1 * (x .- 75)))))
-xobs = x[.!(missing_y)]
-yobs = y[.!(missing_y)]
-lm_mar = lm([ones(n - sum(missing_y)) xobs], yobs)
-y_lm_mar = predict(lm_mar, [ones(length(xpred)) xpred])
-
-p2 = scatter(xobs, yobs, xlabel=L"$x$", ylabel=L"$y$", label=false, markersize=5, size=(600, 500), color=:blue)
-scatter!(x[missing_y], y[missing_y], alpha=0.9, color=:lightgrey, label=false, markersize=5)
-plot!(xpred, y_lm_all, color=:red, lw=3, label="Complete-Data Inference", ribbon=GLM.dispersion(lm_all), fillalpha=0.2)
-plot!(xpred, y_lm_mar, color=:blue, lw=3, linestyle=:dot, label="Observed-Data Inference", ribbon=GLM.dispersion(lm_mar), fillalpha=0.2)
-
-```
-:::
-::::
-
-## Missingness Not-At-Random (MNAR)
-
-:::: {.columns}
-::: {.column width=50%}
-**MNAR**: $M_Y$ is dependent on $Y=y$ (and/or unmodeled variables).
-
-Also called **non-ignorable** or **informative missingness**.
-
-$$
-\begin{align*}
-\mathbb{P}&(Y=y | X=x) \\
-&\neq \mathbb{P}(Y=y | X=x, M_Y=0)
-\end{align*}
-$$
-:::
-::: {.column width=50%}
-```{julia}
-#| label: fig-mnar
-#| fig-cap: Illustration of MCAR Data
-#| echo: true
-#| code-fold: true
-
-missing_y = Bool.(rand.(Binomial.(1,  invlogit.(0.9 * (y .- 15)))))
-xobs = x[.!(missing_y)]
-yobs = y[.!(missing_y)]
-lm_mnar = lm([ones(n - sum(missing_y)) xobs], yobs)
-y_lm_mnar = predict(lm_mnar, [ones(length(xpred)) xpred])
-
-p2 = scatter(xobs, yobs, xlabel=L"$x$", ylabel=L"$y$", label=false, markersize=5, size=(600, 500), color=:blue)
-scatter!(x[missing_y], y[missing_y], alpha=0.9, color=:lightgrey, label=false, markersize=5)
-plot!(xpred, y_lm_all, color=:red, lw=3, label="Complete-Data Inference", ribbon=GLM.dispersion(lm_all), fillalpha=0.2)
-plot!(xpred, y_lm_mnar, color=:blue, lw=3, linestyle=:dot, label="Observed-Data Inference", ribbon=GLM.dispersion(lm_mnar), fillalpha=0.2)
-
-```
-:::
-::::
-
-
-## Implications of Missingness Mechanism
-
-1. **MCAR**: Strong, but generally implausible. Can only use complete cases as observed data is fully representative.
-2. **MAR**: More plausible than MCAR, can use multiple imputation and sometimes complete cases when enough data is available. 
-3. **MNAR**: **Deletion is a bad idea**. The observed data does not follow the same conditional distribution. Missingness can be informative: need to model the missingness mechanism when possible.
-
-# Checking Assumptions About Missingness
-
-## Checking MCAR
-
-In general, we can't know for sure if missingness $M_Y$ is informative about $Y$ (since we can't see it!).
-
-But we can check if $M_Y$ is independent of $X$: if not, reject MCAR.
-
-**Can we conclude MCAR if, in our dataset, $M_Y$ appears independent of $X$?**
-
-## Distinguishing MAR from MNAR
-
-Can't do this statistically!
-
-MAR: $\mathbb{P}(Y=y | X-x, M_Y=1) = \mathbb{P}(Y=y | X-x, M_Y=0)$
-
-But the data tells us nothing about $\mathbb{P}(Y=y | X-x, M_Y=1)$. Need to bring to bear understanding of data-collection process.
-
-Instead, try a few different models reflecting different assumptions about missingness: do your conclusions change?
-
-
-# Methods for Dealing with Missing Data
-
-## Methods for Dealing with Missing Data
-
-1. **Imputation**: substitute values for missing data before analysis;
-2. **Averaging**: find expected values over all possible values of the missing variables.
- 
-## Imputation
-
-Imputation does not create "new" information, it reuses existing information to allow the use of standard procedures.
-
-**Example**: Missing observations in a time series, want to insert values to fit AR(1) model or estimate autocorrelation using "simple" estimators.
-
-As a result, it's convenient but can create systematic distortions.
-
-## Imputation Under MAR
-
-::: {.incremental}
-- Impute from the marginal distribution (parametrically or non-parametrically), $$p(Y_\text{miss}) = p(Y_\text{obs}).$$ This can create distortions if meaningful relationships are neglected.
-- Impute using a regression model (such as linear imputation). This generalizes relationships but requires missingness being uninformative about $Y$.
-:::
-
-## Imputation Under MAR
-
-::: {.incremental}
-- Impute from the conditional distribution, $$p(Y_\text{miss} | X = x) = p(Y_\text{obs} | X = x).$$ Can be done parametrically or non-parametrically.
-- Impute using **matching**: find a closest predictor and copy value of $Y$. Can work okay or be a terrible idea.
-:::
-
-## Imputation Under MNAR
-
-Need to model missingness mechanism (censoring, etc).
-
-Often need to make assumptions about how the relationship extrapolates.
-
-- Model relationship between predictors and missing data;
-- Add unknown constant to imputed data to reflect biases.
-
-**Ultimately, MNAR requires a sensitivity analysis**.
+# Multiple Imputation
 
 ## Multiple Imputation
 
@@ -330,17 +134,30 @@ dat.Miss_Solar = ismissing.(dat.Solar)
 dat[2:5, 1:7]
 ```
 
+
+
 ## Assessing Missingness (Ozone)
 
 ```{julia}
-#| label: fig-airquality-missing-ozone
+#| label: fig-airquality-missing-ozone-1
+#| fig-cap: Air quality dataset.
+#| echo: true
+#| code-fold: true
+
+dat_ozone_complete = filter(:Ozone => x -> !ismissing(x), dat)
+dat_ozone_missing = filter(:Ozone => x -> ismissing(x), dat)
+
+histogram(dat_ozone_complete.Ozone, xlabel="Ozone (ppb)", ylabel="Count", legend=false, size=(1200, 450))
+```
+
+## Assessing Missingness (Ozone)
+
+```{julia}
+#| label: fig-airquality-missing-ozone-2
 #| fig-cap: Air quality dataset.
 #| echo: true
 #| code-fold: true
 #| layout-ncol: 2
-
-dat_ozone_complete = filter(:Ozone => x -> !ismissing(x), dat)
-dat_ozone_missing = filter(:Ozone => x -> ismissing(x), dat)
 
 p1 = scatter(dat_ozone_complete.Temp, dat_ozone_complete.Wind, xlabel = "Temperature (°C)", ylabel="Wind (mph)", markersize=5, color=:blue, label="Not Missing")
 scatter!(dat_ozone_missing.Temp, dat_ozone_missing.Wind, markersize=5, color=:orange, label="Missing")
@@ -357,14 +174,25 @@ display(p2)
 ## Assessing Missingness (Solar)
 
 ```{julia}
-#| label: fig-airquality-missing-solar
+#| label: fig-airquality-missing-solar-1
+#| fig-cap: Air quality dataset.
+#| echo: true
+#| code-fold: true
+
+dat_solar_complete = filter(:Solar => x -> !ismissing(x), dat)
+dat_solar_missing = filter(:Solar => x -> ismissing(x), dat)
+
+histogram(dat_solar_complete.Solar, xlabel="Solar (lang)", ylabel="Count", legend=false, size=(1200, 450))
+```
+
+## Assessing Missingness (Solar)
+
+```{julia}
+#| label: fig-airquality-missing-solar-2
 #| fig-cap: Air quality dataset.
 #| echo: true
 #| code-fold: true
 #| layout-ncol: 2
-
-dat_solar_complete = filter(:Solar => x -> !ismissing(x), dat)
-dat_solar_missing = filter(:Solar => x -> ismissing(x), dat)
 
 p1 = scatter(dat_solar_complete.Temp, dat_solar_complete.Wind, xlabel = "Temperature (°C)", ylabel="Wind (mph)", markersize=5, color=:blue, label="Not Missing")
 scatter!(dat_solar_missing.Temp, dat_solar_missing.Wind, markersize=5, color=:orange, label="Missing")
@@ -408,7 +236,7 @@ $$
 
 # bootstrap linear models and get predictions
 nboot = 100
-## model for solar radiation
+
 function impute_bootstrap_model(dat_complete, dat_missing, model_formula)
     idx = sample(1:nrow(dat_complete), nrow(dat_complete), replace=true)
     dat_boot = dat_complete[idx, :]
@@ -425,6 +253,7 @@ function impute_predict_regression(dat_complete, dat_missing, nboot, model_formu
     return impute_out
 end
 
+## model for solar radiation
 impute_solar = impute_predict_regression(dat_solar_complete, dat_solar_missing, nboot, @formula(Solar ~ Wind + Temp + Month + Day))
 
 ## model for ozone
@@ -438,12 +267,12 @@ function impute_variables(dat, impute_ozone, impute_solar)
     return impute
 end
 impute1 = impute_variables(dat, impute_ozone[:, 1], impute_solar[:, 1])
-p1 = scatter(impute1.Solar[.!(impute1.Miss_Ozone) .& .!(impute1.Miss_Solar)], impute1.Ozone[.!(impute1.Miss_Ozone) .& .!(impute1.Miss_Solar)], color=:blue, markersize=5, xlabel=L"Solar Radiation (W/m$^2$)", ylabel="Ozone (ppb)", label="Observed")
+p1 = scatter(impute1.Solar[.!(impute1.Miss_Ozone) .& .!(impute1.Miss_Solar)], impute1.Ozone[.!(impute1.Miss_Ozone) .& .!(impute1.Miss_Solar)], color=:blue, markersize=5, xlabel="Solar Radiation (lang)", ylabel="Ozone (ppb)", label="Observed")
 scatter!(impute1.Solar[impute1.Miss_Ozone .| impute1.Miss_Solar], impute1.Ozone[impute1.Miss_Ozone .| impute1.Miss_Solar], color=:orange, markersize=5, label="Imputed")
 plot!(size=(600, 450))
 
 impute2 = impute_variables(dat, impute_ozone[:, 2], impute_solar[:, 2])
-p2 = scatter(impute2.Solar[.!(impute2.Miss_Ozone) .& .!(impute2.Miss_Solar)], impute2.Ozone[.!(impute2.Miss_Ozone) .& .!(impute2.Miss_Solar)], color=:blue, markersize=5, xlabel=L"Solar Radiation (W/m$^2$)", ylabel="Ozone (ppb)", label="Observed")
+p2 = scatter(impute2.Solar[.!(impute2.Miss_Ozone) .& .!(impute2.Miss_Solar)], impute2.Ozone[.!(impute2.Miss_Ozone) .& .!(impute2.Miss_Solar)], color=:blue, markersize=5, xlabel="Solar Radiation (lang)", ylabel="Ozone (ppb)", label="Observed")
 scatter!(impute2.Solar[impute2.Miss_Ozone .| impute2.Miss_Solar], impute2.Ozone[impute2.Miss_Ozone .| impute2.Miss_Solar], color=:orange, markersize=5, label="Imputed")
 plot!(size=(600, 450))
 
@@ -477,7 +306,7 @@ display(p1)
 #| echo: true
 #| code-fold: true
 
-p2 = plot(dat.rownames, dat.Solar, lw=3, color=:blue, label="Observations", xlabel="Day Number", ylabel=L"Solar (W/m$^2$)")
+p2 = plot(dat.rownames, dat.Solar, lw=3, color=:blue, label="Observations", xlabel="Day Number", ylabel="Solar (lang)")
 for i = 1:nrow(dat_solar_missing)
     label = i == 1 ? "Imputations" : false
     boxplot!(p2, [dat_solar_missing[i, :rownames]], impute_solar[i, :], color=:orange, label=label)
@@ -521,16 +350,16 @@ plot!(size=(500, 450))
 
 **Imputed**:
 
-- $\hat{\beta} = `{julia} round.(β_est; digits=2)`$
-- $\hat{\sigma} = `{julia} round.(σ_est; digits=0)`$
+- $\hat{\beta} =$ `{julia} round.(β_est; digits=2)`
+- $\hat{\sigma} =$ `{julia} round.(σ_est; digits=0)`
 
 :::
 ::: {.column width=25%}
 
 **Complete Case**:
 
-- $\hat{\beta} = `{julia} round.(β_cc; digits=2)`$
-- $\hat{\sigma} = `{julia} round.(σ_cc; digits=0)`$
+- $\hat{\beta} =$ `{julia} round.(β_cc; digits=2)`
+- $\hat{\sigma} =$ `{julia} round.(σ_cc; digits=0)`
 
 :::
 ::::
@@ -557,7 +386,6 @@ plot!(size=(500, 450))
 nboot = 100 # number of bootstrap samples for parameter variabiity
 k = 5 # number of nearest-neighbors to sample from
 
-## model for solar radiation
 function impute_pmm(dat_complete, dat_missing, nboot, nneighbors, model_formula, target_name)
     impute = zeros(nrow(dat_missing), nboot)
     candidates = zeros(nrow(dat_missing), nboot, nneighbors)
@@ -669,8 +497,8 @@ plot!(size=(500, 450))
 
 **Imputed**:
 
-- $\hat{\beta} = `{julia} round.(β_est; digits=2)`$
-- $\hat{\sigma} = `{julia} round.(σ_est; digits=0)`$
+- $\hat{\beta} =$ `{julia} round.(β_est; digits=2)`
+- $\hat{\sigma} =$ `{julia} round.(σ_est; digits=0)`
 
 :::
 ::: {.column width=25%}
@@ -691,7 +519,6 @@ plot!(size=(500, 450))
 #| fig-cap: Air quality dataset.
 #| echo: true
 #| code-fold: true
-#| layout-ncol: 2
 
 impute_model_df = DataFrame(impute_solar', :auto)
 impute_model_df_stk = stack(impute_model_df)
@@ -704,7 +531,7 @@ impute_pmm_df_stk.Method .= "PMM"
 impute_all_df = vcat(impute_model_df_stk, impute_pmm_df_stk)
 
 @df impute_all_df groupedboxplot(:variable, :value, group=:Method, xlabel="Imputed Case", ylabel=L"Solar Radiation (W/m$^2$)")
-plot!(size=(1300, 500))
+plot!(size=(1200, 500))
 ```
 
 ## Comparison of Imputations (Ozone)
@@ -714,7 +541,6 @@ plot!(size=(1300, 500))
 #| fig-cap: Air quality dataset.
 #| echo: true
 #| code-fold: true
-#| layout-ncol: 2
 
 impute_model_df = DataFrame(impute_ozone', :auto)
 impute_model_df_stk = stack(impute_model_df)
@@ -727,7 +553,7 @@ impute_pmm_df_stk.Method .= "PMM"
 impute_all_df = vcat(impute_model_df_stk, impute_pmm_df_stk)
 
 @df impute_all_df groupedboxplot(:variable, :value, group=:Method, xlabel="Imputed Case", ylabel="Ozone (ppb)")
-plot!(size=(1300, 500))
+plot!(size=(1200, 500))
 ```
 
 
@@ -745,16 +571,14 @@ plot!(size=(1300, 500))
 
 ## Upcoming Schedule
 
-**Monday**: Mixture Models and Model-Based Clustering or Gaussian Processes and Emulation.
+**Friday**: Finish Missing Data. Class in 205 Riley-Robb
 
-**Next Wednesday (4/23)**: No Class
+**Next Week**: Complete Poll on Ed.
 
 ## Assessments
 
-**HW5** released, due 5/2.
+**HW6** released, due 5/1.
 
-**Literature Critique**: Due 5/2.
-
-**Project Presentations**: 4/48, 4/30, 5/5.
+**Quiz 4**: Due 5/1
 
 ## References 
