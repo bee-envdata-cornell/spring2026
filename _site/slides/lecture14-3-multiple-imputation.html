@@ -696,7 +696,7 @@ Figure&nbsp;8: Air quality dataset.
 <span id="cb9-4"><a></a>    dat_boot <span class="op">=</span> <span class="fu">impute_variables</span>(dat, impute_ozone[<span class="op">:</span>, i], impute_solar[<span class="op">:</span>, i])</span>
 <span id="cb9-5"><a></a>    model_boot <span class="op">=</span> <span class="fu">lm</span>(<span class="pp">@formula</span>(Ozone <span class="op">~</span> Solar), dat_boot)</span>
 <span id="cb9-6"><a></a>    β_boot[i] <span class="op">=</span> <span class="fu">coef</span>(model_boot)[<span class="fl">2</span>]</span>
-<span id="cb9-7"><a></a>    σ_boot[i] <span class="op">=</span> <span class="fu">dispersion</span>(model_boot.model)</span>
+<span id="cb9-7"><a></a>    σ_boot[i] <span class="op">=</span> <span class="fu">stderror</span>(model_boot.model)[<span class="fl">2</span>]</span>
 <span id="cb9-8"><a></a><span class="cf">end</span></span>
 <span id="cb9-9"><a></a>β_est <span class="op">=</span> <span class="fu">mean</span>(β_boot)</span>
 <span id="cb9-10"><a></a>σ_est <span class="op">=</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(σ_boot<span class="op">.^</span><span class="fl">2</span>) <span class="op">+</span> (<span class="fl">1</span> <span class="op">+</span> <span class="fl">1</span><span class="op">/</span>nboot) <span class="op">*</span> <span class="fu">var</span>(β_boot))</span>
@@ -704,7 +704,7 @@ Figure&nbsp;8: Air quality dataset.
 <span id="cb9-12"><a></a><span class="co"># also get complete case estimates for later</span></span>
 <span id="cb9-13"><a></a>cc_model <span class="op">=</span> <span class="fu">lm</span>(<span class="pp">@formula</span>(Ozone <span class="op">~</span> Solar), <span class="fu">dropmissing</span>(dat))</span>
 <span id="cb9-14"><a></a>β_cc <span class="op">=</span> <span class="fu">coef</span>(cc_model)[<span class="fl">2</span>]</span>
-<span id="cb9-15"><a></a>σ_cc <span class="op">=</span> <span class="fu">dispersion</span>(cc_model.model)</span>
+<span id="cb9-15"><a></a>σ_cc <span class="op">=</span> <span class="fu">stderror</span>(cc_model.model)[<span class="fl">2</span>]</span>
 <span id="cb9-16"><a></a><span class="fu">histogram</span>(β_boot, xlabel<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span><span class="st">\</span>beta<span class="sc">$</span><span class="st">", </span>ylabel<span class="st">="</span>Count<span class="st">", label=false)</span></span>
 <span id="cb9-17"><a></a><span class="fu">vline!</span>([β_cc], color<span class="op">=:</span>red, label<span class="op">=</span><span class="st">"Complete-Case"</span>)</span>
 <span id="cb9-18"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">500</span>, <span class="fl">450</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -724,13 +724,13 @@ Figure&nbsp;9: Air quality dataset.
 <p><strong>Imputed</strong>:</p>
 <ul>
 <li><span class="math inline">\(\hat{\beta} =\)</span> 0.1</li>
-<li><span class="math inline">\(\hat{\sigma} =\)</span> 31.0</li>
+<li><span class="math inline">\(\hat{\sigma} =\)</span> 0.0</li>
 </ul>
 </div><div class="column" style="width:25%;">
 <p><strong>Complete Case</strong>:</p>
 <ul>
 <li><span class="math inline">\(\hat{\beta} =\)</span> 0.13</li>
-<li><span class="math inline">\(\hat{\sigma} =\)</span> 31.0</li>
+<li><span class="math inline">\(\hat{\sigma} =\)</span> 0.0</li>
 </ul>
 </div></div>
 </section>
@@ -880,7 +880,7 @@ Figure&nbsp;12: Air quality dataset.
 <span id="cb13-4"><a></a>    dat_boot <span class="op">=</span> <span class="fu">impute_variables</span>(dat, impute_ozone[<span class="op">:</span>, i], impute_solar[<span class="op">:</span>, i])</span>
 <span id="cb13-5"><a></a>    model_boot <span class="op">=</span> <span class="fu">lm</span>(<span class="pp">@formula</span>(Ozone <span class="op">~</span> Solar), dat_boot)</span>
 <span id="cb13-6"><a></a>    β_boot[i] <span class="op">=</span> <span class="fu">coef</span>(model_boot)[<span class="fl">2</span>]</span>
-<span id="cb13-7"><a></a>    σ_boot[i] <span class="op">=</span> <span class="fu">dispersion</span>(model_boot.model)</span>
+<span id="cb13-7"><a></a>    σ_boot[i] <span class="op">=</span> <span class="fu">stderror</span>(model_boot.model)[<span class="fl">2</span>]</span>
 <span id="cb13-8"><a></a><span class="cf">end</span></span>
 <span id="cb13-9"><a></a>β_est <span class="op">=</span> <span class="fu">mean</span>(β_boot)</span>
 <span id="cb13-10"><a></a>σ_est <span class="op">=</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(σ_boot<span class="op">.^</span><span class="fl">2</span>) <span class="op">+</span> (<span class="fl">1</span> <span class="op">+</span> <span class="fl">1</span><span class="op">/</span>nboot) <span class="op">*</span> <span class="fu">var</span>(β_boot))</span>
@@ -888,7 +888,7 @@ Figure&nbsp;12: Air quality dataset.
 <span id="cb13-12"><a></a><span class="co"># also get complete case estimates for later</span></span>
 <span id="cb13-13"><a></a>cc_model <span class="op">=</span> <span class="fu">lm</span>(<span class="pp">@formula</span>(Ozone <span class="op">~</span> Solar), <span class="fu">dropmissing</span>(dat))</span>
 <span id="cb13-14"><a></a>β_cc <span class="op">=</span> <span class="fu">coef</span>(cc_model)[<span class="fl">2</span>]</span>
-<span id="cb13-15"><a></a>σ_cc <span class="op">=</span> <span class="fu">dispersion</span>(cc_model.model)</span>
+<span id="cb13-15"><a></a>σ_cc <span class="op">=</span> <span class="fu">stderror</span>(cc_model.model)[<span class="fl">2</span>]</span>
 <span id="cb13-16"><a></a><span class="fu">histogram</span>(β_boot, xlabel<span class="op">=</span>L<span class="st">"</span><span class="sc">$</span><span class="st">\</span>beta<span class="sc">$</span><span class="st">", </span>ylabel<span class="st">="</span>Count<span class="st">", label=false)</span></span>
 <span id="cb13-17"><a></a><span class="fu">vline!</span>([β_cc], color<span class="op">=:</span>red, label<span class="op">=</span><span class="st">"Complete-Case"</span>)</span>
 <span id="cb13-18"><a></a><span class="fu">plot!</span>(size<span class="op">=</span>(<span class="fl">500</span>, <span class="fl">450</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -908,13 +908,13 @@ Figure&nbsp;13: Air quality dataset.
 <p><strong>Imputed</strong>:</p>
 <ul>
 <li><span class="math inline">\(\hat{\beta} =\)</span> 0.1</li>
-<li><span class="math inline">\(\hat{\sigma} =\)</span> 31.0</li>
+<li><span class="math inline">\(\hat{\sigma} =\)</span> 0.0</li>
 </ul>
 </div><div class="column" style="width:25%;">
 <p><strong>Complete Case</strong>:</p>
 <ul>
 <li><span class="math inline">\(\hat{\beta} = 0\.13\)</span></li>
-<li><span class="math inline">\(\hat{\sigma} = 31\.0\)</span></li>
+<li><span class="math inline">\(\hat{\sigma} = 0\.0\)</span></li>
 </ul>
 </div></div>
 </section>
