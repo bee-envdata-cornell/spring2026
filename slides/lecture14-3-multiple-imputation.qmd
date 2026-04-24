@@ -351,7 +351,7 @@ plot!(size=(500, 450))
 **Imputed**:
 
 - $\hat{\beta} =$ `{julia} round.(β_est; digits=2)`
-- $\hat{\sigma} =$ `{julia} round.(σ_est; digits=0)`
+- $\hat{\sigma} =$ `{julia} round.(σ_est; digits=2)`
 
 :::
 ::: {.column width=25%}
@@ -359,7 +359,7 @@ plot!(size=(500, 450))
 **Complete Case**:
 
 - $\hat{\beta} =$ `{julia} round.(β_cc; digits=2)`
-- $\hat{\sigma} =$ `{julia} round.(σ_cc; digits=0)`
+- $\hat{\sigma} =$ `{julia} round.(σ_cc; digits=2)`
 
 :::
 ::::
@@ -498,15 +498,15 @@ plot!(size=(500, 450))
 **Imputed**:
 
 - $\hat{\beta} =$ `{julia} round.(β_est; digits=2)`
-- $\hat{\sigma} =$ `{julia} round.(σ_est; digits=0)`
+- $\hat{\sigma} =$ `{julia} round.(σ_est; digits=2)`
 
 :::
 ::: {.column width=25%}
 
 **Complete Case**:
 
-- $\hat{\beta} = `{julia} round.(β_cc; digits=2)`$
-- $\hat{\sigma} = `{julia} round.(σ_cc; digits=0)`$
+- $\hat{\beta} =$ `{julia} round.(β_cc; digits=2)`
+- $\hat{\sigma} =$ `{julia} round.(σ_cc; digits=2)`
 
 :::
 ::::
