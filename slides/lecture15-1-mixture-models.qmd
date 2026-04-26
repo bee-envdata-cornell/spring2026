@@ -1,0 +1,579 @@
+---
+title: "Mixture Models"
+subtitle: "Lecture 36"
+author: "Vivek Srikrishnan"
+course: "BEE 4850"
+institution: "Cornell University"
+date: "April 27, 2026"
+format:
+    revealjs:
+        slide-number: c/t
+        show-slide-number: all
+        center-title-slide: true
+        width: 1280
+        height: 720
+        transition: none
+        toc: true
+        toc-depth: 1
+        toc-title: "Overview"
+        history: false
+        link-external-newwindow: true
+        theme: ../sass/slides.scss
+        template-partials:
+            - title-slide.html
+        menu:
+            numbers: true
+        html-math-method: mathjax
+        include-in-header: mathjax-config.html
+        date-format: long
+        email-obfuscation: javascript
+        chalkboard:
+            theme: whiteboard
+            buttons: true
+        mermaid: 
+            theme: dark
+engine: julia
+filters:
+  - code-fullscreen
+---
+
+```{julia}
+#| output: false
+
+import Pkg
+Pkg.activate(@__DIR__)
+Pkg.instantiate()
+```
+
+```{julia}
+#| output: false
+
+using Random
+using DataFrames
+using DataFramesMeta
+using CSV
+using Dates
+using Distributions
+using ColorSchemes
+using Plots
+using StatsPlots
+using StatsBase
+using Optim
+using LaTeXStrings
+using Measures
+
+Random.seed!(1)
+
+plot_font = "Computer Modern"
+default(
+    fontfamily=plot_font,
+    linewidth=3, 
+    framestyle=:box, 
+    label=nothing, 
+    grid=false,
+    guidefontsize=18,
+    legendfontsize=16,
+    tickfontsize=16,
+    titlefontsize=20,
+    bottom_margin=10mm,
+    left_margin=5mm
+)
+```
+
+# Class Logistics
+
+## Changes To Grading
+
+- No literature critique for 5850;
+- Project presentations + peer reviews for everyone to help get feedback prior to report.
+
+## Project Presentation
+
+1. Upload recording of max 10 minute presentation to Canvas by 5/6;
+2. Submit peer reviews to Canvas by 5/8 (will be auto-assigned).
+3. You will be graded on the quality and constructiveness of the peer reviews you provide (templates on website), but not the reviews you receive.
+
+
+# Bimodel Distributions
+
+## Mixture Models
+
+What happens when data comes from multiple data-generating processes?
+
+- Streamflow: drought vs. wet conditions
+- Solar radiation: cloud regimes
+- Precipitation: synoptic-scale weather regimes
+
+## Example: Colorado River Streamflow
+
+```{julia}
+#| code-fold: true
+#| echo: true
+#| label: fig-colorado-streamflow
+#| fig-cap: Streamflow data from the Upper Colorado
+
+annual_q = CSV.read("data/streamflow/uc_historical.csv", DataFrame)
+annual_q.Year = 1909:2013
+annual_q.Upper_Colorado_norm = annual_q.Upper_Colorado / 1e6
+p = plot(annual_q.Year, annual_q.Upper_Colorado_norm , marker=:circle, markersize=3, label="Annual Flow", color=:lightblue, ylabel=L"million ft$^3$/yr", xlabel="Year", leftmargin=10mm)
+plot!(p, size=(1200, 450))
+
+# compute rolling mean
+ll = 11
+roll = zeros(nrow(annual_q) - ll)
+for i = 1:(nrow(annual_q) - ll)
+    wind = i:(i+ll-1)
+    roll[i] = mean(annual_q[wind, :Upper_Colorado_norm])
+end
+# plot rolling mean
+plot!(p, annual_q[Int(floor((ll+1)/2)):(end-Int(floor((ll+1)/2))), :Year], roll, color=:black, label="11-Year Rolling Mean")
+```
+
+## Defining "Drought"
+
+@Ault2014-mi: Define a decadal "drought" as when the 11-year mean falls below 1/2 the standard deviation from the overall mean.
+
+```{julia}
+#| echo: false
+#| label: fig-colorado-streamflow-drought
+#| fig-cap: Droughts in the Upper Colorado
+
+uc_mean = mean(annual_q.Upper_Colorado_norm)
+uc_std = std(annual_q.Upper_Colorado_norm)
+thresh = uc_mean - 0.5 * uc_std
+hline!(p, [thresh], linestyle=:dash, color=:red, label="Drought Threshold")
+droughts = roll .< thresh
+dry_yrs = falses(nrow(annual_q))
+for (i, v) in pairs(droughts)
+    if v
+        dry_yrs[i:(i + ll - 1)] .= true
+        vspan!(p, annual_q[i:(i + ll - 1), :Year], color=:gold, alpha=0.3)
+    end
+end
+plot!(p, size=(1200, 350), legend=:outerright)
+display(p)
+```
+
+
+## Mixture of Two Distributions
+
+:::: {.columns}
+::: {.column width=50%}
+"Droughts" vs "Normal" Streamflow can be thought of as two different distributions occurring with different probabilities.
+
+:::
+::: {.column width=50%}
+This is a **mixture model**:
+
+$$y_i \sim \sum_{k=1}^K \pi_k\mathcal{D}_k, \sum_k \pi_k = 1$$
+
+Very common to use Gaussians for $\mathcal{D}_k$ but this isn't necessary.
+:::
+::::
+
+
+
+## Example Based On Ault (2014) Definition
+
+```{julia}
+#| code-fold: true
+#| echo: true
+#| label: fig-colorado-streamflow-histogram
+#| fig-cap: Mixture Fits for Drought Data
+
+annual_q.Upper_Colorado_log = log.(annual_q.Upper_Colorado)
+histogram(annual_q.Upper_Colorado_log, xlabel=L"log-ft$^3$/yr", ylabel="PDF", norm=:pdf, fillcolor=:gray, alpha=0.5, label="Observations")
+all_dist = fit(Normal, annual_q.Upper_Colorado_log)
+plot!(all_dist, color=:black, label="Combined Distribution")
+dry_flow = annual_q[dry_yrs, :Upper_Colorado_log]
+wet_flow = annual_q[.!(dry_yrs), :Upper_Colorado_log]
+dry_dist = fit(Normal, dry_flow)
+wet_dist = fit(Normal, wet_flow)
+plot!(dry_dist, color=:red, label="Dry Distribution")
+plot!(wet_dist, color=:blue, label="Wet Distribution")
+plot!(size=(1200, 450), legend=:outerright)
+```
+
+
+## Fitting Mixture Models
+
+The likelihood of a Gaussian mixture model:
+$$L(\theta | \mathbf{y}) = \prod_{i=1}^n \sum_{k=1}^K \pi_k N(y_i; \mu_k, \sigma_k^2)$$
+
+and so the log-likelihood:
+$$l(\theta | \mathbf{y}) = \sum_{i=1}^n \log \left(\sum_{k=1}^K \pi_k N(y_i; \mu_k, \sigma_k^2)\right).$$
+
+
+## Fitting Mixture Models
+
+Let's look at *e.g.* $\partial{l}/\partial \mu_k = 0$:
+
+$$\sum_{i=1}^n \frac{1}{\sum_{k=1}^K\pi_k N(y_i; \mu_k, \sigma^2_k)} \pi_k N(y_i; \mu_k, \sigma^2_k)\frac{(y_i - \mu_k)}{\sigma^2_k} = 0$$
+
+::: {.fragment .fade-in}
+**We can't solve for $\mu_k$ analytically!**
+
+But if we knew the latent class memberships $Z_i$, then we could estimate each mixture component separately.
+:::
+
+## The E-M Algorithm
+
+The **E-M (Expectation-Maximization) Algorithm** is an iterative approach to solving this problem:
+
+0. Initialize the parameters for the mixture components, call this $\theta^{(0)}$.
+
+## The E-M Algorithm
+
+The **E-M (Expectation-Maximization) Algorithm** is an iterative approach to solving this problem:
+
+1. **E-step**: Find the expected complete data log-likelihood 
+    $$\begin{aligned}
+    Q(\theta, \theta^(t)) &= E_{Z | Y, \theta^{(t)}}\left[\log p(Y, Z| \theta)\right] \\
+    &= \sum_{i=1}^n \sum_{k=1}^K p(Z_i = k | y_i, \theta^{(t)}) \log p(y_i | Z_i = k, \theta).
+    \end{aligned}$$
+
+## The E-M Algorithm
+
+The **E-M (Expectation-Maximization) Algorithm** is an iterative approach to solving this problem:
+
+2. **M-step**: Find new parameter values by maximizing $Q$: $$\theta^{(t+1)} = \arg\max_\theta Q(\theta, \theta^{(t)}).$$
+
+## The E-M Algorithm
+
+The **E-M (Expectation-Maximization) Algorithm** is an iterative approach to solving this problem:
+
+3. Check for convergence of $Q$ (usually by checking if log-likelihood has stabilized within some threshold).
+
+## The E-Step
+
+Note 
+
+$$\begin{aligned}
+p(Z_i = k | y_i, \theta^{(t)}) &= \frac{p(Z_i = k, Y_i = y_i | \theta^{(t)}}{p(Y_i = y_i | \theta^{(t)})} \\
+&= \frac{p(Y_i = y_i | Z_i = k, \theta^{(t)})p(Z_i = k | \theta^{(t)})}{\sum_{j=1}^K p(Y_i = y_i | Z_i = j, \theta^{(t)})p(Z_i = j | \theta^{(t)})} \\
+&= \frac{\pi_k^{(t)}p(y_i | Z_i = k, \theta^{(t)})}{\sum_{j=1}^K \pi_j^{(t)}p(y_i | Z_i = j, \theta^{(t)})}
+\end{aligned}$$
+
+Call the outputs of this calculation $w_k^i$.
+
+
+## The M-Step
+
+In the Gaussian case, can explicitly calculate the updates (otherwise use numerical optimization on the E-Step output). 
+
+## The M-Step
+
+Define $N_k = \sum_{i=1}^n w_k^i$, and then:
+
+$$\begin{aligned}
+\pi_k^{(t+1)} &= \frac{N_k}{N}  \\
+\mu_k^{(t+1)} &= \frac{1}{N_k} \sum_{i=1}^n w_k^i x_i \\
+(\sigma_k^2)^{(t+1)} &= \frac{1}{N_k} \sum_{i=1}^n (x_i - \mu_k^{(t+1)})^2 w_k^i
+\end{aligned}$$
+
+## The E-Step
+
+```{julia}
+#| echo: true
+#| code-fold: false
+#| output: false
+
+function e_step(y, p, mu, sigma)
+    N = length(y)
+    K = length(p)
+    w = zeros(N, K)
+    # compute weights for each point
+    for k in 1:K
+        w[:, k] = p[k] * pdf.(Normal(mu[k], sigma[k]), y)
+    end
+    w_tot = sum(w, dims=2) # normalize weights
+    return w ./ w_tot
+end
+```
+
+## The M-Step
+
+```{julia}
+#| echo: true
+#| code-fold: false
+#| output: false
+
+function m_step(y, w)
+    N = length(y)
+    K = size(w, 2)
+    Nk = sum(w, dims=1) # soft count of mixture membership
+
+    # update coefficients
+    p = Nk / N
+    mu = sum(w .* y; dims=1) ./ Nk
+    sigma = sqrt.(sum(w .* (y .- mu).^2; dims=1) ./ Nk)
+    return (p, mu, sigma)
+end
+```
+
+## The Full Algorithm
+
+```{julia}
+#| echo: true
+#| code-fold: false
+#| output: false
+
+# compute log-likelihood for tracking
+function log_likelihood(y, p, mu, sigma)
+    N = length(y)
+    K = length(p)
+    ll_comp = zeros(N, K)
+    for k = 1:K
+        ll_comp[:, k] = p[k] * pdf.(Normal(mu[k], sigma[k]), y)
+    end
+    ll = sum(log.(sum(ll_comp, dims=2)))
+    return ll
+end
+
+function em_algorithm(y, p_init, mu_init, sigma_init; max_iter = 300, thresh=1e-4)
+    N = length(y)
+    K = length(p_init)
+
+    # initialize storage and add initial guesses
+    p = zeros(max_iter + 1, K)
+    p[1, :] = p_init
+    mu = zeros(max_iter + 1, K)
+    mu[1, :] = mu_init
+    sigma = zeros(max_iter + 1, K)
+    sigma[1, :] = sigma_init
+
+    # compute initial log-likelihood
+    ll = zeros(max_iter + 1)
+    ll[1] = log_likelihood(y, p[1, :], mu[1, :], sigma[1, :])
+
+    iter = 1
+    for t = 1:max_iter
+        w = e_step(y, p[t, :], mu[t, :], sigma[t, :])
+        p[t+1, :], mu[t+1, :], sigma[t+1, :] = m_step(y, w)
+        ll[t+1] = log_likelihood(y, p[t+1, :], mu[t+1, :], sigma[t+1, :])
+        if abs(ll[t+1] - ll[t]) < thresh
+            break
+        end
+        iter += 1
+    end
+
+    return (mu[1:iter+1, :], sigma[1:iter+1, :], ll[1:iter+1, :])
+end
+```
+
+## E-M Algorithm Convergence
+
+```{julia}
+#| echo: true
+#| code-fold: true
+
+mu_init = zeros(2)
+sigma_init = zeros(2)
+mu_init[1] = dry_dist.μ
+sigma_init[1] = dry_dist.σ
+mu_init[2] = wet_dist.μ
+sigma_init[2] = wet_dist.σ
+p_init = [0.5, 0.5]
+
+mu, sigma, ll = em_algorithm(annual_q.Upper_Colorado_log, p_init, mu_init, sigma_init, max_iter = 1000, thresh=1e-5)
+
+p1 = plot(ll, marker=:circle, markersize=2, xlabel="E-M Iteration", ylabel="Log-Likelihood", label=false)
+p2 = plot(mu, xlabel="E-M Iteration", ylabel="Mean", label=["Wet" "Dry"])
+p3 = plot(sigma.^2, xlabel="E-M Iteration", ylabel="Variance", label=["Wet" "Dry"])
+plot(p1, p2, p3, layout=(1, 3), size=(1200, 450))
+```
+
+## Example of E-M Algorithm
+
+```{julia}
+#| code-fold: true
+#| echo: true
+#| label: fig-colorado-streamflow-e-m
+#| fig-cap: E-M Initial Steps
+
+histogram(annual_q.Upper_Colorado_log, xlabel=L"log-ft$^3$/yr", ylabel="PDF", norm=:pdf, fillcolor=:gray, alpha=0.5, label="Observations", legend=:outerright)
+plot!(dry_dist, color=:red, linestyle=:dash, label="Dry (Ault)", xlabel=L"log-ft$^3$/yr", ylabel="PDF")
+plot!(wet_dist, color=:blue, linestyle=:dash, label="Wet (Ault)")
+plot!(Normal(mu[end, 1], sigma[end, 1]), color=:red, label="Dry (E-M)")
+plot!(Normal(mu[end, 2], sigma[end, 2]), color=:blue, label="Wet (E-M)")
+```
+
+# Markov Chains
+
+## What Don't Mixture Models Tell Us
+
+Mixture models are useful for clustering or generating bimodel distributions. But they are limited for:
+
+- Analyzing time series with "regime shifts" (e.g. switches between "dry" and "wet" states);
+- Generating synthetic data (e.g. looking at internal variability)
+- Probability that future observations might come from one component.
+
+## Hidden Markov Models
+
+Instead, we might want to model the process that gives **rise** to a mixture distribution. 
+
+One way to do this for time series is with a **Hidden Markov Model** where the generative model at time $t$ probability model "switches" probabilistically based on a **Markov chain**.
+
+## What Is A Markov Chain?
+
+::: {.columns}
+::: {.column width=60%}
+Consider a stochastic process $\{X_t\}_{t \in \mathcal{T}}$, where 
+
+- $X_t \in \mathcal{S}$ is the state at time $t$, and 
+- $\mathcal{T}$ is a time-index set (can be discrete or continuous)
+- $\mathbb{P}(s_i \to s_j) = p_{ij}$. 
+::: 
+::: {.column width=40%}
+![Markov State Space](figures/markov-state.png){width=75%}
+:::
+::::
+
+## Markovian Property
+
+This stochastic process is a **Markov chain** if it satisfies the **Markovian (or memoryless) property**:
+$$\begin{align*}
+\mathbb{P}(X_{T+1} = s_i &| X_1=x_1, \ldots, X_T=x_T) = \\ &\qquad\mathbb{P}(X_{T+1} = s_i| X_T=x_T)
+\end{align*}
+$$
+
+## Example: "Drunkard's Walk"
+
+::: {.center}
+![:img Random Walk, 80%](figures/random_walk.png)
+:::
+
+::: {.incremental}
+- How can we model the *unconditional* probability $\mathbb{P}(X_T = s_i)$?
+- How about the *conditional* probability $\mathbb{P}(X_T = s_i | X_{T-1} = x_{T-1})$?
+:::
+
+## Example: Weather
+
+Suppose the weather can be foggy, sunny, or rainy.
+
+Based on past experience, we know that:
+
+1. There are never two sunny days in a row;
+2. Even chance of two foggy or two rainy days in a row;
+3. A sunny day occurs 1/4 of the time after a foggy or rainy day.
+
+## Aside: Higher Order Markov Chains
+
+Suppose that today's weather depends on the prior *two* days. 
+
+::: {.incremental}
+1. Can we write this as a Markov chain?
+2. What are the states?
+:::
+
+## Weather Transition Matrix
+
+We can summarize these probabilities in a **transition matrix** $P$:
+$$
+P = 
+\begin{array}{cc} 
+\begin{array}{ccc}
+\phantom{i}\color{red}{F}\phantom{i} & \phantom{i}\color{red}{S}\phantom{i} & \phantom{i}\color{red}{R}\phantom{i}
+\end{array}
+\\
+\begin{pmatrix}
+      1/2 & 1/4 & 1/4 \\
+      1/2 & 0 & 1/2 \\
+      1/4 & 1/4 & 1/2
+      \end{pmatrix}
+&
+\begin{array}{ccc}
+\color{red}F  \\ \color{red}S  \\ \color{red}R
+\end{array}   
+\end{array}
+$$
+
+Rows are the current state, columns are the next step, so $\sum_i p_{ij} = 1$.
+
+## Weather Example: State Probabilities
+
+Denote by $\lambda^t$ a probability distribution over the states at time $t$.
+
+Then $\lambda^t = \lambda^{t-1}P$:
+
+$$\begin{pmatrix}\lambda^t_F & \lambda^t_S & \lambda^t_R \end{pmatrix} =  
+\begin{pmatrix}\lambda^{t-1}_F & \lambda^{t-1}_S & \lambda^{t-1}_R \end{pmatrix} 
+      \begin{pmatrix}
+      1/2 & 1/4 & 1/4 \\
+      1/2 & 0 & 1/2 \\
+      1/4 & 1/4 & 1/2
+      \end{pmatrix}
+$$
+
+## Multi-Transition Probabilities
+
+Notice that $$\lambda^{t+i} = \lambda^t P^i,$$ so multiple transition probabilities are $P$-exponentials. 
+
+$$P^3 =
+\begin{array}{cc} 
+\begin{array}{ccc}
+\phantom{iii}\color{red}{F}\phantom{ii} & \phantom{iii}\color{red}{S}\phantom{iii} & \phantom{ii}\color{red}{R}\phantom{iii}
+\end{array}
+\\
+\begin{pmatrix}
+      26/64 & 13/64 & 25/64 \\
+      26/64 & 12/64 & 26/64 \\
+      26/64 & 13/64 & 26/64
+      \end{pmatrix}
+&
+\begin{array}{ccc}
+\color{red}F  \\ \color{red}S  \\ \color{red}R
+\end{array}   
+\end{array}
+$$
+
+## Long Run Probabilities
+
+What happens if we let the system run for a while starting from an initial sunny day? 
+
+```{julia}
+#| echo: true
+#| output: true
+#| code-fold: true
+#| fig-align: center
+#| label: fig-markov-weather
+#| fig-cap: State probabilities for the weather examples.
+
+current = [1.0, 0.0, 0.0]
+P = [1/2 1/4 1/4
+    1/2 0 1/2
+    1/4 1/4 1/2]   
+
+T = 21
+
+state_probs = zeros(T, 3)
+state_probs[1,:] = current
+for t=1:T-1
+    state_probs[t+1, :] = state_probs[t:t, :] * P
+end
+
+
+p = plot(0:T-1, state_probs, label=["Foggy" "Sunny" "Rainy"], palette=:mk_8, linewidth=3)
+xlabel!("Time")
+ylabel!("State Probability")
+plot!(p, size=(1000, 350))
+```
+
+# Key Points and Upcoming Schedule
+
+## Key Points
+
+- Mixture Models: produce multi-modal distributions by mixing different distributions together
+- Fit mixture models using Expectation-Maximization (E-M) algorithm
+- Markov chains to represent "switching" between different latent states.
+
+## Upcoming Schedule
+
+**Wednesday**: More on Markov chains and Hidden Markov Models
+
+**Friday**: Quiz 6, finish HMM example
+
+# References
+
+## References (Scroll for Full List)

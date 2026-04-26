@@ -124,6 +124,10 @@ website:
       contents:
         - href: project/index.qmd
           text: "Project Overview"
+        - href: project/presentation.qmd
+          text: "Presentation"
+        - href: project/peer-review.qmd
+          text: "Peer Review"
         - href: project/report.qmd
           text: "Report"
     - title: "Examples"

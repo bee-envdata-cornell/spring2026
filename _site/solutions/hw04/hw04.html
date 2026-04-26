@@ -870,7 +870,7 @@ window.Quarto = {
 </dl>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>([2.904793736259632, 2.9945358337476713, 2.9628628774644596, 2.984630590341883, 3.097365909906594], [19.172937288404345, 23.32382505285925, 21.924732591223673, 22.89151560041919, 27.563433577037436])</code></pre>
+<pre><code>([2.9037310114720842, 2.974748876930566, 3.207965895336592, 2.8612434610104236, 3.0173180034828833], [19.17260500773568, 22.456954283166212, 31.64725148894329, 17.06744504250303, 24.315689977327327])</code></pre>
 </div>
 </div>
 <p>Now let’s compare to the total-data/in-sample tests.</p>
@@ -879,7 +879,7 @@ window.Quarto = {
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">mean</span>(cv_ll);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ll / nrow(dat) = 2.9701438368545214
-mean(cv_ll) = 2.988837789544048</code></pre>
+mean(cv_ll) = 2.9930014496465094</code></pre>
 </div>
 </div>
 <div id="18" class="cell" data-execution_count="1">
@@ -887,7 +887,7 @@ mean(cv_ll) = 2.988837789544048</code></pre>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">mean</span>(cv_mse);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>mse = 22.251526373148707
-mean(cv_mse) = 22.975288821988777</code></pre>
+mean(cv_mse) = 22.93198915993511</code></pre>
 </div>
 </div>
 <p>We can see that in general, the model’s in-sample performance is not too different than its average CV performance, suggesting that there is no systematic overfitting occurring.</p>
@@ -1213,20 +1213,20 @@ Figure&nbsp;5
 <tr class="dataRow odd">
 <td class="rowLabel" style="text-align: right; font-weight: bold;">1</td>
 <td style="text-align: left;">Time</td>
-<td style="text-align: right;">4.0741</td>
-<td style="text-align: right;">201.504</td>
+<td style="text-align: right;">4.07033</td>
+<td style="text-align: right;">200.212</td>
 </tr>
 <tr class="dataRow even">
 <td class="rowLabel" style="text-align: right; font-weight: bold;">2</td>
 <td style="text-align: left;">Temperature</td>
-<td style="text-align: right;">3.94097</td>
-<td style="text-align: right;">154.5</td>
+<td style="text-align: right;">3.94045</td>
+<td style="text-align: right;">154.626</td>
 </tr>
 <tr class="dataRow odd">
 <td class="rowLabel" style="text-align: right; font-weight: bold;">3</td>
 <td style="text-align: left;">Temperature + PM 2.5</td>
-<td style="text-align: right;">3.93551</td>
-<td style="text-align: right;">152.931</td>
+<td style="text-align: right;">3.93152</td>
+<td style="text-align: right;">151.335</td>
 </tr>
 </tbody>
 </table>
