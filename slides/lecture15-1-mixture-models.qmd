@@ -429,6 +429,29 @@ mix_samp = rand(mix_dist, 10_000)
 qqplot(annual_q.Upper_Colorado_log, mix_samp, xlabel="Observations", ylabel="Mixture Model")
 ```
 
+## Probabilities of Observations
+
+```{julia}
+#| code-fold: true
+#| echo: true
+#| label: fig-colorado-streamflow-em-probs
+#| fig-cap: E-M Probabilities
+
+# compute component probabilities
+N = nrow(annual_q)
+K = 2 # number of mixture components
+ll_comp = zeros(N, K)
+for k = 1:K
+    ll_comp[:, k] = p[end, k] * pdf.(Normal(mu[end, k], sigma[end, k]), annual_q.Upper_Colorado_log)
+end
+ll = ll_comp ./ sum(ll_comp, dims=2) # normalize to get probabilities
+annual_q.dry_prob = ll[:, 1]
+p = plot(annual_q.Year, annual_q.Upper_Colorado_log, label="Annual Flow", color=:gray, ylabel=L"log-ft$^3$/yr", xlabel="Year", leftmargin=10mm)
+scatter!(p, annual_q.Year, annual_q.Upper_Colorado_log, markersize=7, marker_z = annual_q.dry_prob, c = cgrad(:bluesreds), colorbar_title = "Dry State Probability", colorbar_titlefontsize=16, label=false)
+plot!(size=(1200, 450))
+```
+
+
 # Markov Chains
 
 ## What Don't Mixture Models Tell Us
