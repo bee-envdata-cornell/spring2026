@@ -166,8 +166,8 @@ display(p)
 This is a **mixture model**:
 
 $$\begin{aligned}
-Z \sim \text{Mult}(\pi_1, \ldots, \pi_K)
-Y | Z \sim \mathcal{D}_Z = f_Z
+Z &\sim \text{Mult}(\pi_1, \ldots, \pi_K) \\
+Y | Z &\sim \mathcal{D}_Z = f_Z
 \end{aligned}$$
 
 Very common to use Gaussians for $\mathcal{D}_k$ but this isn't necessary.
@@ -220,8 +220,8 @@ $$l(\theta | \mathbf{y}) = \sum_{i=1}^n \log \left(\sum_{k=1}^K \pi_k N(y_i; \mu
 
 $$\begin{aligned}
 \frac{\partial l}{\partial \theta_k} &= \sum_{i=1}^n \frac{1}{\sum_{j=1}^K \pi_j f_j(x_i; \theta)} \pi_k \frac{\partial f_k(y_i; \theta)}{\partial \theta_k} \\
-&= \sum_{i=1}^n \frac{\lambda_k f_k(x_i; \theta)}{\sum_{j=1}^K \pi_j f_j(x_i; \theta)} \frac{1}{f_j(x_i, \theta)} \frac{\partial f_k(y_i; \theta)}{\partial \theta_k} \\
-&= \sum_{i=1}^n \frac{\lambda_k f_k(x_i; \theta)}{\sum_{j=1}^K \pi_j f_j(x_i; \theta)} \frac{\partial \log f_j(x_i; \theta)}{\partial \theta_k}
+&= \sum_{i=1}^n \frac{\pi_k f_k(x_i; \theta)}{\sum_{j=1}^K \pi_j f_j(x_i; \theta)} \frac{1}{f_j(x_i, \theta)} \frac{\partial f_k(y_i; \theta)}{\partial \theta_k} \\
+&= \sum_{i=1}^n \frac{\pi_k f_k(x_i; \theta)}{\sum_{j=1}^K \pi_j f_j(x_i; \theta)} \frac{\partial \log f_j(x_i; \theta)}{\partial \theta_k}
 \end{aligned}$$
 
 ## The Problem...
@@ -267,10 +267,8 @@ Note
 $$\begin{aligned}
 p(Z_i = k | y_i, \theta^{(t)}) &= \frac{p(Z_i = k, Y_i = y_i | \theta^{(t)}}{p(Y_i = y_i | \theta^{(t)})} \\
 &= \frac{p(Y_i = y_i | Z_i = k, \theta^{(t)})p(Z_i = k | \theta^{(t)})}{\sum_{j=1}^K p(Y_i = y_i | Z_i = j, \theta^{(t)})p(Z_i = j | \theta^{(t)})} \\
-&= \frac{\pi_k^{(t)}p(y_i | Z_i = k, \theta^{(t)})}{\sum_{j=1}^K \pi_j^{(t)}p(y_i | Z_i = j, \theta^{(t)})}
+&= \frac{\pi_k^{(t)}p(y_i | Z_i = k, \theta^{(t)})}{\sum_{j=1}^K \pi_j^{(t)}p(y_i | Z_i = j, \theta^{(t)})} = w_k^i
 \end{aligned}$$
-
-Call the outputs of this calculation $w_k^i$.
 
 
 ## The M-Step
@@ -394,8 +392,8 @@ p_init = [0.5, 0.5]
 p, mu, sigma, ll = em_algorithm(annual_q.Upper_Colorado_log, p_init, mu_init, sigma_init, max_iter = 1000, thresh=1e-5)
 
 p1 = plot(ll, marker=:circle, markersize=2, xlabel="E-M Iteration", ylabel="Log-Likelihood", label=false)
-p2 = plot(mu, xlabel="E-M Iteration", ylabel="Mean", label=["Wet" "Dry"])
-p3 = plot(sigma.^2, xlabel="E-M Iteration", ylabel="Variance", label=["Wet" "Dry"])
+p2 = plot(mu, xlabel="E-M Iteration", ylabel="Mean", label=["Dry" "Wet"])
+p3 = plot(sigma.^2, xlabel="E-M Iteration", ylabel="Variance", label=["Dry" "Wet"])
 plot(p1, p2, p3, layout=(1, 3), size=(1200, 450))
 ```
 
@@ -451,16 +449,16 @@ scatter!(p, annual_q.Year, annual_q.Upper_Colorado_log, markersize=7, marker_z =
 plot!(size=(1200, 450))
 ```
 
+## What Don't Mixture Models Tell Us
+
+Mixture models are useful for clustering or generating bimodel distributions. But they are limited for understanding intertemporal dynamics.
+
+For example: we don't see the **persistence** of wet/dry states, with frequent switches between them. **Is this reasonable**?
+
+To address this, we'll need a generative model for state switching: a **Hidden Markov Model**.
 
 # Markov Chains
 
-## What Don't Mixture Models Tell Us
-
-Mixture models are useful for clustering or generating bimodel distributions. But they are limited for:
-
-- Analyzing time series with "regime shifts" (e.g. switches between "dry" and "wet" states);
-- Generating synthetic data (e.g. looking at internal variability)
-- Probability that future observations might come from one component.
 
 ## Hidden Markov Models
 
