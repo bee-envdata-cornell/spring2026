@@ -57,3 +57,5 @@ Readings can be accessed using the link (when needed, through the Cornell librar
 |  | 4/22 | More Missing Data | [{{< fa sharp presentation-screen >}}](slides/lecture14-2-more-missing-data.qmd) |  |  | |  | 
 |  | 4/24 | Multiple Imputation | [{{< fa sharp presentation-screen >}}](slides/lecture14-3-multiple-imputation.qmd) |  |  | |  | 
 | 15 | 4/27 | Mixture Models | [{{< fa sharp presentation-screen >}}](slides/lecture15-1-mixture-models.qmd) |  |  | |  | 
+|    | 4/29 | Hidden Markov Models | [{{< fa sharp presentation-screen >}}](slides/lecture15-2-markov-models.qmd) |  |  | |  | 
+|   | 5/01 | Hidden Markov Models (finished) | [{{< fa sharp presentation-screen >}}](slides/lecture15-2-markov-models.qmd) |  |  | Quiz 4 |  | 

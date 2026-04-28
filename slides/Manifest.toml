@@ -2,7 +2,7 @@
 
 julia_version = "1.11.5"
 manifest_format = "2.0"
-project_hash = "027e29c845ac3bd804fd5c2634ba06b96c16a55b"
+project_hash = "1be64b2f81e73017dd39768923dd3ba32ad8fb4b"
 
 [[deps.ADTypes]]
 git-tree-sha1 = "8b2b045b22740e4be20654175cc38291d48539db"
@@ -1342,6 +1342,16 @@ deps = ["Test"]
 git-tree-sha1 = "de4a6f9e7c4710ced6838ca906f81905f7385fd6"
 uuid = "a1b4810d-1bce-5fbd-ac56-80944d57a21f"
 version = "0.2.0"
+
+[[deps.HiddenMarkovModels]]
+deps = ["ArgCheck", "ChainRulesCore", "DensityInterface", "DocStringExtensions", "FillArrays", "LinearAlgebra", "Random", "SparseArrays", "StatsAPI", "StatsFuns"]
+git-tree-sha1 = "aaeadfb78b874b30f0ce2109a6799547c3f72e89"
+uuid = "84ca31d5-effc-45e0-bfda-5a68cd981f47"
+version = "0.7.0"
+weakdeps = ["Distributions"]
+
+    [deps.HiddenMarkovModels.extensions]
+    HiddenMarkovModelsDistributionsExt = "Distributions"
 
 [[deps.HypergeometricFunctions]]
 deps = ["LinearAlgebra", "OpenLibm_jll", "SpecialFunctions"]
